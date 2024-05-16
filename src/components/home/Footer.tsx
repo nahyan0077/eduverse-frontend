@@ -4,8 +4,8 @@ import { TbBulb } from "react-icons/tb";
 
 const Footer: React.FC = () => {
 	return (
-		<footer className="border border-gray-200 mb-4">
-			<div className="border border-gray-200 mb-4"></div>
+		<footer className="bg-white border border-gray-200 p-4">
+			{/* <div className="border border-gray-200 mb-4"></div> */}
 			<div className="flex flex-wrap mx-auto max-w-7xl pl-12">
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 ">
 					<div className="flex text-purple-700">

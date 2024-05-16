@@ -24,27 +24,27 @@ const Header: React.FC = () => {
 					<div className="hidden md:block pl-10">
 						<ul className="flex space-x-10">
 							<li>
-								<a href="#" className="text-purple-700 hover:text-white hover:bg-purple-500  rounded-2xl p-3">
+								<a href="#" className="text-purple-700 hover:text-white font-bold hover:bg-purple-500  rounded-2xl p-3">
 									Home
 								</a>
 							</li>
 							<li>
-								<a href="#" className="text-purple-700 hover:text-white hover:bg-purple-500 rounded-2xl p-3">
+								<a href="#" className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3">
 									Categories
 								</a>
 							</li>
 							<li>
-								<a href="#" className="text-purple-700 hover:text-white hover:bg-purple-500 rounded-2xl p-3">
+								<a href="#" className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3">
 									Courses
 								</a>
 							</li>
 							<li>
-								<a href="#" className="text-purple-700 hover:text-white hover:bg-purple-500 rounded-2xl p-3">
+								<a href="#" className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3">
 									Contact
 								</a>
 							</li>
 							<li>
-								<a href="#" className="text-purple-700 hover:text-white hover:bg-purple-500 rounded-2xl p-3">
+								<a href="#" className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3">
 									About
 								</a>
 							</li>

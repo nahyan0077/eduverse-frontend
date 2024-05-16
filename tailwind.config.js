@@ -4,7 +4,7 @@ module.exports = {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './src/**/*.{js,ts,tsx}',
   ],
   theme: {
     extend: {},
@@ -12,5 +12,5 @@ module.exports = {
       info:["Reddit Sans", "sans-serif"]
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }

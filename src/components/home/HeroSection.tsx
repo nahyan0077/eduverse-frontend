@@ -2,7 +2,7 @@ import heroImage from '../../assets/home/hero_image.png'
 
 const HeroSection: React.FC = () => {
 	return (
-        <div className="bg-white text-purple-800 py-7  px-4 sm:px-6 lg:px-8">
+        <div className="bg-white min-h-screen text-purple-800 py-7  px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
                 <div className="flex flex-col items-center lg:w-1/2 lg:pr-10">
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">

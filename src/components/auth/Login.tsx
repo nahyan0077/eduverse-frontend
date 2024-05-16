@@ -1,10 +1,11 @@
 import { TbBulb } from "react-icons/tb";
-import login from "../../assets/auth/login.png";
+import login from "../../assets/auth/login1.png";
 import GoogleButton from "react-google-button";
 
 const Login: React.FC = () => {
 	return (
 		<>
+        <div className="bg-white min-h-screen" >
 			<div className="flex text-purple-700 p-5 ml-10">
 				<span className="font-extrabold text-3xl">EDU</span>
 				<TbBulb className="font-extrabold text-3xl mt-1" />
@@ -16,7 +17,7 @@ const Login: React.FC = () => {
 					<img src={login} alt="" />
 				</div>
 				<div className="w-1/2 p-5">
-					<h1 className="text-violet-700 text-3xl font-bold p-4">Login Up</h1>
+					<h1 className="text-violet-700 text-3xl font-bold p-4">Login</h1>
 
 					<div className="flex flex-col gap-3  m-2 ">
 						<input
@@ -43,6 +44,7 @@ const Login: React.FC = () => {
 					<div></div>
 				</div>
 			</div>
+        </div>
 		</>
 	);
 };
