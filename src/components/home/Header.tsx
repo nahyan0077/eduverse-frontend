@@ -4,7 +4,6 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from "react-router-dom";
-import Button from "../parts/Button";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
