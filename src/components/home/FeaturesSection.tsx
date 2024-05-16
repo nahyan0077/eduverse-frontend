@@ -8,7 +8,7 @@ const FeaturesSection: React.FC = () => {
 	return (
 		<>
 			<div className="bg-white p-5">
-				<div className=" flex flex-col items-center justify-center h-full mx-auto max-w-7xl">
+				<div className=" flex flex-col items-center justify-center h-full mx-auto mb-3 max-w-7xl">
 					<h1 className="text-violet-700 font-bold text-4xl">
 						<span className="text-blue-950">Our </span> Features
 					</h1>
