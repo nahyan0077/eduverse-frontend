@@ -1,10 +1,10 @@
 import "./App.css";
-import Login from "./components/auth/Login";
+import Login from "./pages/auth/Login";
 import "./index.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import SignUp from "./components/auth/SignUp";
+import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/user/Home";
-import SelectionPage from "./components/auth/Selection";
+import SelectionPage from "./pages/auth/Selection";
 
 function App() {
 	return (

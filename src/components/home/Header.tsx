@@ -2,32 +2,31 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
+import ClearIcon from '@mui/icons-material/Clear';
+import { useNavigate } from "react-router-dom";
+import Button from "../parts/Button";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
+	const navigate = useNavigate()
 
 	return (
 		<>
-			<nav className="bg-white p-5">
-				<div className="flex items-center justify-around  md:justify-between max-w-7xl mx-auto">
-					<div className="flex text-purple-700 ">
+			<nav className="bg-white p-5 relative"  >
+				<div className="flex items-center justify-between  max-w-7xl mx-auto cursor-pointer" onClick={()=>navigate('/')} >
+					<div className="flex text-violet-700 ">
 						<span className="font-extrabold text-3xl">EDU</span>
 						<TbBulb className="font-extrabold text-3xl mt-1" />
 						<span className="font-extrabold text-3xl">VERSE</span>
 					</div>
-					<div
-						className="md:hidden text-purple-700 hover:text-purple-700"
-						onClick={() => setMenuOpen(!menuOpen)}
-					>
-						<MenuRoundedIcon />
-					</div>
+					
 
 					<div className="hidden md:block pl-10">
 						<ul className="flex space-x-10">
 							<li>
 								<a
 									href="#"
-									className="text-purple-700 hover:text-white font-bold hover:bg-purple-500  rounded-2xl p-3"
+									className="text-violet-700 hover:border border-violet-700 font-bold  rounded-xl p-3"
 								>
 									Home
 								</a>
@@ -35,7 +34,7 @@ const Header: React.FC = () => {
 							<li>
 								<a
 									href="#"
-									className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3"
+									className="text-violet-700 hover:border border-violet-700 font-bold  rounded-xl p-3"
 								>
 									Categories
 								</a>
@@ -43,7 +42,7 @@ const Header: React.FC = () => {
 							<li>
 								<a
 									href="#"
-									className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3"
+									className="text-violet-700 hover:border border-violet-700 font-bold  rounded-xl p-3"
 								>
 									Courses
 								</a>
@@ -51,7 +50,7 @@ const Header: React.FC = () => {
 							<li>
 								<a
 									href="#"
-									className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3"
+									className="text-violet-700 hover:border border-violet-700 font-bold  rounded-xl p-3"
 								>
 									Contact
 								</a>
@@ -59,39 +58,71 @@ const Header: React.FC = () => {
 							<li>
 								<a
 									href="#"
-									className="text-purple-700 hover:text-white font-bold hover:bg-purple-500 rounded-2xl p-3"
+									className="text-violet-700 hover:border border-violet-700 font-bold  rounded-xl p-3"
 								>
 									About
 								</a>
 							</li>
 						</ul>
 					</div>
-					<div className="hidden md:block">
-						<button className=" text-white text-sm hover:bg-purple-500 bg-purple-700 p-3 rounded-3xl ml-20 shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
-							Get Started
+					<div
+						className="md:hidden text-violet-700 hover:text-violet-700 cursor-pointer"
+						onClick={() => setMenuOpen(!menuOpen)}
+					>
+						<MenuRoundedIcon />
+					</div>
+					<div className="flex space-x-2">
+						<button className=" border border-violet-700 text-violet-700 text-sm bg-white px-4 py-2 rounded-md ml-20 ">
+							Login
+						</button>
+						<button className=" border border-violet-700 text-gray-50 text-sm bg-violet-700 px-4 py-2 rounded-md ml-20 ">
+							Sign Up
 						</button>
 					</div>
 				</div>
 				<AnimatePresence>
 					{menuOpen && (
-						<motion.div
-							className="md:hidden text-purple-700 pl-3 mt-1 text-center"
-							initial={{ height: 0, opacity: 0 }}
-							animate={{ height: "auto", opacity: 1 }}
-							exit={{ height: 0, opacity: 0, transition: { duration: 0.3 } }}
-						>
-							<ul className=" border-b border-t border-gray-200">
-								<li className="m-1 border-b hover:bg-purple-100">Home</li>
+						<>
+							<motion.div
+								className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={{ duration: 0.3 }}
+							/>
+							<motion.div
+								className="absolute top-0 w-[50%] h-[100vh] right-0 bg-white text-violet-700 border border-gray-200 rounded-md overflow-hidden shadow-md"
+								initial={{ x: "100%" }}
+								animate={{ x: 0 }} 
+								exit={{ x: "100%" }} 
+								transition={{ type: "spring", stiffness: 400, damping: 30 }}
+							>
+								<ul className="p-3 text-left gap-6">
+									<li onClick={()=>setMenuOpen(!menuOpen)} className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">
+										<ClearIcon/>
+									</li>
+									<li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">
+										Home
+									</li>
 
-								<li className="m-1 border-b hover:bg-purple-100">Categories</li>
+									<li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">
+										Categories
+									</li>
 
-								<li className="m-1 border-b hover:bg-purple-100">Couses</li>
+									<li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">
+										Couses
+									</li>
 
-								<li className="m-1 border-b hover:bg-purple-100">Contact us</li>
+									<li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">
+										Contact us
+									</li>
 
-								<li className="m-1 border-b hover:bg-purple-100">About us</li>
-							</ul>
-						</motion.div>
+									<li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">
+										About us
+									</li>
+								</ul>
+							</motion.div>
+						</>
 					)}
 				</AnimatePresence>
 			</nav>
