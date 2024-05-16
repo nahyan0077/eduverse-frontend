@@ -17,7 +17,7 @@ const inputField : React.FC <inputFieldProps> = ({
 }) => {
     return (
         <>
-        <Field className="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100"
+        <Field className="w-full px-5 py-3 rounded-lg font-medium border-2 text-gray-600 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100"
         type={type}
         placeholder={placeholder}
         value={value}

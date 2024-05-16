@@ -4,6 +4,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from "react-router-dom";
+import { ModeToggle } from "../ui/mode-toggle";
 
 const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,7 +12,7 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <nav className="bg-white p-5 relative">
+            <nav className="p-5 relative">
                 <div className="flex items-center justify-between max-w-7xl mx-auto">
                     <div className="flex text-violet-700 cursor-pointer" onClick={()=>navigate('/')}>
                         <span className="font-extrabold text-3xl">EDU</span>
@@ -38,10 +39,10 @@ const Header: React.FC = () => {
                             </li>
                         </ul>
                     </div>
-
+                    <ModeToggle/>
                     <div className="hidden md:block  space-x-2">
                         <button className="border border-violet-700 text-violet-700 text-sm bg-white px-4 py-2 rounded-md ml-20">Login</button>
-                        <button className="border border-violet-700 text-gray-50 text-sm bg-violet-700 px-4 py-2 rounded-md ml-20">Sign Up</button>
+                        <button className="border border-violet-700 text-gray-50 text-sm bg-violet-700 px-4 py-2 rounded-md ml-20">Sign up</button>
                     </div>
 
                     <div className="md:hidden text-violet-700 hover:text-violet-700 cursor-pointer">
@@ -69,7 +70,7 @@ const Header: React.FC = () => {
                                     <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Contact us</li>
                                     <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">About us</li>
                                     <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Login</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Sign Up</li>
+                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Sign up</li>
                                 </ul>
                             </motion.div>
                         </>

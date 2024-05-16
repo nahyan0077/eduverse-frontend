@@ -1,10 +1,11 @@
-import login from "../../assets/auth/login11.png";
+import login from "@/assets/auth/login11.png";
 import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
-import Header from "../../components/home/Header";
-import InputField from "../../components/auth/InputField";
+import Header from "@/components/home/Header";
+import InputField from "@/components/auth/InputField";
 import { Form, Formik } from "formik";
-import { loginSchema } from "../../validationSchemas/loginSchema";
+import { loginSchema } from "@/validationSchemas/loginSchema";
+import PasswordField from "@/components/auth/PasswordField";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -41,11 +42,7 @@ const Login: React.FC = () => {
 										type="text" 
 										placeholder="email" 
 									/>
-									<InputField
-										name="password"
-										type="password"
-										placeholder="password"
-									/>
+									<PasswordField name="pasword" placeholder="confirm password" />
 									<button
 										// onClick={() => navigate("/")}
 										className="bg-violet-700 text-white font-bold p-2 text-xs rounded-xl m-5"

@@ -1,11 +1,12 @@
 // import { TbBulb } from "react-icons/tb";
-import login from "../../assets/auth/signup11.png";
+import login from "@/assets/auth/signup11.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/home/Header";
+import Header from "@/components/home/Header";
 import { Form, Formik } from "formik";
-import InputField from "../../components/auth/InputField";
-import {signupSchema} from '../../validationSchemas/signupSchema'
+import InputField from "@/components/auth/InputField";
+import {signupSchema} from '@/validationSchemas/signupSchema'
+import PasswordField from "@/components/auth/PasswordField";
 
 const SignUp: React.FC = () => {
 	const navigate = useNavigate();
@@ -44,16 +45,8 @@ const SignUp: React.FC = () => {
 										placeholder="username"
 									/>
 									<InputField name="email" type="text" placeholder="email" />
-									<InputField
-										name="password"
-										type="password"
-										placeholder="password"
-									/>
-									<InputField
-										name="confirmpassword"
-										type="text"
-										placeholder="confirmpassword"
-									/>
+									<PasswordField name="password" placeholder="password"  />
+									<PasswordField name="confirm password" placeholder="confirm password"  />
 									<button
 										className="bg-violet-700 text-white font-bold p-2 text-xs rounded-xl m-5"
 										type="submit"

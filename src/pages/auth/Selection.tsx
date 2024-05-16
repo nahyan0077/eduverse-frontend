@@ -1,6 +1,6 @@
-import student from "../../assets/auth/student.png";
-import teacher from "../../assets/auth/teacher1.png";
-import Header from "../../components/home/Header";
+import student from "@/assets/auth/student.png";
+import teacher from "@/assets/auth/teacher1.png";
+import Header from "@/components/home/Header";
 import { useNavigate } from "react-router-dom";
 
 const SelectionPage: React.FC = () => {

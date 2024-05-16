@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import heroImage from "../../assets/home/hero_image_bg.png";
+import heroImage from "@/assets/home/hero_image_bg.png";
 import { motion, AnimatePresence } from "framer-motion";
 
 const HeroSection: React.FC = () => {
 	const navigate = useNavigate();
 	return (
-		<div className="bg-white  text-violet-700 py-7  px-4 sm:px-6 lg:px-8">
+		<div className=" text-violet-700 py-7  px-4 sm:px-6 lg:px-8">
 			<div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
 				<div className="flex flex-col items-center lg:w-1/2 lg:pr-10">
 					<h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">

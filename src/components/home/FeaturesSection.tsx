@@ -1,13 +1,13 @@
-import pic1 from "../../assets/home/5 SCENE.png";
-import pic2 from "../../assets/home/3 SCENE.png";
-import pic3 from "../../assets/home/6 SCENE.png";
-import pic4 from "../../assets/home/9 SCENE.png";
-import pic5 from "../../assets/home/1 SCENE.png";
+import pic1 from "@/assets/home/5 SCENE.png";
+import pic2 from "@/assets/home/3 SCENE.png";
+import pic3 from "@/assets/home/6 SCENE.png";
+import pic4 from "@/assets/home/9 SCENE.png";
+import pic5 from "@/assets/home/1 SCENE.png";
 
 const FeaturesSection: React.FC = () => {
 	return (
 		<>
-			<div className="bg-white p-5">
+			<div className=" p-5">
 				<div className=" flex flex-col items-center justify-center h-full mx-auto mb-3 max-w-7xl">
 					<h1 className="text-violet-700 font-bold text-4xl">
 						<span className="text-blue-950">Our </span> Features
