@@ -1,6 +1,6 @@
 import { TbBulb } from "react-icons/tb";
 import login from '../../assets/auth/login.png'
-import GoogleButton from 'react-google-button'
+import GoogleIcon from "@mui/icons-material/Google";
 
 const SignUp: React.FC = () => {
 	return (
@@ -28,9 +28,12 @@ const SignUp: React.FC = () => {
                         <button className="bg-violet-700 text-white font-bold p-2 text-xs rounded-xl m-5" > Sign Up </button>
                         <p className="text-violet-700 text-center font-bold" >Forgot Password?</p>
                         <div className="border border-gray-200" ></div>
-                        <div className="flex justify-center mt-2" >
-                            <GoogleButton className="text-center" type="light" />
-                        </div>
+                        <div className="flex justify-center mt-2">
+								<button className="btn bg-white hover:bg-violet-700 text-violet-700 hover:text-white rounded-full border-violet-700 text-xs">
+									<GoogleIcon className="text-center  rounded-full " />
+									Sign in with google
+								</button>
+							</div>
                         <p>Already have an account ? <span className="text-violet-700 text-center font-bold">Login</span></p>
                     </div>
                     <div>
