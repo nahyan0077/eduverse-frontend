@@ -1,4 +1,3 @@
-import { TbBulb } from "react-icons/tb";
 import student from "../../assets/auth/student.png";
 import teacher from "../../assets/auth/teacher1.png";
 import Header from "../../components/home/Header";
@@ -10,11 +9,6 @@ const SelectionPage: React.FC = () => {
 		<>
 			<Header />
 			<div className="bg-white min-h-[88vh]">
-				{/* <div className="flex text-purple-700 pt-5 ml-10">
-					<span className="font-extrabold text-3xl">EDU</span>
-					<TbBulb className="font-extrabold text-3xl mt-1" />
-					<span className="font-extrabold text-3xl">VERSE</span>
-				</div> */}
 				<div className="flex flex-col lg:flex-row justify-center max-w-7xl mx-auto pt-20">
 					<div className="w-full lg:w-1/2 flex flex-col justify-center items-center">
 						<img className="max-w-xs" src={student} alt="Student" />
