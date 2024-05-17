@@ -37,55 +37,55 @@ const Footer: React.FC = () => {
 						<h3 className="pr-2">
 							<FaRegCopyright />
 						</h3>
-						<span>2024 eduverse.in</span>
+						<span className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `} >2024 eduverse.in</span>
 					</div>
 					<div className="text-sm mt-5 text-gray-400 items-center">
-						<h3>Eduverse is a registered</h3>
-						<h3>trademark of eduverse.co</h3>
+						<h3 className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `} >Eduverse is a registered</h3>
+						<h3 className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `} >trademark of eduverse.co</h3>
 					</div>
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>Courses </li>
-						<li className="mb-1">Classroom courses </li>
-						<li className="mb-1">Virtual classroom courses </li>
-						<li className="mb-1">E-learning courses </li>
-						<li className="mb-1">Video Courses </li>
+						<li className={`text-2xl font-normal mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>Courses </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Classroom courses </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Virtual classroom courses </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>E-learning courses </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Video Courses </li>
 					</ul>
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 ">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>Community </li>
-						<li className="mb-1">Learners </li>
-						<li className="mb-1">Partners </li>
-						<li className="mb-1">Developers </li>
-						<li className="mb-1">Transaction </li>
-						<li className="mb-1">Blog </li>
-						<li className="mb-1">Teaching center </li>
+						<li className={`text-2xl font-normal mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>Community </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Learners </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Partners </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Developers </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Transaction </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Blog </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Teaching center </li>
 					</ul>
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 hidden md:block">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>
+						<li className={`text-2xl font-normal mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>
 							Quick Link{" "}
 						</li>
-						<li className="mb-1">Home </li>
-						<li className="mb-1">Professional Education </li>
-						<li className="mb-1">Courses </li>
-						<li className="mb-1">Admission</li>
-						<li className="mb-1">Testimonial</li>
-						<li className="mb-1">Programs</li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Home </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Professional Education </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Courses </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Admission</li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Testimonial</li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Programs</li>
 					</ul>
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 hidden md:block">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>More </li>
-						<li className="mb-1">Press </li>
-						<li className="mb-1">Investors </li>
-						<li className="mb-1">Terms </li>
-						<li className="mb-1">Privacy </li>
-						<li className="mb-1">Help </li>
-						<li className="mb-1">Contact </li>
+						<li className={`text-2xl font-normal mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>More </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Press </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Investors </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Terms </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Privacy </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Help </li>
+						<li className={`mb-1 ${theme == 'light' ? 'text-gray-500' : 'text-gray-400'} font-normal `}>Contact </li>
 					</ul>
 				</div>
 			</div>

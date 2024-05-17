@@ -6,6 +6,7 @@ import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
+import studentFormSchema from "@/validationSchemas/studentFormSchema";
 
 
 
@@ -23,6 +24,7 @@ const StudentForm: React.FC = () => {
 
 	const handleSubmit = (value: any) => {
 		console.log(value);
+		navigate('/student-form2')
 	};
 
 	return (
@@ -54,7 +56,7 @@ const StudentForm: React.FC = () => {
 						<div className="mb-4">
 							<img className="w-1/5 mx-auto" src={mUser} alt="" />
 						</div>
-						<Formik initialValues={initialValues} onSubmit={handleSubmit}>
+						<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={studentFormSchema} >
 							<Form>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
@@ -122,7 +124,7 @@ const StudentForm: React.FC = () => {
 								</div>
 								<div className="flex justify-end p-5 items-center">
 									<button
-										onClick={()=>navigate('/student-form2')}
+										
 										className={`border bg-transparent border-violet-700 text-violet-200 text-sm hover:bg-violet-700 px-2 py-2 rounded-md flex items-center ${
 											theme == "light" ? "bg-violet-700" : "bg-gray-900"
 										}`}

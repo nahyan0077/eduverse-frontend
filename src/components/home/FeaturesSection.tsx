@@ -12,9 +12,9 @@ const FeaturesSection: React.FC = () => {
 			<div className=" p-5">
 				<div className=" flex flex-col items-center justify-center h-full mx-auto mb-3 max-w-7xl">
 					<h1 className="text-violet-700 font-bold text-4xl">
-						<span className="text-blue-950">Our </span> Features
+						<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Our </span> Features
 					</h1>
-					<p className="text-gray-400 text-base mt-4">
+					<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} font-base w-96 py-4`}>
 						This is where you can add your feature description.
 					</p>
 				</div>
@@ -25,10 +25,10 @@ const FeaturesSection: React.FC = () => {
 					</div>
 					<div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32">
 						<h1 className="text-violet-700 text-2xl font-bold">
-							<span className="text-blue-950 text-2xl font-bold">Tools</span>{" "}
+						<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Tools </span>{" "}
 							For Teachers And Learners
 						</h1>
-						<p className="text-gray-500 font-thin w-96 p-4">
+						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
 							Class has a dynamic set of teaching tools built to be deployed and
 							used during class. Teachers can handout assignments in real-time
 							for students to complete and submit.
@@ -39,13 +39,10 @@ const FeaturesSection: React.FC = () => {
 					<div className="flex flex-col items-center w:full lg:w-1/2 md:mt-32">
 						<h1 className="text-violet-700 text-2xl font-bold">
 							Assessments,
-							<span className="text-blue-950 text-2xl font-bold">
-								{" "}
-								Quizzes,
-							</span>{" "}
+							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Quizzes </span>
 							Tests
 						</h1>
-						<p className="text-gray-500 font-thin w-96 p-4">
+						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
 							Easily launch live assignments, quizzes, and tests. Student
 							results are automatically entered in the online gradebook.
 						</p>
@@ -62,11 +59,8 @@ const FeaturesSection: React.FC = () => {
 						<h1 className="text-violet-700 text-2xl font-bold">
 							Class Management{" "}
 						</h1>
-						<span className="text-blue-950 text-2xl font-bold">
-							{" "}
-							Tools for Educators
-						</span>
-						<p className="text-gray-500 font-thin w-96 p-4">
+						<span className={`text-2xl font-bold ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Tools for Educators </span>
+						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
 							Class provides tools to help run and manage the class such as
 							Class Roster, Attendance, and more. With the Gradebook, teachers
 							can review and grade tests and quizzes in real-time.
@@ -77,13 +71,10 @@ const FeaturesSection: React.FC = () => {
 					<div className="flex flex-col items-center w:full lg:w-1/2 md:mt-32">
 						<h1 className="text-violet-700 text-2xl font-bold">
 							{" "}
-							<span className="text-blue-950 text-2xl font-bold">
-								{" "}
-								One-on-One{" "}
-							</span>
+							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>One-on-One </span>
 							Discussions{" "}
 						</h1>
-						<p className="text-gray-500 font-thin w-96 p-4">
+						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
 							Class provides tools to help run and manage the class such as
 							Class Roster, Attendance, and more. With the Gradebook, teachers
 							can review and grade tests and quizzes in real-time.
@@ -101,16 +92,13 @@ const FeaturesSection: React.FC = () => {
 					<div className="w:full lg:w-1/2">
 						<h1 className=" text-2xl font-bold text-violet-700 text-center">
 							Join{" "}
-							<span className="text-blue-950 text-2xl font-bold">
-								{" "}
-								World's largest{" "}
-							</span>{" "}
+							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Worlds Largest </span>
 							learning platform today
 						</h1>
 						<p className="mt-5 text-center">
 							Start learning by registering for free
 						</p>
-						<p className="mt-5 text-gray-400 text-center">
+						<p className="mt-5 text-gray-500 text-center">
 							Join the largest learning platform today for a world of knowledge.
 							Explore diverse courses, expert instructors, and interactive
 							learning. Elevate your skills, career, and interests with us.
