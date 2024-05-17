@@ -19,7 +19,10 @@ const inputField : React.FC <inputFieldProps> = ({
     const { theme } = useTheme()
     return (
         <>
-        <Field className={`w-full px-5 py-3 rounded-lg font-medium border-2 ${theme === 'light' ? "bg-gray-200" : "bg-gray-900"} border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`}
+        <div className='flex flex-col' >
+
+        <label htmlFor={name} className="block text-xs font-semibold mb-2">{placeholder.toUpperCase()}</label>
+        <Field className={`w-full px-5 py-3 rounded-lg ${type == 'number' ? 'no-arrows' : ''} font-medium border-2 ${theme === 'light' ? "bg-gray-200 text-gray-400" : "bg-gray-900 text-gray-500"} border-transparent  text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`}
         type={type}
         placeholder={placeholder}
         value={value}
@@ -30,6 +33,7 @@ const inputField : React.FC <inputFieldProps> = ({
         name={name}
         component="span"
       />
+        </div>
       </>
     )
 

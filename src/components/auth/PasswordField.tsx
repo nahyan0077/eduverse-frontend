@@ -28,7 +28,11 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 
 	return (
 		<>
+			<div>
+			<label htmlFor={name} className="block text-xs font-semibold ">{placeholder.toUpperCase()}</label>
+			</div>
 			<div className="flex items-center relative">
+			
 				<Field
 					className={`w-full px-5 py-3 rounded-lg font-medium border-2 ${theme === 'light' ? "bg-gray-200" : "bg-gray-900"} border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`}
 					placeholder={placeholder}

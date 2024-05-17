@@ -44,8 +44,8 @@ const Login: React.FC = () => {
 									/>
 									<PasswordField name="pasword" placeholder="confirm password" />
 									<button
-										// onClick={() => navigate("/")}
-										className="bg-violet-700 text-white font-bold p-2 text-xs rounded-xl m-5"
+										onClick={() => navigate("/student-form")}
+										className="bg-violet-700 text-white font-bold p-2 text-sm rounded-xl m-5"
 										type="submit"
 									>
 										Login
