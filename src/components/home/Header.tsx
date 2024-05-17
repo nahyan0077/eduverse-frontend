@@ -48,7 +48,7 @@ const Header: React.FC = () => {
                         <button className="border border-violet-700 text-gray-50 text-sm bg-violet-700 px-4 py-2 rounded-md ml-20">Sign up</button>
                     </div>
 
-                    <div className="md:hidden text-violet-700 hover:text-violet-700 cursor-pointer">
+                    <div className={`md:hidden ${theme == 'light' ? 'text-violet-700' : 'text-white' } hover:text-gray-300 cursor-pointer`}>
                         <MenuRoundedIcon onClick={() => setMenuOpen(!menuOpen)} />
                     </div>
                 </div>
@@ -60,20 +60,20 @@ const Header: React.FC = () => {
                                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
                                 transition={{ duration: 0.3 }} />
 
-                            <motion.div className={`absolute top-0 w-[50%] h-screen right-0  ${theme == 'light' ? 'bg-white' : 'bg-gray-900' } border border-gray-200 rounded-md shadow-md`}
+                            <motion.div className={`absolute top-0 w-[50%] h-screen right-0  ${theme == 'light' ? 'bg-white' : 'bg-gray-900' } border border-gray-600 rounded-md shadow-md`}
                                 initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} 
                                 transition={{ type: "spring", stiffness: 400, damping: 30 }}>
                                 <div className="p-3 flex justify-end">
                                     <ClearIcon onClick={()=>setMenuOpen(false)} />
                                 </div>
-                                <ul className="p-3 text-left gap-6">
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Home</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Categories</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Courses</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Contact us</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">About us</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Login</li>
-                                    <li className="py-1 px-4 hover:bg-purple-100 rounded-md font-semibold">Sign up</li>
+                                <ul className="p-3 text-left gap-9">
+                                    <li className={`py-1 px-4 border-b ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>Home</li>
+                                    <li className={`py-1 border-b px-4 ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>Categories</li>
+                                    <li className={`py-1 border-b px-4 ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>Courses</li>
+                                    <li className={`py-1 border-b px-4 ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>Contact us</li>
+                                    <li className={`py-1 border-b px-4 ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>About us</li>
+                                    <li className={`py-1 border-b px-4 ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>Login</li>
+                                    <li className={`py-1 border-b px-4 ${theme == 'light' ? 'hover:bg-purple-100' : 'hover:bg-gray-600' } rounded-md font-semibold`}>Sign up</li>
                                 </ul>
                             </motion.div>
                         </>
