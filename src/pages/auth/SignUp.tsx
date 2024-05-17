@@ -1,5 +1,5 @@
 // import { TbBulb } from "react-icons/tb";
-import login from "@/assets/auth/signup11.png";
+import login from "@/assets/auth/signups.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/home/Header";
@@ -24,7 +24,7 @@ const SignUp: React.FC = () => {
 	return (
 		<>
 			<Header />
-			<div className="bg-white min-h-screen">
+			<div className=" min-h-screen">
 				<div className="flex flex-col md:flex-row max-w-7xl mx-auto items-center">
 					<div className="w-full  md:w-1/2">
 						<img src={login} alt="" />

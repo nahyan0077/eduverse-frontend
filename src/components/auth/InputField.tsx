@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, ErrorMessage} from 'formik'
+import { useTheme } from '../ui/theme-provider'
 
 interface inputFieldProps {
     type: string,
@@ -15,9 +16,10 @@ const inputField : React.FC <inputFieldProps> = ({
     value,
     name
 }) => {
+    const { theme } = useTheme()
     return (
         <>
-        <Field className="w-full px-5 py-3 rounded-lg font-medium border-2 text-gray-600 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100"
+        <Field className={`w-full px-5 py-3 rounded-lg font-medium border-2 ${theme === 'light' ? "bg-gray-200" : "bg-gray-900"} border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`}
         type={type}
         placeholder={placeholder}
         value={value}

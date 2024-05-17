@@ -1,4 +1,4 @@
-import login from "@/assets/auth/login11.png";
+import login from "@/assets/auth/loginss.png";
 import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import Header from "@/components/home/Header";
@@ -22,7 +22,7 @@ const Login: React.FC = () => {
 	return (
 		<>
 			<Header />
-			<div className="bg-white min-h-screen">
+			<div className=" min-h-screen">
 				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center">
 					<div className="w-full lg:w-1/2">
 						<img src={login} alt="" className="w-full" />

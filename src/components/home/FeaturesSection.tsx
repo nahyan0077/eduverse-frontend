@@ -3,8 +3,10 @@ import pic2 from "@/assets/home/3 SCENE.png";
 import pic3 from "@/assets/home/6 SCENE.png";
 import pic4 from "@/assets/home/9 SCENE.png";
 import pic5 from "@/assets/home/1 SCENE.png";
+import { useTheme } from "../ui/theme-provider";
 
 const FeaturesSection: React.FC = () => {
+	const { theme } = useTheme()
 	return (
 		<>
 			<div className=" p-5">
@@ -92,7 +94,7 @@ const FeaturesSection: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="flex flex-col max-w-7xl mx-auto lg:flex-row justify-center items-center bg-gray-100 rounded-xl p-5">
+				<div className={`flex flex-col max-w-7xl mx-auto lg:flex-row justify-center items-center ${theme == 'light' ? 'bg-gray-100' : 'bg-gray-900' }   rounded-xl p-5`}>
 					<div className="w:full lg:w-1/2">
 						<img className="flex flex-col" src={pic5} alt="" />
 					</div>

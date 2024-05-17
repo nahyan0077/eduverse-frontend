@@ -1,10 +1,14 @@
+
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaRegCopyright } from 'react-icons/fa';
 import { TbBulb } from "react-icons/tb";
+import { useTheme } from '../ui/theme-provider';
+
 
 
 const Footer: React.FC = () => {
+	const { theme } = useTheme()
 	return (
-		<footer className="bg-white border border-gray-200 p-4">
+		<footer className={`border-gray-200 p-4 ${theme == 'light' ? 'bg-gray-100' : 'bg-gray-900' } max-w-7xl mx-auto rounded-xl`}>
 			{/* <div className="border border-gray-200 mb-4"></div> */}
 			<div className="flex flex-wrap mx-auto max-w-7xl pl-12">
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 ">
@@ -42,7 +46,7 @@ const Footer: React.FC = () => {
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className="text-black text-2xl font-medium mb-2">Courses </li>
+						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>Courses </li>
 						<li className="mb-1">Classroom courses </li>
 						<li className="mb-1">Virtual classroom courses </li>
 						<li className="mb-1">E-learning courses </li>
@@ -51,7 +55,7 @@ const Footer: React.FC = () => {
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 ">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className="text-black text-2xl font-medium mb-2">Community </li>
+						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>Community </li>
 						<li className="mb-1">Learners </li>
 						<li className="mb-1">Partners </li>
 						<li className="mb-1">Developers </li>
@@ -62,7 +66,7 @@ const Footer: React.FC = () => {
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 hidden md:block">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className="text-black text-2xl font-medium mb-2">
+						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>
 							Quick Link{" "}
 						</li>
 						<li className="mb-1">Home </li>
@@ -75,7 +79,7 @@ const Footer: React.FC = () => {
 				</div>
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 hidden md:block">
 					<ul className=" mt-2 text-gray-400 text-sm">
-						<li className="text-black text-2xl font-medium mb-2">More </li>
+						<li className={`text-2xl font-medium mb-2 ${theme == 'light' ? 'text-black' : 'text-gray-300'} `}>More </li>
 						<li className="mb-1">Press </li>
 						<li className="mb-1">Investors </li>
 						<li className="mb-1">Terms </li>
@@ -85,7 +89,7 @@ const Footer: React.FC = () => {
 					</ul>
 				</div>
 			</div>
-			<div className="max-w-7xl mx-auto flex items-center justify-between text-sm text-gray-400 bg-purple-50 p-4 rounded mt-2 mb-4">
+			<div className={`max-w-7xl mx-auto flex items-center justify-between text-sm text-gray-400 ${theme == 'light' ? 'bg-gray-200' : 'bg-gray-800' } p-4 rounded mt-2 mb-4`}>
 				<h2>privacy policy | terms & conditions</h2>
 				<h2>All copyright (c) 2024 reserved</h2>
 			</div>
