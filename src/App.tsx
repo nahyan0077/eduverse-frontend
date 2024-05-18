@@ -9,6 +9,7 @@ import StudentRegisterForm from "./pages/student/StudentRegisterForm";
 import StudentRegisterForm2 from "./pages/student/StudentRegisterForm2";
 import TeacherRegisterForm from "./pages/student/TeacherRegisterForm";
 import TeacherRegisterForm2 from "./pages/student/TeacherRegisterForm2";
+import OtpPage from "./pages/auth/OtpPage";
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 					<Route path='/student-form2' element={ <StudentRegisterForm2/> } />
 					<Route path='/teacher-form' element={ <TeacherRegisterForm/> } />
 					<Route path='/teacher-form2' element={ <TeacherRegisterForm2/> } />
+					<Route path='/otp' element={ <OtpPage/> } />
 				</Routes>
 			</Router>
 		</>
