@@ -13,7 +13,7 @@ const StudentForm2: React.FC = () => {
 	const initialValues = {
 		address: "",
 		dateOfBirth: "",
-        schoolOrcollage : "",
+        profession : "",
         qualification: "",
         social: ""
 	};
@@ -62,8 +62,8 @@ const StudentForm2: React.FC = () => {
 									</div>
 									<div className="w-full">
 										<InputField
-											name="schoolOrcollage"
-											placeholder="school/collage"
+											name="profession"
+											placeholder="profession"
 											type="text"
 										/>
 									</div>

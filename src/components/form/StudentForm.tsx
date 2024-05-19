@@ -14,9 +14,9 @@ const StudentForm: React.FC = () => {
 	const { theme } = useTheme();
 	const navigate = useNavigate()
 	const initialValues = {
-		firstname: "",
-		lastname: "",
-		username: "",
+		firstName: "",
+		lastName: "",
+		userName: "",
 		email: "",
 		phone: "",
 		gender: "",
@@ -61,14 +61,14 @@ const StudentForm: React.FC = () => {
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
 										<InputField
-											name="firstname"
+											name="firstName"
 											placeholder="first name"
 											type="text"
 										/>
 									</div>
 									<div className="w-full">
 										<InputField
-											name="username"
+											name="userName"
 											placeholder="user name"
 											type="text"
 										/>
@@ -77,7 +77,7 @@ const StudentForm: React.FC = () => {
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
 									<InputField
-											name="lastname"
+											name="lastName"
 											placeholder="last name"
 											type="text"
 										/>
