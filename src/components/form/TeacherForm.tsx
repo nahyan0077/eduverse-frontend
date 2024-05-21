@@ -5,7 +5,7 @@ import mUser from "@/assets/form/male_user.png";
 import teacher_form_image from "@/assets/form/teacher_form.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
 
 
