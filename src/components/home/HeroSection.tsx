@@ -26,7 +26,7 @@ const HeroSection: React.FC = () => {
 					<div className="flex items-center justify-center flex-wrap">
 						<motion.button
 							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.2 }}
+							whileTap={{ scale: 1 }}
 							onClick={() => navigate("/selection")}
 							className="bg-violet-700  text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
 						>
@@ -34,7 +34,7 @@ const HeroSection: React.FC = () => {
 						</motion.button>
 						<motion.button
 							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.2 }}
+							whileTap={{ scale: 1 }}
 							className={`bg-transparent ${theme=='light' ? 'text-violet-700' : 'text-white' } border border-violet-700  font-bold py-3 px-6 rounded-full mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]`}
 						>
 							Learn More

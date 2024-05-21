@@ -5,7 +5,7 @@ import mUser from "@/assets/form/male_user.png";
 import teacher_form_image from "@/assets/form/teacher_form.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
 
 
@@ -13,6 +13,8 @@ import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
 const TeacherForm: React.FC = () => {
 	const { theme } = useTheme();
 	const navigate = useNavigate()
+	const location = useLocation()
+
 	const initialValues = {
 		firstname: "",
 		lastname: "",
@@ -24,7 +26,15 @@ const TeacherForm: React.FC = () => {
 
 	const handleSubmit = (value: any) => {
 		console.log(value);
-        navigate('/teacher-form2')
+
+		let allData = {
+			...value,
+			...location.state
+		}
+		console.log(allData,"all data teacher form");
+		
+
+        // navigate('/teacher-form2')
 	};
 
 	return (

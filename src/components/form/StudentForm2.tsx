@@ -5,6 +5,7 @@ import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 // import { useNavigate } from "react-router-dom";
 import {useLocation} from 'react-router-dom'
+import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
 
 
 
@@ -25,7 +26,13 @@ const StudentForm2: React.FC = () => {
 	};
 
 	const handleSubmit = (value: any) => {
-		console.log(value);
+		console.log(value,"studenr form2 data");
+		const allData = {
+			...value,
+			...location.state
+		}
+		console.log(allData,"final student all data");
+		
 	};
 
 	return (
@@ -47,7 +54,7 @@ const StudentForm2: React.FC = () => {
 						<img className="w-full h-auto" src={form_image} alt="" />
 					</div>
 					<div className="w-full md:w-1/2">
-						<Formik initialValues={initialValues} onSubmit={handleSubmit}>
+						<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={studentFormSchema2} >
 							<Form>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
@@ -92,7 +99,7 @@ const StudentForm2: React.FC = () => {
 								</div>
 								<div className="flex justify-end p-5 items-center">
 									<button
-										// onClick={()=>navigate('/StudentRegisterForm2')}
+										type="submit"
 										className={`border bg-transparent border-violet-700 text-violet-200 text-sm hover:bg-violet-700 px-2 py-2 rounded-md flex items-center ${
 											theme == "light" ? "bg-violet-700" : "bg-gray-900"
 										}`}

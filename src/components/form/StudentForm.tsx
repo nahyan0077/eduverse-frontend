@@ -5,7 +5,7 @@ import mUser from "@/assets/form/male_user.png";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import studentFormSchema from "@/validationSchemas/studentFormSchema";
 
 
@@ -13,6 +13,8 @@ import studentFormSchema from "@/validationSchemas/studentFormSchema";
 const StudentForm: React.FC = () => {
 	const { theme } = useTheme();
 	const navigate = useNavigate()
+	const location = useLocation()
+
 	const initialValues = {
 		firstName: "",
 		lastName: "",
@@ -24,7 +26,17 @@ const StudentForm: React.FC = () => {
 
 	const handleSubmit = (value: any) => {
 		console.log(value,"studenr form data");
-		navigate('/student-form2', {state: {...value}})
+		
+		let allData = {
+			...location.state,
+			firstName: value.firstName,
+			lastName: value.lastName,
+			gender: value.gender,
+			phone: value.phone
+		}
+		console.log(allData,"all data student form");
+
+		navigate('/student-form2', {state: allData})
 	};
 
 	return (
@@ -71,6 +83,7 @@ const StudentForm: React.FC = () => {
 											name="userName"
 											placeholder="user name"
 											type="text"
+											value={location.state.username}
 										/>
 									</div>
 								</div>
@@ -87,6 +100,7 @@ const StudentForm: React.FC = () => {
 											name="email"
 											placeholder="email"
 											type="email"
+											value={location.state.email}
 										/>
 									</div>
 								</div>

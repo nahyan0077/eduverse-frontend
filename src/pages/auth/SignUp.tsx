@@ -17,17 +17,16 @@ import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import { useTheme } from "@/components/ui/theme-provider";
 
-
 const SignUp: React.FC = () => {
 	const navigate = useNavigate();
-	const location = useLocation()
+	const location = useLocation();
 	const initialvalues = {
 		username: "",
 		email: "",
 		password: "",
 		confirmPassword: "",
 	};
-	const {theme} = useTheme()
+	const { theme } = useTheme();
 
 	const dispatch: TypeDispatch = useDispatch();
 
@@ -50,7 +49,7 @@ const SignUp: React.FC = () => {
 				return;
 			}
 			const result: any = await dispatch(findEmailAction(data.email));
-
+			
 			if (!result.payload || !result.payload.success) {
 				setTakenEmail(true);
 				setTimeout(() => {
@@ -59,7 +58,20 @@ const SignUp: React.FC = () => {
 				return;
 			}
 
-			// navigate("/student-form");
+			let allData = {
+				...data,
+				role: location.state.role
+			}
+			
+			console.log("alldata",allData);
+
+			if (location.state.role == "student") {
+				navigate("/student-form",{state: allData});
+			}else{
+				navigate("/teacher-form",{state: allData});
+			}
+			
+
 		} catch (error: any) {
 			throw new Error(error?.message);
 		}
@@ -74,8 +86,32 @@ const SignUp: React.FC = () => {
 						<img src={login} alt="" />
 					</div>
 					<div className="w-full md:w-1/2 p-5">
-					{ location.state.role == 'student' && <h1 className="text-violet-700 text-3xl font-bold p-4"> <span className={` ${theme == 'light' ? 'text-blue-950' :'text-white'} `} >Student</span> Signup</h1>}
-						{ location.state.role == 'instructor' && <h1 className="text-violet-700 text-3xl font-bold p-4"> <span className={` ${theme == 'light' ? 'text-blue-950' :'text-white'} `} >Instructor</span> Signup</h1>}
+						{location.state.role == "student" && (
+							<h1 className="text-violet-700 text-3xl font-bold p-4">
+								{" "}
+								<span
+									className={` ${
+										theme == "light" ? "text-blue-950" : "text-white"
+									} `}
+								>
+									Student
+								</span>{" "}
+								Signup
+							</h1>
+						)}
+						{location.state.role == "instructor" && (
+							<h1 className="text-violet-700 text-3xl font-bold p-4">
+								{" "}
+								<span
+									className={` ${
+										theme == "light" ? "text-blue-950" : "text-white"
+									} `}
+								>
+									Instructor
+								</span>{" "}
+								Signup
+							</h1>
+						)}
 						{isEmailTaken && (
 							<Alert variant="outlined" severity="error">
 								Email is already exist, please login
@@ -126,7 +162,7 @@ const SignUp: React.FC = () => {
 							</div>
 							<p
 								className="text-center hover:cursor-pointer"
-								onClick={() => navigate("/login",{state:{location}})}
+								onClick={() => navigate("/login", { state: { location } })}
 							>
 								Already have an account ?{" "}
 								<span className="text-violet-700 font-bold">Login</span>

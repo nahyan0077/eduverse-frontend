@@ -22,7 +22,7 @@ const inputField : React.FC <inputFieldProps> = ({
         <div className='flex flex-col' >
 
         <label htmlFor={name} className="block text-xs font-semibold mb-2">{placeholder.toUpperCase()}</label>
-        <Field className={`w-full px-5 py-3 rounded-lg ${type == 'number' ? 'no-arrows' : ''} font-medium border-2 ${theme === 'light' ? "bg-gray-200 text-gray-400" : "bg-gray-900 text-gray-500"} border-transparent  text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`}
+        <Field className={`w-full px-5 py-3 rounded-lg ${type == 'number' ? 'no-arrows' : ''} font-medium border-2 ${theme === 'light' ? "bg-gray-200 text-gray-600" : "bg-gray-900 text-gray-300"} border-transparent  text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`}
         type={type}
         placeholder={placeholder}
         value={value}
