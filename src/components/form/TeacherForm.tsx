@@ -12,7 +12,7 @@ import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
 
 const TeacherForm: React.FC = () => {
 	const { theme } = useTheme();
-	const navigate = useNavigate()
+	// const navigate = useNavigate()
 	const location = useLocation()
 
 	const initialValues = {
