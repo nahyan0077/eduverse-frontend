@@ -23,8 +23,8 @@ const StudentForm: React.FC = () => {
 	};
 
 	const handleSubmit = (value: any) => {
-		console.log(value);
-		navigate('/student-form2')
+		console.log(value,"studenr form data");
+		navigate('/student-form2', {state: {...value}})
 	};
 
 	return (
@@ -86,7 +86,7 @@ const StudentForm: React.FC = () => {
 										<InputField
 											name="email"
 											placeholder="email"
-											type="text"
+											type="email"
 										/>
 									</div>
 								</div>
@@ -95,7 +95,7 @@ const StudentForm: React.FC = () => {
 										<InputField
 											name="phone"
 											placeholder="phone"
-											type="number"
+											type="text"
 										/>
 									</div>
 									<div className="w-full md:w-1/2">
@@ -124,7 +124,7 @@ const StudentForm: React.FC = () => {
 								</div>
 								<div className="flex justify-end p-5 items-center">
 									<button
-										
+										type="submit"
 										className={`border bg-transparent border-violet-700 text-violet-200 text-sm hover:bg-violet-700 px-2 py-2 rounded-md flex items-center ${
 											theme == "light" ? "bg-violet-700" : "bg-gray-900"
 										}`}

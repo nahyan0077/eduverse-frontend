@@ -4,12 +4,18 @@ import { Form, Formik } from "formik";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 // import { useNavigate } from "react-router-dom";
+import {useLocation} from 'react-router-dom'
 
 
 
 const StudentForm2: React.FC = () => {
 	const { theme } = useTheme();
 	// const navigate = useNavigate()
+	const location = useLocation()
+	const firstFormData = location.state || {}
+
+	console.log(firstFormData,"first form data...");
+	
 	const initialValues = {
 		address: "",
 		dateOfBirth: "",

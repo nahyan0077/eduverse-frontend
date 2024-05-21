@@ -25,7 +25,6 @@ function App() {
 					<Route path='/teacher-form' element={ <TeacherRegisterForm/> } />
 					<Route path='/teacher-form2' element={ <TeacherRegisterForm2/> } />
 					<Route path='/otp' element={ <OtpPage/> } />
-		
 				</Routes>
 			</Router>
 		</>

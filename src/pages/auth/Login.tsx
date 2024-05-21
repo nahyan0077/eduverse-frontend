@@ -1,20 +1,23 @@
 import login from "@/assets/auth/loginss.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import Header from "@/components/home/Header";
 import InputField from "@/components/auth/InputField";
 import { Form, Formik } from "formik";
 import { loginSchema } from "@/validationSchemas/loginSchema";
 import PasswordField from "@/components/auth/PasswordField";
+import { useTheme } from "@/components/ui/theme-provider";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
+	const {theme} = useTheme()
 	const initialvalues = {
-		username: "",
 		email: "",
-		password: "",
-		confirmpassword: "",
+		password: ""
 	};
+	const location = useLocation()
+	console.log(location.state,"login");
+	
 	const handleSubmit = (value: any) => {
 		console.log(value);
 	};
@@ -28,7 +31,9 @@ const Login: React.FC = () => {
 						<img src={login} alt="" className="w-full" />
 					</div>
 					<div className="w-full lg:w-1/2 p-5">
-						<h1 className="text-violet-700 text-3xl font-bold p-4">Login</h1>
+						{ location.state.role == 'student' && <h1 className="text-violet-700 text-3xl font-bold p-4"> <span className={` ${theme == 'light' ? 'text-blue-950' :'text-white'} `} >Student</span> Login</h1>}
+						{ location.state.role == 'instructor' && <h1 className="text-violet-700 text-3xl font-bold p-4"> <span className={` ${theme == 'light' ? 'text-blue-950' :'text-white'} `} >Instructor</span> Login</h1>}
+						
 
 						<div className="flex flex-col gap-3  m-2 ">
 							<Formik 
@@ -42,9 +47,8 @@ const Login: React.FC = () => {
 										type="text" 
 										placeholder="email" 
 									/>
-									<PasswordField name="pasword" placeholder="confirm password" />
+									<PasswordField name="password" placeholder="password" />
 									<button
-										onClick={() => navigate("/student-form")}
 										className="bg-violet-700 text-white font-bold p-2 text-sm rounded-xl m-5"
 										type="submit"
 									>
@@ -63,7 +67,7 @@ const Login: React.FC = () => {
 							</div>
 							<p
 								className="text-center hover:cursor-pointer"
-								onClick={() => navigate("/signup")}
+								onClick={() => navigate("/signup",{state: location.state})}
 							>
 								Don't have an account ?{" "}
 								<span className="text-violet-700 font-bold">Sign Up</span>

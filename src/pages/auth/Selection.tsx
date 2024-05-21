@@ -12,7 +12,7 @@ const SelectionPage: React.FC = () => {
 				<div className="flex flex-col lg:flex-row justify-center max-w-7xl mx-auto pt-20">
 					<div className="w-full lg:w-1/2 flex flex-col justify-center items-center">
 						<img className="max-w-xs" src={student} alt="Student" />
-						<button onClick={()=>navigate('/login')} className="btn bg-violet-700 rounded-3xl text-white hover:bg-white hover:text-violet-700 shadow-[5px_5px_0px_0px_#805AD5]">
+						<button onClick={()=>navigate('/login',{state: {role: "student"} })} className="btn bg-violet-700 rounded-3xl text-white hover:bg-white hover:text-violet-700 shadow-[5px_5px_0px_0px_#805AD5]">
 							Enroll as Student
 						</button>
 						<p className="p-10 text-gray-500">
@@ -24,7 +24,7 @@ const SelectionPage: React.FC = () => {
 					</div>
 					<div className="w-full lg:w-1/2 flex flex-col justify-center items-center mt-8 lg:mt-0 lg:ml-8">
 						<img className="max-w-xs" src={teacher} alt="Teacher" />
-						<button onClick={()=>navigate('/teacher-form')} className="btn bg-white rounded-3xl mt-7 text-violet-700 hover:bg-violet-500 hover:text-white shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
+						<button onClick={()=>navigate('/login',{state: {role: "instructor"}})} className="btn bg-white rounded-3xl mt-7 text-violet-700 hover:bg-violet-500 hover:text-white shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
 							Enroll as Instructor
 						</button>
 						<p className="p-10 text-gray-500">

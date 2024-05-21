@@ -4,13 +4,13 @@ import * as Yup from "yup";
 const noSpacesAndNumbers = /^[^\s\d]+$/;
 
 const studentFormSchema = Yup.object().shape({
-    firstname: Yup.string()
+    firstName: Yup.string()
         .matches(noSpacesAndNumbers, "Firstname cannot contain spaces or numbers")
         .required("Firstname is required"),
-    lastname: Yup.string()
+    lastName: Yup.string()
         .matches(noSpacesAndNumbers, "Lastname cannot contain spaces or numbers")
         .required("Lastname is required"),
-    username: Yup.string()
+    userName: Yup.string()
         .matches(/^[^\s]+$/, "Username cannot contain spaces")
         .required("Username is required"),
     email: Yup.string()
