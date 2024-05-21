@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 
-// Custom regex to disallow spaces and numbers
-const noSpacesAndNumbers = /^[^\s\d]+$/;
+
 
 // Regex to disallow more than 3 consecutive spaces
 const noMoreThan3ConsecutiveSpaces = /^(?!.*?\s{4})/;
