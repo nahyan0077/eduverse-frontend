@@ -1,6 +1,7 @@
 // OtpInput.tsx
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../ui/theme-provider";
+import otp_img from '../../assets/auth/otp-image.png';
 
 interface OtpInputProps {
   length?: number;
@@ -24,14 +25,11 @@ const Otp: React.FC<OtpInputProps> = ({
   const handleChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (isNaN(Number(value))) return;
-
     const newOtp = [...otp];
     newOtp[index] = value.slice(-1);
     setOtp(newOtp);
-
     const combinedOtp = newOtp.join("");
     if (combinedOtp.length === length) onOtpSubmit(combinedOtp);
-
     if (value && index < length - 1 && inputRefs.current[index + 1]) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -51,12 +49,15 @@ const Otp: React.FC<OtpInputProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center w-full min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="flex flex-col items-center bg-white dark:bg-gray-800 pt-10 pb-16 px-5 md:px-20 rounded-2xl shadow-lg">
+    <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-screen max-w-7xl mx-auto ">
+      <div className="w-full md:w-1/2 p-4">
+        <img src={otp_img} alt="" className="mx-auto" />
+      </div>
+      <div className="w-full md:w-1/2 flex flex-col items-center p-4 rounded-2xl shadow-lg ">
         <div className={`text-3xl font-extrabold pb-10 ${theme === 'light' ? 'text-violet-700' : 'text-white'}`}>
           OTP
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-center">
           {otp.map((value, index) => (
             <input
               key={index}
@@ -66,7 +67,9 @@ const Otp: React.FC<OtpInputProps> = ({
               onChange={(e) => handleChange(index, e)}
               onClick={() => handleClick(index)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`w-12 h-12 md:w-14 md:h-14 text-center text-xl border ${theme === 'light' ? 'text-gray-900 bg-gray-300' : 'text-white bg-gray-600'} font-medium border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`w-12 h-12 text-center text-xl border ${
+                theme === 'light' ? 'text-gray-900 bg-gray-300' : 'text-white bg-gray-600'
+              } font-medium border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
               maxLength={1}
             />
           ))}
