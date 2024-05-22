@@ -141,7 +141,7 @@ const SignUp: React.FC = () => {
 										placeholder="confirm password"
 									/>
 									<button
-										className="bg-violet-700 text-white font-bold p-2 text-xs rounded-xl m-5"
+										className="bg-violet-700 text-white font-bold p-2 text-sm rounded-md mt-3"
 										type="submit"
 									>
 										{" "}
@@ -150,23 +150,28 @@ const SignUp: React.FC = () => {
 								</Form>
 							</Formik>
 
-							<p className="text-violet-700 text-center font-bold">
-								Forgot Password?
-							</p>
+							<div className="flex justify-center">
+									<div className="">
+										<p
+											className="text-center text-sm hover:cursor-pointer ml-2"
+											onClick={() =>
+												navigate("/login", { state:{ location }})
+											}
+										>
+											Don't have an account ?{" "}
+											<span className="text-violet-700 font-bold">Login</span>
+										</p>
+									</div>
+									
+								</div>
 
 							<div className="flex justify-center mt-2">
-								<button className="btn bg-white hover:bg-violet-700 text-violet-700 hover:text-white rounded-full border-violet-700 text-xs">
+								<button className="btn bg-white hover:bg-violet-700 text-violet-700 hover:text-white rounded-full border-violet-700 text-xs px-4 py-1">
 									<GoogleIcon className="text-center rounded-full " />
 									Sign in with google
 								</button>
 							</div>
-							<p
-								className="text-center hover:cursor-pointer"
-								onClick={() => navigate("/login", { state: { location } })}
-							>
-								Already have an account ?{" "}
-								<span className="text-violet-700 font-bold">Login</span>
-							</p>
+							
 						</div>
 						<div></div>
 					</div>
