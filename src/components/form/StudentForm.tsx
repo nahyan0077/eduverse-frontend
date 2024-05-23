@@ -54,13 +54,7 @@ const StudentForm: React.FC = () => {
 					</span>{" "}
 					Enrollment Form
 				</label>
-				{/* <div className="flex justify-center">
-					<ul className="steps steps-vertical lg:steps-horizontal">
-						<li className="step step-primary"></li>
-						<li className="step step-primary"></li>
-						<li className="step"></li>
-					</ul>
-				</div> */}
+
 				<div className="flex flex-col md:flex-row items-center">
 					<div className="w-full md:w-1/2 mb-4 md:mb-0">
 						<img className="w-full h-auto" src={form_image} alt="" />

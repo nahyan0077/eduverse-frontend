@@ -34,6 +34,7 @@ const StudentForm2: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = async (value: any) => {
+		
 		console.log(value,"studenr form2 data");
 		const allData: SignupFormData  = {
 			...value,

@@ -5,20 +5,20 @@ import mUser from "@/assets/form/male_user.png";
 import teacher_form_image from "@/assets/form/teacher_form.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
 
 
 
 const TeacherForm: React.FC = () => {
 	const { theme } = useTheme();
-	// const navigate = useNavigate()
+	const navigate = useNavigate()
 	const location = useLocation()
 
 	const initialValues = {
-		firstname: "",
-		lastname: "",
-		username: "",
+		firstName: "",
+		lastName: "",
+		userName: "",
 		email: "",
 		phone: "",
 		gender: "",
@@ -28,13 +28,16 @@ const TeacherForm: React.FC = () => {
 		console.log(value);
 
 		let allData = {
-			...value,
-			...location.state
+			...location.state,
+			firstName: value.firstName,
+			lastName: value.lastName,
+			gender: value.gender,
+			phone: value.phone
 		}
 		console.log(allData,"all data teacher form");
 		
 
-        // navigate('/teacher-form2')
+        navigate('/teacher-form2',{state:{allData}})
 	};
 
 	return (
@@ -51,13 +54,7 @@ const TeacherForm: React.FC = () => {
 					</span>{" "}
 					Enrollment Form
 				</label>
-				{/* <div className="flex justify-center">
-					<ul className="steps steps-vertical lg:steps-horizontal">
-						<li className="step step-primary"></li>
-						<li className="step step-primary"></li>
-						<li className="step"></li>
-					</ul>
-				</div> */}
+
 				<div className="flex flex-col md:flex-row items-center">
 					<div className="w-full md:w-1/2 mb-4 md:mb-0">
 						<img className="w-full h-auto" src={teacher_form_image} alt="" />
@@ -71,23 +68,24 @@ const TeacherForm: React.FC = () => {
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
 										<InputField
-											name="firstname"
+											name="firstName"
 											placeholder="first name"
 											type="text"
 										/>
 									</div>
 									<div className="w-full">
 										<InputField
-											name="username"
+											name="userName"
 											placeholder="user name"
 											type="text"
+											value={location.state.username}
 										/>
 									</div>
 								</div>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
 									<InputField
-											name="lastname"
+											name="lastName"
 											placeholder="last name"
 											type="text"
 										/>
@@ -97,6 +95,7 @@ const TeacherForm: React.FC = () => {
 											name="email"
 											placeholder="email"
 											type="text"
+											value={location.state.email}
 										/>
 									</div>
 								</div>
@@ -105,7 +104,7 @@ const TeacherForm: React.FC = () => {
 										<InputField
 											name="phone"
 											placeholder="phone"
-											type="number"
+											type="text"
 										/>
 									</div>
 									<div className="w-full md:w-1/2">

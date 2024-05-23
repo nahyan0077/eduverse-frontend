@@ -3,11 +3,19 @@ import InputField from "@/components/auth/InputField";
 import { Field, Form, Formik } from "formik";
 import teacher_form_image from "@/assets/form/teacher_form.png";
 import { useTheme } from "../ui/theme-provider";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/hooks/hooks";
+import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
+import { SignupFormData } from "@/types/forms";
+import { signupAction } from "@/redux/store/actions/auth";
 // import { useNavigate } from "react-router-dom";
 
 const TeacherForm2: React.FC = () => {
 	const { theme } = useTheme();
-	// const navigate = useNavigate()
+	const location = useLocation()
+	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
+
 	const initialValues = {
 		address: "",
 		dateOfBirth: "",
@@ -17,8 +25,19 @@ const TeacherForm2: React.FC = () => {
         cv:""
 	};
 
-	const handleSubmit = (value: any) => {
+	const handleSubmit = async (value: any) => {
 		console.log(value);
+		const allData = {
+			...value,
+			...location.state
+		}
+
+		const response: any = await dispatch(signupAction(allData ))
+		console.log("signup final ress",response);
+
+		const response1 = await dispatch(sendVerificationMail())
+		console.log(response1,"teacher last form");
+		navigate('/otp',{state:{allData}})
 	};
 
 	return (
@@ -59,12 +78,26 @@ const TeacherForm2: React.FC = () => {
 											type="date"
 										/>
 									</div>
-									<div className="w-full">
-										<InputField
+									<div className="w-full ">
+										<label
+											htmlFor="date of birth"
+											className="block text-xs font-semibold mb-2"
+										>
+											PROFESSION
+										</label>
+										<Field
+											as="select"
+											className={`select w-full font-semibold ${
+												theme == "light"
+													? "bg-gray-200 text-gray-400"
+													: "bg-gray-900 text-gray-400 "
+											} `}
 											name="profession"
-											placeholder="profession"
-											type="text"
-										/>
+										>
+											<option value="">select profession</option>
+											<option value="student">Student</option>
+											<option value="working">Working</option>
+										</Field>
 									</div>
 								</div>
 								<div className={`flex flex-col md:flex-row gap-5 px-5 py-2`}>
