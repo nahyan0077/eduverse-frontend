@@ -7,6 +7,7 @@ import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useLocation, useNavigate } from "react-router-dom";
 import studentFormSchema from "@/validationSchemas/studentFormSchema";
+import { SignupFormData } from "@/types/forms";
 
 
 
@@ -27,7 +28,7 @@ const StudentForm: React.FC = () => {
 	const handleSubmit = (value: any) => {
 		console.log(value,"studenr form data");
 		
-		let allData = {
+		let allData: SignupFormData = {
 			...location.state,
 			firstName: value.firstName,
 			lastName: value.lastName,

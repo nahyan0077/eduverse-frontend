@@ -6,16 +6,16 @@ import { Form, Formik } from "formik";
 import InputField from "@/components/auth/InputField";
 import { signupSchema } from "@/validationSchemas/signupSchema";
 import PasswordField from "@/components/auth/PasswordField";
-import { useDispatch } from "react-redux";
 // import { tempSignUpData } from "@/redux/store/slices/user";
 import {
 	findEmailAction,
 	findUsernameAction,
 } from "@/redux/store/actions/auth";
-import { TypeDispatch } from "@/redux/store";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import { useTheme } from "@/components/ui/theme-provider";
+import { SignupFormData } from "@/types/forms";
+import { useAppDispatch } from "@/hooks/hooks";
 
 const SignUp: React.FC = () => {
 	const navigate = useNavigate();
@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
 	};
 	const { theme } = useTheme();
 
-	const dispatch: TypeDispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const [isEmailTaken, setTakenEmail] = useState(false);
 	const [isUsernameTaken, setTakenUsername] = useState(false);
@@ -58,7 +58,7 @@ const SignUp: React.FC = () => {
 				return;
 			}
 
-			let allData = {
+			let allData :SignupFormData = {
 				...data,
 				role: location.state.role
 			}

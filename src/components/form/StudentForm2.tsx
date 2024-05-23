@@ -1,11 +1,15 @@
 import React from "react";
 import InputField from "@/components/auth/InputField";
-import { Form, Formik } from "formik";
+import { Form, Formik, Field } from "formik";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 // import { useNavigate } from "react-router-dom";
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
+import { signupAction } from "@/redux/store/actions/auth";
+import { SignupFormData } from "@/types/forms";
+import { useAppDispatch } from "@/hooks/hooks";
+import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 
 
 
@@ -14,6 +18,8 @@ const StudentForm2: React.FC = () => {
 	// const navigate = useNavigate()
 	const location = useLocation()
 	const firstFormData = location.state || {}
+
+	const navigate = useNavigate()
 
 	console.log(firstFormData,"first form data...");
 	
@@ -25,13 +31,23 @@ const StudentForm2: React.FC = () => {
         social: ""
 	};
 
-	const handleSubmit = (value: any) => {
+	const dispatch = useAppDispatch();
+
+	const handleSubmit = async (value: any) => {
 		console.log(value,"studenr form2 data");
-		const allData = {
+		const allData: SignupFormData  = {
 			...value,
 			...location.state
 		}
 		console.log(allData,"final student all data");
+
+		const response: any = await dispatch(signupAction(allData ))
+		console.log("signup final ress",response);
+		
+		const response1 = await dispatch(sendVerificationMail())
+		console.log(response1,"noteif mail");
+		
+		navigate('/otp')
 		
 	};
 
@@ -73,12 +89,26 @@ const StudentForm2: React.FC = () => {
 											type="date"
 										/>
 									</div>
-									<div className="w-full">
-										<InputField
+									<div className="w-full ">
+										<label
+											htmlFor="date of birth"
+											className="block text-xs font-semibold mb-2"
+										>
+											PROFESSION
+										</label>
+										<Field
+											as="select"
+											className={`select w-full font-semibold ${
+												theme == "light"
+													? "bg-gray-200 text-gray-400"
+													: "bg-gray-900 text-gray-400 "
+											} `}
 											name="profession"
-											placeholder="profession"
-											type="text"
-										/>
+										>
+											<option value="">select profession</option>
+											<option value="student">Student</option>
+											<option value="working">Working</option>
+										</Field>
 									</div>
 								</div>
 								<div className={`flex flex-col md:flex-row gap-5 px-5 py-2`}>
