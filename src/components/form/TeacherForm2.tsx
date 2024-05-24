@@ -25,12 +25,17 @@ const TeacherForm2: React.FC = () => {
         cv:""
 	};
 
+	console.log("first form data",location.state);
+	
+
 	const handleSubmit = async (value: any) => {
-		console.log(value);
-		const allData = {
+
+		const allData: SignupFormData = {
 			...value,
 			...location.state
 		}
+		console.log(allData,"texher form last all data");
+		
 
 		const response: any = await dispatch(signupAction(allData ))
 		console.log("signup final ress",response);

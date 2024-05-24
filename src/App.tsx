@@ -10,8 +10,16 @@ import StudentRegisterForm2 from "./pages/student/StudentRegisterForm2";
 import TeacherRegisterForm from "./pages/student/TeacherRegisterForm";
 import TeacherRegisterForm2 from "./pages/student/TeacherRegisterForm2";
 import OtpPage from "./pages/auth/OtpPage";
+import {  useAppSelector } from "./hooks/hooks";
+import { RootState } from "./redux/store";
 
 function App() {
+
+	const data = useAppSelector((state: RootState) => state.user )
+
+	console.log("dispatch datat",data);
+	
+
 	return (
 		<>
 			<Router>

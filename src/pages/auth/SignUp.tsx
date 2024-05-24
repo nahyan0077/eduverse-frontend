@@ -6,16 +6,15 @@ import { Form, Formik } from "formik";
 import InputField from "@/components/auth/InputField";
 import { signupSchema } from "@/validationSchemas/signupSchema";
 import PasswordField from "@/components/auth/PasswordField";
-// import { tempSignUpData } from "@/redux/store/slices/user";
-import {
-	findEmailAction,
-	findUsernameAction,
-} from "@/redux/store/actions/auth";
+import { findEmailAction, findUsernameAction } from "@/redux/store/actions/auth";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import { useTheme } from "@/components/ui/theme-provider";
 import { SignupFormData } from "@/types/forms";
 import { useAppDispatch } from "@/hooks/hooks";
+import { motion } from "framer-motion";
+
+
 
 const SignUp: React.FC = () => {
 	const navigate = useNavigate();
@@ -36,11 +35,9 @@ const SignUp: React.FC = () => {
 	const handleSubmit = async (data: any) => {
 		setTakenEmail(false);
 		setTakenUsername(false);
-		// dispatch(tempSignUpData(data));
 
 		try {
 			const result1: any = await dispatch(findUsernameAction(data.username));
-
 			if (!result1?.payload?.success) {
 				setTakenUsername(true);
 				setTimeout(() => {
@@ -48,8 +45,8 @@ const SignUp: React.FC = () => {
 				}, 4000);
 				return;
 			}
+
 			const result: any = await dispatch(findEmailAction(data.email));
-			
 			if (!result.payload || !result.payload.success) {
 				setTakenEmail(true);
 				setTimeout(() => {
@@ -58,20 +55,16 @@ const SignUp: React.FC = () => {
 				return;
 			}
 
-			let allData :SignupFormData = {
+			let allData: SignupFormData = {
 				...data,
-				role: location.state.role
-			}
-			
-			console.log("alldata",allData);
+				role: location.state.role,
+			};
 
 			if (location.state.role == "student") {
-				navigate("/student-form",{state: allData});
-			}else{
-				navigate("/teacher-form",{state: allData});
+				navigate("/student-form", { state: allData });
+			} else {
+				navigate("/teacher-form", { state: allData });
 			}
-			
-
 		} catch (error: any) {
 			throw new Error(error?.message);
 		}
@@ -80,104 +73,110 @@ const SignUp: React.FC = () => {
 	return (
 		<>
 			<Header />
-			<div className=" min-h-screen">
+			<div className="min-h-screen">
 				<div className="flex flex-col md:flex-row max-w-7xl mx-auto items-center">
-					<div className="w-full  md:w-1/2">
-						<img src={login} alt="" />
-					</div>
-					<div className="w-full md:w-1/2 p-5">
-						{location.state.role == "student" && (
-							<h1 className="text-violet-700 text-3xl font-bold p-4">
-								{" "}
-								<span
-									className={` ${
-										theme == "light" ? "text-blue-950" : "text-white"
-									} `}
-								>
-									Student
-								</span>{" "}
-								Signup
-							</h1>
-						)}
-						{location.state.role == "instructor" && (
-							<h1 className="text-violet-700 text-3xl font-bold p-4">
-								{" "}
-								<span
-									className={` ${
-										theme == "light" ? "text-blue-950" : "text-white"
-									} `}
-								>
-									Instructor
-								</span>{" "}
-								Signup
-							</h1>
-						)}
+					<motion.div
+						className="w-full md:w-1/2"
+						initial={{ opacity: 0, x: -100 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.5 }}
+					>
+						<img src={login} alt="Signup" className="w-full" />
+					</motion.div>
+					<motion.div
+						className="w-full md:w-1/2 p-5"
+						initial={{ opacity: 0, x: 100 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.5 }}
+					>
+						<h1 className="text-violet-700 text-3xl font-bold p-4">
+							{" "}
+							<span
+								className={` ${
+									theme == "light" ? "text-blue-950" : "text-white"
+								} `}
+							>
+								{location.state.role == "student" ? "Student" : "Instructor"}
+							</span>{" "}
+							Signup
+						</h1>
 						{isEmailTaken && (
-							<Alert variant="outlined" severity="error">
-								Email is already exist, please login
-							</Alert>
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ duration: 0.5 }}
+							>
+								<Alert variant="outlined" severity="error">
+									Email is already exist, please login
+								</Alert>
+							</motion.div>
 						)}
 						{isUsernameTaken && (
-							<Alert variant="outlined" severity="error">
-								Username is already taken
-							</Alert>
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ duration: 0.5 }}
+							>
+								<Alert variant="outlined" severity="error">
+									Username is already taken
+								</Alert>
+							</motion.div>
 						)}
-						<div className="flex flex-col gap-3  m-2 ">
+						<div className="flex flex-col gap-3 m-2">
 							<Formik
 								initialValues={initialvalues}
 								onSubmit={handleSubmit}
 								validationSchema={signupSchema}
 							>
-								<Form className="flex flex-col gap-3  m-2 ">
-									<InputField
-										name="username"
-										type="text"
-										placeholder="username"
-									/>
-									<InputField name="email" type="email" placeholder="email" />
-									<PasswordField name="password" placeholder="password" />
-									<PasswordField
-										name="confirmPassword"
-										placeholder="confirm password"
-									/>
-									<button
-										className="bg-violet-700 text-white font-bold p-2 text-sm rounded-md mt-3"
-										type="submit"
-									>
-										{" "}
-										Sign Up{" "}
-									</button>
-								</Form>
-							</Formik>
-
-							<div className="flex justify-center">
-									<div className="">
-										<p
-											className="text-center text-sm hover:cursor-pointer ml-2"
-											onClick={() =>
-												navigate("/login", { state:{ location }})
-											}
+								{({ isSubmitting }) => (
+									<Form className="flex flex-col gap-3 m-2">
+										<InputField name="username" type="text" placeholder="Username" />
+										<InputField name="email" type="email" placeholder="Email" />
+										<PasswordField name="password" placeholder="Password" />
+										<PasswordField name="confirmPassword" placeholder="Confirm Password" />
+										<motion.button
+											className="bg-violet-700 text-white font-bold p-2 text-sm rounded-md mt-3"
+											type="submit"
+											whileHover={{ scale: 1.05 }}
+											whileTap={{ scale: 1 }}
+											initial={{ opacity: 0, y: 20 }}
+											animate={{ opacity: 1, y: 0 }}
+											transition={{ duration: 0.5 }}
+											disabled={isSubmitting}
 										>
-											Don't have an account ?{" "}
-											<span className="text-violet-700 font-bold">Login</span>
-										</p>
-									</div>
-									
-								</div>
-
-							<div className="flex justify-center mt-2">
-								<button className="btn bg-white hover:bg-violet-700 text-violet-700 hover:text-white rounded-full border-violet-700 text-xs px-4 py-1">
-									<GoogleIcon className="text-center rounded-full " />
-									Sign in with google
-								</button>
+											Sign Up
+										</motion.button>
+									</Form>
+								)}
+							</Formik>
+							<div className="flex justify-center">
+								<p
+									className="text-center text-sm hover:cursor-pointer ml-2"
+									onClick={() => navigate("/login", { state: { location } })}
+								>
+									Already have an account?{" "}
+									<span className="text-violet-700 font-bold">Login</span>
+								</p>
 							</div>
-							
+							<div className="flex justify-center mt-2">
+								<motion.button
+									className="btn bg-white hover:bg-violet-700 text-violet-700 hover:text-white rounded-full border-violet-700 text-xs px-4 py-1"
+									whileHover={{ scale: 1.05 }}
+									whileTap={{ scale: 1 }}
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.5 }}
+								>
+									<GoogleIcon className="text-center rounded-full" />
+									Sign in with Google
+								</motion.button>
+							</div>
 						</div>
-						<div></div>
-					</div>
+					</motion.div>
 				</div>
 			</div>
 		</>
 	);
 };
+
 export default SignUp;

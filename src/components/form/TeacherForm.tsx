@@ -1,6 +1,6 @@
 import React from "react";
 import InputField from "@/components/auth/InputField";
-import { Form, Formik, Field } from "formik";
+import { Form, Formik, Field, ErrorMessage } from "formik";
 import mUser from "@/assets/form/male_user.png";
 import teacher_form_image from "@/assets/form/teacher_form.png";
 import { useTheme } from "../ui/theme-provider";
@@ -37,7 +37,7 @@ const TeacherForm: React.FC = () => {
 		console.log(allData,"all data teacher form");
 		
 
-        navigate('/teacher-form2',{state:{allData}})
+        navigate('/teacher-form2',{state:allData})
 	};
 
 	return (
@@ -50,7 +50,7 @@ const TeacherForm: React.FC = () => {
 					<span
 						className={`${theme == "dark" ? "text-white" : "text-violet-700"}`}
 					>
-						Teacher
+						Instructor
 					</span>{" "}
 					Enrollment Form
 				</label>
@@ -128,6 +128,7 @@ const TeacherForm: React.FC = () => {
 											<option value="female">Female</option>
 											<option value="female">Other</option>
 										</Field>
+										<ErrorMessage name="gender" className="text-xs font-semibold text-red-500 ml-3" component="span" />
 									</div>
 									
 								</div>

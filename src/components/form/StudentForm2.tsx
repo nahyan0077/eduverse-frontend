@@ -136,7 +136,6 @@ const StudentForm2: React.FC = () => {
 										}`}
 									>
 										SUBMIT
-										{/* <ArrowForwardIcon className="ml-2" fontSize="small" /> */}
 									</button>
 								</div>
 							</Form>

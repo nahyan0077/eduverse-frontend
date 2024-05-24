@@ -15,3 +15,8 @@ export interface SignupFormData {
     social?: string,
     role?: string
 }
+
+export interface LoginFormData {
+    email: string,
+    password: string
+}
