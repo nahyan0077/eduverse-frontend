@@ -1,3 +1,4 @@
+import { config } from "@/common/configurations";
 import { SignupFormData } from "@/types/forms";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -7,10 +8,7 @@ export const signupAction = createAsyncThunk(
 	"user/signup",
 	async (data: SignupFormData, {rejectWithValue }) => {
 		try {
-			const response = await CLIENT_API.post("/api/auth/signup", data, {
-				headers: { "Content-Type": "application/json" },
-				withCredentials: true,
-			});
+			const response = await CLIENT_API.post("/api/auth/signup", data, config);
 
 			if (response.data.success) {
 				return response.data;

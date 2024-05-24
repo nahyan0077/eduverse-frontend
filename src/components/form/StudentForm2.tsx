@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import InputField from "@/components/auth/InputField";
 import { Form, Formik, Field } from "formik";
 import form_image from "@/assets/form/form_img.png";
@@ -10,6 +10,7 @@ import { signupAction } from "@/redux/store/actions/auth";
 import { SignupFormData } from "@/types/forms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
+import LoadingPopUp from "../common/LoadingPopUp";
 
 
 
@@ -20,6 +21,7 @@ const StudentForm2: React.FC = () => {
 	const firstFormData = location.state || {}
 
 	const navigate = useNavigate()
+	const [isLoading,setLoading] = useState(false)
 
 	console.log(firstFormData,"first form data...");
 	
@@ -34,6 +36,8 @@ const StudentForm2: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = async (value: any) => {
+
+		setLoading(true)
 		
 		console.log(value,"studenr form2 data");
 		const allData: SignupFormData  = {
@@ -47,13 +51,14 @@ const StudentForm2: React.FC = () => {
 		
 		const response1 = await dispatch(sendVerificationMail())
 		console.log(response1,"noteif mail");
-		
+		setLoading(false)
 		navigate('/otp')
 		
 	};
 
 	return (
 		<>
+			<LoadingPopUp isLoading={isLoading} />
 			<div className="max-w-7xl mx-auto p-5">
 				<label
 					htmlFor="student form"

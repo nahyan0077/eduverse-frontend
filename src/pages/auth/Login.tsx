@@ -8,10 +8,13 @@ import { loginSchema } from "@/validationSchemas/loginSchema";
 import PasswordField from "@/components/auth/PasswordField";
 import { useTheme } from "@/components/ui/theme-provider";
 import { motion } from "framer-motion";
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { loginAction } from "@/redux/store/actions/auth/loginAction";
-import { useState } from "react";
-import Alert from "@mui/material/Alert";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { storeUserData } from "@/redux/store/slices/user";
+import { RootState } from "@/redux/store";
+import { useEffect } from "react";
 
 
 const Login: React.FC = () => {
@@ -23,14 +26,18 @@ const Login: React.FC = () => {
 	};
 	const location = useLocation();
 	const dispatch = useAppDispatch()
-	const [loginError, setLoginError] = useState(false)
+
+	const userData = useAppSelector((state: RootState) => state.user );
+
+	useEffect(() => {
+	  console.log("User Data:", userData);
+	}, [userData]);
 
 
 	console.log(location.state, "login");
 
 
 	const handleSubmit = async (value: any) => {
-		setLoginError(false)
 		console.log(value,"login data");
 
 		const result = await dispatch(loginAction(value))
@@ -38,10 +45,19 @@ const Login: React.FC = () => {
 		console.log("login approval",result);
 
 		if(!result.payload.success){
-			setLoginError(true)
-			setTimeout(() => {
-				setLoginError(false)
-			}, 4000);
+			toast.error('Email or Password doesnt match', {
+				position: "top-center",
+				autoClose: 4000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
+		}else{
+			 dispatch(storeUserData(result.payload.data))
+			 navigate('/verification-page')
 		}
 		
 	};
@@ -50,6 +66,7 @@ const Login: React.FC = () => {
 
 	return (
 		<>
+			<ToastContainer />
 			<Header />
 			<div className="min-h-screen">
 				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center">
@@ -73,14 +90,6 @@ const Login: React.FC = () => {
 							</span>{" "}
 							Login
 						</h1>
-
-						{
-							loginError &&
-
-							<Alert variant="outlined" severity="error">
-								Email is already exist, please login
-							</Alert>
-						}
 
 						<div className="flex flex-col gap-3 m-2">
 							<Formik

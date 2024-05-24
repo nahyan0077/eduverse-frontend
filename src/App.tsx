@@ -7,17 +7,23 @@ import Home from "./pages/user/Home";
 import SelectionPage from "./pages/auth/Selection";
 import StudentRegisterForm from "./pages/student/StudentRegisterForm";
 import StudentRegisterForm2 from "./pages/student/StudentRegisterForm2";
-import TeacherRegisterForm from "./pages/student/TeacherRegisterForm";
-import TeacherRegisterForm2 from "./pages/student/TeacherRegisterForm2";
+import TeacherRegisterForm from "./pages/Instructor/TeacherRegisterForm";
+import TeacherRegisterForm2 from "./pages/Instructor/TeacherRegisterForm2";
 import OtpPage from "./pages/auth/OtpPage";
 import {  useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/store";
+import { useEffect } from "react";
+import VerificationPage from "./pages/Instructor/VerificationPage";
 
 function App() {
 
-	const data = useAppSelector((state: RootState) => state.user )
+	const userData = useAppSelector((state: RootState) => state.user );
 
-	console.log("dispatch datat",data);
+	useEffect(() => {
+	  console.log("User Data:", userData);
+	}, [userData]);
+	
+
 	
 
 	return (
@@ -33,6 +39,7 @@ function App() {
 					<Route path='/teacher-form' element={ <TeacherRegisterForm/> } />
 					<Route path='/teacher-form2' element={ <TeacherRegisterForm2/> } />
 					<Route path='/otp' element={ <OtpPage/> } />
+					<Route path='/verification-page' element={ <VerificationPage/> } />
 				</Routes>
 			</Router>
 		</>

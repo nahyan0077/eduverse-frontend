@@ -1,3 +1,4 @@
+import { config } from "@/common/configurations";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -5,10 +6,7 @@ export const verifyOtpAction = createAsyncThunk(
 	"user/verifyOtp",
 	async (data: { otp: string }, {rejectWithValue}) => {
 		try {
-			const response = await CLIENT_API.post("/api/auth/verify-otp", data, {
-				headers: { "Content-Type": "application/json" },
-				withCredentials: true,
-			});
+			const response = await CLIENT_API.post("/api/auth/verify-otp", data, config);
             if (response.data.success) {
 				return response.data;
 			} else {

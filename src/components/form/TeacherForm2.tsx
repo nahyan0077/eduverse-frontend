@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import InputField from "@/components/auth/InputField";
 import { Field, Form, Formik } from "formik";
 import teacher_form_image from "@/assets/form/teacher_form.png";
@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { SignupFormData } from "@/types/forms";
 import { signupAction } from "@/redux/store/actions/auth";
+import LoadingPopUp from "../common/LoadingPopUp";
 // import { useNavigate } from "react-router-dom";
 
 const TeacherForm2: React.FC = () => {
@@ -15,6 +16,7 @@ const TeacherForm2: React.FC = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+	const [isLoading,setLoading] = useState(false)
 
 	const initialValues = {
 		address: "",
@@ -30,6 +32,8 @@ const TeacherForm2: React.FC = () => {
 
 	const handleSubmit = async (value: any) => {
 
+		setLoading(true)
+
 		const allData: SignupFormData = {
 			...value,
 			...location.state
@@ -42,11 +46,15 @@ const TeacherForm2: React.FC = () => {
 
 		const response1 = await dispatch(sendVerificationMail())
 		console.log(response1,"teacher last form");
+
+		setLoading(false)
+
 		navigate('/otp',{state:{allData}})
 	};
 
 	return (
 		<>
+			<LoadingPopUp isLoading={isLoading} />
 			<div className="max-w-7xl mx-auto p-5">
 				<label
 					htmlFor="student form"

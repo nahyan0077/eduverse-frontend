@@ -13,6 +13,7 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { SignupFormData } from "@/types/forms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { motion } from "framer-motion";
+import {GoogleLogin} from '@react-oauth/google'
 
 
 
@@ -168,6 +169,14 @@ const SignUp: React.FC = () => {
 									transition={{ duration: 0.5 }}
 								>
 									<GoogleIcon className="text-center rounded-full" />
+									<GoogleLogin
+									onSuccess={(credentialResponse) => {
+										
+									}}
+									onError={() => {
+										console.log("Login Failed");
+									}}
+									/>
 									Sign in with Google
 								</motion.button>
 							</div>
