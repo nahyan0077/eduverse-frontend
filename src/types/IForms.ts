@@ -13,7 +13,8 @@ export interface SignupFormData {
     profession?: string,
     qualification?: string,
     social?: string,
-    role?: string
+    role?: string,
+    isGAuth: boolean
 }
 
 export interface LoginFormData {

@@ -6,7 +6,7 @@ import { useTheme } from "../ui/theme-provider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
-import { SignupFormData } from "@/types/forms";
+import { SignupFormData } from "@/types/IForms";
 import { signupAction } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/LoadingPopUp";
 // import { useNavigate } from "react-router-dom";
@@ -44,12 +44,16 @@ const TeacherForm2: React.FC = () => {
 		const response: any = await dispatch(signupAction(allData ))
 		console.log("signup final ress",response);
 
-		const response1 = await dispatch(sendVerificationMail())
-		console.log(response1,"teacher last form");
-
 		setLoading(false)
 
-		navigate('/otp',{state:{allData}})
+		if(!response.payload.data.isGAuth){
+			const response1 = await dispatch(sendVerificationMail())
+			console.log(response1,"noteif mail");
+			navigate('/otp')
+		}else{
+			navigate('/verification-page')
+			
+		}
 	};
 
 	return (

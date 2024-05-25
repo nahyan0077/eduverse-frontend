@@ -1,5 +1,5 @@
 import { config } from "@/common/configurations";
-import { LoginFormData } from "@/types/forms";
+import { LoginFormData } from "@/types/IForms";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { string } from "yup";

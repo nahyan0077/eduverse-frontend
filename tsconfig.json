@@ -23,8 +23,10 @@
     "paths": {
       "@/*": ["src/*"],
       "@lib/*": ["src/components/lib/*"],
-    }
+    },
+        /* Additional Suggestions */
+        "strictNullChecks": true
   },
-  "include": ["src"],
+  "include": ["src", "vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

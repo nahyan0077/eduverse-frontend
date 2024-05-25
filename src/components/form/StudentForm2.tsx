@@ -7,7 +7,7 @@ import { useTheme } from "../ui/theme-provider";
 import {useLocation, useNavigate} from 'react-router-dom'
 import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
 import { signupAction } from "@/redux/store/actions/auth";
-import { SignupFormData } from "@/types/forms";
+import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import LoadingPopUp from "../common/LoadingPopUp";
@@ -49,10 +49,16 @@ const StudentForm2: React.FC = () => {
 		const response: any = await dispatch(signupAction(allData ))
 		console.log("signup final ress",response);
 		
-		const response1 = await dispatch(sendVerificationMail())
-		console.log(response1,"noteif mail");
 		setLoading(false)
-		navigate('/otp')
+		
+		if(!response.payload.data.isGAuth){
+			const response1 = await dispatch(sendVerificationMail())
+			console.log(response1,"noteif mail");
+			navigate('/otp')
+		}else{
+			console.log("its gAuth");
+			
+		}
 		
 	};
 

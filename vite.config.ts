@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(process.cwd(),"./src"),
       "@lib": path.resolve(process.cwd(), "./src/lib"),
+      'vite-env': path.resolve(__dirname, 'src', 'vite-env.d.ts'),
     }
   },
   server: {

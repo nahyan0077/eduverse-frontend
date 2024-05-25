@@ -1,13 +1,12 @@
 import React from "react";
 import InputField from "@/components/auth/InputField";
 import { Form, Formik, Field, ErrorMessage } from "formik";
-import mUser from "@/assets/form/male_user.png";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useLocation, useNavigate } from "react-router-dom";
 import studentFormSchema from "@/validationSchemas/studentFormSchema";
-import { SignupFormData } from "@/types/forms";
+import { SignupFormData } from "@/types/IForms";
 import { motion } from "framer-motion";
 
 const StudentForm: React.FC = () => {

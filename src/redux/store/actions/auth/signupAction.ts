@@ -1,5 +1,5 @@
 import { config } from "@/common/configurations";
-import { SignupFormData } from "@/types/forms";
+import { SignupFormData } from "@/types/IForms";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";

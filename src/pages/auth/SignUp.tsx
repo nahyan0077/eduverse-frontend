@@ -10,11 +10,13 @@ import { findEmailAction, findUsernameAction } from "@/redux/store/actions/auth"
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import { useTheme } from "@/components/ui/theme-provider";
-import { SignupFormData } from "@/types/forms";
+import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { motion } from "framer-motion";
 import {GoogleLogin} from '@react-oauth/google'
-
+import { googleAuthAction } from "@/redux/store/actions/auth/googleAuthAction";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const SignUp: React.FC = () => {
@@ -59,6 +61,7 @@ const SignUp: React.FC = () => {
 			let allData: SignupFormData = {
 				...data,
 				role: location.state.role,
+				isGAuth:false
 			};
 
 			if (location.state.role == "student") {
@@ -71,8 +74,40 @@ const SignUp: React.FC = () => {
 		}
 	};
 
+	const loginWithGoogle = async (data: any) => {
+		
+		try {
+			console.log("google auth data --->>");
+			
+			const response = await dispatch(googleAuthAction(data))
+			console.log("googleaut signup rss",response);
+			
+			let allData: SignupFormData = {
+				role: location.state.role,
+				email: response.payload.data.email,
+				password: response.payload.data.password,
+				username: (response.payload.data.email.split("@")[0]).toLowerCase(),
+				isGAuth: true
+			};
+
+			console.log(allData,"all data");
+			
+
+			if (location.state.role == "student") {
+				navigate("/student-form", { state: allData });
+			} else {
+				navigate("/teacher-form", { state: allData });
+			}
+			
+		} catch (error: any) {
+			console.log("Login Failed", error);
+			toast.error("Something is wrong! Please try later");
+		}
+	}
+
 	return (
 		<>
+			<ToastContainer/>
 			<Header />
 			<div className="min-h-screen">
 				<div className="flex flex-col md:flex-row max-w-7xl mx-auto items-center">
@@ -160,6 +195,16 @@ const SignUp: React.FC = () => {
 								</p>
 							</div>
 							<div className="flex justify-center mt-2">
+								<GoogleLogin
+								onSuccess={(credentialResponse) => {
+									console.log(credentialResponse,"credential .res");
+									
+									loginWithGoogle(credentialResponse);
+								}}
+								onError={() => {
+									console.log("Login Failed");
+								}}
+								/>
 								<motion.button
 									className="btn bg-white hover:bg-violet-700 text-violet-700 hover:text-white rounded-full border-violet-700 text-xs px-4 py-1"
 									whileHover={{ scale: 1.05 }}
@@ -169,14 +214,6 @@ const SignUp: React.FC = () => {
 									transition={{ duration: 0.5 }}
 								>
 									<GoogleIcon className="text-center rounded-full" />
-									<GoogleLogin
-									onSuccess={(credentialResponse) => {
-										
-									}}
-									onError={() => {
-										console.log("Login Failed");
-									}}
-									/>
 									Sign in with Google
 								</motion.button>
 							</div>
