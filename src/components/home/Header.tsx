@@ -8,139 +8,149 @@ import { ModeToggle } from "../ui/mode-toggle";
 import { useTheme } from "../ui/theme-provider";
 
 const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const { theme } = useTheme();
+	const [menuOpen, setMenuOpen] = useState(false);
+	const navigate = useNavigate();
+	const { theme } = useTheme();
 
-  const menuItems = ["Home", "Categories", "Courses", "Contact", "About"];
-  const authItems = [
-    { label: "Login", onClick: () => navigate("/login") },
-    { label: "Get Started", onClick: () => navigate("/signup") },
-  ];
+	const menuItems = [
+		{ label: "Home", onClick: () => navigate("/") },
+		{ label: "Categories", onClick: () => navigate("/categories") },
+		{ label: "Courses", onClick: () => navigate("/courses") },
+		{ label: "Contact", onClick: () => navigate("/contact") },
+		{ label: "About", onClick: () => navigate("/about") },
+	];
 
-  return (
-    <>
-      <nav
-        className={`p-5 shadow-md sticky top-0 z-10 ${
-          theme === "light" ? "bg-white" : "bg-gray-950"
-        }`}
-      >
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div
-            className={`flex items-center ${
-              theme === "light" ? "text-violet-700" : "text-white"
-            } cursor-pointer`}
-            onClick={() => navigate("/")}
-          >
-            <span className="font-extrabold text-3xl">EDU</span>
-            <TbBulb className="font-extrabold text-3xl mt-1" />
-            <span className="font-extrabold text-3xl">VERSE</span>
-          </div>
+	const authItems = [
+		{ label: "Login", onClick: () => navigate("/login") },
+		{ label: "Get Started", onClick: () => navigate("/signup") },
+	];
 
-          <div className="hidden md:flex items-center space-x-10">
-            {menuItems.map((item) => (
-              <a
-                key={item}
-                href="#"
-                className={`${
-                  theme === "light" ? "text-violet-700" : "text-white"
-                } hover:bg-violet-100 dark:hover:bg-gray-800 font-bold rounded-xl p-3`}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-          <ModeToggle />
-          <div className="hidden md:flex items-center space-x-4">
-            {authItems.map(({ label, onClick }) => (
-              <button
-                key={label}
-                className={`border border-violet-700 ${
-                  label === "Login"
-                    ? `${theme === "light" ? "text-violet-700" : "text-white"}`
-                    : "text-white bg-violet-700"
-                } text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800`}
-                onClick={onClick}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+	return (
+		<>
+			<nav
+				className={`p-5 shadow-md sticky top-0 z-10 ${
+					theme === "light" ? "bg-white" : "bg-gray-950"
+				}`}
+			>
+				<div className="flex items-center justify-between max-w-7xl mx-auto">
+					<div
+						className={`flex items-center ${
+							theme === "light" ? "text-violet-700" : "text-white"
+						} cursor-pointer`}
+						onClick={() => navigate("/")}
+					>
+						<span className="font-extrabold text-3xl">EDU</span>
+						<TbBulb className="font-extrabold text-3xl mt-1" />
+						<span className="font-extrabold text-3xl">VERSE</span>
+					</div>
 
-          <div
-            className={`md:hidden ${
-              theme === "light" ? "text-violet-700" : "text-white"
-            } hover:text-gray-300 cursor-pointer`}
-          >
-            <MenuRoundedIcon onClick={() => setMenuOpen(!menuOpen)} />
-          </div>
-        </div>
+					<div className="hidden md:flex items-center space-x-10">
+						{menuItems.map((item) => (
+							<a
+								key={item.label}
+								onClick={item.onClick}
+								className={`${
+									theme === "light" ? "text-violet-700" : "text-white"
+								} hover:bg-violet-100 dark:hover:bg-gray-800 font-bold rounded-xl p-3 cursor-pointer`}
+							>
+								{item.label}
+							</a>
+						))}
+					</div>
+					<ModeToggle />
+					<div className="hidden md:flex items-center space-x-4">
+						{authItems.map(({ label, onClick }) => (
+							<button
+								key={label}
+								className={`border border-violet-700 ${
+									label === "Login"
+										? `${theme === "light" ? "text-violet-700" : "text-white"}`
+										: "text-white bg-violet-700"
+								} text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800`}
+								onClick={onClick}
+							>
+								{label}
+							</button>
+						))}
+					</div>
 
-        <AnimatePresence>
-          {menuOpen && (
-            <>
-              <motion.div
-                className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setMenuOpen(false)}
-              />
+					<div
+						className={`md:hidden ${
+							theme === "light" ? "text-violet-700" : "text-white"
+						} hover:text-gray-300 cursor-pointer`}
+					>
+						<MenuRoundedIcon onClick={() => setMenuOpen(!menuOpen)} />
+					</div>
+				</div>
 
-              <motion.div
-                className={`absolute top-0 w-[70%] h-screen right-0 ${
-                  theme === "light" ? "bg-white" : "bg-gray-900"
-                } shadow-md`}
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              >
-                <div className="p-3 flex justify-end">
-                  <ClearIcon
-                    className="cursor-pointer"
-                    onClick={() => setMenuOpen(false)}
-                  />
-                </div>
-                <ul className="flex flex-col space-y-4 p-5">
-                  {menuItems.map((item) => (
-                    <li
-                      key={item}
-                      className={`py-2 px-4 border-b ${
-                        theme === "light"
-                          ? "hover:bg-violet-100"
-                          : "hover:bg-gray-800"
-                      } rounded-md font-semibold`}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                  {authItems.map(({ label, onClick }) => (
-                    <li
-                      key={label}
-                      className={`py-2 px-4 border-b ${
-                        theme === "light"
-                          ? "hover:bg-violet-100"
-                          : "hover:bg-gray-800"
-                      } rounded-md font-semibold`}
-                      onClick={() => {
-                        setMenuOpen(false);
-                        onClick();
-                      }}
-                    >
-                      {label}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-      </nav>
-    </>
-  );
+				<AnimatePresence>
+					{menuOpen && (
+						<>
+							<motion.div
+								className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={{ duration: 0.3 }}
+								onClick={() => setMenuOpen(false)}
+							/>
+
+							<motion.div
+								className={`absolute top-0 w-[70%] h-screen right-0 ${
+									theme === "light" ? "bg-white" : "bg-gray-900"
+								} shadow-md`}
+								initial={{ x: "100%" }}
+								animate={{ x: 0 }}
+								exit={{ x: "100%" }}
+								transition={{ type: "spring", stiffness: 400, damping: 30 }}
+							>
+								<div className="p-3 flex justify-end">
+									<ClearIcon
+										className="cursor-pointer"
+										onClick={() => setMenuOpen(false)}
+									/>
+								</div>
+								<ul className="flex flex-col space-y-4 p-5">
+									{menuItems.map((item) => (
+										<li
+											key={item.label}
+											className={`py-2 px-4 border-b ${
+												theme === "light"
+													? "hover:bg-violet-100"
+													: "hover:bg-gray-800"
+											} rounded-md font-semibold cursor-pointer`}
+											onClick={() => {
+												setMenuOpen(false);
+												item.onClick();
+											}}
+										>
+											{item.label}
+										</li>
+									))}
+									{authItems.map(({ label, onClick }) => (
+										<li
+											key={label}
+											className={`py-2 px-4 border-b ${
+												theme === "light"
+													? "hover:bg-violet-100"
+													: "hover:bg-gray-800"
+											} rounded-md font-semibold cursor-pointer`}
+											onClick={() => {
+												setMenuOpen(false);
+												onClick();
+											}}
+										>
+											{label}
+										</li>
+									))}
+								</ul>
+							</motion.div>
+						</>
+					)}
+				</AnimatePresence>
+			</nav>
+		</>
+	);
 };
 
 export default Header;
