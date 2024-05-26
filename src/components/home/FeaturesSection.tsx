@@ -10,133 +10,88 @@ import { motion } from 'framer-motion';
 const FeaturesSection: React.FC = () => {
 	const { theme } = useTheme();
 
+	const motionSettings = (direction: number) => ({
+		initial: { opacity: 0, x: direction * 100 },
+		whileInView: { opacity: 1, x: 0 },
+		transition: { duration: 1, ease: "easeInOut", delay: 0.2 },
+		viewport: { once: true }
+	});
+
 	return (
 		<>
 			<div className="p-5">
 				<div className="flex flex-col items-center justify-center h-full mx-auto mb-12 max-w-7xl">
 					<h1 className={`text-4xl font-bold ${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>
-						Our Features
+						Our <span className='text-violet-700' > Features </span> 
 					</h1>
-					<p className={`font-base w-96 py-4 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
+					<p className={`font-base w-96 py-4 text-center ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
 						This is where you can add your feature description.
 					</p>
 				</div>
 
-				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center">
-					<motion.div
-						className="flex items-center w-full lg:w-1/2"
-						initial={{ opacity: 0, x: -100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
-						<img src={pic1} alt="" />
+				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+						<img src={pic1} alt="Feature 1" />
 					</motion.div>
-					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
-						initial={{ opacity: 0, x: 100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
 						<h1 className="text-violet-700 text-2xl font-bold">
-							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Tools </span>{" "}
-							For Teachers And Learners
+							<span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>Tools </span> For Teachers And Learners
 						</h1>
-						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
+						<p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'} text-justify font-normal w-96 p-4`}>
 							Class has a dynamic set of teaching tools built to be deployed and used during class. Teachers can handout assignments in real-time for students to complete and submit.
 						</p>
 					</motion.div>
 				</div>
 
-				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center">
-					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
-						initial={{ opacity: 0, x: 100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
+				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
 						<h1 className="text-violet-700 text-2xl font-bold">
-							Assessments,
-							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Quizzes </span>
-							Tests
+							Assessments, <span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>Quizzes </span> Tests
 						</h1>
-						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
+						<p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'} text-justify font-normal w-96 p-4`}>
 							Easily launch live assignments, quizzes, and tests. Student results are automatically entered in the online gradebook.
 						</p>
 					</motion.div>
-					<motion.div
-						className="flex items-center w-full lg:w-1/2"
-						initial={{ opacity: 0, x: -100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
-						<img src={pic2} alt="" />
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+						<img src={pic2} alt="Feature 2" />
 					</motion.div>
 				</div>
 
-				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center">
-					<motion.div
-						className="flex items-center w-full lg:w-1/2"
-						initial={{ opacity: 0, x: -100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
-						<img src={pic3} alt="" />
+				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+						<img src={pic3} alt="Feature 3" />
 					</motion.div>
-					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
-						initial={{ opacity: 0, x: 100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
 						<h1 className="text-violet-700 text-2xl font-bold">
-							Class Management{" "}
-							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>Tools for Educators </span>
+							Class Management <span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>Tools for Educators </span>
 						</h1>
-						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
+						<p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'} text-justify font-normal w-96 p-4`}>
 							Class provides tools to help run and manage the class such as Class Roster, Attendance, and more. With the Gradebook, teachers can review and grade tests and quizzes in real-time.
 						</p>
 					</motion.div>
 				</div>
 
-				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center">
-					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
-						initial={{ opacity: 0, x: 100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
+				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
 						<h1 className="text-violet-700 text-2xl font-bold">
-							{" "}
-							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>One-on-One </span>
-							Discussions{" "}
+							<span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>One-on-One </span> Discussions
 						</h1>
-						<p className={`${theme == 'light' ? 'text-gray-600' : 'text-gray-400 '} text-justify font-normal w-96 p-4`}>
+						<p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'} text-justify font-normal w-96 p-4`}>
 							Class provides tools to help run and manage the class such as Class Roster, Attendance, and more. With the Gradebook, teachers can review and grade tests and quizzes in real-time.
 						</p>
 					</motion.div>
-					<motion.div
-						className="flex items-center w-full lg:w-1/2"
-						initial={{ opacity: 0, x: -100 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-					>
-						<img src={pic4} alt="" />
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+						<img src={pic4} alt="Feature 4" />
 					</motion.div>
 				</div>
 
-				<div className={`flex flex-col max-w-7xl mx-auto lg:flex-row justify-center items-center ${theme == 'light' ? 'bg-gray-100' : 'bg-gray-900'} rounded-xl p-5`}>
-					<div
-						className="w-full lg:w-1/2"
-					>
-						<img src={pic5} alt="" />
+				<div className={`flex flex-col max-w-7xl mx-auto lg:flex-row justify-center items-center ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900'} rounded-xl p-5`}>
+					<div className="w-full lg:w-1/2" >
+						<img src={pic5} alt="Feature 5" />
 					</div>
-					<div
-						className="w-full lg:w-1/2"
-					>
+					<div className="w-full lg:w-1/2" >
 						<h1 className="text-2xl font-bold text-violet-700 text-center">
-							Join{" "}
-							<span className={` ${theme == 'light' ? 'text-blue-950' : 'text-white'}  `}>World's Largest </span>
-							learning platform today
+							Join <span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>World's Largest </span> learning platform today
 						</h1>
 						<p className="mt-5 text-center">
 							Start learning by registering for free

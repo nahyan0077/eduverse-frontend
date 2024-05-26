@@ -1,5 +1,5 @@
 import StudentForm from "@/components/form/StudentForm";
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 
 const StudentRegisterForm: React.FC = () => {
 	return (

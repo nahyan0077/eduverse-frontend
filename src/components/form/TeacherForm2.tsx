@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { SignupFormData } from "@/types/IForms";
 import { signupAction } from "@/redux/store/actions/auth";
-import LoadingPopUp from "../common/LoadingPopUp";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 // import { useNavigate } from "react-router-dom";
 
 const TeacherForm2: React.FC = () => {

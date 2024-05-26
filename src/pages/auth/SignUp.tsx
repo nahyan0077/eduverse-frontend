@@ -1,7 +1,7 @@
 import login from "@/assets/auth/signups.png";
 import { GoogleLogin } from "@react-oauth/google";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 import { Form, Formik } from "formik";
 import InputField from "@/components/auth/InputField";
 import { signupSchema } from "@/validationSchemas/signupSchema";

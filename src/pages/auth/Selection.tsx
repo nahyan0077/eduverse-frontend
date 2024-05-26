@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { LazyMotion, domAnimation, m } from "framer-motion";
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 
 // Importing images normally
 import student from "@/assets/auth/students.png";

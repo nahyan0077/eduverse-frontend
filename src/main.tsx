@@ -9,7 +9,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const clientId = String(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
-console.log(clientId,"heee");
+
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

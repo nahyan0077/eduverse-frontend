@@ -14,6 +14,7 @@ import {  useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/store";
 import { useEffect } from "react";
 import VerificationPage from "./pages/Instructor/VerificationPage";
+import AdminHome from "./pages/admin/AdminHome";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
 					<Route path='/teacher-form2' element={ <TeacherRegisterForm2/> } />
 					<Route path='/otp' element={ <OtpPage/> } />
 					<Route path='/verification-page' element={ <VerificationPage/> } />
+					<Route path='/admin' element={ <AdminHome/> } />
 				</Routes>
 			</Router>
 		</>

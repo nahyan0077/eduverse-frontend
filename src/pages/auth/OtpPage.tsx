@@ -1,7 +1,7 @@
 import React from "react";
 import { OtpHeroSection } from "@/components/auth/OtpHeroSection";
 import { OtpSection } from "@/components/auth/OtpSection";
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 import { motion } from 'framer-motion';
 
 const OtpPage: React.FC = () => {

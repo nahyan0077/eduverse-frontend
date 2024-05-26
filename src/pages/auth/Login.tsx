@@ -1,6 +1,6 @@
 import login from "@/assets/auth/loginss.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 import InputField from "@/components/auth/InputField";
 import { Form, Formik } from "formik";
 import { loginSchema } from "@/validationSchemas/loginSchema";

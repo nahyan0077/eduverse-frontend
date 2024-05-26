@@ -1,5 +1,5 @@
 import TeacherForm from "@/components/form/TeacherForm";
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 
 const TeacherRegisterForm: React.FC = () => {
 	return (

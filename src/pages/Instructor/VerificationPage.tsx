@@ -1,4 +1,4 @@
-import Header from "@/components/home/Header";
+import Header from "@/components/common/users/Header";
 import { useTheme } from "@/components/ui/theme-provider";
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";

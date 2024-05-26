@@ -3,13 +3,14 @@ import heroImage from "@/assets/home/hero_image_bg.png";
 import heroImageDark from "@/assets/home/home_drk.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../ui/theme-provider";
-
 const HeroSection: React.FC = () => {
 	const navigate = useNavigate();
 	const { theme } = useTheme();
 
 	return (
-		<div className="text-violet-700 py-7 px-4 sm:px-6 lg:px-8">
+		<div 
+			className="text-violet-700 py-7 px-4 sm:px-6 lg:px-8  " 
+		>
 			<div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
 				<div className="flex flex-col items-center lg:w-1/2 lg:pr-10">
 					<AnimatePresence>
@@ -35,7 +36,7 @@ const HeroSection: React.FC = () => {
 						</motion.h1>
 						<motion.p
 							key="paragraph1"
-							className={`text-lg sm:text-xl md:text-2xl ${theme === 'light' ? 'text-violet-700' : 'text-gray-300'}`}
+							className={`text-lg sm:text-xl md:text-xl ${theme === 'light' ? 'text-violet-700' : 'text-gray-300'}`}
 							initial={{ opacity: 0, y: -20 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -20 }}
@@ -45,7 +46,7 @@ const HeroSection: React.FC = () => {
 						</motion.p>
 						<motion.p
 							key="paragraph2"
-							className={`text-lg sm:text-xl md:text-2xl ${theme === 'light' ? 'text-violet-700' : 'text-gray-300'} mb-8`}
+							className={`text-lg sm:text-xl md:text-xl ${theme === 'light' ? 'text-violet-700' : 'text-gray-300'} mb-8`}
 							initial={{ opacity: 0, y: -20 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -20 }}

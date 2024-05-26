@@ -1,6 +1,6 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaRegCopyright } from 'react-icons/fa';
 import { TbBulb } from "react-icons/tb";
-import { useTheme } from '../ui/theme-provider';
+import { useTheme } from '../../ui/theme-provider';
 
 const Footer: React.FC = () => {
 	const { theme } = useTheme();

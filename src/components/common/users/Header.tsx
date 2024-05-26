@@ -4,8 +4,8 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useNavigate } from "react-router-dom";
-import { ModeToggle } from "../ui/mode-toggle";
-import { useTheme } from "../ui/theme-provider";
+import { ModeToggle } from "../../ui/mode-toggle";
+import { useTheme } from "../../ui/theme-provider";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -57,7 +57,6 @@ const Header: React.FC = () => {
 							</a>
 						))}
 					</div>
-					<ModeToggle />
 					<div className="hidden md:flex items-center space-x-4">
 						{authItems.map(({ label, onClick }) => (
 							<button
@@ -73,6 +72,7 @@ const Header: React.FC = () => {
 							</button>
 						))}
 					</div>
+					<ModeToggle />
 
 					<div
 						className={`md:hidden ${
@@ -87,7 +87,7 @@ const Header: React.FC = () => {
 					{menuOpen && (
 						<>
 							<motion.div
-								className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50"
+								className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50 z-20"
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 								exit={{ opacity: 0 }}
@@ -96,9 +96,9 @@ const Header: React.FC = () => {
 							/>
 
 							<motion.div
-								className={`absolute top-0 w-[70%] h-screen right-0 ${
+								className={`fixed top-0 w-[70%] h-full right-0 ${
 									theme === "light" ? "bg-white" : "bg-gray-900"
-								} shadow-md`}
+								} shadow-md z-30`}
 								initial={{ x: "100%" }}
 								animate={{ x: 0 }}
 								exit={{ x: "100%" }}
@@ -110,7 +110,7 @@ const Header: React.FC = () => {
 										onClick={() => setMenuOpen(false)}
 									/>
 								</div>
-								<ul className="flex flex-col space-y-4 p-5">
+								<ul className="flex flex-col space-y-4 p-5 overflow-y-auto h-[calc(100vh-56px)]">
 									{menuItems.map((item) => (
 										<li
 											key={item.label}

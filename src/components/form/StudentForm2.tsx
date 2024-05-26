@@ -10,7 +10,7 @@ import { signupAction } from "@/redux/store/actions/auth";
 import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
-import LoadingPopUp from "../common/LoadingPopUp";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 
 
 
