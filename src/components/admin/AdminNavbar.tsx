@@ -10,7 +10,7 @@ const AdminNavbar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
+      
   };
 
   return (

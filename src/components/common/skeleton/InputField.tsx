@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, ErrorMessage} from 'formik'
-import { useTheme } from '../ui/theme-provider'
+import { useTheme } from '../../ui/theme-provider'
 
 interface inputFieldProps {
     type: string,

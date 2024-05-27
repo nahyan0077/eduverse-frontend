@@ -1,4 +1,14 @@
+import { useEffect } from "react";
+
 export const AdminInstructors: React.FC = () => {
+
+    useEffect(() => {
+      
+    
+
+    }, [])
+    
+
 	return (
 		<>
 			<div className="overflow-x-auto max-w-full mx-auto p-8">

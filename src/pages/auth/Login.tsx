@@ -1,7 +1,7 @@
 import login from "@/assets/auth/loginss.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/common/users/Header";
-import InputField from "@/components/auth/InputField";
+import InputField from "@/components/common/skeleton/InputField";
 import { Form, Formik } from "formik";
 import { loginSchema } from "@/validationSchemas/loginSchema";
 import PasswordField from "@/components/auth/PasswordField";
@@ -43,7 +43,7 @@ const Login: React.FC = () => {
 
 		console.log("login approval", result);
 
-		if (!result.payload.success) {
+		if ( !result.payload || !result.payload.success) {
 			toast.error("Email or Password doesnt match", {
 				position: "top-center",
 				autoClose: 4000,
@@ -60,9 +60,11 @@ const Login: React.FC = () => {
 			if (result.payload.data.role == "instructor") {
 				
 				navigate("/verification-page");
-			}else{
-				console.log('this is student');
+			}else if (result.payload.data.role == "student"){
+				navigate("/");
 				
+			}else{
+				navigate("/admin");
 			}
 
 		}
@@ -156,6 +158,7 @@ const Login: React.FC = () => {
 							</Formik>
 
 							<div className="flex justify-between">
+								{role == "" ?
 								<p
 									className="text-center text-sm hover:cursor-pointer ml-2"
 									onClick={() => navigate("/selection", { state: location.state })}
@@ -163,6 +166,15 @@ const Login: React.FC = () => {
 									Don't have an account?{" "}
 									<span className="text-violet-700 font-bold">Get Started</span>
 								</p>
+								:
+								<p
+								className="text-center text-sm hover:cursor-pointer ml-2"
+								onClick={() => navigate("/signup", { state: location.state })}
+							>
+								Don't have an account?{" "}
+								<span className="text-violet-700 font-bold">Signup</span>
+							</p>
+							}
 								<div className="text-violet-500 text-sm font-bold">
 									Forgot Password?
 								</div>

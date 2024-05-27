@@ -15,6 +15,7 @@ import { RootState } from "./redux/store";
 import { useEffect } from "react";
 import VerificationPage from "./pages/Instructor/VerificationPage";
 import AdminHome from "./pages/admin/AdminHome";
+import { ForgotPassword } from "./pages/auth/ForgotPasswordPage";
 
 function App() {
 
@@ -42,10 +43,12 @@ function App() {
 					<Route path='/otp' element={ <OtpPage/> } />
 					<Route path='/verification-page' element={ <VerificationPage/> } />
 					<Route path='/admin' element={ <AdminHome/> } />
+					<Route path="/forgot-password" element={ <ForgotPassword/> } />
 				</Routes>
 			</Router>
 		</>
 	);
 }
+
 
 export default App;

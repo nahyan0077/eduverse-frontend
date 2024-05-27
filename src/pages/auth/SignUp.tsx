@@ -3,7 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/common/users/Header";
 import { Form, Formik } from "formik";
-import InputField from "@/components/auth/InputField";
+import InputField from "@/components/common/skeleton/InputField";
 import { signupSchema } from "@/validationSchemas/signupSchema";
 import PasswordField from "@/components/auth/PasswordField";
 import { findEmailAction, findUsernameAction, googleAuthAction } from "@/redux/store/actions/auth";

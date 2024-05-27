@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "@/components/auth/InputField";
+import InputField from "@/components/common/skeleton/InputField";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
