@@ -11,7 +11,7 @@ import { SignupFormData } from "@/types/IForms";
 // import { useAppDispatch } from "@/hooks/hooks";
 // import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
-import { sendVerificationMail } from "@/redux/store/actions/auth";
+import { sendVerificationMail, signupAction } from "@/redux/store/actions/auth";
 import { useAppDispatch } from "@/hooks/hooks";
 import { ISendEmail } from "@/types/ISendEmail";
 
@@ -68,7 +68,11 @@ const StudentForm2: React.FC = () => {
 			navigate('/otp',{state:allData})
 
 		}else{
-			console.log("its gAuth");
+			console.log("its gAuth",allData);
+
+			const response: any = await dispatch(signupAction(allData))
+			console.log("signup final ress",response);
+
 			if (allData.role == 'student') {
 				navigate('/')
 			}else{

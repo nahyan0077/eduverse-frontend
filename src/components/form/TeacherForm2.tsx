@@ -58,9 +58,11 @@ const TeacherForm2: React.FC = () => {
 
 		setLoading(false)
 
-		if(!response.payload.data.isGAuth){
+		if(!allData.isGAuth){
+			setLoading(true)
 			const response1 = await dispatch(sendVerificationMail(location.state.email))
 			console.log(response1,"noteif mail");
+			setLoading(false)
 			navigate('/otp',{state: allData})
 		}else{
 			navigate('/verification-page')
