@@ -20,7 +20,7 @@ const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const initialValues = {
-        username: "",
+        userName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -35,7 +35,7 @@ const SignUp: React.FC = () => {
         setTakenUsername(false);
 
         try {
-            const result1: any = await dispatch(findUsernameAction(data.username));
+            const result1: any = await dispatch(findUsernameAction(data.userName));
             if (!result1?.payload?.success) {
                 setTakenUsername(true);
                 setTimeout(() => {
@@ -58,6 +58,9 @@ const SignUp: React.FC = () => {
                 role: location.state.role,
                 isGAuth: false
             };
+
+            console.log("nwe check",allData);
+            
 
             if (location.state.role === "student") {
                 navigate("/student-form", { state: allData });
@@ -84,9 +87,12 @@ const SignUp: React.FC = () => {
                 role: location.state.role,
                 email: response.payload.data.email,
                 password: response.payload.data.password,
-                username: (response.payload.data.email.split("@")[0]).toLowerCase(),
+                userName: (response.payload.data.email.split("@")[0]).toLowerCase(),
                 isGAuth: true
             };
+
+            console.log("signup 1",allData);
+            
 
             if (location.state.role === "student") {
                 navigate("/student-form", { state: allData });
@@ -154,7 +160,7 @@ const SignUp: React.FC = () => {
                             >
                                 {({ isSubmitting }) => (
                                     <Form className="flex flex-col gap-3 m-2">
-                                        <InputField name="username" type="text" placeholder="Username" />
+                                        <InputField name="userName" type="text" placeholder="Username" />
                                         <InputField name="email" type="email" placeholder="Email" />
                                         <PasswordField name="password" placeholder="Password" />
                                         <PasswordField name="confirmPassword" placeholder="Confirm Password" />

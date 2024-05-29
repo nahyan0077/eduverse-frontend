@@ -6,11 +6,14 @@ import { useTheme } from "../ui/theme-provider";
 // import { useNavigate } from "react-router-dom";
 import {useLocation, useNavigate} from 'react-router-dom'
 import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
-import { signupAction } from "@/redux/store/actions/auth";
+// import { signupAction } from "@/redux/store/actions/auth";
 import { SignupFormData } from "@/types/IForms";
-import { useAppDispatch } from "@/hooks/hooks";
-import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
+// import { useAppDispatch } from "@/hooks/hooks";
+// import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
+import { sendVerificationMail } from "@/redux/store/actions/auth";
+import { useAppDispatch } from "@/hooks/hooks";
+import { ISendEmail } from "@/types/ISendEmail";
 
 
 
@@ -18,12 +21,12 @@ const StudentForm2: React.FC = () => {
 	const { theme } = useTheme();
 	// const navigate = useNavigate()
 	const location = useLocation()
-	const firstFormData = location.state || {}
 
 	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
+
 	const [isLoading,setLoading] = useState(false)
 
-	console.log(firstFormData,"first form data...");
 	
 	const initialValues = {
 		address: "",
@@ -33,31 +36,44 @@ const StudentForm2: React.FC = () => {
         social: ""
 	};
 
-	const dispatch = useAppDispatch();
+	console.log(location.state,"form1 student");
+	
+
 
 	const handleSubmit = async (value: any) => {
 
-		setLoading(true)
-		
 		console.log(value,"studenr form2 data");
 		const allData: SignupFormData  = {
-			...value,
-			...location.state
+			...location.state,
+			contact:{
+				...location.state.contact,
+				address: value.address,
+				social: value.social
+			},
+			qualification: value.qualification,
+			profession: value.profession,
+			profile: {
+				...location.state.profile,
+				dateOfBirth: value.dateOfBirth,
+			},
 		}
 		console.log(allData,"final student all data");
 
-		const response: any = await dispatch(signupAction(allData ))
-		console.log("signup final ress",response);
-		
-		setLoading(false)
-		
-		if(!response.payload.data.isGAuth){
-			const response1 = await dispatch(sendVerificationMail())
+		if(!allData.isGAuth){
+			setLoading(true)
+
+			const response1 = await dispatch(sendVerificationMail(location.state.email))
 			console.log(response1,"noteif mail");
-			navigate('/otp')
+			setLoading(false)
+			navigate('/otp',{state:allData})
+
 		}else{
 			console.log("its gAuth");
-			
+			if (allData.role == 'student') {
+				navigate('/')
+			}else{
+				navigate('/verification-page')
+			}
 		}
 		
 	};

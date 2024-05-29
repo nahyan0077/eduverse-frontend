@@ -23,7 +23,7 @@ const SelectionPage: React.FC = () => {
 						>
 							<img className="max-w-xs" src={student} alt="Student" loading="lazy" />
 							<button
-								onClick={() => navigate('/login', { state: { role: "student" } })}
+								onClick={() => navigate('/signup', { state: { role: "student" } })}
 								className="btn bg-violet-700 rounded-3xl text-white hover:bg-white hover:text-violet-700 shadow-[5px_5px_0px_0px_#805AD5] mt-4"
 							>
 								Enroll as Student
@@ -43,7 +43,7 @@ const SelectionPage: React.FC = () => {
 						>
 							<img className="max-w-xs" src={teacher} alt="Teacher" loading="lazy" />
 							<button
-								onClick={() => navigate('/login', { state: { role: "instructor" } })}
+								onClick={() => navigate('/signup', { state: { role: "instructor" } })}
 								className="btn bg-white rounded-3xl mt-7 text-violet-700 hover:bg-violet-500 hover:text-white shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
 							>
 								Enroll as Instructor

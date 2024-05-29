@@ -34,10 +34,22 @@ const TeacherForm2: React.FC = () => {
 
 		setLoading(true)
 
-		const allData: SignupFormData = {
-			...value,
-			...location.state
+		const allData: SignupFormData  = {
+			...location.state,
+			contact:{
+				...location.state.contact,
+				address: value.address,
+				social: value.social
+			},
+			qualification: value.qualification,
+			profession: value.profession,
+			profile: {
+				...location.state.profile,
+				dateOfBirth: value.dateOfBirth,
+			},
+			cv: value.cv,
 		}
+
 		console.log(allData,"texher form last all data");
 		
 
@@ -47,9 +59,9 @@ const TeacherForm2: React.FC = () => {
 		setLoading(false)
 
 		if(!response.payload.data.isGAuth){
-			const response1 = await dispatch(sendVerificationMail())
+			const response1 = await dispatch(sendVerificationMail(location.state.email))
 			console.log(response1,"noteif mail");
-			navigate('/otp')
+			navigate('/otp',{state: allData})
 		}else{
 			navigate('/verification-page')
 			

@@ -7,6 +7,7 @@ import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useLocation, useNavigate } from "react-router-dom";
 import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
+import { SignupFormData } from "@/types/IForms";
 
 
 
@@ -27,13 +28,17 @@ const TeacherForm: React.FC = () => {
 	const handleSubmit = (value: any) => {
 		console.log(value);
 
-		let allData = {
+		let allData: SignupFormData = {
 			...location.state,
 			firstName: value.firstName,
 			lastName: value.lastName,
-			gender: value.gender,
-			phone: value.phone
-		}
+			profile:{
+				gender: value.gender,
+			},
+			contact: {
+				phone: value.phone,
+			}
+		};
 		console.log(allData,"all data teacher form");
 		
 
@@ -78,7 +83,7 @@ const TeacherForm: React.FC = () => {
 											name="userName"
 											placeholder="user name"
 											type="text"
-											value={location.state.username}
+											value={location.state.userName}
 										/>
 									</div>
 								</div>

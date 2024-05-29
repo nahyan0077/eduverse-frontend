@@ -24,6 +24,8 @@ function App() {
 	useEffect(() => {
 	  console.log("User Data:", userData);
 	}, [userData]);
+
+	const userRole = 'student' || 'teacher' || 'admin'
 	
 
 	

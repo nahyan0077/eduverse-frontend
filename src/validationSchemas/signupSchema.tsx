@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 export const signupSchema = Yup.object({
-	username: Yup.string()
+	userName: Yup.string()
 		.required("Username is required")
 		.matches(/^\S*$/, "Username must not contain spaces"),
 	email: Yup.string()

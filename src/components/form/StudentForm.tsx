@@ -22,16 +22,21 @@ const StudentForm: React.FC = () => {
 		phone: "",
 		gender: "",
 	};
-
+	console.log(location.state, "location");
+	
 	const handleSubmit = (value: any) => {
 		console.log(value, "student form data");
-
+		
 		let allData: SignupFormData = {
 			...location.state,
 			firstName: value.firstName,
 			lastName: value.lastName,
-			gender: value.gender,
-			phone: value.phone,
+			profile:{
+				gender: value.gender,
+			},
+			contact: {
+				phone: value.phone,
+			}
 		};
 		console.log(allData, "all data student form");
 
@@ -89,7 +94,7 @@ const StudentForm: React.FC = () => {
 										name="userName"
 										placeholder="User Name"
 										type="text"
-										value={location.state?.username || ""}
+										value={location.state?.userName || ""}
 									/>
 								</div>
 							</div>

@@ -7,6 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { motion } from 'framer-motion';
+import { useLocation, useNavigate } from "react-router-dom";
+import { SignupFormData } from "@/types/IForms";
+import { signupAction } from "@/redux/store/actions/auth";
 
 interface OtpInputProps {
     length?: number;
@@ -27,6 +30,9 @@ export const OtpSection: React.FC<OtpInputProps> = ({
     const { theme } = useTheme();
     const dispatch = useAppDispatch();
     const [otpError, setOtpError] = useState(false);
+    const location = useLocation()
+    const navigate = useNavigate()
+    const [isLoading,setLoading] = useState(false)
 
     useEffect(() => {
         inputRefs.current[0]?.focus();
@@ -43,7 +49,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
     }, [timeLeft]);
 
     const startTimer = () => {
-        setTimeLeft(60);
+        setTimeLeft(6);
         setCanResend(false);
     };
 
@@ -69,23 +75,43 @@ export const OtpSection: React.FC<OtpInputProps> = ({
             inputRefs.current[index - 1]?.focus();
         }
     };
-
+    
     const handleSubmit = async () => {
+        setLoading(true)
         if (isComplete) {
             const submittedOtp = otp.join("");
             console.log(submittedOtp, "otp --- ottt");
 
-            const response = await dispatch(verifyOtpAction({ otp: submittedOtp }));
+            const response = await dispatch(verifyOtpAction({ otp: submittedOtp, email: location.state.email }));
 
             console.log("otp submit response", response);
 
             if (!response.payload.success) {
+                setLoading(false)
                 setOtpError(true);
                 setTimeout(() => {
                     setOtpError(false);
                 }, 4000);
             } else {
-                console.log("otp verified");
+
+
+                const allData: SignupFormData = location.state
+
+                const response: any = await dispatch(signupAction(allData ))
+                console.log("signup final ress",response);
+                
+                setLoading(false)
+                
+                console.log("otp verified",location.state);
+    
+                    
+                if (location.state.role == 'student') {
+                    navigate('/')
+                }else{
+                    navigate('/verification-page')
+                }
+         
+
             }
 
             onOtpSubmit(submittedOtp);
@@ -94,6 +120,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
             inputRefs.current[0]?.focus();
         }
     };
+    
 
     const handleResend = async () => {
         startTimer();
@@ -110,7 +137,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
             theme: "dark",
         });
 
-        const response = await dispatch(sendVerificationMail());
+        const response = await dispatch(sendVerificationMail(location.state.email));
 
         console.log("resend otp response", response);
     };

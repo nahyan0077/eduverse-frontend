@@ -2,9 +2,13 @@ import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const sendVerificationMail = createAsyncThunk (
-    "user/sendVerificationMail", async (_,{rejectWithValue}) => {
+    "user/sendVerificationMail", async (email: string,{rejectWithValue}) => {
         try {
-            const response = await CLIENT_API.get("/api/notification/email-verification",{withCredentials: true})
+
+            console.log(email,"otp data");
+            
+
+            const response = await CLIENT_API.post("/api/notification/email-verification",{email: email},{withCredentials: true})
 
             if (response.data.success) {
 				return response.data;

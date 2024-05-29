@@ -1,20 +1,49 @@
+enum Role {
+    pending='pending',
+    student='student',
+    teacher='instructor',
+    admin='admin'
+}
+
+enum Gender {
+    male = 'male',
+    female = 'female',
+    other = 'other'
+}
+
+enum Profession {
+    student = 'student',
+    working = 'working'
+}
+
+interface Contact {
+    phone?: string,
+    social?: string,
+    address?: string
+}
+
+interface Profile {
+    avatar?: string,
+    dateOfBirth?: string,
+    gender?: Gender
+}
+
+
+
 export interface SignupFormData {
-    username?: string,
     email?: string,
     password?: string,
     confirmPassword?: string
     firstName?: string,
     lastName?: string,
     userName?: string,
-    phone?: string,
-    gender?: string,
-    address?: string,
-    dateOfBirth?: string,
-    profession?: string,
+    profile?: Profile,
+    contact?: Contact,
+    profession?: Profession,
     qualification?: string,
-    social?: string,
-    role?: string,
-    isGAuth: boolean
+    role?: Role,
+    isGAuth?: boolean,
+    cv?:string
 }
 
 export interface LoginFormData {
