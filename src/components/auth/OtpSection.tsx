@@ -101,16 +101,31 @@ export const OtpSection: React.FC<OtpInputProps> = ({
                 console.log("signup final ress",response);
                 
                 setLoading(false)
-                
-                console.log("otp verified",location.state);
-    
-                    
-                if (location.state.role == 'student') {
-                    navigate('/')
+
+                if(!response.error && response.payload.success){
+
+                    console.log("otp verified",location.state);
+        
+                        
+                    if (location.state.role == 'student') {
+                        navigate('/')
+                    }else{
+                        navigate('/verification-page')
+                    }
+             
                 }else{
-                    navigate('/verification-page')
+                    toast.error('error occurred', {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
                 }
-         
+                
 
             }
 

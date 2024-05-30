@@ -25,7 +25,7 @@ function App() {
 	  console.log("User Data:", userData);
 	}, [userData]);
 
-	const userRole = 'student' || 'teacher' || 'admin'
+	// const userRole = 'student' || 'teacher' || 'admin'
 	
 
 	
@@ -34,6 +34,9 @@ function App() {
 		<>
 			<Router>
 				<Routes>
+                    <Route path="" />
+
+
 					<Route path="/" element={<Home />} />
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/login" element={<Login />} />

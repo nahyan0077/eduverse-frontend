@@ -83,7 +83,7 @@ const Login: React.FC = () => {
 				role: location.state.role,
 				email: response.payload.data.email,
 				password: response.payload.data.password,
-				username: response.payload.data.email.split("@")[0].toLowerCase(),
+				userName: response.payload.data.email.split("@")[0].toLowerCase(),
 				isGAuth: true,
 			};
 
