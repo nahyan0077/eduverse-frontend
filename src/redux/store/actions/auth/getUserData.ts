@@ -7,7 +7,7 @@ export const getUserData = createAsyncThunk(
     "user/getUserData", async (_ , {rejectWithValue} ) => {
 
         try {
-            const response = await CLIENT_API.get('/api/auth/',config)
+            const response = await CLIENT_API.get('/api/auth/getUser',config)
             
             console.log(response,"get users");
             

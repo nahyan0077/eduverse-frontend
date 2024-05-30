@@ -113,17 +113,3 @@ input[type=date]::-webkit-datetime-edit-year-field {
   display: none;
 } */
 
-/* main.css */
-@import 'primereact/resources/themes/lara-light-indigo/theme.css';
-@import 'primereact/resources/primereact.min.css';
-@import 'primeicons/primeicons.css';
-
-
-/* styles.css */
-:root {
-  --confirm-dialog-bg: #ffffff;
-  --confirm-dialog-message-color: #333333;
-  --confirm-dialog-icon-color: #e67e22;
-  --confirm-dialog-button-bg: #3498db;
-  --confirm-dialog-button-color: #ffffff;
-}

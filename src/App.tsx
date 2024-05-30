@@ -10,20 +10,25 @@ import StudentRegisterForm2 from "./pages/student/StudentRegisterForm2";
 import TeacherRegisterForm from "./pages/Instructor/TeacherRegisterForm";
 import TeacherRegisterForm2 from "./pages/Instructor/TeacherRegisterForm2";
 import OtpPage from "./pages/auth/OtpPage";
-import {  useAppSelector } from "./hooks/hooks";
+import {  useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/store";
 import { useEffect } from "react";
 import VerificationPage from "./pages/Instructor/VerificationPage";
 import AdminHome from "./pages/admin/AdminHome";
 import { ForgotPassword } from "./pages/auth/ForgotPasswordPage";
+import { getUserData } from "./redux/store/actions/auth";
 
 function App() {
 
-	const userData = useAppSelector((state: RootState) => state.user );
+	const {data} = useAppSelector((state: RootState) => state.user );
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-	  console.log("User Data:", userData);
-	}, [userData]);
+		if(!data){
+			dispatch(getUserData())
+		}
+	  console.log("User Data:", data);
+	}, [dispatch,data]);
 
 	// const userRole = 'student' || 'teacher' || 'admin'
 	
@@ -37,6 +42,8 @@ function App() {
 
 
 
+					{/* authentication pages */}
+
 					<Route path="/" element={<Home />} />
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/login" element={<Login />} />
@@ -46,8 +53,13 @@ function App() {
 					<Route path='/teacher-form' element={ <TeacherRegisterForm/> } />
 					<Route path='/teacher-form2' element={ <TeacherRegisterForm2/> } />
 					<Route path='/otp' element={ <OtpPage/> } />
+
+
+
 					<Route path='/verification-page' element={ <VerificationPage/> } />
 					<Route path='/admin' element={ <AdminHome/> } />
+
+
 					<Route path="/forgot-password" element={ <ForgotPassword/> } />
 				</Routes>
 			</Router>
