@@ -7,6 +7,9 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store/index.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+
+
+
 const clientId = String(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
 

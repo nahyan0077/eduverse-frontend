@@ -10,17 +10,20 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import PersonIcon from "@mui/icons-material/Person";
 import { SignupFormData } from "@/types/IForms";
+import { useAppDispatch } from "@/hooks/hooks";
+import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
+import ConfirmModal from "../modal/ConfirmModal";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
-
+	const dispatch = useAppDispatch();
+	const [isModalVisible, setModalVisible] = useState(false);
 	const userData = useSelector((state: RootState) => state.user);
 
 	const isAuthenticated = userData.data !== null && userData.data !== undefined;
 
-	// Use type assertion to inform TypeScript about the type of userData.data
 	const userName = isAuthenticated
 		? (userData.data as SignupFormData).userName
 		: "";
@@ -43,8 +46,34 @@ const Header: React.FC = () => {
 				{ label: "Login", onClick: () => navigate("/login") },
 				{ label: "Get Started", onClick: () => navigate("/selection") },
 		  ];
+
+	const handleDelete = async () => {
+		dispatch(logoutAction()).then(() => {
+			navigate("/");
+		});
+
+		console.log("Item deleted");
+		setModalVisible(false);
+	};
+
+	const handleCancel = () => {
+		console.log("Action cancelled");
+		setModalVisible(false);
+	};
+
+	const handleLogout = async () => {
+		setModalVisible(true);
+	};
+
 	return (
 		<>
+			{isModalVisible && (
+				<ConfirmModal
+					message="logout"
+					onConfirm={handleDelete}
+					onCancel={handleCancel}
+				/>
+			)}
 			<nav
 				className={`p-5 shadow-md sticky top-0 z-10 ${
 					theme === "light" ? "bg-white" : "bg-gray-950"
@@ -94,7 +123,7 @@ const Header: React.FC = () => {
 										<a>Profile</a>
 									</li>
 									<li>
-										<a>Logout</a>
+										<a onClick={handleLogout}>Logout</a>
 									</li>
 								</ul>
 							</div>

@@ -34,7 +34,7 @@ function App() {
 		<>
 			<Router>
 				<Routes>
-                    <Route path="" />
+
 
 
 					<Route path="/" element={<Home />} />

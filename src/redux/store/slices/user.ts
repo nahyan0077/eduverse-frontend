@@ -3,6 +3,7 @@ import { signupAction } from '../actions/auth/signupAction';
 import { verifyOtpAction } from '../actions/auth/verifyOtpAction';
 import { getUserData } from '../actions/auth';
 import {  SignupFormData } from '@/types/IForms';  // Import User and SignupFormData types
+import { logoutAction } from '../actions/auth/logoutAction';
 
 export interface UserState {
   loading: boolean;
@@ -76,7 +77,23 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || 'Fetching user data failed';
         state.data = null;
-      });
+      })
+
+      //logout action
+
+      .addCase(logoutAction.pending, (state: UserState) => {
+        state.loading = true
+      })      
+      .addCase(logoutAction.rejected, (state: UserState, action) => {
+        state.loading = false;
+        state.data = null;
+        state.error = action.error.message || 'Logout failed';
+      })
+      .addCase(logoutAction.fulfilled, (state: UserState) => {
+        state.loading = false
+        state.data = null
+        state.error = null
+      })
   },
 });
 
