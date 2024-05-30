@@ -6,6 +6,7 @@ import AdminSidebar from '../../components/admin/AdminSidebar';
 import AdminNavbar from '../../components/admin/AdminNavbar';
 import AdminDashboard from '../../components/admin/AdminDashBoard';
 import { AdminInstructors } from '../../components/admin/AdminInstructors'; 
+import AdminStudents from '@/components/admin/AdminStudents';
 // import { AdminStudents } from '@/components/admin/AdminStudents';
 
 const AdminHome: React.FC = () => {
@@ -36,7 +37,7 @@ const AdminHome: React.FC = () => {
           {/* Render components based on currentPage state */}
           {currentPage === 'dashboard' && <AdminDashboard />}
           {currentPage === 'instructors' && <AdminInstructors />}
-          {/* {currentPage === 'students' && <AdminStudents />} */}
+          {currentPage === 'students' && <AdminStudents />}
         </div>
       </div>
     </div>

@@ -3,9 +3,13 @@ import heroImage from "@/assets/home/hero_image_bg.png";
 import heroImageDark from "@/assets/home/home_drk.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../ui/theme-provider";
+import { useAppSelector } from "@/hooks/hooks";
+import { RootState } from "@/redux/store";
 const HeroSection: React.FC = () => {
 	const navigate = useNavigate();
 	const { theme } = useTheme();
+
+	const {data} = useAppSelector((state: RootState) => state.user)
 
 	return (
 		<div 
@@ -56,7 +60,9 @@ const HeroSection: React.FC = () => {
 						</motion.p>
 					</AnimatePresence>
 					<div className="flex items-center justify-center flex-wrap">
-						<motion.button
+
+						{!data &&
+							<motion.button
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 1 }}
 							onClick={() => navigate("/selection")}
@@ -67,6 +73,22 @@ const HeroSection: React.FC = () => {
 						>
 							Get Started
 						</motion.button>
+						}
+						{data &&
+							<motion.button
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 1 }}
+							onClick={() => navigate("/")}
+							className="bg-violet-700 text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, delay: 1 }}
+						>
+							Explore More
+						</motion.button>
+						}
+
+
 						<motion.button
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 1 }}

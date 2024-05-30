@@ -110,14 +110,14 @@ const Header: React.FC = () => {
 								<div
 									tabIndex={0}
 									role="button"
-									className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
+									className={`btn m-1 ${theme == 'light' ? 'text-violet-700 hover:bg-gray-200': 'hover:bg-gray-900' }    bg-transparent`}
 								>
 									<PersonIcon />
 									{userName?.toUpperCase()}
 								</div>
 								<ul
 									tabIndex={0}
-									className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
+									className={`dropdown-content z-[1] menu p-2 shadow ${theme == 'light' ? 'bg-gray-100': 'bg-gray-950' }   rounded-box w-52`}
 								>
 									<li>
 										<a>Profile</a>

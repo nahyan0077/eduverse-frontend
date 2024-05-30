@@ -1,38 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { ModeToggle } from "../ui/mode-toggle";
-import { IoMdPerson } from 'react-icons/io'; 
+import { IoMdPerson } from "react-icons/io";
+import ConfirmModal from "@/components/common/modal/ConfirmModal";
+import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
+import { useAppDispatch } from "@/hooks/hooks";
+import { useNavigate } from "react-router-dom";
 
 const AdminNavbar: React.FC = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	// const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [isModalVisible, setModalVisible] = useState(false);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(prevState => !prevState);
-  };
 
-  const handleLogout = () => {
-      
-  };
+	const handleDelete = async () => {
+		dispatch(logoutAction()).then(() => {
+			navigate("/");
+		});
 
-  return (
-    <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-4 lg:px-6 lg:py-3 z-10">
-      <div className="flex items-center">
+		console.log("Item deleted");
+		setModalVisible(false);
+	};
 
-            <span className='font-bold text-2xl pl-2' >Admin Panel</span>
-        {/* Add any additional navbar items here */}
-      </div>
-      <div className="flex items-center">
-        <ModeToggle />
-        <div className="flex items-center ml-4">
-          <IoMdPerson className="text-white cursor-pointer" onClick={toggleDropdown} />
-          {isDropdownOpen && (
-            <div className="absolute top-12 right-0 bg-white border border-gray-300 rounded shadow-lg p-2">
-              <button onClick={handleLogout} className="block w-full text-left text-gray-800 hover:bg-gray-200 py-1 px-2 rounded">Logout</button>
-            </div>
-          )}
-        </div>
-      </div>
-    </nav>
-  );
+	const handleCancel = () => {
+		console.log("Action cancelled");
+		setModalVisible(false);
+	};
+
+	const handleLogout = async () => {
+		setModalVisible(true);
+	};
+
+	return (
+		<nav className="flex items-center justify-between flex-wrap bg-gray-800 p-4 lg:px-6 lg:py-3 z-10">
+			{isModalVisible && (
+				<ConfirmModal
+					message="logout"
+					onConfirm={handleDelete}
+					onCancel={handleCancel}
+				/>
+			)}
+			<div className="flex items-center">
+				<span className="font-bold text-2xl pl-2">Admin Panel</span>
+				{/* Add any additional navbar items here */}
+			</div>
+			<div className="flex items-center space-x-7 ">
+				<div className="flex items-center ml-4">
+					<div className="hidden md:block dropdown dropdown-end">
+						<div
+							tabIndex={0}
+							role="button"
+							className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
+						>
+							<IoMdPerson className="text-xl"  />
+						</div>
+						<ul
+							tabIndex={0}
+							className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
+						>
+							<li>
+								<a>Profile</a>
+							</li>
+							<li>
+								<a onClick={handleLogout}>Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<ModeToggle />
+			</div>
+		</nav>
+	);
 };
 
 export default AdminNavbar;
