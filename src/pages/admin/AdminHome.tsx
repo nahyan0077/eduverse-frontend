@@ -1,45 +1,24 @@
-// AdminSidebar.tsx remains unchanged
-
-// AdminHome.tsx
+// src/pages/admin/AdminHome.tsx
 import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import AdminNavbar from '../../components/admin/AdminNavbar';
-import AdminDashboard from '../../components/admin/AdminDashBoard';
-import { AdminInstructors } from '../../components/admin/AdminInstructors'; 
-import AdminStudents from '@/components/admin/AdminStudents';
-import { AdminRequests } from '@/components/admin/AdminRequest';
-// import { AdminStudents } from '@/components/admin/AdminStudents';
 
 const AdminHome: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState('dashboard'); // Initialize currentPage state
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
-  const toggleSidebar = () => {
+  const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-
-
   return (
-    <div className="flex h-screen overflow-hidden">
-      <AdminSidebar
-        open={sidebarOpen}
-        currentPage={currentPage}
-        onToggleSidebar={toggleSidebar}
-        setCurrentPage={setCurrentPage} // Pass the item click handler to the sidebar
-      />
-      <div
-        className={`flex-1 flex flex-col overflow-hidden transition-margin duration-200 ease-in-out ${
-          sidebarOpen ? 'ml-64' : 'ml-20'
-        }`}
-      >
+    <div className="flex h-screen">
+      <AdminSidebar open={sidebarOpen} currentPage={currentPage} onToggleSidebar={handleToggleSidebar} setCurrentPage={setCurrentPage} />
+      <div className={`flex flex-col flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
         <AdminNavbar />
-        <div className={`flex-1 overflow-auto`}>
-          {/* Render components based on currentPage state */}
-          {currentPage === 'dashboard' && <AdminDashboard />}
-          {currentPage === 'instructors' && <AdminInstructors />}
-          {currentPage === 'students' && <AdminStudents />}
-          {currentPage === 'requests' && <AdminRequests />}
+        <div className="flex-1 overflow-y-auto">
+          <Outlet />
         </div>
       </div>
     </div>

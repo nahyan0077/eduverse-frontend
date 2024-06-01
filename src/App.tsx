@@ -14,10 +14,14 @@ import TeacherRegisterForm from "./pages/Instructor/TeacherRegisterForm";
 import TeacherRegisterForm2 from "./pages/Instructor/TeacherRegisterForm2";
 import OtpPage from "./pages/auth/OtpPage";
 import VerificationPage from "./pages/Instructor/VerificationPage";
-import AdminHome from "./pages/admin/AdminHome";
 import { ForgotPassword } from "./pages/auth/ForgotPasswordPage";
 import { ConfirmEmail } from "./pages/auth/ConfirmEmail";
 import InstructorHome from "./pages/Instructor/InstructorHome";
+import AdminDashboard from "./components/admin/AdminDashBoard";
+import AdminInstructors from "./components/admin/AdminInstructors";
+import AdminStudents from "./components/admin/AdminStudents";
+import { AdminRequests } from "./components/admin/AdminRequest";
+import AdminLayout from "./pages/admin/AdminHome";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -31,52 +35,33 @@ function App() {
 	}, [dispatch, data]);
 
 	const userRole = data?.role; // Assuming user role is stored in data.role
-	console.log(userRole,"user role");
-	
+	console.log(userRole, "user role");
 
 	return (
 		<Router>
 			<Routes>
-				{/* Authentication pages */}
-				{!data && (
-					<>
-						<Route path="/" element={<Home />} />
-						<Route path="/signup" element={<SignUp />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/selection" element={<SelectionPage />} />
-						<Route path="/student-form" element={<StudentRegisterForm />} />
-						<Route path="/student-form2" element={<StudentRegisterForm2 />} />
-						<Route path="/teacher-form" element={<TeacherRegisterForm />} />
-						<Route path="/teacher-form2" element={<TeacherRegisterForm2 />} />
-						<Route path="/otp" element={<OtpPage />} />
-						<Route path="/forgot-password" element={<ForgotPassword />} />
-						<Route path="/confirm-email" element={<ConfirmEmail />} />
-						<Route path="/verification-page" element={<VerificationPage />} />
-						<Route path="/instructor" element={<InstructorHome/>} />
-					</>
-				)}
-				{/* Render based on user role */}
-				{userRole === "student" && (
-					<>
-						<Route path="/" element={<Home />} />
-						<Route path="/verification-page" element={<VerificationPage />} />
+				<Route path="/" element={<Home />} />
+				<Route path="/signup" element={<SignUp />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/selection" element={<SelectionPage />} />
+				<Route path="/student-form" element={<StudentRegisterForm />} />
+				<Route path="/student-form2" element={<StudentRegisterForm2 />} />
+				<Route path="/teacher-form" element={<TeacherRegisterForm />} />
+				<Route path="/teacher-form2" element={<TeacherRegisterForm2 />} />
+				<Route path="/otp" element={<OtpPage />} />
+				<Route path="/forgot-password" element={<ForgotPassword />} />
+				<Route path="/confirm-email" element={<ConfirmEmail />} />
+				<Route path="/verification-page" element={<VerificationPage />} />
+				<Route path="/instructor" element={<InstructorHome />} />
+	
+				<Route path="/instructor" element={<InstructorHome />} />
 
-
-					</>
-				)}
-				{userRole === "instructor" && (
-					<>
-						<Route path="/" element={<Home />} />
-						<Route path="/verification-page" element={<VerificationPage />} />
-						<Route path="/instructor" element={<InstructorHome/>} />
-					</>
-				)}
-				{userRole === "admin" && (
-					<>
-						<Route path="/admin" element={<AdminHome />} />
-		
-					</>
-				)}
+				<Route path="/admin" element={<AdminLayout />}>
+					<Route index element={<AdminDashboard />} />
+					<Route path="instructors" element={<AdminInstructors />} />
+					<Route path="students" element={<AdminStudents />} />
+					<Route path="requests" element={<AdminRequests />} />
+				</Route>
 			</Routes>
 		</Router>
 	);

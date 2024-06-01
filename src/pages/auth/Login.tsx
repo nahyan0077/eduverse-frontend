@@ -44,7 +44,7 @@ const Login: React.FC = () => {
 		console.log("login approval", result);
 
 		if ( !result.payload || !result.payload.success) {
-			toast.error("Email or Password doesnt match", {
+			toast.error(result?.payload?.message || userData?.error, {
 				position: "top-center",
 				autoClose: 4000,
 				hideProgressBar: false,
