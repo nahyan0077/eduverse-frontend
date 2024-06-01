@@ -105,14 +105,14 @@ const Login: React.FC = () => {
 			<ToastContainer />
 			<Header />
 			<div className="min-h-screen">
-				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center">
+				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center mt-20">
 					<motion.div
 						className="w-full lg:w-1/2"
 						initial={{ opacity: 0, x: -100 }}
 						animate={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.5 }}
 					>
-						<img src={login} alt="Login" className="w-full" />
+						<img src={login} alt="Login" className="lg:w-[80%]" />
 					</motion.div>
 					<motion.div
 						className="w-full lg:w-1/2 p-5"
@@ -175,7 +175,7 @@ const Login: React.FC = () => {
 								<span className="text-violet-700 font-bold">Signup</span>
 							</p>
 							}
-								<div className="text-violet-500 text-sm font-bold">
+								<div className="text-violet-500 text-sm font-bold hover:cursor-pointer" onClick={()=>navigate('/confirm-email')} >
 									Forgot Password?
 								</div>
 							</div>

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from 'formik';
 import { motion } from 'framer-motion';
 import confirmEmail from '@/assets/auth/confirm-email-forgot-pass.png'
 import InputField from "@/components/common/skeleton/InputField";
 import { useAppDispatch } from "@/hooks/hooks";
-import { findEmailAction } from "@/redux/store/actions/auth";
+import { findEmailAction, forgotPasswordMailAction } from "@/redux/store/actions/auth";
 import { toast, ToastContainer } from "react-toastify";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
+import { useTheme } from "../ui/theme-provider";
+
 
 export const ConfirmEmailForgotPassword: React.FC = () => {
     const initialValues = {
@@ -13,19 +16,37 @@ export const ConfirmEmailForgotPassword: React.FC = () => {
     };
 
     const dispatch = useAppDispatch()
+    const [isLoading,setLoading] = useState(false)
+    const { theme } = useTheme()
 
     const handleSubmit = async (values: any) => {
         // Handle form submission
         console.log(values.email);
-
+        setLoading(true)
         const response = await dispatch(findEmailAction(values.email))
 
         console.log(response,"comf pass");
 
         if(!response.payload.success){
-            console.log("this user not exist");
+            console.log("this user exist");
+
+            const response1 = await dispatch(forgotPasswordMailAction(values.email))
+            setLoading(false)
+            toast.success('Please check you email to reset password..!!', {
+                position: "top-right",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+
+            console.log(response1,"email sendd");
+            
             
         }else{
+            setLoading(false)
             toast.error('User not existt in this email', {
                 position: "top-right",
                 autoClose: 4000,
@@ -43,6 +64,7 @@ export const ConfirmEmailForgotPassword: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center min-h-screen max-w-7xl mx-auto md:flex-row -mt-20">
+            <LoadingPopUp isLoading={isLoading} />
              <ToastContainer />
             <motion.div
                 className="w-full md:w-1/2 p-8"
@@ -50,7 +72,7 @@ export const ConfirmEmailForgotPassword: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <img src={confirmEmail} alt="Confirm Email" className="mx-auto" />
+                <img src={confirmEmail} alt="Confirm Email" className="mx-auto lg:w-[80%]" />
             </motion.div>
             <motion.div
                 className="w-full md:w-1/2 p-8 flex flex-col items-center justify-center"
@@ -58,9 +80,10 @@ export const ConfirmEmailForgotPassword: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
             >
-                <h2 className="text-3xl font-bold text-violet-700 mb-6 px-10 py-3 w-full">
-                    Confirm Email
+                <h2 className="text-3xl font-bold text-violet-700 lg:px-16 py-3 w-full">
+                    Forgot  <span className={`${theme == 'dark' ? 'text-white' : 'text-gray-900'}  `} > Password ? </span>
                 </h2>
+                <p className="text-xs -ml-44 mb-6" >Enter your email address to reset your password *</p>
                 <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                     <Form className="flex flex-col gap-4 w-full max-w-md">
                         <InputField name="email" type="email" placeholder="Email" />

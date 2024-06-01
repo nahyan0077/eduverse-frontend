@@ -30,6 +30,8 @@ function App() {
 	}, [dispatch, data]);
 
 	const userRole = data?.role; // Assuming user role is stored in data.role
+	console.log(userRole,"user role");
+	
 
 	return (
 		<Router>
@@ -48,12 +50,14 @@ function App() {
 						<Route path="/otp" element={<OtpPage />} />
 						<Route path="/forgot-password" element={<ForgotPassword />} />
 						<Route path="/confirm-email" element={<ConfirmEmail />} />
+						<Route path="/verification-page" element={<VerificationPage />} />
 					</>
 				)}
 				{/* Render based on user role */}
 				{userRole === "student" && (
 					<>
 						<Route path="/" element={<Home />} />
+						<Route path="/verification-page" element={<VerificationPage />} />
 
 
 					</>

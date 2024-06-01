@@ -75,7 +75,7 @@ const Header: React.FC = () => {
 				/>
 			)}
 			<nav
-				className={`p-5 shadow-md sticky top-0 z-10 ${
+				className={`p-5  shadow-md sticky top-0 z-10 ${
 					theme === "light" ? "bg-white" : "bg-gray-950"
 				}`}
 			>
@@ -97,8 +97,8 @@ const Header: React.FC = () => {
 								key={item.label}
 								onClick={item.onClick}
 								className={`${
-									theme === "light" ? "text-violet-700" : "text-white"
-								} hover:bg-violet-100 dark:hover:bg-gray-800 font-bold rounded-xl p-3 cursor-pointer`}
+									theme === "light" ? "text-violet-700 hover:text-gray-950" : "text-white"
+								}  dark:hover:text-violet-700 font-Josefin rounded-xl p-3 cursor-pointer`}
 							>
 								{item.label}
 							</a>

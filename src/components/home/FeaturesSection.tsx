@@ -10,12 +10,12 @@ import { motion } from 'framer-motion';
 const FeaturesSection: React.FC = () => {
 	const { theme } = useTheme();
 
-	const motionSettings = (direction: number) => ({
-		initial: { opacity: 0, x: direction * 100 },
-		whileInView: { opacity: 1, x: 0 },
-		transition: { duration: 1, ease: "easeInOut", delay: 0.2 },
+	const motionSettings = {
+		initial: { opacity: 0, y: -50 },
+		whileInView: { opacity: 1, y: 0 },
+		transition: { duration: 0.5, ease: "easeInOut", delay: 0.2 },
 		viewport: { once: true }
-	});
+	};
 
 	return (
 		<>
@@ -30,10 +30,10 @@ const FeaturesSection: React.FC = () => {
 				</div>
 
 				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
-					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings}>
 						<img src={pic1} alt="Feature 1" />
 					</motion.div>
-					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings}>
 						<h1 className="text-violet-700 text-2xl font-bold">
 							<span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>Tools </span> For Teachers And Learners
 						</h1>
@@ -44,7 +44,7 @@ const FeaturesSection: React.FC = () => {
 				</div>
 
 				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
-					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings}>
 						<h1 className="text-violet-700 text-2xl font-bold">
 							Assessments, <span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>Quizzes </span> Tests
 						</h1>
@@ -52,16 +52,16 @@ const FeaturesSection: React.FC = () => {
 							Easily launch live assignments, quizzes, and tests. Student results are automatically entered in the online gradebook.
 						</p>
 					</motion.div>
-					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings}>
 						<img src={pic2} alt="Feature 2" />
 					</motion.div>
 				</div>
 
 				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
-					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings}>
 						<img src={pic3} alt="Feature 3" />
 					</motion.div>
-					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings}>
 						<h1 className="text-violet-700 text-2xl font-bold">
 							Class Management <span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>Tools for Educators </span>
 						</h1>
@@ -72,7 +72,7 @@ const FeaturesSection: React.FC = () => {
 				</div>
 
 				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
-					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings(1)}>
+					<motion.div className="flex flex-col items-center w-full lg:w-1/2 md:mt-32" {...motionSettings}>
 						<h1 className="text-violet-700 text-2xl font-bold">
 							<span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>One-on-One </span> Discussions
 						</h1>
@@ -80,16 +80,16 @@ const FeaturesSection: React.FC = () => {
 							Class provides tools to help run and manage the class such as Class Roster, Attendance, and more. With the Gradebook, teachers can review and grade tests and quizzes in real-time.
 						</p>
 					</motion.div>
-					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings(-1)}>
+					<motion.div className="flex items-center w-full lg:w-1/2" {...motionSettings}>
 						<img src={pic4} alt="Feature 4" />
 					</motion.div>
 				</div>
 
 				<div className={`flex flex-col max-w-7xl mx-auto lg:flex-row justify-center items-center ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900'} rounded-xl p-5`}>
-					<div className="w-full lg:w-1/2" >
+					<motion.div className="w-full lg:w-1/2" {...motionSettings}>
 						<img src={pic5} alt="Feature 5" />
-					</div>
-					<div className="w-full lg:w-1/2" >
+					</motion.div>
+					<motion.div className="w-full lg:w-1/2" {...motionSettings}>
 						<h1 className="text-2xl font-bold text-violet-700 text-center">
 							Join <span className={`${theme === 'light' ? 'text-blue-950' : 'text-white'}`}>World's Largest </span> learning platform today
 						</h1>
@@ -104,7 +104,7 @@ const FeaturesSection: React.FC = () => {
 								Sign Up for Free
 							</button>
 						</div>
-					</div>
+					</motion.div>
 				</div>
 			</div>
 		</>

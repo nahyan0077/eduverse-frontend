@@ -117,7 +117,7 @@ const SignUp: React.FC = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <img src={login} alt="Signup" className="w-full" />
+                        <img src={login} alt="Signup" className="text-center lg:w-[80%] " />
                     </motion.div>
                     <motion.div
                         className="w-full md:w-1/2 p-5"

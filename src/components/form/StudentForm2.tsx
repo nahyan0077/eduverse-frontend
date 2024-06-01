@@ -13,7 +13,7 @@ import { SignupFormData } from "@/types/IForms";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { sendVerificationMail, signupAction } from "@/redux/store/actions/auth";
 import { useAppDispatch } from "@/hooks/hooks";
-import { ISendEmail } from "@/types/ISendEmail";
+
 
 
 
@@ -41,7 +41,7 @@ const StudentForm2: React.FC = () => {
 
 
 	const handleSubmit = async (value: any) => {
-
+		setLoading(true)
 		console.log(value,"studenr form2 data");
 		const allData: SignupFormData  = {
 			...location.state,
@@ -60,7 +60,6 @@ const StudentForm2: React.FC = () => {
 		console.log(allData,"final student all data");
 
 		if(!allData.isGAuth){
-			setLoading(true)
 
 			const response1 = await dispatch(sendVerificationMail(location.state.email))
 			console.log(response1,"noteif mail");
@@ -74,8 +73,10 @@ const StudentForm2: React.FC = () => {
 			console.log("signup final ress",response);
 
 			if (allData.role == 'student') {
+				setLoading(false)
 				navigate('/')
 			}else{
+				setLoading(false)
 				navigate('/verification-page')
 			}
 		}

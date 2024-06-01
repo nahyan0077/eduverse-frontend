@@ -53,10 +53,6 @@ const TeacherForm2: React.FC = () => {
 		console.log(allData,"texher form last all data");
 		
 
-		const response: any = await dispatch(signupAction(allData ))
-		console.log("signup final ress",response);
-
-		setLoading(false)
 
 		if(!allData.isGAuth){
 			setLoading(true)
@@ -65,6 +61,7 @@ const TeacherForm2: React.FC = () => {
 			setLoading(false)
 			navigate('/otp',{state: allData})
 		}else{
+			setLoading(false)
 			navigate('/verification-page')
 			
 		}
