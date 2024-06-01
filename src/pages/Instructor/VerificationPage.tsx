@@ -2,7 +2,7 @@ import Header from "@/components/common/users/Header";
 import { useTheme } from "@/components/ui/theme-provider";
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
-import React, { useState } from "react";
+import React from "react";
 import { Watch } from "react-loader-spinner";
 
 

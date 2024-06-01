@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useAppDispatch } from "@/hooks/hooks";
-// import { getAllInstructorRequestsAction } from "@/redux/store/actions/user"; // Assuming you have this action
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
-import DoneIcon from "@mui/icons-material/Done";
-import CloseIcon from "@mui/icons-material/Close";
 import { getAllInstructorsAction } from "@/redux/store/actions/user";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";

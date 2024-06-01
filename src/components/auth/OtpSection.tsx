@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from "react-router-dom";
 import { SignupFormData } from "@/types/IForms";
 import { signupAction } from "@/redux/store/actions/auth";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 
 interface OtpInputProps {
     length?: number;
@@ -160,6 +161,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
     return (
         <>
             <ToastContainer />
+            <LoadingPopUp isLoading={isLoading} />
             <motion.div 
                 className={`w-full md:w-1/2 flex flex-col items-center px-4 py-16  rounded-2xl shadow-lg ${theme == 'light' ?  'bg-white' : 'bg-gray-900'} bg-gray-900 `}
                 initial={{ opacity: 0, scale: 0.8 }}

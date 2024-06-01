@@ -11,7 +11,7 @@ const HeroSection: React.FC = () => {
   const { data } = useAppSelector((state: RootState) => state.user);
 
   return (
-    <div className="text-violet-700 py-7 px-4 sm:px-6 lg:px-8 md:mt-20">
+    <div className="text-violet-700 py-7 px-4 sm:px-6 lg:px-8 md:mt-20 lg:mb-10">
       <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
         <div className="flex flex-col items-center lg:w-1/2 lg:pr-10">
           <AnimatePresence>
