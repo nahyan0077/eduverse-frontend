@@ -5,6 +5,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ClassIcon from '@mui/icons-material/Class';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SchoolIcon from '@mui/icons-material/School';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 interface SidebarProps {
   open: boolean;
@@ -96,6 +97,18 @@ const AdminSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSideb
                 className="ml-2"
               >
                 Courses
+              </motion.span>
+            </a>
+            <a href="#" className={linkClasses('requests')} onClick={() => setCurrentPage('requests')}>
+              <AccessTimeIcon />
+              <motion.span
+                initial="hidden"
+                animate={open ? "visible" : "hidden"}
+                variants={textVariants}
+                transition={{ duration: 0.3 }}
+                className="ml-2"
+              >
+                Requests
               </motion.span>
             </a>
           </nav>

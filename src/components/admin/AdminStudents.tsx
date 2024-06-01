@@ -72,6 +72,7 @@ export const AdminStudents: React.FC = () => {
 
     return (
         <div className="overflow-x-auto max-w-full mx-auto p-8">
+            <h1 className="text-3xl font-bold ml-10 mb-10" >Students</h1>
             <table className="table table-lg">
                 <thead className="text-lg uppercase text-center" >
                     <tr>

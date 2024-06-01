@@ -17,6 +17,7 @@ import VerificationPage from "./pages/Instructor/VerificationPage";
 import AdminHome from "./pages/admin/AdminHome";
 import { ForgotPassword } from "./pages/auth/ForgotPasswordPage";
 import { ConfirmEmail } from "./pages/auth/ConfirmEmail";
+import InstructorHome from "./pages/Instructor/InstructorHome";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -51,6 +52,7 @@ function App() {
 						<Route path="/forgot-password" element={<ForgotPassword />} />
 						<Route path="/confirm-email" element={<ConfirmEmail />} />
 						<Route path="/verification-page" element={<VerificationPage />} />
+						<Route path="/instructor" element={<InstructorHome/>} />
 					</>
 				)}
 				{/* Render based on user role */}
@@ -66,7 +68,7 @@ function App() {
 					<>
 						<Route path="/" element={<Home />} />
 						<Route path="/verification-page" element={<VerificationPage />} />
-			
+						<Route path="/instructor" element={<InstructorHome/>} />
 					</>
 				)}
 				{userRole === "admin" && (

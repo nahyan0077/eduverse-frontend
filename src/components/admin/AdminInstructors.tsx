@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
+import { format } from 'date-fns';
 
 
 interface Instructor {
     id: number;
-    username: string;
-    profession: string;
+    userName: string;
+    createdAt: string;
     isVerified: boolean;
     isBlocked: boolean;
 }
@@ -51,12 +52,13 @@ export const AdminInstructors: React.FC = () => {
 
     return (
         <div className="overflow-x-auto max-w-full mx-auto p-8">
+            <h1 className="text-3xl font-bold ml-10 mb-10" >Instructors</h1>
             <table className="table table-lg">
                 <thead className="text-lg uppercase text-center" >
                     <tr>
                         <th>Si.No</th>
                         <th>Name</th>
-                        <th>profession</th>
+                        <th>Joined</th>
                         <th>verified</th>
                         <th>status</th>
                     </tr>
@@ -65,8 +67,8 @@ export const AdminInstructors: React.FC = () => {
                     {instructors.map((instructor, index) => (
                         <tr key={instructor.id} className="hover:bg-gray-800">
                             <th>{index + 1}</th>
-                            <td>{instructor.username}</td>
-                            <td>{instructor.profession}</td>
+                            <td>{instructor.userName}</td>
+                            <td>{ format(new Date(instructor.createdAt), 'dd-MM-yyyy') }</td>
                             <td>{instructor.isVerified ? <DoneIcon /> : <CloseIcon/> }</td>
                             <td>{instructor.isBlocked ? <button className="btn btn-sm btn-outline btn-primary">Unblock</button> : 
                             <button className="btn btn-sm  btn-outline btn-error">Block</button> }</td>

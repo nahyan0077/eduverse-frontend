@@ -7,6 +7,7 @@ import AdminNavbar from '../../components/admin/AdminNavbar';
 import AdminDashboard from '../../components/admin/AdminDashBoard';
 import { AdminInstructors } from '../../components/admin/AdminInstructors'; 
 import AdminStudents from '@/components/admin/AdminStudents';
+import { AdminRequests } from '@/components/admin/AdminRequest';
 // import { AdminStudents } from '@/components/admin/AdminStudents';
 
 const AdminHome: React.FC = () => {
@@ -38,6 +39,7 @@ const AdminHome: React.FC = () => {
           {currentPage === 'dashboard' && <AdminDashboard />}
           {currentPage === 'instructors' && <AdminInstructors />}
           {currentPage === 'students' && <AdminStudents />}
+          {currentPage === 'requests' && <AdminRequests />}
         </div>
       </div>
     </div>
