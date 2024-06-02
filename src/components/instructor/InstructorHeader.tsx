@@ -4,17 +4,19 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useNavigate } from "react-router-dom";
-import { ModeToggle } from "../../ui/mode-toggle";
-import { useTheme } from "../../ui/theme-provider";
+import { ModeToggle } from "../ui/mode-toggle";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import PersonIcon from "@mui/icons-material/Person";
 import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
-import ConfirmModal from "../modal/ConfirmModal";
+import ConfirmModal from "@/components/common/modal/ConfirmModal";
+import { useTheme } from "../ui/theme-provider";
+import { Toaster, toast } from "sonner";
 
-const Header: React.FC = () => {
+const InstructorHeader: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
@@ -31,9 +33,23 @@ const Header: React.FC = () => {
 	console.log("header data", userData.data);
 
 	const menuItems = [
-		{ label: "Home", onClick: () => navigate("/home") },
-		{ label: "Categories", onClick: () => navigate("/categories") },
-		{ label: "Courses", onClick: () => navigate("/courses") },
+		{
+			label: "Dashboard",
+			onClick: () => {
+
+                if (userData.data?.role == 'instructor' && userData.data.isVerified) {
+                    
+                    navigate("/home");
+                }else{
+                    toast.error("Please wait you accout verifcation is in progress",{
+                        description: "Once verified you will recive the email"
+                    })
+                }
+
+			},
+		},
+		{ label: "Instructors", onClick: () => navigate("") },
+		{ label: "Courses", onClick: () => navigate("") },
 		{ label: "Contact", onClick: () => navigate("/contact") },
 		{ label: "About", onClick: () => navigate("/about") },
 	];
@@ -67,6 +83,7 @@ const Header: React.FC = () => {
 
 	return (
 		<>
+            <Toaster position="top-center" richColors />
 			{isModalVisible && (
 				<ConfirmModal
 					message="logout"
@@ -97,7 +114,9 @@ const Header: React.FC = () => {
 								key={item.label}
 								onClick={item.onClick}
 								className={`${
-									theme === "light" ? "text-violet-700 hover:text-gray-950" : "text-white"
+									theme === "light"
+										? "text-violet-700 hover:text-gray-950"
+										: "text-white"
 								}  dark:hover:text-violet-700 font-Josefin rounded-xl p-3 cursor-pointer`}
 							>
 								{item.label}
@@ -110,14 +129,20 @@ const Header: React.FC = () => {
 								<div
 									tabIndex={0}
 									role="button"
-									className={`btn m-1 ${theme == 'light' ? 'text-violet-700 hover:bg-gray-200': 'hover:bg-gray-900' }    bg-transparent`}
+									className={`btn m-1 ${
+										theme == "light"
+											? "text-violet-700 hover:bg-gray-200"
+											: "hover:bg-gray-900"
+									}    bg-transparent`}
 								>
 									<PersonIcon />
 									{userName?.toUpperCase()}
 								</div>
 								<ul
 									tabIndex={0}
-									className={`dropdown-content z-[1] menu p-2 shadow ${theme == 'light' ? 'bg-gray-100': 'bg-gray-950' }   rounded-box w-52`}
+									className={`dropdown-content z-[1] menu p-2 shadow ${
+										theme == "light" ? "bg-gray-100" : "bg-gray-950"
+									}   rounded-box w-52`}
 								>
 									<li>
 										<a>Profile</a>
@@ -226,4 +251,4 @@ const Header: React.FC = () => {
 	);
 };
 
-export default Header;
+export default InstructorHeader;

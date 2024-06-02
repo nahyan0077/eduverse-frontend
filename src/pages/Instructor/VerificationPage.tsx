@@ -1,4 +1,4 @@
-import Header from "@/components/common/users/Header";
+import InstructorHeader from "@/components/instructor/InstructorHeader";
 import { useTheme } from "@/components/ui/theme-provider";
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
@@ -17,7 +17,7 @@ const VerificationPage: React.FC = () => {
 
   return (
     <>
-    <Header/>
+    <InstructorHeader />
     <div className="min-h-screen flex justify-center mt-16">
       <div className="  rounded-xl shadow-lg max-w-7xl w-full">
           <div className={`flex flex-col items-center justify-center text-center ${theme == 'light' ? 'bg-gray-100' : 'bg-gray-900'  }  py-40 rounded-xl shadow-md`}>

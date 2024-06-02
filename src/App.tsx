@@ -49,7 +49,7 @@ function App() {
 
 
 				<Route
-					path="/home"
+					path="/"
 					element={
 						<RoleBasedRedirect
 							roles={{
@@ -95,7 +95,7 @@ function App() {
 
 
 				{/* public routes */}
-				<Route path="/" element={<Home />} />
+				<Route path="/home" element={<PublicRoute element={<Home />} />} />
 				<Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
 				<Route path="/login" element={<PublicRoute element={<Login />} />} />
 				<Route path="/selection" element={<PublicRoute element={<SelectionPage />} />} />

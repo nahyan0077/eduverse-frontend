@@ -2,12 +2,13 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { getAllStudentsAction } from "@/redux/store/actions/user";
 import { useEffect, useState } from "react";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
-import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import { blockUserAction } from "@/redux/store/actions/admin";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { ToastContainer, toast } from "react-toastify";
 import { format } from "date-fns";
+import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
+
 
 interface Student {
 	_id: string;
@@ -143,7 +144,7 @@ export const AdminStudents: React.FC = () => {
 							<th>{index + 1}</th>
 							<td>{student.userName}</td>
 							<td>{format(new Date(student.createdAt), "dd-MM-yyyy")}</td>
-							<td>{student.isVerified ? <DoneIcon /> : <CloseIcon />}</td>
+							<td>{student.isVerified ? <DoneOutlineIcon color="success" /> : <CloseIcon />}</td>
 							<td>
 								{student.isBlocked ? (
 									<button

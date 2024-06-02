@@ -10,7 +10,7 @@ interface PublicRouteProps  {
 const PublicRoute: React.FC<PublicRouteProps> = ({ element }) => {
   const { data } = useAppSelector((state: RootState) => state.user);
 
-  return data ? <Navigate to="/home" replace /> : element;
+  return data ? <Navigate to="/" replace /> : element;
 };
 
 export default PublicRoute;

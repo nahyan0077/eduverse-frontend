@@ -69,7 +69,7 @@ export const AdminInstructors: React.FC = () => {
 							: instructor
 					)
 				);
-				toast.success("User blocked/unblocked successfully", {
+				toast.success(`Instructor ${selectedInstructor.isBlocked ? 'unblocked' : 'blocked' } successfully`, {
 					position: "top-right",
 					autoClose: 4000,
 					hideProgressBar: false,
@@ -145,7 +145,7 @@ export const AdminInstructors: React.FC = () => {
 							<th>{index + 1}</th>
 							<td>{instructor.userName}</td>
 							<td>{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>
-							<td>{instructor.isVerified ? <DoneIcon /> : <CloseIcon />}</td>
+							<td>{instructor.isVerified ? <DoneIcon className="text-green-600" /> : <CloseIcon />}</td>
 							<td>
 								{instructor.isBlocked ? (
 									<button

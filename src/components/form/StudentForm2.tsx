@@ -80,7 +80,6 @@ const StudentForm2: React.FC = () => {
 				navigate('/verification-page')
 			}
 		}
-		
 	};
 
 	return (

@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../ui/theme-provider";
 import { useAppDispatch } from "@/hooks/hooks";
 import { verifyOtpAction } from "@/redux/store/actions/auth/verifyOtpAction";
-import Alert from "@mui/material/Alert";
-import { ToastContainer, toast } from 'react-toastify';
+import { Toaster, toast } from 'sonner';
 import 'react-toastify/dist/ReactToastify.css';
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { motion } from 'framer-motion';
@@ -30,7 +29,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const { theme } = useTheme();
     const dispatch = useAppDispatch();
-    const [otpError, setOtpError] = useState(false);
     const location = useLocation()
     const navigate = useNavigate()
     const [isLoading,setLoading] = useState(false)
@@ -88,11 +86,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
             console.log("otp submit response", response);
 
             if (!response.payload.success) {
-                setLoading(false)
-                setOtpError(true);
-                setTimeout(() => {
-                    setOtpError(false);
-                }, 4000);
+                toast.error("OTP doesn't match. Try again...")
             } else {
 
 
@@ -117,13 +111,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
                 }else{
                     toast.error('error occurred', {
                         position: "top-right",
-                        autoClose: 4000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
                     });
                 }
                 
@@ -143,14 +130,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
         onResendOtp();
         console.log("resend");
         toast.success('OTP resend to your Email', {
-            position: "top-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
+            duration: 4000,
         });
 
         const response = await dispatch(sendVerificationMail(location.state.email));
@@ -160,7 +140,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
 
     return (
         <>
-            <ToastContainer />
+            <Toaster richColors position="top-center" />
             <LoadingPopUp isLoading={isLoading} />
             <motion.div 
                 className={`w-full md:w-1/2 flex flex-col items-center px-4 py-16  rounded-2xl shadow-lg ${theme == 'light' ?  'bg-white' : 'bg-gray-900'} bg-gray-900 `}
@@ -168,11 +148,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
             >
-                {otpError &&
-                    <Alert className="mb-3" variant="outlined" severity="error">
-                        OTP doesn't match. Try again.
-                    </Alert>
-                }
 
                 <div
                     className={`text-3xl font-extrabold pb-10 ${

@@ -17,5 +17,7 @@ export const RoleBasedRedirect: React.FC<RoleBasedRedirectProps> = ({ roles }) =
         return <Navigate to="/home" replace />;
     }
 
+
+
     return <Navigate to={roles[data.role]} replace />;
 };

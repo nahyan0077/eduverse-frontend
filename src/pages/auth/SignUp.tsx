@@ -7,14 +7,13 @@ import InputField from "@/components/common/skeleton/InputField";
 import { signupSchema } from "@/validationSchemas/signupSchema";
 import PasswordField from "@/components/auth/PasswordField";
 import { findEmailAction, findUsernameAction, googleAuthAction } from "@/redux/store/actions/auth";
-import { useState } from "react";
-import Alert from "@mui/material/Alert";
 import { useTheme } from "@/components/ui/theme-provider";
 import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { motion } from "framer-motion";
-import { ToastContainer, toast } from 'react-toastify';
+import { Toaster, toast } from 'sonner';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
@@ -27,29 +26,21 @@ const SignUp: React.FC = () => {
     };
     const { theme } = useTheme();
     const dispatch = useAppDispatch();
-    const [isEmailTaken, setTakenEmail] = useState(false);
-    const [isUsernameTaken, setTakenUsername] = useState(false);
+
 
     const handleSubmit = async (data: any) => {
-        setTakenEmail(false);
-        setTakenUsername(false);
+
 
         try {
             const result1: any = await dispatch(findUsernameAction(data.userName));
             if (!result1?.payload?.success) {
-                setTakenUsername(true);
-                setTimeout(() => {
-                    setTakenUsername(false);
-                }, 4000);
+                toast.error('Username is already taken..!!')
                 return;
             }
 
             const result: any = await dispatch(findEmailAction(data.email));
             if (!result.payload || !result.payload.success) {
-                setTakenEmail(true);
-                setTimeout(() => {
-                    setTakenEmail(false);
-                }, 4000);
+                toast.error('This email already exits please login..')
                 return;
             }
 
@@ -88,7 +79,8 @@ const SignUp: React.FC = () => {
                 email: response.payload.data.email,
                 password: response.payload.data.password,
                 userName: (response.payload.data.email.split("@")[0]).toLowerCase(),
-                isGAuth: true
+                isGAuth: true,
+                isVerified: location.state.role == 'instructor' ? false : true 
             };
 
             console.log("signup 1",allData);
@@ -107,7 +99,7 @@ const SignUp: React.FC = () => {
 
     return (
         <>
-            <ToastContainer />
+            <Toaster position="top-center" richColors  />
             <Header />
             <div className="min-h-screen">
                 <div className="flex flex-col md:flex-row max-w-7xl mx-auto items-center">
@@ -130,28 +122,7 @@ const SignUp: React.FC = () => {
                                 {location.state.role === "student" ? "Student" : "Instructor"}
                             </span> Signup
                         </h1>
-                        {isEmailTaken && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <Alert variant="outlined" severity="error">
-                                    Email already exists, please login.
-                                </Alert>
-                            </motion.div>
-                        )}
-                        {isUsernameTaken && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <Alert variant="outlined" severity="error">
-                                    Username is already taken.
-                                </Alert>
-                            </motion.div>
-                        )}
+
                         <div className="flex flex-col gap-3 m-2">
                             <Formik
                                 initialValues={initialValues}

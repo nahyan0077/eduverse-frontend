@@ -18,6 +18,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import { SignupFormData } from "@/types/IForms";
 import { googleAuthAction } from "@/redux/store/actions/auth";
 
+
+
 const Login: React.FC = () => {
 	const navigate = useNavigate();
 	const { theme } = useTheme();
@@ -85,6 +87,7 @@ const Login: React.FC = () => {
 				password: response.payload.data.password,
 				userName: response.payload.data.email.split("@")[0].toLowerCase(),
 				isGAuth: true,
+				isVerified: location.state.role == 'instructor' ? false : true 
 			};
 
 			if (location.state.role === "student") {
@@ -180,13 +183,14 @@ const Login: React.FC = () => {
 								</div>
 							</div>
 
-							<div className="flex justify-center mt-2">
+							<div className="flex justify-center mt-2 ">
 								<GoogleLogin
 									onSuccess={loginWithGoogle}
 									onError={() => {
 										console.log("Login Failed");
 									}}
 									width="250"
+									
 								/>
 							</div>
 						</div>

@@ -43,7 +43,8 @@ export interface SignupFormData {
     qualification?: string,
     role?: Role,
     isGAuth?: boolean,
-    cv?:string
+    cv?:string,
+    isVerified: boolean
 }
 
 export interface LoginFormData {

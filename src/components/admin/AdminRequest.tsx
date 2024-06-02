@@ -56,8 +56,12 @@ export const AdminRequests: React.FC = () => {
 
     const handleDelete = async () => {
 
+		
+
 		console.log("Item deleted");
 		setModalVisible(false);
+
+
 	};
 
 	const handleCancel = () => {
