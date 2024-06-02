@@ -7,6 +7,8 @@ import ClassIcon from '@mui/icons-material/Class';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SchoolIcon from '@mui/icons-material/School';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import EventIcon from '@mui/icons-material/Event';
 
 interface SidebarProps {
   open: boolean;
@@ -15,7 +17,7 @@ interface SidebarProps {
   setCurrentPage: (page: string) => void;
 }
 
-const InstructorSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSidebar, setCurrentPage }) => {
+const StudentSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSidebar, setCurrentPage }) => {
   const sidebarVariants = {
     collapsed: { width: '5rem', transition: { duration: 0.3 } },
     expanded: { width: '16rem', transition: { duration: 0.3 } },
@@ -50,11 +52,11 @@ const InstructorSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggle
               variants={textVariants}
               className="font-semibold text-lg text-white"
             >
-              Instructor Panel
+              Student Dashboard
             </motion.span>
           </div>
           <nav className="flex-1 flex flex-col space-y-4 mt-2">
-            <Link to="/instructor" className={linkClasses('dashboard')} onClick={() => setCurrentPage('dashboard')}>
+            <Link to="/student" className={linkClasses('dashboard')} onClick={() => setCurrentPage('dashboard')}>
               <DashboardIcon />
               <motion.span
                 initial="hidden"
@@ -65,18 +67,7 @@ const InstructorSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggle
                 Dashboard
               </motion.span>
             </Link>
-            <Link to="/instructor/students" className={linkClasses('students')} onClick={() => setCurrentPage('students')}>
-              <PeopleIcon />
-              <motion.span
-                initial="hidden"
-                animate={open ? "visible" : "hidden"}
-                variants={textVariants}
-                className="ml-2"
-              >
-                Students
-              </motion.span>
-            </Link>
-            <Link to="/instructor/courses" className={linkClasses('courses')} onClick={() => setCurrentPage('courses')}>
+            <Link to="/student/classes" className={linkClasses('classes')} onClick={() => setCurrentPage('classes')}>
               <ClassIcon />
               <motion.span
                 initial="hidden"
@@ -84,10 +75,32 @@ const InstructorSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggle
                 variants={textVariants}
                 className="ml-2"
               >
-                Courses
+                Classes
               </motion.span>
             </Link>
-            <Link to="/instructor/requests" className={linkClasses('requests')} onClick={() => setCurrentPage('requests')}>
+            <Link to="/student/assignments" className={linkClasses('assignments')} onClick={() => setCurrentPage('assignments')}>
+              <AssignmentIcon />
+              <motion.span
+                initial="hidden"
+                animate={open ? "visible" : "hidden"}
+                variants={textVariants}
+                className="ml-2"
+              >
+                Assignments
+              </motion.span>
+            </Link>
+            <Link to="/student/events" className={linkClasses('events')} onClick={() => setCurrentPage('events')}>
+              <EventIcon />
+              <motion.span
+                initial="hidden"
+                animate={open ? "visible" : "hidden"}
+                variants={textVariants}
+                className="ml-2"
+              >
+                Events
+              </motion.span>
+            </Link>
+            <Link to="/student/requests" className={linkClasses('requests')} onClick={() => setCurrentPage('requests')}>
               <AccessTimeIcon />
               <motion.span
                 initial="hidden"
@@ -105,4 +118,4 @@ const InstructorSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggle
   );
 };
 
-export default InstructorSidebar;
+export default StudentSidebar;

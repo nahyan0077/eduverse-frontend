@@ -15,10 +15,13 @@ const InstructorNavbar: React.FC = () => {
     dispatch(logoutAction()).then(() => {
       navigate("/");
     });
+
+    console.log("Item deleted");
     setModalVisible(false);
   };
 
   const handleCancel = () => {
+    console.log("Action cancelled");
     setModalVisible(false);
   };
 
@@ -30,13 +33,13 @@ const InstructorNavbar: React.FC = () => {
     <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-4 lg:px-6 lg:py-3 z-10">
       {isModalVisible && (
         <ConfirmModal
-          message="logout instructor"
+          message="logout"
           onConfirm={handleDelete}
           onCancel={handleCancel}
         />
       )}
       <div className="flex items-center">
-        <span className="font-bold text-2xl pl-2 text-white">Instructor Panel</span>
+        <span className="font-bold text-2xl pl-2">Instructor Panel</span>
       </div>
       <div className="flex items-center space-x-7">
         <div className="flex items-center ml-4">
@@ -46,7 +49,7 @@ const InstructorNavbar: React.FC = () => {
               role="button"
               className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
             >
-              <IoMdPerson className="text-xl text-white" />
+              <IoMdPerson className="text-xl" />
             </div>
             <ul
               tabIndex={0}

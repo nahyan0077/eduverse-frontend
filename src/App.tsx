@@ -4,24 +4,30 @@ import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/store";
 import { useEffect } from "react";
 import { getUserData } from "./redux/store/actions/auth";
+
+//auth pages
 import Home from "./pages/user/Home";
 import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import SelectionPage from "./pages/auth/Selection";
-import StudentRegisterForm from "./pages/student/StudentRegisterForm";
-import StudentRegisterForm2 from "./pages/student/StudentRegisterForm2";
-import TeacherRegisterForm from "./pages/Instructor/TeacherRegisterForm";
-import TeacherRegisterForm2 from "./pages/Instructor/TeacherRegisterForm2";
 import OtpPage from "./pages/auth/OtpPage";
 import VerificationPage from "./pages/Instructor/VerificationPage";
 import { ForgotPassword } from "./pages/auth/ForgotPasswordPage";
 import { ConfirmEmail } from "./pages/auth/ConfirmEmail";
-import InstructorHome from "./pages/Instructor/InstructorHome";
-import AdminDashboard from "./components/admin/AdminDashBoard";
-import AdminInstructors from "./components/admin/AdminInstructors";
-import AdminStudents from "./components/admin/AdminStudents";
-import { AdminRequests } from "./components/admin/AdminRequest";
-import AdminLayout from "./pages/admin/AdminHome";
+
+// forms
+import StudentRegisterForm from "./pages/student/StudentRegisterForm";
+import StudentRegisterForm2 from "./pages/student/StudentRegisterForm2";
+import TeacherRegisterForm from "./pages/Instructor/TeacherRegisterForm";
+import TeacherRegisterForm2 from "./pages/Instructor/TeacherRegisterForm2";
+
+//routes import
+import { RoleBasedRedirect } from "./routes/RoleBasedRedirect";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { AdminRoutes } from "./routes/AdminRoutes";
+import { StudentRoutes } from "./routes/StudentRoutes";
+import { InstructorRoutes } from "./routes/InstructorRoutes";
+import PublicRoute from "./routes/PublicRoutes";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -40,28 +46,69 @@ function App() {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/signup" element={<SignUp />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/selection" element={<SelectionPage />} />
-				<Route path="/student-form" element={<StudentRegisterForm />} />
-				<Route path="/student-form2" element={<StudentRegisterForm2 />} />
-				<Route path="/teacher-form" element={<TeacherRegisterForm />} />
-				<Route path="/teacher-form2" element={<TeacherRegisterForm2 />} />
-				<Route path="/otp" element={<OtpPage />} />
-				<Route path="/forgot-password" element={<ForgotPassword />} />
-				<Route path="/confirm-email" element={<ConfirmEmail />} />
-				<Route path="/verification-page" element={<VerificationPage />} />
-				<Route path="/instructor" element={<InstructorHome />} />
-	
-				<Route path="/instructor" element={<InstructorHome />} />
 
-				<Route path="/admin" element={<AdminLayout />}>
-					<Route index element={<AdminDashboard />} />
-					<Route path="instructors" element={<AdminInstructors />} />
-					<Route path="students" element={<AdminStudents />} />
-					<Route path="requests" element={<AdminRequests />} />
-				</Route>
+
+				<Route
+					path="/home"
+					element={
+						<RoleBasedRedirect
+							roles={{
+								admin: "/admin",
+								student: "/student ",
+								instructor: "/instructor",
+							}}
+						/>
+					}
+				/>
+
+				<Route
+					path="/admin/*"
+					element={
+						<ProtectedRoute
+							allowedRoles={["admin"]}
+							element={<AdminRoutes />}
+						/>
+					}
+				/>
+
+
+				<Route
+					path="/student/*"
+					element={
+						<ProtectedRoute
+							allowedRoles={["student"]}
+							element={<StudentRoutes />}
+						/>
+					}
+				/>
+
+
+				<Route
+					path="/instructor/*"
+					element={
+						<ProtectedRoute
+							allowedRoles={["instructor"]}
+							element={<InstructorRoutes />}
+						/>
+					}
+				/>
+
+
+				{/* public routes */}
+				<Route path="/" element={<Home />} />
+				<Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
+				<Route path="/login" element={<PublicRoute element={<Login />} />} />
+				<Route path="/selection" element={<PublicRoute element={<SelectionPage />} />} />
+				<Route path="/student-form" element={<PublicRoute element={<StudentRegisterForm />} />} />
+				<Route path="/student-form2" element={<PublicRoute element={<StudentRegisterForm2 />} />} />
+				<Route path="/teacher-form" element={<PublicRoute element={<TeacherRegisterForm />} />} />
+				<Route path="/teacher-form2" element={<PublicRoute element={<TeacherRegisterForm2 />} />} />
+				<Route path="/otp" element={<PublicRoute element={<OtpPage />} />} />
+				<Route path="/forgot-password" element={<PublicRoute element={<ForgotPassword />} />} />
+				<Route path="/confirm-email" element={<PublicRoute element={<ConfirmEmail />} />} />
+				<Route path="/verification-page" element={<VerificationPage />} />
+
+
 			</Routes>
 		</Router>
 	);

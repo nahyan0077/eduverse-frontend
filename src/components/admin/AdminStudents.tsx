@@ -7,11 +7,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { blockUserAction } from "@/redux/store/actions/admin";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { ToastContainer, toast } from "react-toastify";
+import { format } from "date-fns";
 
 interface Student {
 	_id: string;
 	userName: string;
-	profession: string;
+	createdAt: string;
 	isVerified: boolean;
 	isBlocked: boolean;
 }
@@ -131,7 +132,7 @@ export const AdminStudents: React.FC = () => {
 					<tr>
 						<th>Si.No</th>
 						<th>Name</th>
-						<th>Profession</th>
+						<th>Joined</th>
 						<th>Verified</th>
 						<th>Status</th>
 					</tr>
@@ -141,7 +142,7 @@ export const AdminStudents: React.FC = () => {
 						<tr key={student._id} className="hover:bg-gray-800">
 							<th>{index + 1}</th>
 							<td>{student.userName}</td>
-							<td>{student.profession}</td>
+							<td>{format(new Date(student.createdAt), "dd-MM-yyyy")}</td>
 							<td>{student.isVerified ? <DoneIcon /> : <CloseIcon />}</td>
 							<td>
 								{student.isBlocked ? (

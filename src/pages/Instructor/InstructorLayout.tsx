@@ -1,10 +1,9 @@
-// src/pages/admin/AdminHome.tsx
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import AdminSidebar from '../../components/admin/AdminSidebar';
-import AdminNavbar from '../../components/admin/AdminNavbar';
+import InstructorSidebar from '../../components/instructor/InstructorSidebar';
+import InstructorNavbar from '../../components/instructor/InstructorNavbar';
 
-const AdminHome: React.FC = () => {
+export const InstructorLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('dashboard');
 
@@ -14,9 +13,9 @@ const AdminHome: React.FC = () => {
 
   return (
     <div className="flex h-screen">
-      <AdminSidebar open={sidebarOpen} currentPage={currentPage} onToggleSidebar={handleToggleSidebar} setCurrentPage={setCurrentPage} />
+      <InstructorSidebar open={sidebarOpen} currentPage={currentPage} onToggleSidebar={handleToggleSidebar} setCurrentPage={setCurrentPage} />
       <div className={`flex flex-col flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <AdminNavbar />
+        <InstructorNavbar />
         <div className="flex-1 overflow-y-auto">
           <Outlet />
         </div>
@@ -25,4 +24,4 @@ const AdminHome: React.FC = () => {
   );
 };
 
-export default AdminHome;
+export default InstructorLayout;

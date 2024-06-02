@@ -14,7 +14,7 @@ export const RoleBasedRedirect: React.FC<RoleBasedRedirectProps> = ({ roles }) =
     const { data } = useAppSelector((state: RootState) => state.user);
 
     if (!data || !data.role || !roles[data.role]) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/home" replace />;
     }
 
     return <Navigate to={roles[data.role]} replace />;

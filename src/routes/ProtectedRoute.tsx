@@ -14,7 +14,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
 }) => {
 	const { data } = useAppSelector((state: RootState) => state.user);
 	if (!data) {
-		return <Navigate to="/" />;
+		return <Navigate to="/home" />;
 	}
 	const userRole = data.role || "";
 	if (allowedRoles.includes(userRole)) {
