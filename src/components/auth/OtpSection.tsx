@@ -48,7 +48,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
     }, [timeLeft]);
 
     const startTimer = () => {
-        setTimeLeft(6);
+        setTimeLeft(60);
         setCanResend(false);
     };
 
@@ -86,6 +86,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
             console.log("otp submit response", response);
 
             if (!response.payload.success) {
+                setLoading(false)
                 toast.error("OTP doesn't match. Try again...")
             } else {
 

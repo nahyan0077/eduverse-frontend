@@ -5,11 +5,11 @@ import { AxiosError } from "axios";
 
 export const verifyInstructorAction = createAsyncThunk(
 	"admin/verifyInstructor",
-	async (id: string, { rejectWithValue }) => {
+	async (data: { id: string; email: string }, { rejectWithValue }) => {
 		try {
 			const response = await CLIENT_API.patch(
-				"/api/user/verfiy-instructor",
-				id,
+				"/api/user/verify-instructor",
+				data,
 				config
 			);
 

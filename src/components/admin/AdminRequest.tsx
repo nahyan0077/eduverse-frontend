@@ -5,8 +5,8 @@ import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { getAllInstructorsAction } from "@/redux/store/actions/user";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
-import DownloadIcon from '@mui/icons-material/Download';
-
+import DownloadIcon from "@mui/icons-material/Download";
+import { verifyInstructorAction } from "@/redux/store/actions/admin";
 
 interface InstructorRequest {
 	_id: string;
@@ -14,6 +14,7 @@ interface InstructorRequest {
 	createdAt: string;
 	isVerified: boolean;
 	cvUrl: string;
+	email: string;
 }
 
 export const AdminRequests: React.FC = () => {
@@ -21,7 +22,11 @@ export const AdminRequests: React.FC = () => {
 	const [requests, setRequests] = useState<InstructorRequest[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
-    const [isModalVisible, setModalVisible] = useState(false);
+	const [isModalVisible, setModalVisible] = useState(false);
+	const [selectedRequest, setSelectedRequest] = useState<{
+		id: string;
+		email: string;
+	} | null>(null);
 
 	useEffect(() => {
 		const fetchInstructors = async () => {
@@ -54,14 +59,29 @@ export const AdminRequests: React.FC = () => {
 		return <div>Error: {error}</div>;
 	}
 
-    const handleDelete = async () => {
+	const handleDelete = async () => {
+		if (selectedRequest) {
+			const response = await dispatch(
+				verifyInstructorAction({
+					id: selectedRequest.id,
+					email: selectedRequest.email,
+				})
+			);
+			console.log(response, "verify instructor response");
 
-		
+			if (verifyInstructorAction.fulfilled.match(response)) {
+				setRequests((prevRequest) =>
+					prevRequest.map((request) =>
+						request._id === selectedRequest.id
+							? { ...request, isVerified: true }
+							: request
+					)
+				);
+			}
 
-		console.log("Item deleted");
-		setModalVisible(false);
-
-
+			console.log("Item deleted");
+			setModalVisible(false);
+		}
 	};
 
 	const handleCancel = () => {
@@ -69,7 +89,8 @@ export const AdminRequests: React.FC = () => {
 		setModalVisible(false);
 	};
 
-	const handleVerify = async () => {
+	const handleVerify = async (id: string, email: string) => {
+		setSelectedRequest({ id, email });
 		setModalVisible(true);
 	};
 
@@ -80,14 +101,14 @@ export const AdminRequests: React.FC = () => {
 
 	return (
 		<div className="overflow-x-auto max-w-full mx-auto p-8">
-            			{isModalVisible && (
+			{isModalVisible && (
 				<ConfirmModal
 					message="verfiy the instructor"
 					onConfirm={handleDelete}
 					onCancel={handleCancel}
 				/>
 			)}
-            <h1 className="text-3xl font-bold ml-10 mb-10" >Requests</h1>
+			<h1 className="text-3xl font-bold ml-10 mb-10">Requests</h1>
 			<table className="table table-lg">
 				<thead className="text-lg uppercase text-center">
 					<tr>
@@ -105,7 +126,10 @@ export const AdminRequests: React.FC = () => {
 							<td>{request.userName}</td>
 							<td>{format(new Date(request.createdAt), "dd-MM-yyyy")}</td>
 							<td>
-								<button className="btn btn-outline btn-info btn-sm" onClick={() => downloadCV(request.cvUrl)}>
+								<button
+									className="btn btn-outline btn-info btn-sm"
+									onClick={() => downloadCV(request.cvUrl)}
+								>
 									CV <DownloadIcon fontSize="small" />
 								</button>
 							</td>
@@ -113,7 +137,10 @@ export const AdminRequests: React.FC = () => {
 								{request.isVerified ? (
 									<DoneOutlineIcon color="success" />
 								) : (
-									<button onClick={ handleVerify } className="btn btn-outline btn-success btn-sm ">
+									<button
+										onClick={() => handleVerify(request._id, request.email)}
+										className="btn btn-outline btn-success btn-sm "
+									>
 										{" "}
 										Verify{" "}
 									</button>
