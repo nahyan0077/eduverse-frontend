@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ui/theme-provider";
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
@@ -10,6 +11,9 @@ const HeroSection: React.FC = () => {
   const { theme } = useTheme();
   const { data } = useAppSelector((state: RootState) => state.user);
 
+  const headingClass = useMemo(() => `text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 ${theme === "light" ? "text-violet-700" : "text-white"}`, [theme]);
+  const paragraphClass = useMemo(() => `text-lg sm:text-xl md:text-xl ${theme === "light" ? "text-violet-700" : "text-gray-300"} mb-8`, [theme]);
+  
   return (
     <div className="text-violet-700 py-7 px-4 sm:px-6 lg:px-8 md:mt-20 lg:mb-10">
       <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
@@ -17,21 +21,17 @@ const HeroSection: React.FC = () => {
           <AnimatePresence>
             <motion.h1
               key="heading1"
-              className={`text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 ${
-                theme === "light" ? "text-violet-700" : "text-white"
-              }`}
+              className={headingClass}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <span className="text-yellow-600">Studying</span> Online is{" "}
+              <span className="text-yellow-600">Studying</span> Online is
             </motion.h1>
             <motion.h1
               key="heading2"
-              className={`text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 ${
-                theme === "light" ? "text-violet-700" : "text-white"
-              }`}
+              className={headingClass}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -41,9 +41,7 @@ const HeroSection: React.FC = () => {
             </motion.h1>
             <motion.p
               key="paragraph1"
-              className={`text-lg sm:text-xl md:text-xl ${
-                theme === "light" ? "text-violet-700" : "text-gray-300"
-              }`}
+              className={paragraphClass}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -53,9 +51,7 @@ const HeroSection: React.FC = () => {
             </motion.p>
             <motion.p
               key="paragraph2"
-              className={`text-lg sm:text-xl md:text-xl ${
-                theme === "light" ? "text-violet-700" : "text-gray-300"
-              } mb-8`}
+              className={paragraphClass}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -93,9 +89,7 @@ const HeroSection: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 1 }}
-              className={`bg-transparent ${
-                theme === "light" ? "text-violet-700" : "text-white"
-              } border border-violet-700 font-bold py-3 px-6 rounded-full mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]`}
+              className={`bg-transparent ${theme === "light" ? "text-violet-700" : "text-white"} border border-violet-700 font-bold py-3 px-6 rounded-full mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.2 }}

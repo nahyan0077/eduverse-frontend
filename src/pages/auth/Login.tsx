@@ -133,7 +133,6 @@ const Login: React.FC = () => {
 							</span>{" "}
 							Login
 						</h1>
-
 						<div className="flex flex-col gap-3 m-2">
 							<Formik
 								initialValues={initialValues}
