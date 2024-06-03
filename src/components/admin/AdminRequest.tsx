@@ -13,7 +13,7 @@ interface InstructorRequest {
 	userName: string;
 	createdAt: string;
 	isVerified: boolean;
-	cvUrl: string;
+	cv: string;
 	email: string;
 }
 
@@ -128,7 +128,7 @@ export const AdminRequests: React.FC = () => {
 							<td>
 								<button
 									className="btn btn-outline btn-info btn-sm"
-									onClick={() => downloadCV(request.cvUrl)}
+									onClick={() => downloadCV(request.cv)}
 								>
 									CV <DownloadIcon fontSize="small" />
 								</button>
