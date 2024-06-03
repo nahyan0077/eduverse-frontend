@@ -5,7 +5,7 @@ import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import CloseIcon from "@mui/icons-material/Close";
 import { blockUserAction } from "@/redux/store/actions/admin";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "sonner";
 import { format } from "date-fns";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 
@@ -70,27 +70,9 @@ export const AdminStudents: React.FC = () => {
 							: student
 					)
 				);
-				toast.success("User blocked/unblocked successfully", {
-					position: "top-right",
-					autoClose: 4000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
+				toast.success("User blocked/unblocked successfully");
 			} else {
-				toast.error("Error occurred", {
-					position: "top-right",
-					autoClose: 4000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
+				toast.error("Error occurred");
 			}
 			setModalVisible(false);
 			setSelectedStudent(null);
@@ -117,7 +99,7 @@ export const AdminStudents: React.FC = () => {
 
 	return (
 		<div className="overflow-x-auto max-w-full mx-auto p-8">
-			<ToastContainer />
+			<Toaster richColors position="top-right" />
 			{isModalVisible && (
 				<ConfirmModal
 					message={` ${

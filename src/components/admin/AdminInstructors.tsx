@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { format } from "date-fns";
 import { blockUserAction } from "@/redux/store/actions/admin";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "sonner";
 
 interface Instructor {
 	_id: string;
@@ -69,27 +69,9 @@ export const AdminInstructors: React.FC = () => {
 							: instructor
 					)
 				);
-				toast.success(`Instructor ${selectedInstructor.isBlocked ? 'unblocked' : 'blocked' } successfully`, {
-					position: "top-right",
-					autoClose: 4000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
+				toast.success(`Instructor ${selectedInstructor.isBlocked ? 'unblocked' : 'blocked' } successfully`);
 			} else {
-				toast.error("Error occurred", {
-					position: "top-right",
-					autoClose: 4000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
+				toast.error("Error occurred");
 			}
 			setModalVisible(false);
 			setSelectedInstructor(null);
@@ -118,7 +100,7 @@ export const AdminInstructors: React.FC = () => {
 
 	return (
 		<div className="overflow-x-auto max-w-full mx-auto p-8">
-			<ToastContainer />
+			<Toaster richColors position="top-right"  />
 			{isModalVisible && (
 				<ConfirmModal
 					message={` ${

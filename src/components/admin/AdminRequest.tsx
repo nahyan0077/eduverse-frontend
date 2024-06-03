@@ -7,6 +7,9 @@ import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import DownloadIcon from "@mui/icons-material/Download";
 import { verifyInstructorAction } from "@/redux/store/actions/admin";
+import { rejectInstructorAction } from "@/redux/store/actions/admin/rejectInstructorAction";
+import CloseIcon from '@mui/icons-material/Close';
+import { Toaster, toast } from "sonner";
 
 interface InstructorRequest {
 	_id: string;
@@ -15,6 +18,7 @@ interface InstructorRequest {
 	isVerified: boolean;
 	cv: string;
 	email: string;
+	isRejected: boolean
 }
 
 export const AdminRequests: React.FC = () => {
@@ -23,7 +27,12 @@ export const AdminRequests: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const [isModalVisible, setModalVisible] = useState(false);
+	const [isModalVisible1, setModalVisible1] = useState(false);
 	const [selectedRequest, setSelectedRequest] = useState<{
+		id: string;
+		email: string;
+	} | null>(null);
+	const [rejectedRequest, setRejectedRequest] = useState<{
 		id: string;
 		email: string;
 	} | null>(null);
@@ -59,6 +68,8 @@ export const AdminRequests: React.FC = () => {
 		return <div>Error: {error}</div>;
 	}
 
+	//approve instructor----------->
+
 	const handleDelete = async () => {
 		if (selectedRequest) {
 			const response = await dispatch(
@@ -66,7 +77,7 @@ export const AdminRequests: React.FC = () => {
 					id: selectedRequest.id,
 					email: selectedRequest.email,
 				})
-			);
+			);requests
 			console.log(response, "verify instructor response");
 
 			if (verifyInstructorAction.fulfilled.match(response)) {
@@ -81,6 +92,7 @@ export const AdminRequests: React.FC = () => {
 
 			console.log("Item deleted");
 			setModalVisible(false);
+			toast.success("instructor rejected successfully..!")
 		}
 	};
 
@@ -94,29 +106,86 @@ export const AdminRequests: React.FC = () => {
 		setModalVisible(true);
 	};
 
+
+	//reject instructor------------------>
+
+	const handleDelete1 = async () => {
+		if (rejectedRequest) {
+			const response = await dispatch(
+				rejectInstructorAction({
+					id: rejectedRequest.id,
+					email: rejectedRequest.email,
+				})
+			);
+			console.log(response, "verify instructor response");
+
+			if (rejectInstructorAction.fulfilled.match(response)) {
+				setRequests((prevRequest) =>
+					prevRequest.map((request) =>
+						request._id === rejectedRequest.id
+							? { ...request, isRejected: true }
+							: request
+					)
+				);
+			}
+
+			console.log("Item deleted");
+			setModalVisible1(false);
+			toast.success("instructor approved successfully...!")
+		}
+	};
+
+	const handleCancel1 = () => {
+		console.log("Action cancelled");
+		setModalVisible1(false);
+	};
+
+
+
+
+
+	const handleReject = async (id: string, email: string) => {
+		setRejectedRequest({ id, email });
+		setModalVisible1(true);
+	};
+
+
+
+
+
 	const downloadCV = (cvUrl: string) => {
 		// Implement download logic here, such as opening the CV in a new tab
+	
 		window.open(cvUrl, "_blank");
+	
 	};
 
 	return (
 		<div className="overflow-x-auto max-w-full mx-auto p-8">
+			<Toaster richColors position="top-center" />
 			{isModalVisible && (
 				<ConfirmModal
-					message="verfiy the instructor"
+					message= "verify the instructor"
 					onConfirm={handleDelete}
 					onCancel={handleCancel}
 				/>
 			)}
+			{isModalVisible1 && (
+				<ConfirmModal
+					message= "reject the instructor"
+					onConfirm={handleDelete1}
+					onCancel={handleCancel1}
+				/>
+			)}
 			<h1 className="text-3xl font-bold ml-10 mb-10">Requests</h1>
 			<table className="table table-lg">
-				<thead className="text-lg uppercase text-center">
+				<thead className="text-lg uppercase text-center bg-gray-950 ">
 					<tr>
 						<th>Si.No</th>
 						<th>Name</th>
 						<th>Applied Date</th>
 						<th>CV</th>
-						<th>Verify</th>
+						<th>Verify/Reject</th>
 					</tr>
 				</thead>
 				<tbody className="text-center">
@@ -134,9 +203,12 @@ export const AdminRequests: React.FC = () => {
 								</button>
 							</td>
 							<td>
-								{request.isVerified ? (
+							{request.isRejected ? <CloseIcon color="error" /> : 
+								request.isVerified ? (
 									<DoneOutlineIcon color="success" />
 								) : (
+									<div className="flex justify-center gap-3" >
+
 									<button
 										onClick={() => handleVerify(request._id, request.email)}
 										className="btn btn-outline btn-success btn-sm "
@@ -144,7 +216,16 @@ export const AdminRequests: React.FC = () => {
 										{" "}
 										Verify{" "}
 									</button>
-								)}
+									<button
+										onClick={() => handleReject(request._id, request.email)}
+										className="btn btn-outline btn-error btn-sm "
+									>
+										{" "}
+										Reject{" "}
+									</button>
+									</div>
+								)
+							}
 							</td>
 						</tr>
 					))}
