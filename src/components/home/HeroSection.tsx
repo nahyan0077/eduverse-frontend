@@ -77,13 +77,13 @@ const HeroSection: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 1 }}
-                onClick={() => navigate("/")}
+                onClick={() => data.role === "student" ? navigate("/") : navigate("/")}
                 className="bg-violet-700 text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
               >
-                Explore More
+                {data.role === "student" ? "Go to Dashboard" : "Explore More"}
               </motion.button>
             )}
             <motion.button

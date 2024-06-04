@@ -75,7 +75,7 @@ const Header: React.FC = () => {
 				/>
 			)}
 			<nav
-				className={`p-5  shadow-md sticky top-0 z-10 ${
+				className={`p-5 shadow-md sticky top-0 z-10 ${
 					theme === "light" ? "bg-white" : "bg-gray-950"
 				}`}
 			>

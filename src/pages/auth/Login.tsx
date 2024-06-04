@@ -54,8 +54,7 @@ const Login: React.FC = () => {
 				
 				navigate("/verification-page");
 			}else if (result.payload.data.role == "student"){
-				navigate("/");
-				
+				navigate("/home");
 			}else{
 				navigate("/admin");
 			}
@@ -70,11 +69,11 @@ const Login: React.FC = () => {
 			console.log(response.payload,"check gauth");
 			
 
-			if(response.payload.existingUser  && response.payload.isGAuth){
+			if(response.payload.existingUser  && response.payload.data.isGAuth){
 				dispatch(storeUserData(response.payload.data));
                 navigate('/')
                 return
-            }else if(response.payload.existingUser  && !response.payload.isGAuth){
+            }else if(response.payload.existingUser  && !response.payload.data.isGAuth){
 				toast.error("Account already exist",{description: "Account created using email and password can't login using Google !!",duration:6000});
 				return
 			}

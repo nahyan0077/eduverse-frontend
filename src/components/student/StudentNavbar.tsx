@@ -66,6 +66,9 @@ const StudentNavbar: React.FC = () => {
 								<a>Profile</a>
 							</li>
 							<li>
+								<a onClick={()=>navigate('/home')} >Home</a>
+							</li>
+							<li>
 								<a onClick={handleLogout}>Logout</a>
 							</li>
 						</ul>
