@@ -18,8 +18,6 @@ import { GoogleLogin } from "@react-oauth/google";
 import { SignupFormData } from "@/types/IForms";
 import { googleAuthAction } from "@/redux/store/actions/auth";
 
-
-
 const Login: React.FC = () => {
 	const navigate = useNavigate();
 	const { theme } = useTheme();
@@ -45,20 +43,18 @@ const Login: React.FC = () => {
 
 		console.log("login approval", result);
 
-		if ( !result.payload || !result.payload.success) {
+		if (!result.payload || !result.payload.success) {
 			toast.error(result?.payload?.message || userData?.error);
 		} else {
 			dispatch(storeUserData(result.payload.data));
 
 			if (result.payload.data.role == "instructor") {
-				
 				navigate("/verification-page");
-			}else if (result.payload.data.role == "student"){
+			} else if (result.payload.data.role == "student") {
 				navigate("/home");
-			}else{
+			} else {
 				navigate("/admin");
 			}
-
 		}
 	};
 
@@ -66,15 +62,28 @@ const Login: React.FC = () => {
 		try {
 			const response = await dispatch(googleAuthAction(credentialResponse));
 
-			console.log(response.payload,"check gauth");
-			
+			console.log(response.payload, "check gauth");
 
-			if(response.payload.existingUser  && response.payload.data.isGAuth){
+			if (response.payload.existingUser && response.payload.data.isGAuth) {
 				dispatch(storeUserData(response.payload.data));
-                navigate('/')
-                return
-            }else if(response.payload.existingUser  && !response.payload.data.isGAuth){
-				toast.error("Account already exist",{description: "Account created using email and password can't login using Google !!",duration:6000});
+
+				navigate("/");
+				return;
+			} else if (
+				response.payload.existingUser &&
+				!response.payload.data.isGAuth
+			) {
+				toast.error("Account already exist", {
+					description:
+						"Account created using email and password can't login using Google !!",
+					duration: 6000,
+				});
+				return;
+			}else if (
+				!response.payload.existingUser &&
+				!response.payload.data.isGAuth
+			){
+				navigate('/selection')
 				return
 			}
 
@@ -82,17 +91,14 @@ const Login: React.FC = () => {
 				role: location.state.role || null,
 				email: response.payload.data.email,
 				password: response.payload.data.password,
-				userName: "."+response.payload.data.email.split("@")[0].toLowerCase(),
+				userName: "." + response.payload.data.email.split("@")[0].toLowerCase(),
 				isGAuth: true,
-				isVerified: location.state.role == 'instructor' ? false : true 
+				isVerified: location.state.role == "instructor" ? false : true,
 			};
 
-			console.log(allData,"check gauth----->");
-			
+			console.log(allData, "check gauth----->");
 
-			if(location.state.role == null ){
-				navigate('/selection')
-			}else if (location.state.role === "student") {
+			if (location.state.role === "student") {
 				navigate("/student-form", { state: allData });
 			} else {
 				navigate("/teacher-form", { state: allData });
@@ -131,7 +137,7 @@ const Login: React.FC = () => {
 									theme === "light" ? "text-blue-950" : "text-white"
 								}`}
 							>
-								{role ?  role.charAt(0).toUpperCase() + role.slice(1) : "" }
+								{role ? role.charAt(0).toUpperCase() + role.slice(1) : ""}
 							</span>{" "}
 							Login
 						</h1>
@@ -162,24 +168,33 @@ const Login: React.FC = () => {
 							</Formik>
 
 							<div className="flex justify-between">
-								{role == "" ?
-								<p
-									className="text-center text-sm hover:cursor-pointer ml-2"
-									onClick={() => navigate("/selection", { state: location.state })}
+								{role == "" ? (
+									<p
+										className="text-center text-sm hover:cursor-pointer ml-2"
+										onClick={() =>
+											navigate("/selection", { state: location.state })
+										}
+									>
+										Don't have an account?{" "}
+										<span className="text-violet-700 font-bold">
+											Get Started
+										</span>
+									</p>
+								) : (
+									<p
+										className="text-center text-sm hover:cursor-pointer ml-2"
+										onClick={() =>
+											navigate("/signup", { state: location.state })
+										}
+									>
+										Don't have an account?{" "}
+										<span className="text-violet-700 font-bold">Signup</span>
+									</p>
+								)}
+								<div
+									className="text-violet-500 text-sm font-bold hover:cursor-pointer"
+									onClick={() => navigate("/confirm-email")}
 								>
-									Don't have an account?{" "}
-									<span className="text-violet-700 font-bold">Get Started</span>
-								</p>
-								:
-								<p
-								className="text-center text-sm hover:cursor-pointer ml-2"
-								onClick={() => navigate("/signup", { state: location.state })}
-							>
-								Don't have an account?{" "}
-								<span className="text-violet-700 font-bold">Signup</span>
-							</p>
-							}
-								<div className="text-violet-500 text-sm font-bold hover:cursor-pointer" onClick={()=>navigate('/confirm-email')} >
 									Forgot Password?
 								</div>
 							</div>
@@ -191,7 +206,6 @@ const Login: React.FC = () => {
 										console.log("Login Failed");
 									}}
 									width="250"
-									
 								/>
 							</div>
 						</div>

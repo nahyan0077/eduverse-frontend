@@ -85,7 +85,7 @@ const SignUp: React.FC = () => {
 				role: location.state.role,
 				email: response.payload.data.email,
 				password: response.payload.data.password,
-				userName: response.payload.data.email.split("@")[0].toLowerCase(),
+				userName: "."+response.payload.data.email.split("@")[0].toLowerCase(),
 				isGAuth: true,
 				isVerified: location.state.role == "instructor" ? false : true,
 			};
