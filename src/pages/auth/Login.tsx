@@ -9,7 +9,7 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { loginAction } from "@/redux/store/actions/auth/loginAction";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
 import { storeUserData } from "@/redux/store/slices/user";
 import { RootState } from "@/redux/store";
@@ -46,16 +46,7 @@ const Login: React.FC = () => {
 		console.log("login approval", result);
 
 		if ( !result.payload || !result.payload.success) {
-			toast.error(result?.payload?.message || userData?.error, {
-				position: "top-center",
-				autoClose: 4000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "dark",
-			});
+			toast.error(result?.payload?.message || userData?.error);
 		} else {
 			dispatch(storeUserData(result.payload.data));
 
@@ -76,21 +67,33 @@ const Login: React.FC = () => {
 		try {
 			const response = await dispatch(googleAuthAction(credentialResponse));
 
-			if(response.payload.existingUser){
+			console.log(response.payload,"check gauth");
+			
+
+			if(response.payload.existingUser  && response.payload.isGAuth){
+				dispatch(storeUserData(response.payload.data));
                 navigate('/')
                 return
-            }
+            }else if(response.payload.existingUser  && !response.payload.isGAuth){
+				toast.error("Account already exist",{description: "Account created using email and password can't login using Google !!",duration:6000});
+				return
+			}
 
 			const allData: SignupFormData = {
-				role: location.state.role,
+				role: location.state.role || null,
 				email: response.payload.data.email,
 				password: response.payload.data.password,
-				userName: response.payload.data.email.split("@")[0].toLowerCase(),
+				userName: "."+response.payload.data.email.split("@")[0].toLowerCase(),
 				isGAuth: true,
 				isVerified: location.state.role == 'instructor' ? false : true 
 			};
 
-			if (location.state.role === "student") {
+			console.log(allData,"check gauth----->");
+			
+
+			if(location.state.role == null ){
+				navigate('/selection')
+			}else if (location.state.role === "student") {
 				navigate("/student-form", { state: allData });
 			} else {
 				navigate("/teacher-form", { state: allData });
@@ -105,7 +108,7 @@ const Login: React.FC = () => {
 
 	return (
 		<>
-			<ToastContainer />
+			<Toaster richColors position="top-center" />
 			<Header />
 			<div className="min-h-screen">
 				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center mt-20">

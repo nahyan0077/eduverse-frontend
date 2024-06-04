@@ -9,6 +9,7 @@ import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaiti
 import { SignupFormData } from "@/types/IForms";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { CustomPdfFileInput } from "../fileInputs/pdfInput";
+import { signupAction } from "@/redux/store/actions/auth";
 
 const TeacherForm2: React.FC = () => {
 	const { theme } = useTheme();
@@ -56,6 +57,12 @@ const TeacherForm2: React.FC = () => {
 			setLoading(false);
 			navigate('/otp', { state: allData });
 		} else {
+
+			const response: any = await dispatch(signupAction(allData))
+
+			console.log(response,"instru signup gauth");
+			
+
 			setLoading(false);
 			navigate('/verification-page');
 		}

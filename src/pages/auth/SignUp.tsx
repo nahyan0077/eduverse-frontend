@@ -13,6 +13,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { motion } from "framer-motion";
 import { Toaster, toast } from 'sonner';
 import 'react-toastify/dist/ReactToastify.css';
+import { storeUserData } from "@/redux/store/slices/user";
 
 
 const SignUp: React.FC = () => {
@@ -68,10 +69,14 @@ const SignUp: React.FC = () => {
             const response = await dispatch(googleAuthAction(credentialResponse));
             console.log("google auth res: ",response);
             
-            if(response.payload.existingUser){
+			if(response.payload.existingUser  && response.payload.isGAuth){
+				dispatch(storeUserData(response.payload.data));
                 navigate('/')
                 return
-            }
+            }else if(response.payload.existingUser  && !response.payload.isGAuth){
+				toast.error("Account already exist",{description: "Account created using email and password can't login using Google !!",duration:6000});
+				return
+			}
 
 
             const allData: SignupFormData = {

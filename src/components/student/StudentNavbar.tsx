@@ -5,11 +5,16 @@ import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import { useAppDispatch } from "@/hooks/hooks";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
+
 
 const StudentNavbar: React.FC = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const userData = useSelector((state: RootState) => state.user);
 
 	const handleDelete = async () => {
 		dispatch(logoutAction()).then(() => {
@@ -51,6 +56,7 @@ const StudentNavbar: React.FC = () => {
 							className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
 						>
 							<IoMdPerson className="text-xl" />
+							{userData.data?.userName}
 						</div>
 						<ul
 							tabIndex={0}
