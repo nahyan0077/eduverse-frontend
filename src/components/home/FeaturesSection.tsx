@@ -3,10 +3,10 @@ import pic1 from "@/assets/home/5 SCENE.png";
 import pic2 from "@/assets/home/3 SCENE.png";
 import pic3 from "@/assets/home/6 SCENE.png";
 import pic4 from "@/assets/home/9 SCENE.png";
-import pic5 from "@/assets/home/1 SCENE.png";
 import { useTheme } from "../ui/theme-provider";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const FeaturesSection: React.FC = () => {
 	const { theme } = useTheme();
@@ -177,7 +177,12 @@ const FeaturesSection: React.FC = () => {
 					} rounded-xl p-5`}
 				>
 					<motion.div className="w-full lg:w-1/2" {...motionSettings}>
-						<img src={pic5} alt="Feature 5" />
+					<Player
+            autoplay
+            loop
+            src="https://lottie.host/645f042e-dfa0-46bf-9f04-41345f0185fa/jqiYhEOdQ1.json"
+            style={{ height: "80%", width: "80%" }}
+          />
 					</motion.div>
 					<motion.div className="w-full lg:w-1/2" {...motionSettings}>
 						<h1 className="text-2xl font-bold text-violet-700 text-center">

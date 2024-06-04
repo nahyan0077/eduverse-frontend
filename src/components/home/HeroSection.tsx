@@ -12,10 +12,10 @@ const HeroSection: React.FC = () => {
   const { data } = useAppSelector((state: RootState) => state.user);
 
   const headingClass = useMemo(() => `text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 ${theme === "light" ? "text-violet-700" : "text-white"}`, [theme]);
-  const paragraphClass = useMemo(() => `text-lg sm:text-xl md:text-xl ${theme === "light" ? "text-violet-700" : "text-gray-300"} mb-8`, [theme]);
+  const paragraphClass = useMemo(() => `text-lg sm:text-md md:text-md font-Josefin mt-1 ${theme === "light" ? "text-violet-700" : "text-gray-300"} `, [theme]);
   
   return (
-    <div className="text-violet-700 py-7 px-4 sm:px-6 lg:px-8 md:mt-20 lg:mb-10">
+    <div className="text-violet-700 px-4 sm:px-6 lg:px-8 md:mt-20 lg:mb-10">
       <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
         <div className="flex flex-col items-center lg:w-1/2 lg:pr-10">
           <AnimatePresence>
@@ -41,7 +41,7 @@ const HeroSection: React.FC = () => {
             </motion.h1>
             <motion.p
               key="paragraph1"
-              className={paragraphClass}
+              className={paragraphClass} 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -60,7 +60,7 @@ const HeroSection: React.FC = () => {
               will teach you in a more interactive way.
             </motion.p>
           </AnimatePresence>
-          <div className="flex items-center justify-center flex-wrap">
+          <div className="flex items-center justify-center flex-wrap mt-8">
             {!data ? (
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -100,7 +100,7 @@ const HeroSection: React.FC = () => {
         </div>
         <motion.div
           key="heroImage"
-          className="lg:w-1/2 mb-8 lg:mb-0"
+          className="lg:w-1/2 mb-10 lg:mb-0"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
@@ -109,8 +109,8 @@ const HeroSection: React.FC = () => {
           <Player
             autoplay
             loop
-            src="https://lottie.host/645f042e-dfa0-46bf-9f04-41345f0185fa/jqiYhEOdQ1.json"
-            style={{ height: "100%", width: "100%" }}
+            src="https://lottie.host/ddd3b99d-b9aa-45f4-9078-b9b2bc917dad/wvJrZHR6mK.json"
+            style={{ height: "80%", width: "80%" }}
           />
         </motion.div>
       </div>
