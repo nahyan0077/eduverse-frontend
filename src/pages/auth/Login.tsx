@@ -64,7 +64,7 @@ const Login: React.FC = () => {
 
 			console.log(response.payload, "check gauth");
 
-			if (response.payload.existingUser && response.payload.data.isGAuth) {
+			if (response.payload.existingUser && response.payload.data.isGAuth && !response.payload.data.isBlocked) {
 				dispatch(storeUserData(response.payload.data));
 
 				navigate("/");
@@ -84,6 +84,13 @@ const Login: React.FC = () => {
 				!response.payload.data.isGAuth
 			){
 				navigate('/selection')
+				return
+			}else if(response.payload.existingUser && response.payload.data.isBlocked){
+				toast.error("This account blocked..!", {
+					description:
+						"Your account has been blocked by the Eduverse Team !!",
+					duration: 6000,
+				});
 				return
 			}
 

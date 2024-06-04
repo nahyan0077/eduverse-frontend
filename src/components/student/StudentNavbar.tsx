@@ -63,7 +63,7 @@ const StudentNavbar: React.FC = () => {
 							className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
 						>
 							<li>
-								<a>Profile</a>
+								<a onClick={()=>navigate('/student/profile')} >Profile</a>
 							</li>
 							<li>
 								<a onClick={()=>navigate('/home')} >Home</a>
