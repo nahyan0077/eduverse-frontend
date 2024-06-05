@@ -7,7 +7,7 @@ import PasswordField from "../auth/PasswordField";
 import { useAppDispatch } from "@/hooks/hooks";
 import { updatePasswordAction } from "@/redux/store/actions/auth/updatePasswordAction";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "sonner";
 import { useTheme } from "../ui/theme-provider";
 
 export const ResetPasswordSection: React.FC = () => {
@@ -36,25 +36,18 @@ export const ResetPasswordSection: React.FC = () => {
 			updatePasswordAction({ token, password: values.password })
 		);
 
+
+
 		if (response.payload.success) {
 			navigate("/");
 		} else {
-			toast.success("Password change failed", {
-				position: "top-right",
-				autoClose: 4000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "dark",
-			});
+			toast.success("Password change failed");
 		}
 	};
 
 	return (
 		<div className="flex flex-col items-center -mt-20 min-h-screen max-w-7xl mx-auto md:flex-row">
-			<ToastContainer />
+			<Toaster richColors position="top-center" />
 			<motion.div
 				className="w-full md:w-1/2 p-8"
 				initial={{ opacity: 0, x: -100 }}

@@ -5,7 +5,7 @@ import confirmEmail from '@/assets/auth/confirm-email-forgot-pass.png'
 import InputField from "@/components/common/skeleton/InputField";
 import { useAppDispatch } from "@/hooks/hooks";
 import { findEmailAction, forgotPasswordMailAction } from "@/redux/store/actions/auth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, Toaster } from "sonner";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { useTheme } from "../ui/theme-provider";
 
@@ -32,31 +32,26 @@ export const ConfirmEmailForgotPassword: React.FC = () => {
 
             const response1 = await dispatch(forgotPasswordMailAction(values.email))
             setLoading(false)
-            toast.success('Please check you email to reset password..!!', {
-                position: "top-right",
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            if(response1.payload.isBlocked){
+                toast.error("User is blocked ",{
+                    description: "This account is been blocked by the Eduverse Team...!"
+                })
+                return
+            }
+            if(response1.payload.isGAuth){
+                toast.error("This users password can't be resetted ",{
+                    description: "This account is been logged using google credentials...!"
+                })
+                return
+            }
+            toast.success('Please check you email to reset password..!!');
 
             console.log(response1,"email sendd");
             
             
         }else{
             setLoading(false)
-            toast.error('User not existt in this email', {
-                position: "top-right",
-                autoClose: 4000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error('User not existt in this email');
         }
         
 
@@ -65,7 +60,7 @@ export const ConfirmEmailForgotPassword: React.FC = () => {
     return (
         <div className="flex flex-col items-center min-h-screen max-w-7xl mx-auto md:flex-row -mt-20">
             <LoadingPopUp isLoading={isLoading} />
-             <ToastContainer />
+             <Toaster richColors position="top-center" />
             <motion.div
                 className="w-full md:w-1/2 p-8"
                 initial={{ opacity: 0, x: -100 }}

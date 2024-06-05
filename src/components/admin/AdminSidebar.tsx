@@ -87,7 +87,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSideb
                 Students
               </motion.span>
             </Link>
-            <Link to="/admin/courses" className={linkClasses('courses')} onClick={() => setCurrentPage('courses')}>
+            <Link to="/admin/categories" className={linkClasses('categories')} onClick={() => setCurrentPage('categories')}>
               <ClassIcon />
               <motion.span
                 initial="hidden"
