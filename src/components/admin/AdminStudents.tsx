@@ -8,6 +8,7 @@ import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { Toaster, toast } from "sonner";
 import { format } from "date-fns";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
+import { useNavigate } from "react-router-dom";
 
 
 interface Student {
@@ -28,6 +29,7 @@ export const AdminStudents: React.FC = () => {
 		id: string;
 		isBlocked: boolean;
 	} | null>(null);
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchStudents = async () => {
@@ -89,6 +91,14 @@ export const AdminStudents: React.FC = () => {
 		setModalVisible(true);
 	};
 
+	const handleDisplayUser = (id: string) => {
+		const user = students.filter((data) => {
+			return data._id == id
+		})
+
+		navigate('/admin/user-data',{state: {user}})
+	}
+
 	if (loading) {
 		return <LoadingPopUp isLoading={loading} />;
 	}
@@ -122,7 +132,7 @@ export const AdminStudents: React.FC = () => {
 				</thead>
 				<tbody className="text-center">
 					{students.map((student, index) => (
-						<tr key={student._id} className="hover:bg-gray-800">
+						<tr key={student._id} className="hover:bg-gray-800" onClick={()=>handleDisplayUser(student._id)} >
 							<th>{index + 1}</th>
 							<td>{student.userName}</td>
 							<td>{format(new Date(student.createdAt), "dd-MM-yyyy")}</td>

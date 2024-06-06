@@ -9,26 +9,18 @@ export interface UserState {
 	loading: boolean;
 	data: SignupFormData | null;
 	error: string | null;
-	temp: SignupFormData | null;
 }
 
 const initialState: UserState = {
 	loading: false,
 	data: null,
 	error: null,
-	temp: null,
 };
 
 const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		tempSignUpData: (
-			state: UserState,
-			action: PayloadAction<SignupFormData>
-		) => {
-			state.temp = action.payload;
-		},
 		storeUserData: (
 			state: UserState,
 			action: PayloadAction<SignupFormData>
@@ -128,6 +120,6 @@ const userSlice = createSlice({
 	},
 });
 
-export const { storeUserData, tempSignUpData } = userSlice.actions;
+export const { storeUserData } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

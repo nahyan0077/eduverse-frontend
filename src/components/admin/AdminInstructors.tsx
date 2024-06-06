@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { blockUserAction } from "@/redux/store/actions/admin";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 interface Instructor {
 	_id: string;
@@ -27,6 +28,7 @@ export const AdminInstructors: React.FC = () => {
 		id: string;
 		isBlocked: boolean;
 	} | null>(null);
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchInstructors = async () => {
@@ -90,6 +92,14 @@ export const AdminInstructors: React.FC = () => {
 		setModalVisible(true);
 	};
 
+	const handleDisplayUser = (id: string) => {
+		let user = instructors.filter((data)=> {
+			return data._id === id
+		})
+		navigate('/admin/user-data',{state: {user}})
+		
+	}
+
 	if (loading) {
 		return <LoadingPopUp isLoading={loading} />;
 	}
@@ -123,7 +133,7 @@ export const AdminInstructors: React.FC = () => {
 				</thead>
 				<tbody className="text-center">
 					{instructors.map((instructor, index) => (
-						<tr key={instructor._id} className="hover:bg-gray-800">
+						<tr key={instructor._id} className="hover:bg-gray-800" onClick={()=>handleDisplayUser(instructor._id)} >
 							<th>{index + 1}</th>
 							<td>{instructor.userName}</td>
 							<td>{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>

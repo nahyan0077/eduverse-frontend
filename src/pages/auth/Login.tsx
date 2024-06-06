@@ -43,19 +43,22 @@ const Login: React.FC = () => {
 
 		console.log("login approval", result);
 
-		if (!result.payload || !result.payload.success) {
-			toast.error(result?.payload?.message || userData?.error);
-		} else {
-			dispatch(storeUserData(result.payload.data));
 
-			if (result.payload.data.role == "instructor") {
-				navigate("/verification-page");
-			} else if (result.payload.data.role == "student") {
-				navigate("/home");
+			if (!result.payload || !result.payload.success) {
+				toast.error(result?.payload?.message || userData?.error);
 			} else {
-				navigate("/admin");
+				dispatch(storeUserData(result.payload.data));
+	
+				if (result.payload.data.role == "instructor") {
+					navigate("/verification-page");
+				} else if (result.payload.data.role == "student") {
+					navigate("/home");
+				} else {
+					navigate("/admin");
+				}
 			}
-		}
+	
+
 	};
 
 	const loginWithGoogle = async (credentialResponse: any) => {
