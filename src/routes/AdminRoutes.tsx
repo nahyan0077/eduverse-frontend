@@ -6,6 +6,7 @@ import AdminStudents from "@/components/admin/AdminStudents";
 import { AdminRequests } from "@/components/admin/AdminRequest";
 import { AdminCategory } from "@/components/admin/AdminCategory";
 import  UserDetailPage  from "@/components/admin/AdminUserData";
+import { AdminCourses } from "@/components/admin/AdminCourses";
 
 export const AdminRoutes = () => {
 
@@ -19,6 +20,7 @@ export const AdminRoutes = () => {
 					<Route path="/requests" element={<AdminRequests />} />
 					<Route path="/categories" element={<AdminCategory />} />
 					<Route path="/user-data" element={< UserDetailPage  />} />
+					<Route path="/courses" element={< AdminCourses  />} />
 				</Route>
 			</Routes>
 

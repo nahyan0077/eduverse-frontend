@@ -27,7 +27,7 @@ const Header: React.FC = () => {
 		dispatch(getAllCategories());
 	}, []);
 
-	const catgoryData = useSelector((state: RootState) => state.categroy);
+	const catgoryData = useSelector((state: RootState) => state.category);
 
 	console.log(catgoryData, "categfory data");
 

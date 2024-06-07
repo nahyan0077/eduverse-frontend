@@ -5,7 +5,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ClassIcon from '@mui/icons-material/Class';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-// import SchoolIcon from '@mui/icons-material/School';
+import SchoolIcon from '@mui/icons-material/School';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 interface SidebarProps {

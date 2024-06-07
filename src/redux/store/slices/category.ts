@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { addCategoryAction, getAllCategories } from "../actions/category";
+import {  createSlice } from "@reduxjs/toolkit";
+import {  getAllCategories } from "../actions/category";
 
 interface Category {
     _id: string,

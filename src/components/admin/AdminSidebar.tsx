@@ -7,6 +7,7 @@ import ClassIcon from '@mui/icons-material/Class';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SchoolIcon from '@mui/icons-material/School';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 interface SidebarProps {
   open: boolean;
@@ -95,7 +96,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSideb
                 variants={textVariants}
                 className="ml-2"
               >
-                Courses
+                Categories
               </motion.span>
             </Link>
             <Link to="/admin/requests" className={linkClasses('requests')} onClick={() => setCurrentPage('requests')}>
@@ -107,6 +108,17 @@ const AdminSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSideb
                 className="ml-2"
               >
                 Requests
+              </motion.span>
+            </Link>
+            <Link to="/admin/courses" className={linkClasses('courses')} onClick={() => setCurrentPage('courses')}>
+              <MenuBookIcon />
+              <motion.span
+                initial="hidden"
+                animate={open ? "visible" : "hidden"}
+                variants={textVariants}
+                className="ml-2"
+              >
+                Courses
               </motion.span>
             </Link>
           </nav>
