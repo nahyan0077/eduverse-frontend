@@ -142,7 +142,7 @@ export const AdminCategory: React.FC = () => {
 				</button>
 			</div>
 			<table className="table-auto w-full mt-10">
-				<thead className="text-lg uppercase bg-gray-800">
+				<thead className="text-lg uppercase bg-black">
 					<tr>
 						<th className="px-4 py-2">Si.No</th>
 						<th className="px-4 py-2">Name</th>
@@ -174,7 +174,6 @@ export const AdminCategory: React.FC = () => {
 					))}
 				</tbody>
 			</table>
-
 			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6">
 				<div className="join">
@@ -191,6 +190,7 @@ export const AdminCategory: React.FC = () => {
 					))}
 				</div>
 			</div>
+
 
 			{isModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">

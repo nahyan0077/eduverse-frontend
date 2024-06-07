@@ -28,18 +28,26 @@ export const AdminInstructors: React.FC = () => {
 		id: string;
 		isBlocked: boolean;
 	} | null>(null);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+
+	const [currentPage, setCurrentPage] = useState(1);
+	const usersPerPage = 5;
 
 	useEffect(() => {
 		const fetchInstructors = async () => {
 			try {
 				const resultAction = await dispatch(
-					getAllInstructorsAction({ page: 1, limit: 10 })
+					getAllInstructorsAction({ page: currentPage, limit: usersPerPage })
 				);
-				console.log(resultAction, "aciton result get instr");
+				console.log(resultAction, "action result get instr");
 
 				if (getAllInstructorsAction.fulfilled.match(resultAction)) {
-					setInstructors(resultAction.payload.data);
+					const instructorsData = resultAction.payload.data;
+					if (instructorsData.length > 0) {
+						setInstructors(instructorsData);
+					} else {
+						setCurrentPage((prevPage) => prevPage - 1);
+					}
 				} else {
 					setError("Failed to fetch instructors");
 				}
@@ -51,7 +59,7 @@ export const AdminInstructors: React.FC = () => {
 		};
 
 		fetchInstructors();
-	}, [dispatch]);
+	}, [dispatch, currentPage]);
 
 	const handleDelete = async () => {
 		if (selectedInstructor) {
@@ -71,7 +79,11 @@ export const AdminInstructors: React.FC = () => {
 							: instructor
 					)
 				);
-				toast.success(`Instructor ${selectedInstructor.isBlocked ? 'unblocked' : 'blocked' } successfully`);
+				toast.success(
+					`Instructor ${
+						selectedInstructor.isBlocked ? "unblocked" : "blocked"
+					} successfully`
+				);
 			} else {
 				toast.error("Error occurred");
 			}
@@ -86,19 +98,20 @@ export const AdminInstructors: React.FC = () => {
 	};
 
 	const handleBlock = (instructorId: string, isBlocked: boolean) => {
-		console.log(instructorId, isBlocked, "blk and ukb");
+		console.log(instructorId, isBlocked, "block and unblock");
 
 		setSelectedInstructor({ id: instructorId, isBlocked });
 		setModalVisible(true);
 	};
 
 	const handleDisplayUser = (id: string) => {
-		let user = instructors.filter((data)=> {
-			return data._id === id
-		})
-		navigate('/admin/user-data',{state: {user}})
-		
-	}
+		let user = instructors.filter((data) => data._id === id);
+		navigate("/admin/user-data", { state: { user } });
+	};
+
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page);
+	};
 
 	if (loading) {
 		return <LoadingPopUp isLoading={loading} />;
@@ -109,20 +122,20 @@ export const AdminInstructors: React.FC = () => {
 	}
 
 	return (
-		<div className="overflow-x-auto max-w-full mx-auto p-8">
-			<Toaster richColors position="top-right"  />
+		<div className="overflow-x-auto max-w-7xl mx-auto p-8">
+			<Toaster richColors position="top-right" />
 			{isModalVisible && (
 				<ConfirmModal
-					message={` ${
+					message={`${
 						selectedInstructor?.isBlocked ? "Unblock" : "Block"
-					}  this instructor  `}
+					} this instructor`}
 					onConfirm={handleDelete}
 					onCancel={handleCancel}
 				/>
 			)}
 			<h1 className="text-3xl font-bold ml-10 mb-10">Instructors</h1>
 			<table className="table table-lg">
-				<thead className="text-lg uppercase text-center">
+				<thead className="text-lg uppercase text-center bg-black">
 					<tr>
 						<th>Si.No</th>
 						<th>Name</th>
@@ -133,27 +146,39 @@ export const AdminInstructors: React.FC = () => {
 				</thead>
 				<tbody className="text-center">
 					{instructors.map((instructor, index) => (
-						<tr key={instructor._id} className="hover:bg-gray-800" onClick={()=>handleDisplayUser(instructor._id)} >
-							<th>{index + 1}</th>
+						<tr
+							key={instructor._id}
+							className="hover:bg-gray-800"
+							onClick={() => handleDisplayUser(instructor._id)}
+						>
+							<th>{(currentPage - 1) * usersPerPage + index + 1}</th>
 							<td>{instructor.userName}</td>
 							<td>{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>
-							<td>{instructor.isVerified ? <DoneIcon className="text-green-600" /> : <CloseIcon />}</td>
+							<td>
+								{instructor.isVerified ? (
+									<DoneIcon className="text-green-600" />
+								) : (
+									<CloseIcon />
+								)}
+							</td>
 							<td>
 								{instructor.isBlocked ? (
 									<button
 										className="btn btn-sm btn-outline btn-primary"
-										onClick={() =>
-											handleBlock(instructor._id, instructor.isBlocked)
-										}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleBlock(instructor._id, instructor.isBlocked);
+										}}
 									>
 										Unblock
 									</button>
 								) : (
 									<button
 										className="btn btn-sm btn-outline btn-error"
-										onClick={() =>
-											handleBlock(instructor._id, instructor.isBlocked)
-										}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleBlock(instructor._id, instructor.isBlocked);
+										}}
 									>
 										Block
 									</button>
@@ -163,6 +188,23 @@ export const AdminInstructors: React.FC = () => {
 					))}
 				</tbody>
 			</table>
+
+			{/* Pagination Controls */}
+			<div className="flex justify-center mt-6">
+				<div className="join">
+					{Array.from({ length: Math.max(currentPage, instructors.length === usersPerPage ? currentPage + 1 : currentPage) }, (_, index) => (
+						<input
+							key={index}
+							className="join-item btn btn-square btn-sm"
+							type="radio"
+							name="options"
+							aria-label={`${index + 1}`}
+							checked={currentPage === index + 1}
+							onChange={() => handlePageChange(index + 1)}
+						/>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 };

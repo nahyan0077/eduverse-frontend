@@ -10,6 +10,7 @@ import { verifyInstructorAction } from "@/redux/store/actions/admin";
 import { rejectInstructorAction } from "@/redux/store/actions/admin/rejectInstructorAction";
 import CloseIcon from '@mui/icons-material/Close';
 import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 interface InstructorRequest {
 	_id: string;
@@ -18,7 +19,7 @@ interface InstructorRequest {
 	isVerified: boolean;
 	cv: string;
 	email: string;
-	isRejected: boolean
+	isRejected: boolean;
 }
 
 export const AdminRequests: React.FC = () => {
@@ -37,16 +38,25 @@ export const AdminRequests: React.FC = () => {
 		email: string;
 	} | null>(null);
 
+	const navigate = useNavigate();
+
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const instructorsPerPage = 5;
+	const [totalPages, setTotalPages] = useState<number>(1);
+
 	useEffect(() => {
 		const fetchInstructors = async () => {
 			try {
 				const resultAction = await dispatch(
-					getAllInstructorsAction({ page: 1, limit: 10 })
+					getAllInstructorsAction({ page: currentPage, limit: instructorsPerPage })
 				);
-				console.log(resultAction, "aciton result get instr");
+				console.log(resultAction, "action result get instructors");
 
 				if (getAllInstructorsAction.fulfilled.match(resultAction)) {
-					setRequests(resultAction.payload.data);
+					const instructorsData = resultAction.payload.data;
+					setRequests(instructorsData);
+					const totalPages = instructorsData.length === instructorsPerPage ? currentPage + 1 : currentPage;
+					setTotalPages(totalPages);
 				} else {
 					setError("Failed to fetch instructors");
 				}
@@ -58,7 +68,7 @@ export const AdminRequests: React.FC = () => {
 		};
 
 		fetchInstructors();
-	}, [dispatch]);
+	}, [dispatch, currentPage]);
 
 	if (loading) {
 		return <LoadingPopUp isLoading={loading} />;
@@ -68,8 +78,6 @@ export const AdminRequests: React.FC = () => {
 		return <div>Error: {error}</div>;
 	}
 
-	//approve instructor----------->
-
 	const handleDelete = async () => {
 		if (selectedRequest) {
 			const response = await dispatch(
@@ -77,7 +85,7 @@ export const AdminRequests: React.FC = () => {
 					id: selectedRequest.id,
 					email: selectedRequest.email,
 				})
-			);requests
+			);
 			console.log(response, "verify instructor response");
 
 			if (verifyInstructorAction.fulfilled.match(response)) {
@@ -92,7 +100,7 @@ export const AdminRequests: React.FC = () => {
 
 			console.log("Item deleted");
 			setModalVisible(false);
-			toast.success("instructor rejected successfully..!")
+			toast.success("Instructor verified successfully!");
 		}
 	};
 
@@ -106,9 +114,6 @@ export const AdminRequests: React.FC = () => {
 		setModalVisible(true);
 	};
 
-
-	//reject instructor------------------>
-
 	const handleDelete1 = async () => {
 		if (rejectedRequest) {
 			const response = await dispatch(
@@ -117,7 +122,7 @@ export const AdminRequests: React.FC = () => {
 					email: rejectedRequest.email,
 				})
 			);
-			console.log(response, "verify instructor response");
+			console.log(response, "reject instructor response");
 
 			if (rejectInstructorAction.fulfilled.match(response)) {
 				setRequests((prevRequest) =>
@@ -131,7 +136,7 @@ export const AdminRequests: React.FC = () => {
 
 			console.log("Item deleted");
 			setModalVisible1(false);
-			toast.success("instructor approved successfully...!")
+			toast.success("Instructor rejected successfully!");
 		}
 	};
 
@@ -140,24 +145,25 @@ export const AdminRequests: React.FC = () => {
 		setModalVisible1(false);
 	};
 
-
-
-
-
 	const handleReject = async (id: string, email: string) => {
 		setRejectedRequest({ id, email });
 		setModalVisible1(true);
 	};
 
-
-
-
-
 	const downloadCV = (cvUrl: string) => {
 		// Implement download logic here, such as opening the CV in a new tab
-	
 		window.open(cvUrl, "_blank");
-	
+	};
+
+	const handleDisplayUser = (id: string) => {
+		let user = requests.filter((data) => {
+			return data._id === id;
+		});
+		navigate('/admin/user-data', { state: { user } });
+	};
+
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page);
 	};
 
 	return (
@@ -165,21 +171,21 @@ export const AdminRequests: React.FC = () => {
 			<Toaster richColors position="top-center" />
 			{isModalVisible && (
 				<ConfirmModal
-					message= "verify the instructor"
+					message="Verify the instructor"
 					onConfirm={handleDelete}
 					onCancel={handleCancel}
 				/>
 			)}
 			{isModalVisible1 && (
 				<ConfirmModal
-					message= "reject the instructor"
+					message="Reject the instructor"
 					onConfirm={handleDelete1}
 					onCancel={handleCancel1}
 				/>
 			)}
 			<h1 className="text-3xl font-bold ml-10 mb-10">Requests</h1>
 			<table className="table table-lg">
-				<thead className="text-lg uppercase text-center bg-gray-950 ">
+				<thead className="text-lg uppercase text-center bg-gray-950">
 					<tr>
 						<th>Si.No</th>
 						<th>Name</th>
@@ -190,47 +196,71 @@ export const AdminRequests: React.FC = () => {
 				</thead>
 				<tbody className="text-center">
 					{requests.map((request, index) => (
-						<tr key={request._id} className="hover:bg-gray-800">
-							<th>{index + 1}</th>
+						<tr key={request._id} className="hover:bg-gray-800" onClick={() => handleDisplayUser(request._id)}>
+							<th>{(currentPage - 1) * instructorsPerPage + index + 1}</th>
 							<td>{request.userName}</td>
 							<td>{format(new Date(request.createdAt), "dd-MM-yyyy")}</td>
 							<td>
 								<button
 									className="btn btn-outline btn-info btn-sm"
-									onClick={() => downloadCV(request.cv)}
+									onClick={(e) => {
+										e.stopPropagation();
+										downloadCV(request.cv);
+									}}
 								>
 									CV <DownloadIcon fontSize="small" />
 								</button>
 							</td>
 							<td>
-							{request.isRejected ? <CloseIcon color="error" /> : 
+								{request.isRejected ? <CloseIcon color="error" /> : 
 								request.isVerified ? (
 									<DoneOutlineIcon color="success" />
 								) : (
-									<div className="flex justify-center gap-3" >
-
-									<button
-										onClick={() => handleVerify(request._id, request.email)}
-										className="btn btn-outline btn-success btn-sm "
-									>
-										{" "}
-										Verify{" "}
-									</button>
-									<button
-										onClick={() => handleReject(request._id, request.email)}
-										className="btn btn-outline btn-error btn-sm "
-									>
-										{" "}
-										Reject{" "}
-									</button>
+									<div className="flex justify-center gap-3">
+										<button
+											onClick={(e) => {
+												e.stopPropagation();
+												handleVerify(request._id, request.email);
+											}}
+											className="btn btn-outline btn-success btn-sm"
+										>
+											Verify
+										</button>
+										<button
+											onClick={(e) => {
+												e.stopPropagation();
+												handleReject(request._id, request.email);
+											}}
+											className="btn btn-outline btn-error btn-sm"
+										>
+											Reject
+										</button>
 									</div>
-								)
-							}
+								)}
 							</td>
 						</tr>
 					))}
 				</tbody>
 			</table>
+
+			{/* Pagination Controls */}
+			<div className="flex justify-center mt-6">
+				<div className="join">
+					{Array.from({ length: totalPages }, (_, index) => (
+						<input
+							key={index}
+							className="join-item btn btn-square btn-sm"
+							type="radio"
+							name="options"
+							aria-label={`${index + 1}`}
+							checked={currentPage === index + 1}
+							onChange={() => handlePageChange(index + 1)}
+						/>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 };
+
+export default AdminRequests;

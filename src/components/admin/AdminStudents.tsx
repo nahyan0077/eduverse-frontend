@@ -29,18 +29,25 @@ export const AdminStudents: React.FC = () => {
 		id: string;
 		isBlocked: boolean;
 	} | null>(null);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const studentsPerPage = 5;
+	const [totalPages, setTotalPages] = useState<number>(1);
 
 	useEffect(() => {
 		const fetchStudents = async () => {
 			try {
 				const resultAction = await dispatch(
-					getAllStudentsAction({ page: 1, limit: 10 })
+					getAllStudentsAction({ page: currentPage, limit: studentsPerPage })
 				);
-				console.log(resultAction, "action result get stuu");
+				console.log(resultAction, "action result get students");
 
 				if (getAllStudentsAction.fulfilled.match(resultAction)) {
-					setStudents(resultAction.payload.data);
+					const studentsData = resultAction.payload.data;
+					setStudents(studentsData);
+					const totalPages = studentsData.length === studentsPerPage ? currentPage + 1 : currentPage;
+					setTotalPages(totalPages);
 				} else {
 					setError("Failed to fetch students");
 				}
@@ -52,7 +59,7 @@ export const AdminStudents: React.FC = () => {
 		};
 
 		fetchStudents();
-	}, [dispatch]);
+	}, [dispatch, currentPage]);
 
 	const handleDelete = async () => {
 		if (selectedStudent) {
@@ -93,11 +100,15 @@ export const AdminStudents: React.FC = () => {
 
 	const handleDisplayUser = (id: string) => {
 		const user = students.filter((data) => {
-			return data._id == id
-		})
+			return data._id == id;
+		});
 
-		navigate('/admin/user-data',{state: {user}})
-	}
+		navigate("/admin/user-data", { state: { user } });
+	};
+
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page);
+	};
 
 	if (loading) {
 		return <LoadingPopUp isLoading={loading} />;
@@ -108,7 +119,7 @@ export const AdminStudents: React.FC = () => {
 	}
 
 	return (
-		<div className="overflow-x-auto max-w-full mx-auto p-8">
+		<div className="overflow-x-auto max-w-7xl mx-auto p-8">
 			<Toaster richColors position="top-right" />
 			{isModalVisible && (
 				<ConfirmModal
@@ -121,7 +132,7 @@ export const AdminStudents: React.FC = () => {
 			)}
 			<h1 className="text-3xl font-bold ml-10 mb-10">Students</h1>
 			<table className="table table-lg">
-				<thead className="text-lg uppercase text-center">
+				<thead className="text-lg uppercase text-center bg-black">
 					<tr>
 						<th>Si.No</th>
 						<th>Name</th>
@@ -132,8 +143,12 @@ export const AdminStudents: React.FC = () => {
 				</thead>
 				<tbody className="text-center">
 					{students.map((student, index) => (
-						<tr key={student._id} className="hover:bg-gray-800" onClick={()=>handleDisplayUser(student._id)} >
-							<th>{index + 1}</th>
+						<tr
+							key={student._id}
+							className="hover:bg-gray-800"
+							onClick={() => handleDisplayUser(student._id)}
+						>
+							<th>{(currentPage - 1) * studentsPerPage + index + 1}</th>
 							<td>{student.userName}</td>
 							<td>{format(new Date(student.createdAt), "dd-MM-yyyy")}</td>
 							<td>{student.isVerified ? <DoneOutlineIcon color="success" /> : <CloseIcon />}</td>
@@ -141,14 +156,20 @@ export const AdminStudents: React.FC = () => {
 								{student.isBlocked ? (
 									<button
 										className="btn btn-sm btn-outline btn-primary"
-										onClick={() => handleBlock(student._id, student.isBlocked)}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleBlock(student._id, student.isBlocked);
+										}}
 									>
 										Unblock
 									</button>
 								) : (
 									<button
 										className="btn btn-sm btn-outline btn-error"
-										onClick={() => handleBlock(student._id, student.isBlocked)}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleBlock(student._id, student.isBlocked);
+										}}
 									>
 										Block
 									</button>
@@ -158,6 +179,23 @@ export const AdminStudents: React.FC = () => {
 					))}
 				</tbody>
 			</table>
+
+			{/* Pagination Controls */}
+			<div className="flex justify-center mt-6">
+				<div className="join">
+					{Array.from({ length: totalPages }, (_, index) => (
+						<input
+							key={index}
+							className="join-item btn btn-square btn-sm"
+							type="radio"
+							name="options"
+							aria-label={`${index + 1}`}
+							checked={currentPage === index + 1}
+							onChange={() => handlePageChange(index + 1)}
+						/>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 };
