@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
@@ -13,6 +13,7 @@ import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import ConfirmModal from "../modal/ConfirmModal";
+import { getAllCategories } from "@/redux/store/actions/category";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -21,6 +22,14 @@ const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [isModalVisible, setModalVisible] = useState(false);
 	const userData = useSelector((state: RootState) => state.user);
+
+	useEffect(() => {
+		dispatch(getAllCategories());
+	}, []);
+
+	const catgoryData = useSelector((state: RootState) => state.categroy);
+
+	console.log(catgoryData, "categfory data");
 
 	const isAuthenticated = userData.data !== null && userData.data !== undefined;
 
@@ -32,7 +41,14 @@ const Header: React.FC = () => {
 
 	const menuItems = [
 		{ label: "Home", onClick: () => navigate("/home") },
-		{ label: "Categories", onClick: () => navigate("/categories") },
+		{
+			label: "Categories",
+			onClick: () => {},
+			dropdownItems: catgoryData?.data.map((category) => ({
+				label: category.categoryName,
+				onClick: () => navigate(`/categories/${category._id}`),
+			})),
+		},
 		{ label: "Courses", onClick: () => navigate("/courses") },
 		{ label: "Contact", onClick: () => navigate("/contact") },
 		{ label: "About", onClick: () => navigate("/about") },
@@ -92,16 +108,34 @@ const Header: React.FC = () => {
 					</div>
 
 					<div className="hidden md:flex items-center space-x-10">
-						{menuItems.map((item) => (
-							<a
-								key={item.label}
-								onClick={item.onClick}
-								className={`${
-									theme === "light" ? "text-violet-700 hover:text-gray-950" : "text-white"
-								}  dark:hover:text-violet-700 font-Josefin rounded-xl p-3 cursor-pointer`}
+						{menuItems.map((menuItem) => (
+							<div
+								key={menuItem.label}
+								className="dropdown dropdown-hover relative"
 							>
-								{item.label}
-							</a>
+								<div
+									tabIndex={0}
+									role="button"
+									className={`btn  m-1 ${
+										theme === "light"
+											? "text-violet-700 hover:bg-gray-200 border-white"
+											: "hover:bg-gray-900 border-gray-950"
+									} bg-transparent`}
+								>
+									{menuItem.label}
+								</div>
+								{menuItem.dropdownItems && (
+									<ul className={`dropdown-content z-[1] menu p-2 shadow ${theme == 'light' ? 'bg-while' : 'bg-gray-950'}  rounded-box w-52`}>
+										{menuItem.dropdownItems.map((dropdownItem) => (
+											<li key={dropdownItem.label}>
+												<a onClick={dropdownItem.onClick}>
+													{dropdownItem.label}
+												</a>
+											</li>
+										))}
+									</ul>
+								)}
+							</div>
 						))}
 					</div>
 					<div className="hidden md:flex items-center space-x-4">
@@ -110,14 +144,20 @@ const Header: React.FC = () => {
 								<div
 									tabIndex={0}
 									role="button"
-									className={`btn m-1 ${theme == 'light' ? 'text-violet-700 hover:bg-gray-200': 'hover:bg-gray-900' }    bg-transparent`}
+									className={`btn m-1 ${
+										theme == "light"
+											? "text-violet-700 hover:bg-gray-200"
+											: "hover:bg-gray-900"
+									}    bg-transparent`}
 								>
 									<PersonIcon />
 									{userName?.toUpperCase()}
 								</div>
 								<ul
 									tabIndex={0}
-									className={`dropdown-content z-[1] menu p-2 shadow ${theme == 'light' ? 'bg-gray-100': 'bg-gray-950' }   rounded-box w-52`}
+									className={`dropdown-content z-[1] menu p-2 shadow ${
+										theme == "light" ? "bg-gray-100" : "bg-gray-950"
+									}   rounded-box w-52`}
 								>
 									<li>
 										<a>Profile</a>
@@ -200,6 +240,7 @@ const Header: React.FC = () => {
 											{item.label}
 										</li>
 									))}
+
 									{authItems?.map(({ label, onClick }) => (
 										<li
 											key={label}
