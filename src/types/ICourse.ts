@@ -5,4 +5,5 @@ export interface CourseFirst {
     language?: string;
     category?: string;
     pricing?: string;
+    video?: string;
 }

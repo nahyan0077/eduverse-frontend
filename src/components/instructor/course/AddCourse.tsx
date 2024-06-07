@@ -1,4 +1,5 @@
 import { CustomImageFileInput } from "@/components/fileInputs/imageInput";
+import { CustomVideoFileInput } from "@/components/fileInputs/videoInput";
 import { RootState } from "@/redux/store";
 import { CourseFirst } from "@/types/ICourse";
 import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1";
@@ -19,6 +20,7 @@ export const AddCourse: React.FC = () => {
 		language: "",
 		pricing: "free",
 		category: "",
+        video: ""
 	};
 
 	const handleSubmit = (values: CourseFirst) => {
@@ -89,9 +91,7 @@ export const AddCourse: React.FC = () => {
 										</div>
 									)}
 								</div>
-							</div>
-							<div className="space-y-8">
-								<div>
+                                <div>
 									<label className="block mb-2 font-semibold">Language</label>
 									<Field
 										as="select"
@@ -109,7 +109,25 @@ export const AddCourse: React.FC = () => {
 										</div>
 									)}
 								</div>
-								<div>
+								
+							</div>
+							<div className="space-y-8">
+                            <div>
+									<label className="block mb-2 font-semibold">
+										Course Demo Video
+									</label>
+									<CustomVideoFileInput
+										onChange={(file) => setFieldValue("video", file)}
+										theme="dark"
+									/>
+									{errors.video && touched.video && (
+										<div className="text-red-500 text-sm mt-1">
+											{errors.video}
+										</div>
+									)}
+								</div>
+
+                                <div>
 									<label className="block mb-2 font-semibold">Category</label>
 									<Field
 										as="select"
@@ -131,6 +149,7 @@ export const AddCourse: React.FC = () => {
 										</div>
 									)}
 								</div>
+								
 								<div>
 									<label className="block mb-2 font-semibold">Pricing</label>
 									<div className="flex space-x-4">

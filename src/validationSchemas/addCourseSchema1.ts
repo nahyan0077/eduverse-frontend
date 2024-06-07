@@ -16,6 +16,7 @@ export const addCourseValidationSchema1 = Yup.object().shape({
 			(value) => !/\s{3,}/.test(value || "")
 		),
 	thumbnail: Yup.string().required("Thumbnail is required"),
+	video: Yup.string().required("Video is required"),
 	language: Yup.string().required("Language is required"),
 	category: Yup.string().required("Category is required"),
 	pricing: Yup.string().required("Pricing is required"),
