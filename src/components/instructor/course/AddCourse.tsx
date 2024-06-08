@@ -6,12 +6,14 @@ import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 
 export const AddCourse: React.FC = () => {
 	const category = useSelector((state: RootState) => state.category);
 	const [pricing, setPricing] = useState<string>("free");
+	const navigate = useNavigate()
 
 	const initialValues: CourseFirst = {
 		title: "",
@@ -28,6 +30,7 @@ export const AddCourse: React.FC = () => {
 			...values,
 			pricing: pricing,
 		});
+		navigate('/instructor/add-lessons',{state: {values}})
 	};
 
 	const handlePricingChange = (value: string) => {
@@ -35,7 +38,7 @@ export const AddCourse: React.FC = () => {
 	};
 
 	return (
-		<div className="max-w-7xl mx-auto py-10 px-4 bg-gray-900 text-white rounded-xl m-10">
+		<div className="max-w-full mx-auto py-10 px-14 text-white rounded-xl ">
 			<div className="mb-10">
 				<h1 className="text-3xl font-bold">Add Course</h1>
 			</div>

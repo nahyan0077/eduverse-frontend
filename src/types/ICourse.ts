@@ -1,3 +1,5 @@
+
+
 export interface CourseFirst {
     title: string;
     description: string;
@@ -6,4 +8,8 @@ export interface CourseFirst {
     category?: string;
     pricing?: string;
     video?: string;
+}
+
+export interface CourseSecond {
+    
 }
