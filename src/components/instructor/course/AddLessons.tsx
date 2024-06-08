@@ -52,7 +52,7 @@ export const AddLessons: React.FC = () => {
         console.log(allData,"form data second form");
         
 
-        navigate('/instructor/AddOther',{state: {allData}})
+        navigate('/instructor/add-others',{state: {allData}})
 	};
 
 	const addLesson = (push: any) => {
