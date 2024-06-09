@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CourseInputField from "@/components/common/skeleton/CourseInputField";
 import { CustomPdfFileInput } from "@/components/fileInputs/pdfInput";
 import { CourseEntity } from "@/types/ICourse";
@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { createCourseAction } from "@/redux/store/actions/course";
 import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1";
 import { addCourseValidationSchema33 } from "@/validationSchemas/addCourseSchema3";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 
@@ -17,6 +17,8 @@ export const AddOthers: React.FC = () => {
     const location = useLocation();
     const dispatch = useAppDispatch()
     const {data} = useSelector((state: RootState) => state.user)
+    const navigate = useNavigate()
+
 
     if (!location.state || !location.state.allData) {
         console.error("Location state is missing or malformed");
@@ -62,8 +64,8 @@ export const AddOthers: React.FC = () => {
         const response = await dispatch(createCourseAction(allData))
 
         console.log(response,"course creat response");
-        
 
+        navigate('/instructor/courses')
     };
 
     return (

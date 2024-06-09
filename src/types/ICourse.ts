@@ -18,6 +18,7 @@ interface Lesson {
     description?: string;
     thumbnail?: string;
     video?: string;
+    duration?: string;
     objectives?: string[];
 }
 
@@ -46,6 +47,7 @@ enum Level {
     advanced = 'advanced'
 }
 export interface CourseEntity {
+    _id?:string;
     title?: string;
     description?: string;
     thumbnail?: string;
