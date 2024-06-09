@@ -10,19 +10,20 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Toaster, toast } from "sonner";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 // Define the lesson type
 type Lesson = {
 	lessonNumber: number;
 	title: string;
 	description: string;
-	tags: string[];
+	objectives: string[];
 	video: File | null;
 };
 
 export const AddLessons: React.FC = () => {
 	// Set initial state with correct type
 	const [lessons, setLessons] = useState<Lesson[]>([
-		{ lessonNumber: 1, title: "", description: "", tags: [], video: null },
+		{ lessonNumber: 1, title: "", description: "", objectives: [], video: null },
 	]);
 	const [individualUploadedLessons, setIndividualUploadedLessons] = useState<Lesson[]>([]);
 	const [allUploadedLessons, setAllUploadedLessons] = useState<Lesson[]>([]);
@@ -46,7 +47,7 @@ export const AddLessons: React.FC = () => {
 		console.log("All Lessons Uploaded:", values.lessons);
 
         const allData = {
-            ...location.state.values,
+            ...location.state.allData,
             ...values
         }
         console.log(allData,"form data second form");
@@ -61,7 +62,7 @@ export const AddLessons: React.FC = () => {
 			lessonNumber: newLessonNumber,
 			title: "",
 			description: "",
-			tags: [],
+			objectives: [],
 			video: null,
 		};
 		setLessons([...lessons, newLesson]);
@@ -153,13 +154,13 @@ export const AddLessons: React.FC = () => {
 															</div>
 															<div className="w-full">
 																<TagInputField
-																	tags={lesson.tags}
+																	tags={lesson.objectives}
 																	setTags={(tags) =>
-																		setFieldValue(`lessons[${index}].tags`, tags)
+																		setFieldValue(`lessons[${index}].objectives`, tags)
 																	}
 																/>
 																<ErrorMessage
-																	name={`lessons[${index}].tags`}
+																	name={`lessons[${index}].objectives`}
 																	component="div"
 																	className="text-red-500 text-xs"
 																/>

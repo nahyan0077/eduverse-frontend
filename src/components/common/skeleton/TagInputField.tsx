@@ -36,7 +36,7 @@ const TagInputField: React.FC<TagInputFieldProps> = ({ tags, setTags }) => {
             <div className="tags flex space-x-6">
                 {tags.map((tag, index) => (
                     <div key={index} className="tag ml-2 mt-2 space-x-2">
-                        <span className='bg-violet-800 text-sm p-1 rounded ' >{tag}</span>
+                        <span className='bg-gray-800 text-sm p-1 rounded ' >{tag}</span>
                         <span className='hover:cursor-pointer text-red-500 text-md font-extrabold' onClick={() => handleRemoveTag(index)}> <ClearIcon color='error' /> </span>
                     </div>
                 ))}

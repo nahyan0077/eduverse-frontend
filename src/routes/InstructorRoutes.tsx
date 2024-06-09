@@ -5,7 +5,7 @@ import InstructorLayout from '@/pages/Instructor/InstructorLayout';
 import { InstructorCourses } from '@/components/instructor/InstructorCourses';
 import { AddCourse } from '@/components/instructor/course/AddCourse';
 import { AddLessons } from '@/components/instructor/course/AddLessons';
-import { AddOthers } from '@/components/instructor/course/AddOhers';
+import { AddOthers } from '@/components/instructor/course/AddOthers';
 
 export const InstructorRoutes: React.FC = () => {
     return (

@@ -40,13 +40,21 @@ interface Pricing {
     type?: PricingType;
 }
 
+enum Level {
+    beginner = 'beginner',
+    intermediate = 'intermediate',
+    advanced = 'advanced'
+}
 export interface CourseEntity {
     title?: string;
     description?: string;
     thumbnail?: string;
+    categoryRef?: string;
+    instructorRef?: string;
     language?: string;
     lessons?: [Lesson]
     trial?: Trial;
+    level?: Level;
     attachments?: Attachments;
     pricing?: Pricing;
 }

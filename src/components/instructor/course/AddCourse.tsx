@@ -26,14 +26,21 @@ export const AddCourse: React.FC = () => {
 	};
 
 	const handleSubmit = (values: CourseFirst) => {
-		console.log({
+
+		const allData = {
 			...values,
-			pricing: pricing,
-		});
-		navigate('/instructor/add-lessons',{state: {values}})
+			pricing: pricing
+		}
+
+		console.log(allData,"first form all data");
+		
+
+		navigate('/instructor/add-lessons',{state: {allData}})
 	};
 
 	const handlePricingChange = (value: string) => {
+		console.log(value,"price change value");
+		
 		setPricing(value);
 	};
 
@@ -141,7 +148,7 @@ export const AddCourse: React.FC = () => {
 											Select Category
 										</option>
 										{category.data.map((data) => (
-											<option key={data.categoryName} value={data.categoryName}>
+											<option key={data.categoryName} value={data._id}>
 												{data.categoryName}
 											</option>
 										))}

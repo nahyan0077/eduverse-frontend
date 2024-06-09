@@ -31,6 +31,7 @@ interface Profile {
 
 
 export interface SignupFormData {
+    _id?: string, 
     email?: string,
     password?: string,
     confirmPassword?: string

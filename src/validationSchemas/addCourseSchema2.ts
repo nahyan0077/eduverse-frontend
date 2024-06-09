@@ -18,7 +18,7 @@ export const addCourseValidationSchema2 = Yup.object().shape({
                     (value) => !/\s{3,}/.test(value || "")
                 )
                 .min(20, "Description must be at least 20 characters"),
-            tags: Yup.array()
+            objectives: Yup.array()
                 .min(2, "At least 2 objectives are required")
                 .max(5, "No more than 5 objectives are allowed")
                 .of(Yup.string().required("Objective is required")),
