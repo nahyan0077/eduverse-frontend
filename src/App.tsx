@@ -98,7 +98,7 @@ function App() {
 
 				{/* public routes */}
 
-				<Route path="/courses" element={<Course/> } />
+				<Route path="/courses" element={<PublicRoute element={<Course />} allowedRoles={['student']} />} />
 
 				<Route path="/home" element={<PublicRoute element={<Home />} allowedRoles={['student']} />} />
 				<Route path="/unauthorized" element={<Unauthorized />} />

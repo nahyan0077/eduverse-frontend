@@ -25,11 +25,11 @@ const Header: React.FC = () => {
 
 	useEffect(() => {
 		dispatch(getAllCategories());
-	}, []);
+	}, [dispatch]);
 
 	const catgoryData = useSelector((state: RootState) => state.category);
 
-	console.log(catgoryData, "categfory data");
+	console.log(catgoryData, "category data");
 
 	const isAuthenticated = userData.data !== null && userData.data !== undefined;
 
@@ -40,13 +40,22 @@ const Header: React.FC = () => {
 	console.log("header data", userData.data);
 
 	const menuItems = [
-		{ label: "Home", onClick: () => navigate("/home") },
+		{
+			label: "Home",
+			onClick: () => {
+				console.log('Navigating to Home');
+				navigate("/");
+			}
+		},
 		{
 			label: "Categories",
 			onClick: () => {},
 			dropdownItems: catgoryData?.data.map((category) => ({
 				label: category.categoryName,
-				onClick: () => navigate(`/categories/${category._id}`),
+				onClick: () => {
+					console.log(`Navigating to category ${category.categoryName}`);
+					navigate(`/categories/${category._id}`);
+				},
 			})),
 		},
 		{ label: "Courses", onClick: () => navigate("/courses") },
@@ -55,9 +64,7 @@ const Header: React.FC = () => {
 	];
 
 	const authItems = isAuthenticated
-		? [
-				// { label: "User", onClick: () => navigate("/selection") },
-		  ]
+		? []
 		: [
 				{ label: "Login", onClick: () => navigate("/login") },
 				{ label: "Get Started", onClick: () => navigate("/selection") },
@@ -67,13 +74,10 @@ const Header: React.FC = () => {
 		dispatch(logoutAction()).then(() => {
 			navigate("/");
 		});
-
-		console.log("Item deleted");
 		setModalVisible(false);
 	};
 
 	const handleCancel = () => {
-		console.log("Action cancelled");
 		setModalVisible(false);
 	};
 
@@ -116,19 +120,32 @@ const Header: React.FC = () => {
 								<div
 									tabIndex={0}
 									role="button"
-									className={`btn  m-1 ${
+									className={`btn m-1 ${
 										theme === "light"
 											? "text-violet-700 hover:bg-gray-200 border-white"
 											: "hover:bg-gray-900 border-gray-950"
 									} bg-transparent`}
+									onClick={() => {
+										console.log(`Menu item clicked: ${menuItem.label}`);
+										menuItem.onClick();
+									}}
 								>
 									{menuItem.label}
 								</div>
 								{menuItem.dropdownItems && (
-									<ul className={`dropdown-content z-[1] menu p-2 shadow ${theme == 'light' ? 'bg-while' : 'bg-gray-950'}  rounded-box w-52`}>
+									<ul
+										className={`dropdown-content z-[1] menu p-2 shadow ${
+											theme === "light" ? "bg-white" : "bg-gray-950"
+										} rounded-box w-52`}
+									>
 										{menuItem.dropdownItems.map((dropdownItem) => (
 											<li key={dropdownItem.label}>
-												<a onClick={dropdownItem.onClick}>
+												<a
+													onClick={() => {
+														console.log(`Dropdown item clicked: ${dropdownItem.label}`);
+														dropdownItem.onClick();
+													}}
+												>
 													{dropdownItem.label}
 												</a>
 											</li>
@@ -145,10 +162,10 @@ const Header: React.FC = () => {
 									tabIndex={0}
 									role="button"
 									className={`btn m-1 ${
-										theme == "light"
+										theme === "light"
 											? "text-violet-700 hover:bg-gray-200"
 											: "hover:bg-gray-900"
-									}    bg-transparent`}
+									} bg-transparent`}
 								>
 									<PersonIcon />
 									{userName?.toUpperCase()}
@@ -156,8 +173,8 @@ const Header: React.FC = () => {
 								<ul
 									tabIndex={0}
 									className={`dropdown-content z-[1] menu p-2 shadow ${
-										theme == "light" ? "bg-gray-100" : "bg-gray-950"
-									}   rounded-box w-52`}
+										theme === "light" ? "bg-gray-100" : "bg-gray-950"
+									} rounded-box w-52`}
 								>
 									<li>
 										<a>Profile</a>
@@ -175,11 +192,12 @@ const Header: React.FC = () => {
 								className={`border border-violet-700 ${
 									label === "Login"
 										? `${theme === "light" ? "text-violet-700" : "text-white"}`
-										: "text-white bg-violet-700" || label == "User"
-										? `${theme === "light" ? "text-violet-700" : "text-white"}`
 										: "text-white bg-violet-700"
-								} text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800 `}
-								onClick={onClick}
+								} text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800`}
+								onClick={() => {
+									console.log(`Auth item clicked: ${label}`);
+									onClick();
+								}}
 							>
 								{label}
 							</button>
@@ -223,38 +241,43 @@ const Header: React.FC = () => {
 										onClick={() => setMenuOpen(false)}
 									/>
 								</div>
-								<ul className="flex flex-col space-y-4 p-5 overflow-y-auto h-[calc(100vh-56px)]">
-									{menuItems.map((item) => (
-										<li
-											key={item.label}
-											className={`py-2 px-4 border-b ${
-												theme === "light"
-													? "hover:bg-violet-100"
-													: "hover:bg-gray-800"
-											} rounded-md font-semibold cursor-pointer`}
-											onClick={() => {
-												setMenuOpen(false);
-												item.onClick();
-											}}
-										>
-											{item.label}
-										</li>
-									))}
-
-									{authItems?.map(({ label, onClick }) => (
-										<li
-											key={label}
-											className={`py-2 px-4 border-b ${
-												theme === "light"
-													? "hover:bg-violet-100"
-													: "hover:bg-gray-800"
-											} rounded-md font-semibold cursor-pointer`}
-											onClick={() => {
-												setMenuOpen(false);
-												onClick();
-											}}
-										>
-											{label}
+								<ul className="flex flex-col space-y-2 p-5">
+									{menuItems.map((menuItem) => (
+										<li key={menuItem.label}>
+											<a
+												className={`block p-3 ${
+													theme === "light" ? "text-violet-700" : "text-white"
+												} cursor-pointer`}
+												onClick={() => {
+													console.log(`Menu item clicked: ${menuItem.label}`);
+													menuItem.onClick();
+												}}
+											>
+												{menuItem.label}
+											</a>
+											{menuItem.dropdownItems && (
+												<ul className="pl-4 mt-2 space-y-1">
+													{menuItem.dropdownItems.map((dropdownItem) => (
+														<li key={dropdownItem.label}>
+															<a
+																className={`block p-2 ${
+																	theme === "light"
+																		? "text-violet-700"
+																		: "text-white"
+																} cursor-pointer`}
+																onClick={() => {
+																	console.log(
+																		`Dropdown item clicked: ${dropdownItem.label}`
+																	);
+																	dropdownItem.onClick();
+																}}
+															>
+																{dropdownItem.label}
+															</a>
+														</li>
+													))}
+												</ul>
+											)}
 										</li>
 									))}
 								</ul>

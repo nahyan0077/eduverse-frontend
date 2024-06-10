@@ -12,7 +12,7 @@ export interface CourseFirst {
 
 
 
-interface Lesson {
+export interface Lesson {
     lessonNumber?: string,
     title?: string;
     description?: string;
