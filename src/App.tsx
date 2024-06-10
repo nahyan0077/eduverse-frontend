@@ -30,6 +30,7 @@ import { InstructorRoutes } from "./routes/InstructorRoutes";
 import PublicRoute from "./routes/PublicRoutes";
 import { Course } from "./pages/user/Course";
 import { Unauthorized } from "./pages/common/Unauthorized";
+import { SingleCourse } from "./pages/user/SingleCourse";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -99,6 +100,7 @@ function App() {
 				{/* public routes */}
 
 				<Route path="/courses" element={<PublicRoute element={<Course />} allowedRoles={['student']} />} />
+				<Route path="/single-course" element={<PublicRoute element={<SingleCourse />} allowedRoles={['student']} />} />
 
 				<Route path="/home" element={<PublicRoute element={<Home />} allowedRoles={['student']} />} />
 				<Route path="/unauthorized" element={<Unauthorized />} />
