@@ -28,6 +28,8 @@ import { AdminRoutes } from "./routes/AdminRoutes";
 import { StudentRoutes } from "./routes/StudentRoutes";
 import { InstructorRoutes } from "./routes/InstructorRoutes";
 import PublicRoute from "./routes/PublicRoutes";
+import { Course } from "./pages/user/Course";
+import { Unauthorized } from "./pages/common/Unauthorized";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -40,7 +42,7 @@ function App() {
 		console.log(data, "user data app.tsx");
 	}, [dispatch, data]);
 
-	const userRole = data?.role; // Assuming user role is stored in data.role
+	const userRole = data?.role; 
 	console.log(userRole, "user role");
 
 	return (
@@ -95,20 +97,25 @@ function App() {
 
 
 				{/* public routes */}
-				<Route path="/home"  element={<Home/>}/>
-				<Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
-				<Route path="/login" element={<PublicRoute element={<Login />} />} />
-				<Route path="/selection" element={<PublicRoute element={<SelectionPage />} />} />
-				<Route path="/student-form" element={<PublicRoute element={<StudentRegisterForm />} />} />
-				<Route path="/student-form2" element={<PublicRoute element={<StudentRegisterForm2 />} />} />
-				<Route path="/teacher-form" element={<PublicRoute element={<TeacherRegisterForm />} />} />
-				<Route path="/teacher-form2" element={<PublicRoute element={<TeacherRegisterForm2 />} />} />
-				<Route path="/otp" element={<PublicRoute element={<OtpPage />} />} />
-				<Route path="/forgot-password" element={<PublicRoute element={<ForgotPassword />} />} />
-				<Route path="/confirm-email" element={<PublicRoute element={<ConfirmEmail />} />} />
-				<Route path="/verification-page" element={<VerificationPage />} />
 
+				<Route path="/courses" element={<Course/> } />
 
+				<Route path="/home" element={<PublicRoute element={<Home />} allowedRoles={['student']} />} />
+				<Route path="/unauthorized" element={<Unauthorized />} />
+				<Route path="/signup" element={<PublicRoute element={<SignUp />} allowedRoles={[]} />} />
+				<Route path="/login" element={<PublicRoute element={<Login />} allowedRoles={[]} />} />
+				<Route path="/selection" element={<PublicRoute element={<SelectionPage />} allowedRoles={[]} />} />
+				<Route path="/student-form" element={<PublicRoute element={<StudentRegisterForm />} allowedRoles={[]} />} />
+				<Route path="/student-form2" element={<PublicRoute element={<StudentRegisterForm2 />} allowedRoles={[]} />} />
+				<Route path="/teacher-form" element={<PublicRoute element={<TeacherRegisterForm />} allowedRoles={[]} />} />
+				<Route path="/teacher-form2" element={<PublicRoute element={<TeacherRegisterForm2 />} allowedRoles={[]} />} />
+				<Route path="/otp" element={<PublicRoute element={<OtpPage />} allowedRoles={[]} />} />
+				<Route path="/forgot-password" element={<PublicRoute element={<ForgotPassword />} allowedRoles={[]} />} />
+				<Route path="/confirm-email" element={<PublicRoute element={<ConfirmEmail />} allowedRoles={[]} />} />
+				<Route path="/verification-page" element={<PublicRoute element={<VerificationPage />} allowedRoles={['instructor']} />} />
+
+				        {/* Catch-all route */}
+						<Route path="*" element={<Unauthorized />} />
 			</Routes>
 		</Router>
 	);

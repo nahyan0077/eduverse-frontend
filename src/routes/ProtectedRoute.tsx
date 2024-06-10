@@ -20,6 +20,6 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
 	if (allowedRoles.includes(userRole)) {
 		return element;
 	} else {
-		return <Navigate to="/not-authorized" />;
+		return <Navigate to="/unauthorized" />;
 	}
 };
