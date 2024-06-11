@@ -13,18 +13,22 @@ import {
   Code as CodeIcon,
   Article as ArticleIcon,
   EmojiEvents as EmojiEventsIcon,
-  CurrencyRupee as CurrencyRupeeIcon ,
+  CurrencyRupee as CurrencyRupeeIcon,
 } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from "../../ui/theme-provider";
 import LoadingPopUp from '../../common/skeleton/LoadingPopUp';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
+import { useAppDispatch } from '@/hooks/hooks';
+import { updateCourseAction } from '@/redux/store/actions/course';
+
 
 export const AdminSingleCourse: React.FC = () => {
   const [courseData, setCourseData] = useState<any>(null);
   const location = useLocation();
   const { theme } = useTheme();
   const [isModalVisible, setModalVisible] = useState(false);
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (location.state.data) {
@@ -33,22 +37,36 @@ export const AdminSingleCourse: React.FC = () => {
     }
   }, [location.state]);
 
-   const handleDelete = () => {
+  const handleDelete = async () => {
+
+    const data = {
+      ...courseData,isRequested: false, isPublished: true
+    }
+
+    console.log(data,"this data to send");
     
-   }
-   const handleCancel = () => {
-        setModalVisible(false)
-   }
+
+    const result = await dispatch(updateCourseAction(data))
+
+    console.log(result,"approve course");
+
+    setModalVisible(false)
+    
+
+  }
+  const handleCancel = () => {
+    setModalVisible(false)
+  }
 
   return (
     <div className={`min-h-screen max-w-full mx-auto p-10 ${theme === 'light' ? 'bg-white text-gray-900' : 'bg-gray-900 text-gray-100'}`}>
-        			{isModalVisible && (
-				<ConfirmModal
-					message={` this course`}
-					onConfirm={handleDelete}
-					onCancel={handleCancel}
-				/>
-			)}
+      {isModalVisible && (
+        <ConfirmModal
+          message={` this course`}
+          onConfirm={handleDelete}
+          onCancel={handleCancel}
+        />
+      )}
       {courseData ? (
         <div className="flex flex-col lg:flex-row rounded-2xl overflow-hidden space-y-5 lg:space-y-0 lg:space-x-5">
           {/* Left Section */}
@@ -145,7 +163,7 @@ export const AdminSingleCourse: React.FC = () => {
                         <p>{lesson.description}</p>
                         {lesson?.objectives.map((objective: string, idx: number) => (
                           <div key={idx} className="flex items-center">
-                            
+
                             <p>{objective}</p>
                           </div>
                         ))}
@@ -169,16 +187,16 @@ export const AdminSingleCourse: React.FC = () => {
             </div>
             {/* Course Info */}
             <div className="text-center mb-4">
-                {
-                    courseData.pricing.type == 'free' ?
-                <p className="text-green-500 text-2xl font-bold mb-2">FREE</p>
-                :
-                <>
-                <p className="text-green-500 text-2xl font-bold mb-2"> <CurrencyRupeeIcon/> { courseData.pricing.amount}</p>
+              {
+                courseData.pricing.type == 'free' ?
+                  <p className="text-green-500 text-2xl font-bold mb-2">FREE</p>
+                  :
+                  <>
+                    <p className="text-green-500 text-2xl font-bold mb-2"> <CurrencyRupeeIcon /> {courseData.pricing.amount}</p>
 
-              <p className="text-gray-600 dark:text-gray-400 line-through mb-2">${courseData?.pricing.amount} 50% off</p>
-                </>
-                }
+                    <p className="text-gray-600 dark:text-gray-400 line-through mb-2">${courseData?.pricing.amount} 50% off</p>
+                  </>
+              }
               <div className="flex justify-around mb-4">
 
               </div>
@@ -236,12 +254,12 @@ export const AdminSingleCourse: React.FC = () => {
                 </ul>
               </div>
             </div>
-        <p className='p-4 text-sm italic' >After verifiying all the course details you can either approve or reject the course </p>
-      <div className='flex space-x-3 p-4 justify-end' >
-  
-        <button  className='btn btn-outline btn-accent' onClick={()=>setModalVisible(true)} >Approve</button>
-        <button className='btn btn-outline btn-error' onClick={()=>setModalVisible(true)} >Reject</button>
-      </div>
+            <p className='p-4 text-sm italic' >After verifiying all the course details you can either approve or reject the course </p>
+            <div className='flex space-x-3 p-4 justify-end' >
+
+              <button className='btn btn-outline btn-accent' onClick={() => setModalVisible(true)} >Approve</button>
+              <button className='btn btn-outline btn-error' onClick={() => setModalVisible(true)} >Reject</button>
+            </div>
           </div>
         </div>
       ) : (

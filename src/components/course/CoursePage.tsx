@@ -7,6 +7,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ui/theme-provider";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const formatDuration = (seconds: number): string => {
     const h = Math.floor(seconds / 3600);
@@ -33,6 +35,10 @@ export const CoursePage: React.FC = () => {
     const [courses, setCourses] = useState<any[]>();
     const navigate = useNavigate();
     const { theme } = useTheme();
+    const catgoryData = useSelector((state: RootState) => state.category);
+
+    console.log(catgoryData,"cat datass courses page");
+    
 
     useEffect(() => {
         fetchCourse();
@@ -62,11 +68,6 @@ export const CoursePage: React.FC = () => {
                 <div>
                     <span className="text-lg font-medium">Showing 1-9 of 21 courses</span>
                 </div>
-                <div>
-                    <button className="btn btn-outline btn-primary">
-                        Newly published
-                    </button>
-                </div>
             </div>
             <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
                 <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 bg-gray-200 dark:bg-gray-800">
@@ -80,15 +81,18 @@ export const CoursePage: React.FC = () => {
                     <div className="mb-6">
                         <h3 className="font-semibold mb-2">Course Categories</h3>
                         <div className="flex flex-col space-y-2">
-                            <label>
-                                <input type="checkbox" className="mr-2" /> Angular
-                            </label>
-                            <label>
-                                <input type="checkbox" className="mr-2" /> Bootstrap
-                            </label>
-                            <label>
-                                <input type="checkbox" className="mr-2" /> CSS3
-                            </label>
+                            {
+                                catgoryData?.data.map((data) => {
+                                    return (
+                                    <label>
+                                        <input type="checkbox" className="mr-2" /> {data?.categoryName}
+                                    </label>
+
+                                    )
+                                })
+
+                            }
+                            
                             {/* Add more categories as needed */}
                         </div>
                     </div>

@@ -59,4 +59,7 @@ export interface CourseEntity {
     level?: Level;
     attachments?: Attachments;
     pricing?: Pricing;
+    isRequested?: boolean;
+    isPublished?: boolean;
+    isBlocked?: boolean;
 }
