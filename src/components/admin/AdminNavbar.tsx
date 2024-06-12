@@ -41,7 +41,7 @@ const AdminNavbar: React.FC = () => {
 				/>
 			)}
 			<div className="flex items-center">
-				<span className="font-bold text-2xl pl-2">Admin Panel</span>
+				<span className="font-bold text-2xl pl-2 text-white">Admin Panel</span>
 				{/* Add any additional navbar items here */}
 			</div>
 			<div className="flex items-center space-x-7 ">

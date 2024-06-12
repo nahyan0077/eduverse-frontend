@@ -256,7 +256,7 @@ export const AdminSingleCourse: React.FC = () => {
               </div>
             </div>
             {
-              courseData.isPublished ?
+              !courseData.isPublished ?
               <div>
 
                 <p className='p-4 text-sm italic' >After verifiying all the course details you can either approve or reject the course </p>

@@ -34,6 +34,8 @@ const formatDuration = (seconds: number): string => {
 export const CoursePage: React.FC = () => {
     const dispatch = useAppDispatch();
     const [courses, setCourses] = useState<any[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     const { theme } = useTheme();
     const categoryData = useSelector((state: RootState) => state.category);
@@ -44,16 +46,17 @@ export const CoursePage: React.FC = () => {
     const levels = ['beginner', 'intermediate', 'expert']
 
     useEffect(() => {
-        fetchCourse();
-    }, [dispatch]);
+        fetchCourse(currentPage);
+    }, [dispatch, currentPage]);
 
-    const fetchCourse = async () => {
-        const courses = await dispatch(getActiveCoursesAction({ page: 1, limit: 2 }));
-        if (getActiveCoursesAction.fulfilled.match(courses)) {
-            setCourses(courses.payload.data);
-            console.log("Fetched courses:", courses);
+    const fetchCourse = async (page: number) => {
+        const response = await dispatch(getActiveCoursesAction({ page, limit: 2 }));
+        if (getActiveCoursesAction.fulfilled.match(response)) {
+            setCourses(response.payload.data);
+            setTotalPages(response.payload.totalPages);  // Assuming the backend provides this information
+            console.log("Fetched courses:", response);
         } else {
-            console.error("Failed to fetch courses:", courses.payload);
+            console.error("Failed to fetch courses:", response.payload);
         }
     };
 
@@ -81,7 +84,7 @@ export const CoursePage: React.FC = () => {
         );
     };
 
-    const filterCourses = (courses: any[]) => {    
+    const filterCourses = (courses: any[]) => {
         return courses.filter(course =>
             (!selectedCategories.length || selectedCategories.includes(course.categoryRef._id)) &&
             (!selectedLevels.length || selectedLevels.includes(course.level)) &&
@@ -95,15 +98,19 @@ export const CoursePage: React.FC = () => {
             .reduce((total, lesson) => total + parseFloat(lesson.duration!), 0);
     };
 
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     return (
-        <div className={`max-w-full mx-auto py-10 px-4 lg:px-24 ${theme === 'light' ? 'bg-white text-gray-900' : 'bg-gray-900 text-gray-100'}`}>
+        <div className={`max-w-full mx-auto py-10 px-4 lg:px-24 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <span className="text-lg font-medium">Showing 1-9 of 21 courses</span>
+                    <span className="text-lg font-medium">Showing {((currentPage - 1) * 9) + 1}-{Math.min(currentPage * 9, courses.length)} of {courses.length * totalPages} courses</span>
                 </div>
             </div>
             <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
-                <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 bg-gray-200 dark:bg-gray-800">
+                <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10  dark:bg-gray-800">
                     <div className="mb-6">
                         <input
                             type="text"
@@ -222,7 +229,7 @@ export const CoursePage: React.FC = () => {
                                                 <span className="text-sm text-red-500">⭐ {course.level}</span>
                                             )}
                                         </div>
-                                        <button className="btn btn-primary btn-outline btn-sm">Buy Now</button>
+                                        <button className="btn btn-primary btn-outline btn-sm">Enroll Now</button>
                                     </div>
                                 </div>
                             </motion.div>
@@ -232,9 +239,15 @@ export const CoursePage: React.FC = () => {
             </div>
             <div className="flex justify-center mt-10">
                 <div className="btn-group">
-                    <button className="btn">1</button>
-                    <button className="btn btn-outline">2</button>
-                    <button className="btn btn-outline">3</button>
+                    {[...Array(totalPages)].map((_, index) => (
+                        <button
+                            key={index}
+                            className={`btn ${index + 1 === currentPage ? '' : 'btn-outline'}`}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>

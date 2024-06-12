@@ -17,6 +17,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useTheme } from "../ui/theme-provider";
 import LoadingPopUp from '../common/skeleton/LoadingPopUp';
+import { CurrencyRupee as CurrencyRupeeIcon } from '@mui/icons-material';
 
 export const SingleCoursePage: React.FC = () => {
   const [courseData, setCourseData] = useState<any>(null);
@@ -31,7 +32,7 @@ export const SingleCoursePage: React.FC = () => {
   }, [location.state]);
 
   return (
-    <div className={`min-h-screen max-w-full mx-auto p-10 ${theme === 'light' ? 'bg-white text-gray-900' : 'bg-gray-900 text-gray-100'}`}>
+    <div className={`min-h-screen max-w-full mx-auto p-10 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100 mb-5'}`}>
       {courseData ? (
         <div className="flex flex-col lg:flex-row rounded-2xl overflow-hidden space-y-5 lg:space-y-0 lg:space-x-5">
           {/* Left Section */}
@@ -130,7 +131,7 @@ export const SingleCoursePage: React.FC = () => {
           </div>
 
           {/* Right Section */}
-          <div className="lg:w-1/3 py-4 px-6 rounded-2xl">
+          <div className="lg:w-1/3 py-4 px-6 rounded-2xl bg-gray-100 shadow-md dark:bg-gray-900">
             {/* Video/Image Section */}
             <div className="relative pb-56 mb-4 overflow-hidden rounded-lg">
               <iframe
@@ -141,19 +142,27 @@ export const SingleCoursePage: React.FC = () => {
             </div>
             {/* Course Info */}
             <div className="text-center mb-4">
-              <p className="text-green-500 text-2xl font-bold mb-2">FREE</p>
-              <p className="text-gray-600 dark:text-gray-400 line-through mb-2">${courseData?.pricing.amount} 50% off</p>
+            {
+                courseData.pricing.type == 'free' ?
+                  <p className="text-green-500 text-2xl font-bold mb-2">FREE</p>
+                  :
+                  <>
+                    <p className="text-green-500 text-2xl font-bold mb-2"> <CurrencyRupeeIcon /> {courseData.pricing.amount}</p>
+
+                    <p className="text-gray-600 dark:text-gray-400 line-through mb-2">${courseData?.pricing.amount} 50% off</p>
+                  </>
+              }
               <div className="flex justify-around mb-4">
-                <button className="flex items-center px-4 py-2 border rounded-full text-red-500 border-red-500">
+                <button className="flex items-center px-4 py-2 btn btn-outline btn-error rounded-full">
                   <FavoriteBorderIcon fontSize='small' />
                   <span className="ml-1">Add to Wishlist</span>
                 </button>
-                <button className="flex items-center px-4 py-2 border rounded-full text-red-500 border-red-500">
+                <button className="flex items-center px-8 py-2 btn btn-outline btn-error rounded-full">
                   <ShareIcon fontSize='small' />
                   <span className="ml-1">Share</span>
                 </button>
               </div>
-              <button className="bg-green-500 text-white font-bold py-2 px-4 rounded-full">
+              <button className="btn  btn-success rounded-full">
                 Enroll Now
               </button>
             </div>
@@ -163,11 +172,11 @@ export const SingleCoursePage: React.FC = () => {
                 <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                   <li className="flex items-center">
                     <VideocamIcon className="mr-2" />
-                    <span>11 hours on-demand video</span>
+                    <span>Best on-demand video</span>
                   </li>
                   <li className="flex items-center">
                     <CloudDownloadIcon className="mr-2" />
-                    <span>69 downloadable resources</span>
+                    <span>Downloadable resources</span>
                   </li>
                   <li className="flex items-center">
                     <ThumbUpAltIcon className="mr-2" />
