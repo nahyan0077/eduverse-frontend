@@ -9,6 +9,8 @@ import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import ConfirmModal from "../common/modal/ConfirmModal";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DangerousIcon from '@mui/icons-material/Dangerous';
 
 interface Course {
     _id: string;
@@ -105,6 +107,7 @@ export const AdminCourses: React.FC = () => {
                                         <th scope="col" className="px-6 py-3">Course Name</th>
                                         <th scope="col" className="px-6 py-3">Instructor</th>
                                         <th scope="col" className="px-6 py-3">Category</th>
+                                        <th scope="col" className="px-6 py-3">Status</th>
                                         <th scope="col" className="px-6 py-3">Price</th>
                                     </tr>
                                 </thead>
@@ -122,6 +125,9 @@ export const AdminCourses: React.FC = () => {
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {data.categoryRef.categoryName}
+                                            </td>
+                                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {data?.isPublished ?  <CheckCircleIcon color="success"  /> : <DangerousIcon color="error"  />  }
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {data.pricing.amount}

@@ -44,7 +44,7 @@ interface Pricing {
 enum Level {
     beginner = 'beginner',
     intermediate = 'intermediate',
-    advanced = 'advanced'
+    advanced = 'expert'
 }
 export interface CourseEntity {
     _id?:string;

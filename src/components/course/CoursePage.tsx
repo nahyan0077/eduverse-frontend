@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/hooks/hooks";
 import { getAllCourseAction } from "@/redux/store/actions/course";
-import { Lesson } from "@/types/ICourse"; // Ensure Lesson type is imported
+import { Lesson } from "@/types/ICourse";
 import React, { useEffect, useState } from "react";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -9,6 +9,7 @@ import { useTheme } from "../ui/theme-provider";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { CurrencyRupee as CurrencyRupeeIcon } from '@mui/icons-material';
 
 const formatDuration = (seconds: number): string => {
     const h = Math.floor(seconds / 3600);
@@ -35,10 +36,12 @@ export const CoursePage: React.FC = () => {
     const [courses, setCourses] = useState<any[]>();
     const navigate = useNavigate();
     const { theme } = useTheme();
-    const catgoryData = useSelector((state: RootState) => state.category);
+    const categoryData = useSelector((state: RootState) => state.category);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+    const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
 
-    console.log(catgoryData,"cat datass courses page");
-    
+    const level = ['beginner', 'intermediate', 'expert']
 
     useEffect(() => {
         fetchCourse();
@@ -54,13 +57,43 @@ export const CoursePage: React.FC = () => {
         }
     };
 
+    const handleCategoryChange = (categoryId: string) => {
+        setSelectedCategories(prevCategories =>
+            prevCategories.includes(categoryId)
+                ? prevCategories.filter(id => id !== categoryId)
+                : [...prevCategories, categoryId]
+        );
+    };
+
+    const handleLevelChange = (level: string) => {
+        setSelectedLevels(prevLevels =>
+            prevLevels.includes(level)
+                ? prevLevels.filter(lvl => lvl !== level)
+                : [...prevLevels, level]
+        );
+    };
+
+    const handlePriceChange = (price: string) => {
+        setSelectedPrices(prevPrices =>
+            prevPrices.includes(price)
+                ? prevPrices.filter(prc => prc !== price)
+                : [...prevPrices, price]
+        );
+    };
+
+    const filterCourses = (courses: any[]) => {
+        return courses.filter(course =>
+            (!selectedCategories.length || selectedCategories.includes(course.category)) &&
+            (!selectedLevels.length || selectedLevels.includes(course.level)) &&
+            (!selectedPrices.length || selectedPrices.includes(course.pricing.type))
+        );
+    };
+
     const calculateTotalDuration = (lessons: Lesson[]) => {
         return lessons
             .filter(lesson => lesson.duration !== undefined)
             .reduce((total, lesson) => total + parseFloat(lesson.duration!), 0);
     };
-
-    
 
     return (
         <div className={`max-w-full mx-auto py-10 px-4 lg:px-24 ${theme === 'light' ? 'bg-white text-gray-900' : 'bg-gray-900 text-gray-100'}`}>
@@ -81,59 +114,75 @@ export const CoursePage: React.FC = () => {
                     <div className="mb-6">
                         <h3 className="font-semibold mb-2">Course Categories</h3>
                         <div className="flex flex-col space-y-2">
-                            {
-                                catgoryData?.data.map((data) => {
-                                    return (
-                                    <label>
-                                        <input type="checkbox" className="mr-2" /> {data?.categoryName}
-                                    </label>
-
-                                    )
-                                })
-
-                            }
-                            
-                            {/* Add more categories as needed */}
+                            {categoryData?.data.map((data) => (
+                                <label key={data._id}>
+                                    <input
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={selectedCategories.includes(data._id)}
+                                        onChange={() => handleCategoryChange(data._id)}
+                                    /> {data?.categoryName}
+                                </label>
+                            ))}
                         </div>
                     </div>
                     <div className="mb-6">
                         <h3 className="font-semibold mb-2">Level</h3>
                         <div className="flex flex-col space-y-2">
-                            <label>
-                                <input type="checkbox" className="mr-2" /> Beginner
-                            </label>
-                            <label>
-                                <input type="checkbox" className="mr-2" /> Intermediate
-                            </label>
-                            <label>
-                                <input type="checkbox" className="mr-2" /> Expert
-                            </label>
+                            {
+                                level.map((lvl) => {
+                                    return (
+
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                className="mr-2"
+                                                checked={selectedLevels.includes(lvl)}
+                                                onChange={() => handleLevelChange(lvl)}
+                                            /> {lvl}
+                                        </label>
+                                    )
+
+                                })
+                            }
+
                         </div>
                     </div>
                     <div className="mb-6">
                         <h3 className="font-semibold mb-2">Price</h3>
                         <div className="flex flex-col space-y-2">
                             <label>
-                                <input type="checkbox" className="mr-2" /> Free
+                                <input
+                                    type="checkbox"
+                                    className="mr-2"
+                                    checked={selectedPrices.includes('free')}
+                                    onChange={() => handlePriceChange('free')}
+                                /> Free
                             </label>
                             <label>
-                                <input type="checkbox" className="mr-2" /> Paid
+                                <input
+                                    type="checkbox"
+                                    className="mr-2"
+                                    checked={selectedPrices.includes('paid')}
+                                    onChange={() => handlePriceChange('paid')}
+                                /> Paid
                             </label>
                         </div>
                     </div>
                 </div>
                 <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {courses?.map((course) => {
+                    {filterCourses(courses ?? []).map((course) => {
                         const totalDurationSeconds = calculateTotalDuration(course.lessons ?? []);
                         const formattedDuration = formatDuration(totalDurationSeconds);
 
                         return (
-                            <motion.div 
-                                key={course._id} 
-                                className="card shadow-xl transition-transform transform hover:scale-105"
+                            <motion.div
+                                key={course._id}
+                                className="card shadow-xl transition-transform transform
+                                                                hover:scale-105"
                                 whileHover={{ scale: 1.05 }}
                             >
-                                <figure onClick={() => navigate('/single-course', { state: { course:{...course,duration:formattedDuration} } })}>
+                                <figure onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}>
                                     <motion.img
                                         src={course.thumbnail}
                                         alt={course.title}
@@ -162,8 +211,8 @@ export const CoursePage: React.FC = () => {
                                     <p className="text-lg font-bold text-gray-800 mb-2">
                                         {course.pricing?.type ? (
                                             <>
-                                                <span className="line-through mr-2">{course.pricing.amount}</span>
-                                                <span className="text-red-500">{course.pricing.discountedAmount}</span>
+                                                <span className="line-through mr-2">{course.pricing.discountedAmount}</span>
+                                                <span className="text-red-500"><CurrencyRupeeIcon fontSize="small" />  {course.pricing.amount}</span>
                                             </>
                                         ) : (
                                             course.pricing?.amount

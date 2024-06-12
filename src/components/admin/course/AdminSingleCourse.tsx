@@ -14,6 +14,7 @@ import {
   Article as ArticleIcon,
   EmojiEvents as EmojiEventsIcon,
   CurrencyRupee as CurrencyRupeeIcon,
+  Verified as VerifiedIcon, 
 } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from "../../ui/theme-provider";
@@ -40,18 +41,18 @@ export const AdminSingleCourse: React.FC = () => {
   const handleDelete = async () => {
 
     const data = {
-      ...courseData,isRequested: false, isPublished: true
+      ...courseData, isRequested: false, isPublished: true
     }
 
-    console.log(data,"this data to send");
-    
+    console.log(data, "this data to send");
+
 
     const result = await dispatch(updateCourseAction(data))
 
-    console.log(result,"approve course");
+    console.log(result, "approve course");
 
     setModalVisible(false)
-    
+
 
   }
   const handleCancel = () => {
@@ -254,12 +255,23 @@ export const AdminSingleCourse: React.FC = () => {
                 </ul>
               </div>
             </div>
-            <p className='p-4 text-sm italic' >After verifiying all the course details you can either approve or reject the course </p>
-            <div className='flex space-x-3 p-4 justify-end' >
+            {
+              courseData.isPublished ?
+              <div>
 
-              <button className='btn btn-outline btn-accent' onClick={() => setModalVisible(true)} >Approve</button>
-              <button className='btn btn-outline btn-error' onClick={() => setModalVisible(true)} >Reject</button>
-            </div>
+                <p className='p-4 text-sm italic' >After verifiying all the course details you can either approve or reject the course </p>
+                <div className='flex space-x-3 p-4 justify-end' >
+
+                  <button className='btn btn-outline btn-accent' onClick={() => setModalVisible(true)} >Approve</button>
+                  <button className='btn btn-outline btn-error' onClick={() => setModalVisible(true)} >Reject</button>
+                </div>
+              </div>
+              :
+              <div className='flex justify-center' >
+                <button className='btn btn-outline btn-success' > <VerifiedIcon  color='success' /> Approved</button>
+
+              </div>
+            }
           </div>
         </div>
       ) : (
