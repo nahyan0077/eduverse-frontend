@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/hooks/hooks";
-import { getAllCourseAction } from "@/redux/store/actions/course";
+import { getActiveCoursesAction } from "@/redux/store/actions/course";
 import { Lesson } from "@/types/ICourse";
 import React, { useEffect, useState } from "react";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -33,7 +33,7 @@ const formatDuration = (seconds: number): string => {
 
 export const CoursePage: React.FC = () => {
     const dispatch = useAppDispatch();
-    const [courses, setCourses] = useState<any[]>();
+    const [courses, setCourses] = useState<any[]>([]);
     const navigate = useNavigate();
     const { theme } = useTheme();
     const categoryData = useSelector((state: RootState) => state.category);
@@ -41,17 +41,17 @@ export const CoursePage: React.FC = () => {
     const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
     const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
 
-    const level = ['beginner', 'intermediate', 'expert']
+    const levels = ['beginner', 'intermediate', 'expert']
 
     useEffect(() => {
         fetchCourse();
     }, [dispatch]);
 
     const fetchCourse = async () => {
-        const courses = await dispatch(getAllCourseAction({ page: 1, limit: 10 }));
-        if (getAllCourseAction.fulfilled.match(courses)) {
+        const courses = await dispatch(getActiveCoursesAction({ page: 1, limit: 2 }));
+        if (getActiveCoursesAction.fulfilled.match(courses)) {
             setCourses(courses.payload.data);
-            console.log("user data", courses);
+            console.log("Fetched courses:", courses);
         } else {
             console.error("Failed to fetch courses:", courses.payload);
         }
@@ -81,9 +81,9 @@ export const CoursePage: React.FC = () => {
         );
     };
 
-    const filterCourses = (courses: any[]) => {
+    const filterCourses = (courses: any[]) => {    
         return courses.filter(course =>
-            (!selectedCategories.length || selectedCategories.includes(course.category)) &&
+            (!selectedCategories.length || selectedCategories.includes(course.categoryRef._id)) &&
             (!selectedLevels.length || selectedLevels.includes(course.level)) &&
             (!selectedPrices.length || selectedPrices.includes(course.pricing.type))
         );
@@ -129,23 +129,16 @@ export const CoursePage: React.FC = () => {
                     <div className="mb-6">
                         <h3 className="font-semibold mb-2">Level</h3>
                         <div className="flex flex-col space-y-2">
-                            {
-                                level.map((lvl) => {
-                                    return (
-
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                className="mr-2"
-                                                checked={selectedLevels.includes(lvl)}
-                                                onChange={() => handleLevelChange(lvl)}
-                                            /> {lvl}
-                                        </label>
-                                    )
-
-                                })
-                            }
-
+                            {levels.map((lvl) => (
+                                <label key={lvl}>
+                                    <input
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={selectedLevels.includes(lvl)}
+                                        onChange={() => handleLevelChange(lvl)}
+                                    /> {lvl}
+                                </label>
+                            ))}
                         </div>
                     </div>
                     <div className="mb-6">
@@ -178,8 +171,7 @@ export const CoursePage: React.FC = () => {
                         return (
                             <motion.div
                                 key={course._id}
-                                className="card shadow-xl transition-transform transform
-                                                                hover:scale-105"
+                                className="card shadow-xl transition-transform transform hover:scale-105"
                                 whileHover={{ scale: 1.05 }}
                             >
                                 <figure onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}>
@@ -226,7 +218,7 @@ export const CoursePage: React.FC = () => {
                                             {course.level === 'intermediate' && (
                                                 <span className="text-sm text-yellow-500">⭐ {course.level}</span>
                                             )}
-                                            {course.level === 'advanced' && (
+                                            {course.level === 'expert' && (
                                                 <span className="text-sm text-red-500">⭐ {course.level}</span>
                                             )}
                                         </div>
