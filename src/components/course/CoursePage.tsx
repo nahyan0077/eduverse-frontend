@@ -10,6 +10,8 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CurrencyRupee as CurrencyRupeeIcon } from '@mui/icons-material';
+import SortIcon from '@mui/icons-material/Sort';
+import { Menu, MenuItem, Button } from "@mui/material"; // Import MUI components
 
 const formatDuration = (seconds: number): string => {
     const h = Math.floor(seconds / 3600);
@@ -42,8 +44,10 @@ export const CoursePage: React.FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
     const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // State for menu anchor
 
-    const levels = ['beginner', 'intermediate', 'expert']
+    const levels = ['beginner', 'intermediate', 'expert'];
 
     useEffect(() => {
         fetchCourse(currentPage);
@@ -84,6 +88,27 @@ export const CoursePage: React.FC = () => {
         );
     };
 
+    const handleSortOrderChange = (order: 'asc' | 'desc') => {
+        setSortOrder(order);
+        setAnchorEl(null); // Close the menu after selection
+    };
+
+    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const sortCourses = (courses: any[], order: 'asc' | 'desc') => {
+        return courses.sort((a, b) => {
+            const priceA = a.pricing?.amount || 0;
+            const priceB = b.pricing?.amount || 0;
+            return order === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+    };
+
     const filterCourses = (courses: any[]) => {
         return courses.filter(course =>
             (!selectedCategories.length || selectedCategories.includes(course.categoryRef._id)) &&
@@ -102,54 +127,68 @@ export const CoursePage: React.FC = () => {
         setCurrentPage(page);
     };
 
+    const filteredAndSortedCourses = sortCourses(filterCourses(courses), sortOrder);
+
     return (
         <div className={`max-w-full mx-auto py-10 px-4 lg:px-24 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
             <div className="flex justify-between items-center mb-6">
-                {/* <div>
-                    <span className="text-lg font-medium">Showing {((currentPage - 1) * 9) + 1}-{Math.min(currentPage * 9, courses.length)} of {courses.length * totalPages} courses</span>
-                </div> */}
+                {/* Other content if any */}
             </div>
             <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
-                <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10  dark:bg-gray-800">
+                <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 ">
                     <div className="mb-6">
                         <input
                             type="text"
                             placeholder="Search Course"
-                            className="input input-bordered w-full bg-gray-300 dark:bg-gray-700"
+                            className="input input-bordered w-full "
                         />
                     </div>
-                    <div className="mb-6">
-                        <h3 className="font-semibold mb-2">Course Categories</h3>
-                        <div className="flex flex-col space-y-2">
-                            {categoryData?.data.map((data) => (
-                                <label key={data._id}>
-                                    <input
-                                        type="checkbox"
-                                        className="mr-2"
-                                        checked={selectedCategories.includes(data._id)}
-                                        onChange={() => handleCategoryChange(data._id)}
-                                    /> {data?.categoryName}
-                                </label>
-                            ))}
+                    <div className="collapse collapse-arrow  mb-6">
+                        <input type="checkbox" />
+                        <div className="collapse-title text-xl font-medium">
+                            Course Categories
+                        </div>
+                        <div className="collapse-content">
+                            <div className="flex flex-col space-y-2">
+                                {categoryData?.data.map((data) => (
+                                    <label key={data._id}>
+                                        <input
+                                            type="checkbox"
+                                            className="mr-2"
+                                            checked={selectedCategories.includes(data._id)}
+                                            onChange={() => handleCategoryChange(data._id)}
+                                        /> {data?.categoryName}
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                    <div className="mb-6">
-                        <h3 className="font-semibold mb-2">Level</h3>
-                        <div className="flex flex-col space-y-2">
-                            {levels.map((lvl) => (
-                                <label key={lvl}>
-                                    <input
-                                        type="checkbox"
-                                        className="mr-2"
-                                        checked={selectedLevels.includes(lvl)}
-                                        onChange={() => handleLevelChange(lvl)}
-                                    /> {lvl}
-                                </label>
-                            ))}
+                    <div className="collapse collapse-arrow  mb-6">
+                        <input type="checkbox" />
+                        <div className="collapse-title text-xl font-medium">
+                            Level
+                        </div>
+                        <div className="collapse-content">
+                            <div className="flex flex-col space-y-2">
+                                {levels.map((lvl) => (
+                                    <label key={lvl}>
+                                        <input
+                                            type="checkbox"
+                                            className="mr-2"
+                                            checked={selectedLevels.includes(lvl)}
+                                            onChange={() => handleLevelChange(lvl)}
+                                        /> {lvl}
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                    <div className="mb-6">
-                        <h3 className="font-semibold mb-2">Price</h3>
+                    <div className="collapse collapse-arrow  mb-6">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                            Price
+                        </div>
+                    <div className="collapse-content">
                         <div className="flex flex-col space-y-2">
                             <label>
                                 <input
@@ -170,18 +209,42 @@ export const CoursePage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filterCourses(courses ?? []).map((course) => {
+                </div>
+
+                <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+                    <div className="absolute top-0 right-0 z-10">
+                        <Button
+                            aria-controls="sort-menu"
+                            aria-haspopup="true"
+                            onClick={handleMenuClick}
+                            startIcon={<SortIcon />}
+                        >
+                            Sort
+                        </Button>
+                        <Menu
+                            id="sort-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem onClick={() => handleSortOrderChange('asc')}>Price: Low to High</MenuItem>
+                            <MenuItem onClick={() => handleSortOrderChange('desc')}>Price: High to Low</MenuItem>
+                        </Menu>
+                    </div>
+
+                    {filteredAndSortedCourses.map((course) => {
                         const totalDurationSeconds = calculateTotalDuration(course.lessons ?? []);
                         const formattedDuration = formatDuration(totalDurationSeconds);
 
                         return (
                             <motion.div
                                 key={course._id}
-                                className="card shadow-xl transition-transform transform hover:scale-105"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                <figure onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}>
+                                className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden"
+                                whileHover={{ scale: 1.02 }}
+                                onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}>
+                            
+                                <figure className="relative">
                                     <motion.img
                                         src={course.thumbnail}
                                         alt={course.title}
@@ -208,13 +271,13 @@ export const CoursePage: React.FC = () => {
                                         Duration: <span className="font-bold ml-1">{formattedDuration}</span>
                                     </p>
                                     <p className="text-lg font-bold text-gray-800 mb-2">
-                                        {course.pricing?.type ? (
+                                        {course.pricing?.type === 'paid' ? (
                                             <>
                                                 <span className="line-through mr-2">{course.pricing.discountedAmount}</span>
                                                 <span className="text-red-500"><CurrencyRupeeIcon fontSize="small" />  {course.pricing.amount}</span>
                                             </>
                                         ) : (
-                                            course.pricing?.amount
+                                            <span className="text-green-500"> Free </span>
                                         )}
                                     </p>
                                     <div className="flex justify-between items-center mt-1">
