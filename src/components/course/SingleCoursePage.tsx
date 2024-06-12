@@ -31,6 +31,9 @@ export const SingleCoursePage: React.FC = () => {
     }
   }, [location.state]);
 
+  const handleBuyCourse = () => {
+
+  }
   return (
     <div className={`min-h-screen max-w-full mx-auto p-10 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100 mb-5'}`}>
       {courseData ? (
@@ -162,9 +165,16 @@ export const SingleCoursePage: React.FC = () => {
                   <span className="ml-1">Share</span>
                 </button>
               </div>
-              <button className="btn  btn-success rounded-full">
+              {
+                courseData.pricing.type == 'paid' ?
+              <button className="btn  btn-success border-2 border-black" onClick={handleBuyCourse} >
+                Buy Now
+              </button>
+                :
+              <button className="btn  btn-success border-2 border-black"  >
                 Enroll Now
               </button>
+              }
             </div>
             <div className="p-4">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">

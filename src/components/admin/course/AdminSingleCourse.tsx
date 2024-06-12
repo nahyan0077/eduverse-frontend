@@ -22,7 +22,7 @@ import LoadingPopUp from "../../common/skeleton/LoadingPopUp";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { useAppDispatch } from "@/hooks/hooks";
 import { updateCourseAction } from "@/redux/store/actions/course";
-import { isRejected } from "@reduxjs/toolkit";
+import DangerousIcon from "@mui/icons-material/Dangerous";
 
 export const AdminSingleCourse: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -309,15 +309,7 @@ export const AdminSingleCourse: React.FC = () => {
 								</ul>
 							</div>
 						</div>
-						{!courseData.isPublished ? (
-              courseData.isRejected ? 
-              <div className="flex justify-center">
-              <button className="btn btn-outline btn-success">
-                {" "}
-                <VerifiedIcon color="success" /> Rejected
-              </button>
-            </div>
-            :
+						{!courseData.isPublished && !courseData.isRejected  && courseData.isRequested ?  (
 							<div>
 								<p className="p-4 text-sm italic">
 									After verifiying all the course details you can either approve
@@ -338,13 +330,22 @@ export const AdminSingleCourse: React.FC = () => {
 									</button>
 								</div>
 							</div>
-						) : (
+						) : courseData.isPublished && !courseData.isRejected ? (
 							<div className="flex justify-center">
 								<button className="btn btn-outline btn-success">
 									{" "}
 									<VerifiedIcon color="success" /> Approved
 								</button>
 							</div>
+						) : (
+							
+							<div className="flex justify-center">
+								<button className="btn btn-outline btn-error">
+									{" "}
+									<DangerousIcon color="error" /> Rejected
+								</button>
+							</div>
+						
 						)}
 					</div>
 				</div>

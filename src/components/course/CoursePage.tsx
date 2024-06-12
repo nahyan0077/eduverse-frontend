@@ -50,7 +50,7 @@ export const CoursePage: React.FC = () => {
     }, [dispatch, currentPage]);
 
     const fetchCourse = async (page: number) => {
-        const response = await dispatch(getActiveCoursesAction({ page, limit: 2 }));
+        const response = await dispatch(getActiveCoursesAction({ page, limit: 6 }));
         if (getActiveCoursesAction.fulfilled.match(response)) {
             setCourses(response.payload.data);
             setTotalPages(response.payload.totalPages);  // Assuming the backend provides this information
@@ -105,9 +105,9 @@ export const CoursePage: React.FC = () => {
     return (
         <div className={`max-w-full mx-auto py-10 px-4 lg:px-24 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
             <div className="flex justify-between items-center mb-6">
-                <div>
+                {/* <div>
                     <span className="text-lg font-medium">Showing {((currentPage - 1) * 9) + 1}-{Math.min(currentPage * 9, courses.length)} of {courses.length * totalPages} courses</span>
-                </div>
+                </div> */}
             </div>
             <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
                 <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10  dark:bg-gray-800">

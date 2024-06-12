@@ -13,6 +13,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import PendingIcon from '@mui/icons-material/Pending';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import HelpIcon from '@mui/icons-material/Help';
 
 
 interface Course {
@@ -20,7 +21,7 @@ interface Course {
     title: string;
     instructorRef: { firstName: string };
     categoryRef: { categoryName: string };
-    pricing: { amount: number };
+    pricing: { amount: number, type: string };
     isRequested?: boolean;
     isPublished?: boolean;
     isBlocked?: boolean;
@@ -132,14 +133,32 @@ export const AdminCourses: React.FC = () => {
                                                 {data.categoryRef.categoryName}
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {data?.isPublished ?  <span> <CheckCircleIcon color="success"  /> Published </span> :  <span> <DangerousIcon color="error"  /> Rejected </span>  }
+                                                {
+                                                    data.isBlocked ? 
+                                                    <span> <CheckCircleIcon color="error"  /> Blocked </span>
+                                                    :(
+                                                        data.isRequested ? <span> <HelpIcon color="primary"  /> Requested </span>  :
+                                                       ( data.isPublished ? <span> <CheckCircleIcon color="success"  /> Published </span>
+                                                        : 
+                                                        <span> <DangerousIcon color="error"  /> Rejected </span>  )
+                                                    )
+                                                }
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {data?.isRequested && data.isRejected ? <span> <PendingIcon color="warning"  /> Pending </span> : <span> <ChecklistIcon color="success"  /> Verified </span>  }
+                                                {data?.isRequested ?  <span> <PendingIcon color="warning"  /> Pending </span> : <span> <ChecklistIcon color="success"  /> Verified </span>  }
                                             </td>
+                                            {
+                                                data?.pricing?.type == 'free' ?
+
+                                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Free
+                                            </td>
+                                                :
+
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {data.pricing.amount}
                                             </td>
+                                            }
                                         </tr>
                                     ))}
                                 </tbody>

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ShareIcon from "@mui/icons-material/Share";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BoltIcon from "@mui/icons-material/Bolt";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";

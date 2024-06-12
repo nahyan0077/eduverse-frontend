@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { createCourseAction } from "@/redux/store/actions/course";
 import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1";
 import { addCourseValidationSchema33 } from "@/validationSchemas/addCourseSchema3";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 
