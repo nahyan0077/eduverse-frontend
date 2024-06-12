@@ -139,7 +139,7 @@ export const AddOthers: React.FC = () => {
                                                 <option value="" label="Select course level" />
                                                 <option value="beginner" label="Beginner" />
                                                 <option value="intermediate" label="Intermediate" />
-                                                <option value="advanced" label="Advanced" />
+                                                <option value="expert" label="Expert" />
                                             </Field>
                                             <ErrorMessage
                                                 name="level"

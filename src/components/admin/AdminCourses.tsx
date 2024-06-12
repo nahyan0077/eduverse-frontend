@@ -11,6 +11,9 @@ import TabPanel from "@mui/lab/TabPanel";
 import ConfirmModal from "../common/modal/ConfirmModal";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DangerousIcon from '@mui/icons-material/Dangerous';
+import PendingIcon from '@mui/icons-material/Pending';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+
 
 interface Course {
     _id: string;
@@ -21,6 +24,7 @@ interface Course {
     isRequested?: boolean;
     isPublished?: boolean;
     isBlocked?: boolean;
+    isRejected?: boolean;
 }
 
 export const AdminCourses: React.FC = () => {
@@ -64,7 +68,7 @@ export const AdminCourses: React.FC = () => {
             const result = await dispatch(updateCourseAction(data));
             console.log(result, "approve course");
             setModalVisible(false);
-            fetchCourses(); // Refresh courses after update
+            fetchCourses();
         }
     };
 
@@ -107,7 +111,8 @@ export const AdminCourses: React.FC = () => {
                                         <th scope="col" className="px-6 py-3">Course Name</th>
                                         <th scope="col" className="px-6 py-3">Instructor</th>
                                         <th scope="col" className="px-6 py-3">Category</th>
-                                        <th scope="col" className="px-6 py-3">Status</th>
+                                        <th scope="col" className="px-6 py-3">Verification</th>
+                                        <th scope="col" className="px-6 py-3">Request Status</th>
                                         <th scope="col" className="px-6 py-3">Price</th>
                                     </tr>
                                 </thead>
@@ -127,7 +132,10 @@ export const AdminCourses: React.FC = () => {
                                                 {data.categoryRef.categoryName}
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {data?.isPublished ?  <CheckCircleIcon color="success"  /> : <DangerousIcon color="error"  />  }
+                                                {data?.isPublished ?  <span> <CheckCircleIcon color="success"  /> Published </span> :  <span> <DangerousIcon color="error"  /> Rejected </span>  }
+                                            </td>
+                                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {data?.isRequested && data.isRejected ? <span> <PendingIcon color="warning"  /> Pending </span> : <span> <ChecklistIcon color="success"  /> Verified </span>  }
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {data.pricing.amount}

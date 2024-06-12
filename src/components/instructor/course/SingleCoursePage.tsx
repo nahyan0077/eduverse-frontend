@@ -1,109 +1,53 @@
 import React, { useEffect, useState } from "react";
-import {
-	Bolt as BoltIcon,
-	AccessTime as AccessTimeIcon,
-	LibraryBooks as LibraryBooksIcon,
-	People as PeopleIcon,
-	Style as StyleIcon,
-	Assignment as AssignmentIcon,
-	ThumbUpAlt as ThumbUpAltIcon,
-	Phonelink as PhonelinkIcon,
-	CloudDownload as CloudDownloadIcon,
-	Videocam as VideocamIcon,
-	Code as CodeIcon,
-	Article as ArticleIcon,
-	EmojiEvents as EmojiEventsIcon,
-	CurrencyRupee as CurrencyRupeeIcon,
-	Verified as VerifiedIcon,
-} from "@mui/icons-material";
+import ShareIcon from "@mui/icons-material/Share";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import BoltIcon from "@mui/icons-material/Bolt";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import PeopleIcon from "@mui/icons-material/People";
+import StyleIcon from "@mui/icons-material/Style";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import PhonelinkIcon from "@mui/icons-material/Phonelink";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import VideocamIcon from "@mui/icons-material/Videocam";
 import { useLocation } from "react-router-dom";
+import CodeIcon from "@mui/icons-material/Code";
+import ArticleIcon from "@mui/icons-material/Article";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme } from "../../ui/theme-provider";
 import LoadingPopUp from "../../common/skeleton/LoadingPopUp";
-import ConfirmModal from "@/components/common/modal/ConfirmModal";
-import { useAppDispatch } from "@/hooks/hooks";
-import { updateCourseAction } from "@/redux/store/actions/course";
-import { isRejected } from "@reduxjs/toolkit";
+import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
-export const AdminSingleCourse: React.FC = () => {
+export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
-	const [isModalVisible, setModalVisible] = useState(false);
-	const [isModalVisible1, setModalVisible1] = useState(false);
-	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (location.state.data) {
-			setCourseData(location.state.data);
-			console.log(location.state.data, "single product data");
+		if (location.state.course) {
+			setCourseData(location.state.course);
+			console.log(location.state.course, "single product data");
 		}
 	}, [location.state]);
-
-	const handleDelete = async () => {
-		const data = {
-			...courseData,
-			isRequested: false,
-			isPublished: true,
-		};
-
-		console.log(data, "this data to send");
-
-		const result = await dispatch(updateCourseAction(data));
-
-		console.log(result, "approve course");
-
-		setModalVisible(false);
-	};
-	const handleDelete1 = async () => {
-		const data = {
-			...courseData,
-			isRejected: false,
-			isRequested: false,
-		};
-
-		const result = await dispatch(updateCourseAction(data));
-
-		console.log(result, "reject course");
-
-		setModalVisible1(false);
-	};
-	const handleCancel = () => {
-		setModalVisible(false);
-		setModalVisible1(false);
-	};
 
 	return (
 		<div
 			className={`min-h-screen max-w-full mx-auto p-10 ${
-				theme === "light"
-					? "bg-white text-gray-900"
-					: "bg-gray-900 text-gray-100"
+				theme === "light" ? " text-gray-900" : " text-gray-100 mb-5"
 			}`}
 		>
-			{isModalVisible && (
-				<ConfirmModal
-					message={`Approve this course`}
-					onConfirm={handleDelete}
-					onCancel={handleCancel}
-				/>
-			)}
-			{isModalVisible1 && (
-				<ConfirmModal
-					message={`Reject this course`}
-					onConfirm={handleDelete1}
-					onCancel={handleCancel}
-				/>
-			)}
 			{courseData ? (
 				<div className="flex flex-col lg:flex-row rounded-2xl overflow-hidden space-y-5 lg:space-y-0 lg:space-x-5">
 					{/* Left Section */}
-					<div className="lg:w-2/3 p-10 rounded-xl bg-gray-50 dark:bg-gray-800">
+					<div className="lg:w-2/3 p-10 rounded-xl">
 						<div className="mb-4">
-							<div className="flex items-center mb-4">
+							<div className="flex items-center mb-2">
 								<img
 									src={courseData?.thumbnail}
 									alt="Instructor"
-									className="w-12 h-12 rounded-full mr-4"
+									className="w-10 h-10 rounded-full mr-2"
 								/>
 								<div>
 									<h2 className="text-lg font-bold">
@@ -114,28 +58,28 @@ export const AdminSingleCourse: React.FC = () => {
 									</p>
 								</div>
 							</div>
-							<h1 className="text-3xl font-bold mb-2">{courseData?.title}</h1>
-							<div className="flex items-center flex-wrap mb-4">
+							<h1 className="text-2xl font-bold mb-2">{courseData?.title}</h1>
+							<div className="flex items-center flex-wrap">
 								<span className="text-yellow-500">★★★★☆</span>
 								<span className="ml-2 text-gray-600 dark:text-gray-400">
 									(15)
 								</span>
-								<span className="ml-4 text-gray-600 dark:text-gray-400 flex items-center">
+								<span className="ml-4 text-gray-600 dark:text-gray-400">
 									<LibraryBooksIcon color="warning" fontSize="small" />{" "}
 									{courseData.lessons.length} Lessons
 								</span>
-								<span className="ml-4 text-gray-600 dark:text-gray-400 flex items-center">
+								<span className="ml-4 text-gray-600 dark:text-gray-400">
 									<AccessTimeIcon color="warning" fontSize="small" />{" "}
 									{courseData.duration} hours
 								</span>
-								<span className="ml-4 text-gray-600 dark:text-gray-400 flex items-center">
+								<span className="ml-4 text-gray-600 dark:text-gray-400">
 									<BoltIcon color="warning" fontSize="small" />{" "}
 									{courseData.level}
 								</span>
 							</div>
 						</div>
 
-						<div className="shadow-md p-6 mb-6 bg-white dark:bg-gray-700 rounded-lg">
+						<div className="shadow-md p-4 mb-6">
 							<div className="mb-4">
 								<h3 className="text-lg font-bold mb-2">Overview</h3>
 								<p className="text-sm text-gray-600 dark:text-gray-400">
@@ -154,8 +98,10 @@ export const AdminSingleCourse: React.FC = () => {
 							</div>
 						</div>
 
-						<div className="shadow-md p-6 mb-6 bg-white dark:bg-gray-700 rounded-lg">
-							<h2 className="text-xl font-bold mb-4">This course includes:</h2>
+						<div className="rounded-lg shadow-md p-6 mb-6">
+							<h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+								This course includes:
+							</h2>
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
 								<div className="flex items-center">
 									<VideocamIcon className="mr-2" />
@@ -188,27 +134,26 @@ export const AdminSingleCourse: React.FC = () => {
 							<label htmlFor="lesson" className="ml-2 font-bold text-xl">
 								Lessons:
 							</label>
-							{courseData.lessons.map((lesson: any, index: number) => (
+							{courseData.lessons.map((data: any, index: number) => (
 								<div
-									className="collapse collapse-arrow bg-gray-100 dark:bg-gray-700 mb-2 rounded-lg"
+									className="collapse collapse-arrow bg-gray-100 dark:bg-gray-800 mb-2"
 									key={index}
 								>
 									<input type="radio" name="my-accordion-1" />
 									<div className="collapse-title text-md font-medium">
-										{index + 1 + ". " + lesson.title}
+										{index + 1 + ".  " + data.title}
 									</div>
-									<div className="collapse-content text-xs p-4">
+									<div className="collapse-content text-sm p-4">
 										<div className="flex space-x-3">
-											<iframe
-												src={lesson.video}
-												className="w-1/2 h-48"
-											></iframe>
-											<div>
-												<p>{lesson.description}</p>
-												{lesson?.objectives.map(
+											<iframe src={data.video} className="w-1/2 h-48"></iframe>
+											<div className="mt-2">
+												<p>{data.description}</p>
+												{data?.objectives.map(
 													(objective: string, idx: number) => (
 														<div key={idx} className="flex items-center">
-															<p>{objective}</p>
+															<p>
+																<PlayArrowIcon fontSize="small" /> {objective}
+															</p>
 														</div>
 													)
 												)}
@@ -221,7 +166,7 @@ export const AdminSingleCourse: React.FC = () => {
 					</div>
 
 					{/* Right Section */}
-					<div className="lg:w-1/3 p-6 rounded-2xl bg-gray-50 dark:bg-gray-800">
+					<div className="lg:w-1/3 py-4 px-6 rounded-2xl bg-gray-100 shadow-md dark:bg-gray-900">
 						{/* Video/Image Section */}
 						<div className="relative pb-56 mb-4 overflow-hidden rounded-lg">
 							<iframe
@@ -246,19 +191,20 @@ export const AdminSingleCourse: React.FC = () => {
 									</p>
 								</>
 							)}
-							<div className="flex justify-around mb-4"></div>
 						</div>
 						<div className="p-4">
-							<div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 mb-6">
-								<h2 className="text-xl font-bold mb-4">Includes</h2>
+							<div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+								<h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+									Includes
+								</h2>
 								<ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
 									<li className="flex items-center">
 										<VideocamIcon className="mr-2" />
-										<span>11 hours on-demand video</span>
+										<span>Best on-demand video</span>
 									</li>
 									<li className="flex items-center">
 										<CloudDownloadIcon className="mr-2" />
-										<span>69 downloadable resources</span>
+										<span>Downloadable resources</span>
 									</li>
 									<li className="flex items-center">
 										<ThumbUpAltIcon className="mr-2" />
@@ -279,8 +225,10 @@ export const AdminSingleCourse: React.FC = () => {
 								</ul>
 							</div>
 
-							<div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
-								<h2 className="text-xl font-bold mb-4">Details</h2>
+							<div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+								<h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+									Details
+								</h2>
 								<ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
 									<li className="flex items-center">
 										<PeopleIcon className="mr-2" />
@@ -309,43 +257,6 @@ export const AdminSingleCourse: React.FC = () => {
 								</ul>
 							</div>
 						</div>
-						{!courseData.isPublished ? (
-              courseData.isRejected ? 
-              <div className="flex justify-center">
-              <button className="btn btn-outline btn-success">
-                {" "}
-                <VerifiedIcon color="success" /> Rejected
-              </button>
-            </div>
-            :
-							<div>
-								<p className="p-4 text-sm italic">
-									After verifiying all the course details you can either approve
-									or reject the course{" "}
-								</p>
-								<div className="flex space-x-3 p-4 justify-end">
-									<button
-										className="btn btn-outline btn-accent"
-										onClick={() => setModalVisible(true)}
-									>
-										Approve
-									</button>
-									<button
-										className="btn btn-outline btn-error"
-										onClick={() => setModalVisible1(true)}
-									>
-										Reject
-									</button>
-								</div>
-							</div>
-						) : (
-							<div className="flex justify-center">
-								<button className="btn btn-outline btn-success">
-									{" "}
-									<VerifiedIcon color="success" /> Approved
-								</button>
-							</div>
-						)}
 					</div>
 				</div>
 			) : (
@@ -354,3 +265,5 @@ export const AdminSingleCourse: React.FC = () => {
 		</div>
 	);
 };
+
+export default SingleCoursePage;
