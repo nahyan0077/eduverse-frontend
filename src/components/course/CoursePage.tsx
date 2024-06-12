@@ -211,7 +211,7 @@ export const CoursePage: React.FC = () => {
                 </div>
                 </div>
 
-                <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+                <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative py-10 px-5">
                     <div className="absolute top-0 right-0 z-10">
                         <Button
                             aria-controls="sort-menu"
