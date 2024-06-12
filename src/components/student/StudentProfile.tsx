@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import { useTheme } from "../ui/theme-provider";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
@@ -17,6 +17,10 @@ export const StudentProfile: React.FC = () => {
   const { data } = useAppSelector((state: RootState) => state.user);
   const [isEditing, setIsEditing] = useState(true);
   const dispatch = useAppDispatch();
+  const [userId, setUserId] = useState<string | null>("")
+  useEffect(() => {
+    setUserId(data?._id || null);
+  }, [data]);
 
   const initialValues = {
     userName: data?.userName || '',
@@ -34,6 +38,7 @@ export const StudentProfile: React.FC = () => {
   };
 
   const { theme } = useTheme();
+  
 
   const handleSubmit = async (values: typeof initialValues, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
     if (file) {
@@ -50,6 +55,7 @@ export const StudentProfile: React.FC = () => {
 
 	const data = {
 		...values,
+		_id: userId,
 		profile: {
 			dateOfBirth: values.dateOfBirth,
 			gender: values.gender,
@@ -67,7 +73,7 @@ export const StudentProfile: React.FC = () => {
 	console.log(response,"profile update data");
 	
 	
-	if (response.payload.success) {
+	if (!response.payload.success) {
 		setIsEditing(true);
 		setSubmitting(false);
 		toast.error("Profile updation failed.");
@@ -81,9 +87,12 @@ export const StudentProfile: React.FC = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleSave = async () => {
-    // The actual save functionality will be handled in handleSubmit of Formik
-  };
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+		fileInputRef.current.click();
+	  }
+};
 
   const [value, setValue] = React.useState("1");
 
@@ -98,6 +107,8 @@ export const StudentProfile: React.FC = () => {
       setFile(event.target.files[0]);
     }
   };
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const inputStyle = `w-full px-5 py-3 rounded-lg font-medium border-2 ${theme === 'light' ? "bg-gray-200 text-gray-600" : "bg-gray-900 text-gray-300"} border-transparent text-sm focus:outline-none focus:border-2 focus:outline bg-gray-100`;
 
@@ -122,23 +133,24 @@ export const StudentProfile: React.FC = () => {
                       <div className="p-8 rounded-lg shadow-lg w-full max-w-7xl">
                         <div className="flex flex-col gap-3 items-center justify-center mb-4">
                           <img
-                            className="w-[30%] md:w-[8%] mx-auto rounded-full"
+                            className="object-cover w-28 h-28 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
                             src={file ? URL.createObjectURL(file) : data?.profile?.avatar}
                             alt="User"
                           />
                           <input
                             type="file"
+							ref={fileInputRef}
                             accept="image/*"
                             onChange={handleFileChange}
-                            className="mt-2"
+                            className="mt-2 hidden"
                             disabled={isEditing}
                           />
-                          {/* {
+                          {
                             !isEditing &&
-                            <button className="btn btn-outline btn-sm btn-info" type="button" onClick={handleEdit}>
+                            <button className="btn btn-outline btn-sm btn-info" type="button" onClick={handleButtonClick}>
                               Edit
                             </button>
-                          } */}
+                          }
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="w-full">
