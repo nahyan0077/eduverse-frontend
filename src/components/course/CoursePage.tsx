@@ -130,20 +130,20 @@ export const CoursePage: React.FC = () => {
     const filteredAndSortedCourses = sortCourses(filterCourses(courses), sortOrder);
 
     return (
-        <div className={`max-w-full mx-auto py-10 px-4 lg:px-24 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
-            <div className="flex justify-between items-center mb-6">
-                {/* Other content if any */}
+        <div className={`max-w-full mx-auto px-4 lg:px-24 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
+            <div className="flex justify-between items-center mb-6  rounded-2xl">
+                {/* if any */}
             </div>
             <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
-                <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 ">
+                <div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 border-2 border-gray-200 dark:border-gray-900 mt-10">
                     <div className="mb-6">
                         <input
                             type="text"
                             placeholder="Search Course"
-                            className="input input-bordered w-full bg-gray-200 dark:bg-gray-900"
+                            className="input input-bordered w-full bg-violet-50 dark:bg-gray-900"
                         />
                     </div>
-                    <div className="collapse collapse-arrow  mb-6">
+                    <div className="collapse collapse-arrow border mb-6">
                         <input type="checkbox" />
                         <div className="collapse-title text-xl font-medium">
                             Course Categories
@@ -163,7 +163,7 @@ export const CoursePage: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="collapse collapse-arrow  mb-6">
+                    <div className="collapse collapse-arrow border mb-6">
                         <input type="checkbox" />
                         <div className="collapse-title text-xl font-medium">
                             Level
@@ -183,7 +183,7 @@ export const CoursePage: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="collapse collapse-arrow  mb-6">
+                    <div className="collapse collapse-arrow border mb-6">
                     <input type="checkbox" />
                     <div className="collapse-title text-xl font-medium">
                             Price
@@ -212,7 +212,7 @@ export const CoursePage: React.FC = () => {
                 </div>
 
                 <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative py-10 px-5">
-                    <div className="absolute top-0 right-0 z-10">
+                    <div className="absolute top-0 right-0 z-10 ">
                         <Button
                             aria-controls="sort-menu"
                             aria-haspopup="true"
@@ -240,7 +240,7 @@ export const CoursePage: React.FC = () => {
                         return (
                             <motion.div
                                 key={course._id}
-                                className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden"
+                                className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300"
                                 whileHover={{ scale: 1.02 }}
                                 onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}>
                             

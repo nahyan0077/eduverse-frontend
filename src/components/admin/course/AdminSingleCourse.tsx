@@ -101,9 +101,9 @@ export const AdminSingleCourse: React.FC = () => {
 						<div className="mb-4">
 							<div className="flex items-center mb-4">
 								<img
-									src={courseData?.thumbnail}
+									src={courseData?.instructorRef?.profile?.avatar}
 									alt="Instructor"
-									className="w-12 h-12 rounded-full mr-4"
+									className="object-cover w-12 h-12 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500 mr-3"
 								/>
 								<div>
 									<h2 className="text-lg font-bold">
