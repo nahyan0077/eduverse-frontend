@@ -1,4 +1,4 @@
-export const About: React.FC = () => {
+export const CategoriesPage: React.FC = () => {
 	return (
 		<>
 			<div className="">

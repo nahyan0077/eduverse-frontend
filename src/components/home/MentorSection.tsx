@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import img1 from '@/assets/mentors/mentor1.jpg';
-import img2 from '@/assets/mentors/mentor2.jpg';
-import img3 from '@/assets/mentors/mentor3.jpg';
-import img4 from '@/assets/mentors/mentor4.jpg';
 import { useTheme } from '../ui/theme-provider';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { useAppDispatch } from '@/hooks/hooks';
+import { getAllInstructorsAction } from '@/redux/store/actions/user';
+import { SignupFormData } from '@/types/IForms';
 
 interface MentorProps {
-  name: string;
-  role: string;
+  name: string | undefined;
+  role: string | undefined;
   imageSrc: string;
 }
 
@@ -25,7 +25,7 @@ const Mentor: React.FC<MentorProps> = ({ name, role, imageSrc }) => {
     >
       <img
         src={imageSrc}
-        alt={name}
+        alt=""
         className="w-32 h-32 rounded-full object-cover mb-4"
       />
       <h3 className={`text-lg font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`}>{name}</h3>
@@ -47,13 +47,37 @@ const Mentor: React.FC<MentorProps> = ({ name, role, imageSrc }) => {
 
 const MentorsSection: React.FC = () => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
+  const [instructors, setInstructors] = useState<any[] | []>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const mentors = [
-    { name: 'Stan McGyver', role: 'Mentor', imageSrc: img1 },
-    { name: 'Gordon Stone', role: 'Mentor', imageSrc: img2 },
-    { name: 'Lisa Rosse', role: 'Mentor', imageSrc: img3 },
-    { name: 'Mulan Park', role: 'Mentor', imageSrc: img4 },
-  ];
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      try {
+        setLoading(true);
+        const mentors = await dispatch(getAllInstructorsAction({ page: 1, limit: 4 })).unwrap();
+        console.log(mentors,"mentors fetched");
+        console.log(mentors,"mentors state fetched");
+        
+        setInstructors(mentors.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch instructors');
+        setLoading(false);
+      }
+    };
+
+    fetchInstructors();
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <section className="py-12">
@@ -70,8 +94,13 @@ const MentorsSection: React.FC = () => {
           Discover the driving force behind your learning journey. Our mentors are seasoned professionals and industry experts dedicated to guiding you every step of the way. They bring a wealth of knowledge, personalized advice, and real-world experience to help you achieve your educational goals. Connect, learn, and grow with the best in the field.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {mentors.map((mentor) => (
-            <Mentor key={mentor.name} {...mentor} />
+          {instructors.map((instructor) => (
+            <Mentor 
+              key={instructor._id} 
+              name={instructor.firstName} 
+              role={instructor.role} 
+              imageSrc={instructor?.profile?.avatar || img1}
+            />
           ))}
         </div>
       </div>

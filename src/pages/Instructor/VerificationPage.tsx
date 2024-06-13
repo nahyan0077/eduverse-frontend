@@ -10,29 +10,25 @@ import { useNavigate } from "react-router-dom";
 const VerificationPage: React.FC = () => {
 	const { theme } = useTheme();
 	const data = useAppSelector((state: RootState) => state.user);
-	const [isVerified, setIsVerified] = useState(false);
+
 	const [isRejected, setIsRejected] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (data.data?.isVerified !== undefined) {
-			setIsVerified(data.data.isVerified);
-		}
+
 		if (data.data?.isRejected !== undefined) {
 			setIsRejected(data.data.isRejected);
 		}
 	}, [data]);
 
-	const handleGoToDashboard = () => {
-		navigate("/instructor");
-	};
+
 
 	return (
 		<>
 			<InstructorHeader />
 			<div className="min-h-screen flex justify-center mt-16">
 				<div className="rounded-xl shadow-lg max-w-7xl w-full">
-					{isRejected ? (
+					{isRejected ? 
 						<div
 							className={`flex flex-col items-center justify-center text-center ${
 								theme === "light" ? "bg-gray-100" : "bg-gray-900"
@@ -49,12 +45,15 @@ const VerificationPage: React.FC = () => {
 								unsuccessful.
 							</span>
 							<p className="text-gray-600 text-sm mt-2">
-								Please click on the button below to go to the instructor
-								dashboard.
+								Please click on the button below to go to the apply again
 							</p>
+							<button 
+								className="btn btn-outline btn-accent mt-10"
+								onClick={()=>navigate('/instructor-re-apply',{state: data.data})}
+							> Apply Again </button>
 
 						</div>
-					) : !isVerified ? (
+					 : 
 						<div
 							className={`flex flex-col items-center justify-center text-center ${
 								theme === "light" ? "bg-gray-100" : "bg-gray-900"
@@ -76,34 +75,7 @@ const VerificationPage: React.FC = () => {
 								email after successful verification.
 							</p>
 						</div>
-					) : (
-						<div
-							className={`flex flex-col items-center justify-center text-center ${
-								theme === "light" ? "bg-gray-100" : "bg-gray-900"
-							} py-24 rounded-xl shadow-md`}
-						>
-							<Player
-								autoplay
-								loop
-								src="https://lottie.host/37f5f7d8-39fb-4688-8a65-88add16a4b6c/gCdD1edgx3.json"
-								style={{ height: "60%", width: "60%" }}
-							/>
-							<span className="font-semibold text-lg mt-6">
-								Congratulations! Your instructor verification completed
-								successfully.
-							</span>
-							<p className="text-gray-600 text-sm mt-2">
-								Please click on the button below to go to the instructor
-								dashboard.
-							</p>
-							<button
-								className="btn btn-outline btn-success mt-3"
-								onClick={handleGoToDashboard}
-							>
-								Go to Dashboard
-							</button>
-						</div>
-					)}
+					}
 				</div>
 			</div>
 		</>

@@ -49,7 +49,9 @@ const Login: React.FC = () => {
 			} else {
 				dispatch(storeUserData(result.payload.data));
 	
-				if (result.payload.data.role == "instructor") {
+				if (result.payload.data.role == "instructor" && result.payload.data.isVerified ) {
+					navigate("/");
+				}else if (result.payload.data.role == "instructor" && !result.payload.data.isVerified ) {
 					navigate("/verification-page");
 				} else if (result.payload.data.role == "student") {
 					navigate("/home");
