@@ -62,12 +62,12 @@ export const SingleCoursePage: React.FC = () => {
 						<div className="mb-4">
 							<div className="flex items-center mb-2">
 								<img
-									src={courseData?.thumbnail}
+									src={courseData.instructorRef.profile.avatar}
 									alt="Instructor"
-									className="w-10 h-10 rounded-full mr-2"
+									className="object-cover w-10 h-10 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500 mr-3"
 								/>
 								<div>
-									<h2 className="text-lg font-bold">
+									<h2 className="text-lg font-bold ">
 										{courseData.instructorRef.firstName}
 									</h2>
 									<p className="text-sm text-gray-600 dark:text-gray-400">

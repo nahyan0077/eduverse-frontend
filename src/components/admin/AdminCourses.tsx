@@ -233,9 +233,17 @@ export const AdminCourses: React.FC = () => {
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {data.categoryRef.categoryName}
                                             </td>
+                                            {
+                                                data.pricing.type == 'paid' ?
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {data.pricing.amount}
                                             </td>
+                                            :
+                                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Free
+                                            </td>
+
+                                            }
                                             <td className="px-6 py-4">
                                                 {
                                                     data.isBlocked ?

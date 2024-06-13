@@ -257,7 +257,7 @@ export const CoursePage: React.FC = () => {
                                     <p className="text-sm text-gray-500 flex items-center mb-2">
                                         <div className="avatar mr-2">
                                             <div className="w-6 rounded-full">
-                                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="Instructor" />
+                                                <img src={course.instructorRef.profile.avatar} alt="Instructor" />
                                             </div>
                                         </div>
                                         Instructor: {course?.instructorRef?.firstName}
