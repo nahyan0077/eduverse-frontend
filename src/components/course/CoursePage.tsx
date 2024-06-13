@@ -140,7 +140,7 @@ export const CoursePage: React.FC = () => {
                         <input
                             type="text"
                             placeholder="Search Course"
-                            className="input input-bordered w-full "
+                            className="input input-bordered w-full bg-gray-200 dark:bg-gray-900"
                         />
                     </div>
                     <div className="collapse collapse-arrow  mb-6">

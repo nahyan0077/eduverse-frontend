@@ -7,6 +7,7 @@ import { AddCourse } from '@/components/instructor/course/AddCourse';
 import { AddLessons } from '@/components/instructor/course/AddLessons';
 import { AddOthers } from '@/components/instructor/course/AddOthers';
 import SingleCoursePage from '@/components/instructor/course/SingleCoursePage';
+import { InstructorProfile } from '@/components/instructor/InstructorProfile';
 
 export const InstructorRoutes: React.FC = () => {
     return (
@@ -18,6 +19,7 @@ export const InstructorRoutes: React.FC = () => {
                 <Route path='/add-lessons' element={<AddLessons />} />
                 <Route path='/add-others' element={<AddOthers />} />
                 <Route path='/single-course' element={<SingleCoursePage />} />
+                <Route path='/profile' element={<InstructorProfile />} />
             </Route>
         </Routes>
     );

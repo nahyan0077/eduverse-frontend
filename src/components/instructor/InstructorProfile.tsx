@@ -15,7 +15,7 @@ import { editProfileValidationSchema } from "@/validationSchemas/editProfileSche
 import { getUserData } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 
-export const StudentProfile: React.FC = () => {
+export const InstructorProfile: React.FC = () => {
 	const { data } = useAppSelector((state: RootState) => state.user);
 	const [isEditing, setIsEditing] = useState(true);
 	const dispatch = useAppDispatch();

@@ -42,12 +42,6 @@ export const editProfileValidationSchema = Yup.object().shape({
 			"Cannot have more than 3 consecutive spaces"
 		)
 		.required("Profession is required"),
-	qualification: Yup.string()
-		.matches(
-			noMoreThan3ConsecutiveSpaces,
-			"Cannot have more than 3 consecutive spaces"
-		)
-		.required("Qualification is required"),
 	social: Yup.string()
 		.matches(socialMediaRegex, "Please enter a valid social media link")
 		.matches(

@@ -61,7 +61,7 @@ const InstructorNavbar: React.FC =  () => {
               tabIndex={0}
               className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
             >
-              <li>
+              <li onClick={()=>navigate('/instructor/profile')} >
                 <a>Profile</a>
               </li>
               <li>
