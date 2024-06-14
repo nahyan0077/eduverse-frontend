@@ -80,7 +80,7 @@ export const AddOthers: React.FC = () => {
                         validationSchema={ location.state.allData.price == 'paid' ? addCourseValidationSchema1 :  addCourseValidationSchema33 }
                         onSubmit={handleSubmit}
                     >
-                        {({ setFieldValue, values, errors }) => (
+                        {({ setFieldValue }) => (
                             <Form>
                                 <div className="flex space-x-6">
                                     <div className="w-[50%] space-y-8">

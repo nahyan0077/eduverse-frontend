@@ -39,6 +39,8 @@ export const AdminCourses: React.FC = () => {
     const [currentCourse, setCurrentCourse] = useState<Course | null>(null);
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        console.log(event)
+        
         setValue(newValue);
     };
 

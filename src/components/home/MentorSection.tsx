@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { useAppDispatch } from '@/hooks/hooks';
 import { getAllInstructorsAction } from '@/redux/store/actions/user';
-import { SignupFormData } from '@/types/IForms';
 
 interface MentorProps {
   name: string | undefined;

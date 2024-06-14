@@ -1,8 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import course1 from "@/assets/course/course-1.avif";
-import course2 from "@/assets/course/coures-2.avif";
-import course3 from "@/assets/course/course-3.avif";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 export const CourseHeader: React.FC = () => {
@@ -47,7 +44,7 @@ export const CourseHeader: React.FC = () => {
 				className="flex space-x-4 mt-8 lg:mt-0"
 				initial={{ opacity: 0, x: 50 }}
 				animate={{ opacity: 1, x: 0 }}
-				transition={{ duration: 0.5 }}
+				transition={{ duration: 1 }}
 			>
                 <div className="" >
 

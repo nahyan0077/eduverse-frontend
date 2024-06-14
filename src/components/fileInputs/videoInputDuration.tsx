@@ -20,6 +20,9 @@ export const CustomVideoFileInputDuration: FC<CustomVideoFileInputDurationProps>
     fileInputRef.current?.click();
   };
 
+  console.log(duration);
+  
+
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;

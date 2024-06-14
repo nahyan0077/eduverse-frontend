@@ -41,7 +41,11 @@ export const AddLessons: React.FC = () => {
       toast.error("Please add lessons");
       return;
     }
+
     setAllUploadedLessons(values.lessons);
+    console.log(allUploadedLessons);
+    
+
     console.log("All Lessons Uploaded:", values.lessons);
 
     const allData = {
