@@ -57,7 +57,7 @@ export const CoursePage: React.FC = () => {
         const response = await dispatch(getActiveCoursesAction({ page, limit: 6 }));
         if (getActiveCoursesAction.fulfilled.match(response)) {
             setCourses(response.payload.data);
-            setTotalPages(response.payload.totalPages);  // Assuming the backend provides this information
+            setTotalPages(response.payload.totalPages); 
             console.log("Fetched courses:", response);
         } else {
             console.error("Failed to fetch courses:", response.payload);

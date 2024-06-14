@@ -10,7 +10,7 @@ export const updateCourseAction = createAsyncThunk(
         try {
 
             const response = await CLIENT_API.put(
-                "/api/course/update-course/",
+                "/api/course/",
                 data,
                 config
             );

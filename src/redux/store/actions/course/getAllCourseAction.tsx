@@ -19,7 +19,7 @@ export const getAllCourseAction = createAsyncThunk(
 			}
 
 			const response = await CLIENT_API.get(
-				`/api/course/get-all-courses${query}`,
+				`/api/course/${query}`,
 				config
 			);
 			if (response.data.success) {

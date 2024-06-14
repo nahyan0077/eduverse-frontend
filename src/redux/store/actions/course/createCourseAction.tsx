@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 export const createCourseAction = createAsyncThunk (
     "course/createCourse", async (data: CourseEntity,{rejectWithValue} ) => {
         try {
-            const response = await CLIENT_API.post('/api/course/create-course',data,config)
+            const response = await CLIENT_API.post('/api/course/',data,config)
 
             if (response.data.success) {
                 return response.data;
