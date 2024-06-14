@@ -64,7 +64,7 @@ const TeacherForm2: React.FC = () => {
 			
 
 			setLoading(false);
-			navigate('/verification-page');
+			navigate('/');
 		}
 	};
 

@@ -8,6 +8,7 @@ import { AdminCategory } from "@/components/admin/AdminCategory";
 import  UserDetailPage  from "@/components/admin/AdminUserData";
 import { AdminCourses } from "@/components/admin/AdminCourses";
 import { AdminSingleCourse } from "@/components/admin/course/AdminSingleCourse";
+import { AdminInstructors1 } from "@/components/admin/AdminInstructors1";
 
 export const AdminRoutes = () => {
 
@@ -23,6 +24,7 @@ export const AdminRoutes = () => {
 					<Route path="/user-data" element={< UserDetailPage  />} />
 					<Route path="/courses" element={< AdminCourses  />} />
 					<Route path="/single-course" element={< AdminSingleCourse  />} />
+					<Route path="/instructors1" element={< AdminInstructors1  />} />
 				</Route>
 			</Routes>
 

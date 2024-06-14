@@ -92,7 +92,7 @@ export const AdminRequests: React.FC = () => {
 				setRequests((prevRequest) =>
 					prevRequest.map((request) =>
 						request._id === selectedRequest.id
-							? { ...request, isVerified: true }
+							? { ...request, isVerified: true}
 							: request
 					)
 				);

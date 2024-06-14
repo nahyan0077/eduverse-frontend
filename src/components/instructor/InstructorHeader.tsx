@@ -144,7 +144,7 @@ const InstructorHeader: React.FC = () => {
 										theme == "light" ? "bg-gray-100" : "bg-gray-950"
 									}   rounded-box w-52`}
 								>
-									<li>
+									<li onClick={()=>navigate('/instructor/profile')} >
 										<a>Profile</a>
 									</li>
 									<li>

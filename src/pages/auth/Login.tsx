@@ -52,7 +52,7 @@ const Login: React.FC = () => {
 				if (result.payload.data.role == "instructor" && result.payload.data.isVerified ) {
 					navigate("/");
 				}else if (result.payload.data.role == "instructor" && !result.payload.data.isVerified ) {
-					navigate("/verification-page");
+					navigate("/");
 				} else if (result.payload.data.role == "student") {
 					navigate("/home");
 				} else {

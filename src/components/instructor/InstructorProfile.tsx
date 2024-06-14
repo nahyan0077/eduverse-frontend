@@ -14,6 +14,7 @@ import { ImageUpload } from "@/utils/cloudinary/uploadImage";
 import { editProfileValidationSchema } from "@/validationSchemas/editProfileSchema";
 import { getUserData } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
+import { CustomPdfFileInput } from "../fileInputs/pdfInput";
 
 export const InstructorProfile: React.FC = () => {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -46,8 +47,7 @@ export const InstructorProfile: React.FC = () => {
 		values: typeof initialValues,
 		{ setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
 	) => {
-		console.log("here edit profile");
-		setLoading(true)
+		setLoading(true);
 		if (file) {
 			const avatarUrl = await ImageUpload(file);
 			if (avatarUrl) {
@@ -76,20 +76,17 @@ export const InstructorProfile: React.FC = () => {
 		};
 
 		const response = await dispatch(updateProfileAction(data));
-		
-
-		console.log(response, "profile update data");
 
 		if (!response.payload.success) {
 			setIsEditing(true);
 			setSubmitting(false);
-			setLoading(false)
+			setLoading(false);
 			toast.error("Profile updation failed.");
 		} else {
-			setLoading(false)
+			setLoading(false);
 			toast.success("Profile updated successfully.");
-			setIsEditing(!isEditing)
-			await dispatch(getUserData())
+			setIsEditing(!isEditing);
+			await dispatch(getUserData());
 		}
 	};
 
@@ -120,6 +117,21 @@ export const InstructorProfile: React.FC = () => {
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
+	const [newCV, setNewCV] = useState()
+
+	const handleApplyAgain = () => {
+		console.log(newCV,"cvv again");
+		if (newCV) {
+			const data = {
+				cv: newCV,
+				
+			}
+		}else{
+			toast.error("please upload the CV")
+		}
+		
+	};
+
 	const inputStyle = `w-full px-5 py-3 rounded-lg font-medium border-2 ${
 		theme === "light"
 			? "bg-gray-200 text-gray-600"
@@ -141,11 +153,15 @@ export const InstructorProfile: React.FC = () => {
 							>
 								<Tab label="Profile" value="1" />
 								<Tab label="Reset Password" value="2" />
-								<Tab label="Item Three" value="3" />
+								<Tab label="Re-Apply" value="3" />
 							</TabList>
 						</Box>
 						<TabPanel value="1">
-							<Formik onSubmit={handleSubmit} initialValues={initialValues} validationSchema={editProfileValidationSchema} > 
+							<Formik
+								onSubmit={handleSubmit}
+								initialValues={initialValues}
+								validationSchema={editProfileValidationSchema}
+							>
 								{({ isSubmitting }) => (
 									<Form>
 										<div className="min-h-screen flex items-center justify-center -mt-24">
@@ -422,6 +438,43 @@ export const InstructorProfile: React.FC = () => {
 						</TabPanel>
 						<TabPanel value="2">
 							{/* Add content for "Reset Password" tab here */}
+						</TabPanel>
+						<TabPanel value="3">
+							<div className="flex items-center justify-center bg-gray-200 dark:bg-gray-950 mt-20">
+								<div className="bg-gray-300 dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-3xl">
+									<h2 className="text-xl font-bold mb-8">New Application</h2>
+
+
+												<div className="flex flex-col gap-8">
+													<label
+														htmlFor="CV"
+														className="block text-xs italic mb-2"
+													>
+														*please upload your new cv
+													</label>
+													<div className="w-full">
+														<CustomPdfFileInput
+															theme="dark"
+															onChange={(file: any) => {
+																
+																	setNewCV(file);
+														
+															}}
+														/>
+													</div>
+												</div>
+												<div className="flex space-x-3 justify-end mt-10">
+													<button
+														type="submit"
+														className="btn btn-success btn-outline btn-md"
+														onClick={handleApplyAgain}
+													>
+														Apply Again
+													</button>
+												</div>
+
+								</div>
+							</div>
 						</TabPanel>
 					</TabContext>
 				</Box>
