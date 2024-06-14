@@ -113,7 +113,6 @@ function App() {
 				<Route path="/otp" element={<PublicRoute element={<OtpPage />} allowedRoles={[]} />} />
 				<Route path="/forgot-password" element={<PublicRoute element={<ForgotPassword />} allowedRoles={[]} />} />
 				<Route path="/confirm-email" element={<PublicRoute element={<ConfirmEmail />} allowedRoles={[]} />} />
-				<Route path="/verification-page" element={<PublicRoute element={<VerificationPage />} allowedRoles={['instructor']} />} />
 
 				        {/* Catch-all route */}
 						<Route path="*" element={<Unauthorized />} />
