@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const editCategoryAction = createAsyncThunk (
     "admin/editCategory",async (data: Category, {rejectWithValue}) => {
         try {
-            const response = await CLIENT_API.put('/api/course/edit-category',data,config)
+            const response = await CLIENT_API.put('/api/course/category',data,config)
 
             if (response.data.success) {
                 return response.data

@@ -9,7 +9,7 @@ export const addCategoryAction = createAsyncThunk(
 
 			console.log(data,"the cat data");
 			
-            const response = await CLIENT_API.post('/api/course/add-category', data, config)
+            const response = await CLIENT_API.post('/api/course/category', data, config)
 
 			console.log(response,"in action");
 			

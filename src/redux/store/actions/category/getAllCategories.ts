@@ -1,3 +1,4 @@
+import { config } from "@/common/configurations";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
@@ -7,7 +8,7 @@ export const getAllCategories = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await CLIENT_API.get(
-				`api/course/get-all-categories`
+				`/api/course/category`,config
 			);
 			if (response.data.success) {
 				return response.data;
