@@ -121,7 +121,7 @@ export const AdminStudents: React.FC = () => {
 	}
 
 	return (
-		<div className="max-w-full mx-auto py-10 px-10">
+		<div className="max-w-full mx-auto py-20 px-20">
 			<Toaster richColors position="top-center" />
 			{isModalVisible && (
 				<ConfirmModal
@@ -135,7 +135,7 @@ export const AdminStudents: React.FC = () => {
 			<h1 className="text-3xl font-bold ml-10 mb-10">Students</h1>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
 						<tr className="text-center">
 							<th scope="col" className="px-6 py-3" >Si.No</th>
 							<th scope="col" className="px-6 py-3" >Name</th>

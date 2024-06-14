@@ -130,7 +130,7 @@ export const AdminCategory: React.FC = () => {
 	};
 
 	return (
-		<div className="max-w-7xl mx-auto items-center p-4 py-10">
+		<div className="max-w-full mx-auto items-center px-20 py-20">
 			<Toaster richColors position="top-center" />
 			<div className="flex justify-between mb-6">
 				<h2 className="font-bold text-3xl">Categories</h2>
@@ -140,22 +140,23 @@ export const AdminCategory: React.FC = () => {
 				>
 					Add Category
 				</button>
-			</div>
-			<table className="table-auto w-full mt-10">
-				<thead className="text-lg uppercase bg-black">
-					<tr>
-						<th className="px-4 py-2">Si.No</th>
-						<th className="px-4 py-2">Name</th>
-						<th className="px-4 py-2">Status</th>
-						<th className="px-4 py-2">Actions</th>
+			</div  >
+			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+			<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 px-20">
+				<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+					<tr className="text-center" >
+						<th scope="col" className="px-6 py-3">Si.No</th>
+						<th scope="col" className="px-6 py-3">Name</th>
+						<th scope="col" className="px-6 py-3">Status</th>
+						<th scope="col" className="px-6 py-3">Actions</th>
 					</tr>
 				</thead>
 				<tbody className="text-center ">
 					{currentItems.map((data, index) => (
-						<tr key={data._id} className="border-t">
-							<td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
-							<td className="px-4 py-2">{data.categoryName}</td>
-							<td className="px-4 py-2">
+						<tr key={data._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
+							<th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{indexOfFirstItem + index + 1}</th>
+							<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{data.categoryName}</td>
+							<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 								{data.status === "active" ? (
 									<button className="badge badge-success">Active</button>
 								) : (
@@ -174,6 +175,7 @@ export const AdminCategory: React.FC = () => {
 					))}
 				</tbody>
 			</table>
+			</div>
 			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6">
 				<div className="join">
