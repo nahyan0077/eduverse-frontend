@@ -1,212 +1,265 @@
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import { TabContext } from "@mui/lab";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import { useEffect, useState, SyntheticEvent } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
 import { getAllInstructorsAction } from "@/redux/store/actions/user";
-import { useEffect, useState } from "react";
-import LoadingPopUp from "../common/skeleton/LoadingPopUp";
-import DoneIcon from "@mui/icons-material/Done";
-import CloseIcon from "@mui/icons-material/Close";
-import { format } from "date-fns";
-import { blockUserAction } from "@/redux/store/actions/admin";
-import ConfirmModal from "@/components/common/modal/ConfirmModal";
-import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
+import { updateProfileAction } from "@/redux/store/actions/user/updateProfileAction";
+import DownloadIcon from "@mui/icons-material/Download";
+import ConfirmModal from "../common/modal/ConfirmModal";
+import { rejectInstructorAction, verifyInstructorAction } from "@/redux/store/actions/admin";
+import { Toaster, toast } from "sonner";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 
 interface Instructor {
-	_id: string;
-	userName: string;
-	createdAt: string;
-	isVerified: boolean;
-	isBlocked: boolean;
+    _id: string;
+    firstName: string;
+    createdAt: string;
+    isVerified: boolean;
+    isBlocked: boolean;
+    profile: {
+        avatar: string;
+    };
+    cv: string;
+    email: string;
+    isRequested: boolean;
 }
 
 export const AdminInstructors: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const [instructors, setInstructors] = useState<Instructor[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
-	const [isModalVisible, setModalVisible] = useState(false);
-	const [selectedInstructor, setSelectedInstructor] = useState<{
-		id: string;
-		isBlocked: boolean;
-	} | null>(null);
-	const navigate = useNavigate();
+    const [value, setValue] = useState("1");
+    const dispatch = useAppDispatch();
+    const [instructors, setInstructors] = useState<Instructor[]>([]);
+    const [reqInstructors, setReqInstructors] = useState<Instructor[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [modalAction, setModalAction] = useState<() => void>(() => {});
+    const [selectedInstructor, setSelectedInstructor] = useState<{ id: string; email: string } | null>(null);
+    const navigate = useNavigate();
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const usersPerPage = 5;
+    const handleChange = (event: SyntheticEvent, newValue: string) => {
+		console.log(event,"just for fun");
+		
+        setValue(newValue);
+    };
 
-	useEffect(() => {
-		const fetchInstructors = async () => {
-			try {
-				const resultAction = await dispatch(
-					getAllInstructorsAction({ page: currentPage, limit: usersPerPage })
-				);
-				console.log(resultAction, "action result get instr");
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 5;
 
-				if (getAllInstructorsAction.fulfilled.match(resultAction)) {
-					const instructorsData = resultAction.payload.data;
-					if (instructorsData.length > 0) {
-						setInstructors(instructorsData);
-					} else {
-						setCurrentPage((prevPage) => prevPage - 1);
-					}
+    useEffect(() => {
+        fetchInstructors();
+    }, [currentPage]);
+
+    const fetchInstructors = async () => {
+        setLoading(true);
+        try {
+            const resultAction = await dispatch(getAllInstructorsAction({ page: currentPage, limit: usersPerPage }));
+            if (getAllInstructorsAction.fulfilled.match(resultAction)) {
+                const instructorsData = resultAction.payload.data;
+                if (instructorsData.length > 0) {
+                    const verifiedInstructors = instructorsData.filter((data: Instructor) => data.isVerified);
+                    setInstructors(verifiedInstructors);
+                    const requestedInstructors = instructorsData.filter((data: Instructor) => data.isRequested);
+                    setReqInstructors(requestedInstructors);
+                } else if (currentPage > 1) {
+                    setCurrentPage((prevPage) => prevPage - 1);
+                }
+            } else {
+                setError("Failed to fetch instructors");
+            }
+        } catch (err) {
+            setError("An error occurred");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleBlockUnblock = async (id: string, isBlocked: boolean) => {
+        setSelectedInstructor({ id, email: "" });
+        setModalAction(() => async () => {
+            const response = await dispatch(updateProfileAction({ _id: id, isBlocked: !isBlocked }));
+            if (updateProfileAction.fulfilled.match(response)) {
+                toast.success(`Instructor ${isBlocked ? "unblocked" : "blocked"} successfully!`);
+                fetchInstructors();
+            } else {
+                toast.error(`Failed to ${isBlocked ? "unblock" : "block"} instructor`);
+            }
+            setModalVisible(false);
+        });
+        setModalVisible(true);
+    };
+
+    const downloadCV = (cvUrl: string) => {
+        window.open(cvUrl, "_blank");
+    };
+
+	const handleVerify = (id: string, email: string) => {
+		setSelectedInstructor({ id, email });
+		setModalAction(() => async () => {
+			if (selectedInstructor) {
+				const response = await dispatch(verifyInstructorAction(selectedInstructor));
+				if (verifyInstructorAction.fulfilled.match(response)) {
+					setReqInstructors((prev) => prev.filter((instructor) => instructor._id !== id));
+					setInstructors((prev) => prev.map((instructor) => (instructor._id === id ? { ...instructor, isVerified: true } : instructor)));
+					toast.success("Instructor verified successfully!");
 				} else {
-					setError("Failed to fetch instructors");
+					toast.error("Failed to verify instructor");
 				}
-			} catch (err) {
-				setError("An error occurred");
-			} finally {
-				setLoading(false);
+				setModalVisible(false);
 			}
-		};
-
-		fetchInstructors();
-	}, [dispatch, currentPage]);
-
-	const handleDelete = async () => {
-		if (selectedInstructor) {
-			const response = await dispatch(
-				blockUserAction({
-					id: selectedInstructor.id,
-					isBlocked: !selectedInstructor.isBlocked,
-				})
-			);
-			console.log(response, "block and unblock user..!");
-
-			if (blockUserAction.fulfilled.match(response)) {
-				setInstructors((prevInstructors) =>
-					prevInstructors.map((instructor) =>
-						instructor._id === selectedInstructor.id
-							? { ...instructor, isBlocked: !selectedInstructor.isBlocked }
-							: instructor
-					)
-				);
-				toast.success(
-					`Instructor ${
-						selectedInstructor.isBlocked ? "unblocked" : "blocked"
-					} successfully`
-				);
-			} else {
-				toast.error("Error occurred");
-			}
-			setModalVisible(false);
-			setSelectedInstructor(null);
-		}
-	};
-
-	const handleCancel = () => {
-		console.log("Action cancelled");
-		setModalVisible(false);
-	};
-
-	const handleBlock = (instructorId: string, isBlocked: boolean) => {
-		console.log(instructorId, isBlocked, "block and unblock");
-
-		setSelectedInstructor({ id: instructorId, isBlocked });
+		});
 		setModalVisible(true);
 	};
 
+	const handleReject = (id: string, email: string) => {
+		setSelectedInstructor({ id, email });
+		setModalAction(() => async () => {
+			if (selectedInstructor) {
+				const response = await dispatch(rejectInstructorAction(selectedInstructor));
+				if (rejectInstructorAction.fulfilled.match(response)) {
+					setReqInstructors((prev) => prev.filter((instructor) => instructor._id !== id));
+					toast.success("Instructor rejected successfully!");
+				} else {
+					toast.error("Failed to reject instructor");
+				}
+				setModalVisible(false);
+			}
+		});
+		setModalVisible(true);
+	};
+
+    const handleCancel = () => {
+        setModalVisible(false);
+    };
+
 	const handleDisplayUser = (id: string) => {
+		let user = reqInstructors.filter((data) => data._id === id);
+		console.log(user,"user to single page");
+	
+		navigate("/admin/user-data", { state: { user } });
+	};
+	const handleDisplayUser1 = (id: string) => {
 		let user = instructors.filter((data) => data._id === id);
+		console.log(user,"user to single page");
+	
 		navigate("/admin/user-data", { state: { user } });
 	};
 
-	const handlePageChange = (page: number) => {
-		setCurrentPage(page);
-	};
+    if (loading) return <div><LoadingPopUp isLoading={loading} /></div>;
+    if (error) return <div>{error}</div>;
 
-	if (loading) {
-		return <LoadingPopUp isLoading={loading} />;
-	}
-
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
-
-	return (
-		<div className="overflow-x-auto max-w-7xl mx-auto p-8">
-			<Toaster richColors position="top-right" />
-			{isModalVisible && (
-				<ConfirmModal
-					message={`${
-						selectedInstructor?.isBlocked ? "Unblock" : "Block"
-					} this instructor`}
-					onConfirm={handleDelete}
-					onCancel={handleCancel}
-				/>
-			)}
-			<h1 className="text-3xl font-bold ml-10 mb-10">Instructors</h1>
-			<table className="table table-lg">
-				<thead className="text-lg uppercase text-center bg-black">
-					<tr>
-						<th>Si.No</th>
-						<th>Name</th>
-						<th>Joined</th>
-						<th>Verified</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-				<tbody className="text-center">
-					{instructors.map((instructor, index) => (
-						<tr
-							key={instructor._id}
-							className="hover:bg-gray-800"
-							onClick={() => handleDisplayUser(instructor._id)}
-						>
-							<th>{(currentPage - 1) * usersPerPage + index + 1}</th>
-							<td>{instructor.userName}</td>
-							<td>{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>
-							<td>
-								{instructor.isVerified ? (
-									<DoneIcon className="text-green-600" />
-								) : (
-									<CloseIcon />
-								)}
-							</td>
-							<td>
-								{instructor.isBlocked ? (
-									<button
-										className="btn btn-sm btn-outline btn-primary"
-										onClick={(e) => {
-											e.stopPropagation();
-											handleBlock(instructor._id, instructor.isBlocked);
-										}}
-									>
-										Unblock
-									</button>
-								) : (
-									<button
-										className="btn btn-sm btn-outline btn-error"
-										onClick={(e) => {
-											e.stopPropagation();
-											handleBlock(instructor._id, instructor.isBlocked);
-										}}
-									>
-										Block
-									</button>
-								)}
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-
-			{/* Pagination Controls */}
-			<div className="flex justify-center mt-6">
-				<div className="join">
-					{Array.from({ length: Math.max(currentPage, instructors.length === usersPerPage ? currentPage + 1 : currentPage) }, (_, index) => (
-						<input
-							key={index}
-							className="join-item btn btn-square btn-sm"
-							type="radio"
-							name="options"
-							aria-label={`${index + 1}`}
-							checked={currentPage === index + 1}
-							onChange={() => handlePageChange(index + 1)}
-						/>
-					))}
-				</div>
-			</div>
-		</div>
-	);
+    return (
+        <>
+            <Toaster richColors position="top-center" />
+            {modalVisible && <ConfirmModal message="perform the action " onConfirm={modalAction} onCancel={handleCancel} />}
+            <div className="max-w-full mx-auto py-10 px-10">
+                <div className="flex justify-between p-6 mb-5">
+                    <h2 className="text-4xl font-bold">Instructors</h2>
+                </div>
+                <Box sx={{ width: "100%", typography: "body1" }}>
+                    <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                            <TabList onChange={handleChange} aria-label="lab API tabs example" textColor="inherit">
+                                <Tab label="Instructors" value="1" />
+                                <Tab label="Requested" value="2" />
+                            </TabList>
+                        </Box>
+                        <TabPanel value="1">
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr className="text-center">
+                                            <th scope="col" className="px-6 py-3">Si. No</th>
+                                            <th scope="col" className="px-6 py-3">Thumbnail</th>
+                                            <th scope="col" className="px-6 py-3">Instructor Name</th>
+                                            <th scope="col" className="px-6 py-3">Joined</th>
+                                            <th scope="col" className="px-6 py-3">Block / Unblock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {instructors.map((instructor, index) => (
+                                            <tr key={instructor._id} 
+												className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
+												onClick={()=>handleDisplayUser1(instructor._id)}
+												>
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</th>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <div className="flex justify-center">
+                                                        <img className="object-cover w-10 h-10 p-1 rounded-full" src={instructor.profile.avatar} alt="User" />
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{instructor.firstName}</td>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>
+                                                <td>
+                                                    <button
+                                                        className={`btn btn-sm btn-outline ${instructor.isBlocked ? 'btn-primary' : 'btn-error'}`}
+                                                        onClick={() => handleBlockUnblock(instructor._id, instructor.isBlocked)}
+                                                    >
+                                                        {instructor.isBlocked ? 'Unblock' : 'Block'}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </TabPanel>
+                        <TabPanel value="2">
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr className="text-center">
+                                            <th scope="col" className="px-6 py-3">Si. No</th>
+                                            <th scope="col" className="px-6 py-3">Thumbnail</th>
+                                            <th scope="col" className="px-6 py-3">Instructor Name</th>
+                                            <th scope="col" className="px-6 py-3">Joined</th>
+                                            <th scope="col" className="px-6 py-3">CV</th>
+                                            <th scope="col" className="px-6 py-3">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {reqInstructors.map((instructor, index) => (
+                                            <tr 
+												key={instructor._id} 
+												className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
+												onClick={()=>handleDisplayUser(instructor._id)}
+												>
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</th>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <div className="flex justify-center">
+                                                        <img className="object-cover w-10 h-10 p-1 rounded-full" src={instructor.profile.avatar} alt="User" />
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{instructor.firstName}</td>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <button className="btn btn-outline btn-info btn-sm" onClick={() => downloadCV(instructor.cv)}>
+                                                        CV <DownloadIcon fontSize="small" />
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <div className="flex justify-center gap-3">
+                                                        <button className="btn btn-outline btn-success btn-sm" onClick={() => handleVerify(instructor._id, instructor.email)}>
+                                                            Verify
+                                                        </button>
+                                                        <button className="btn btn-outline btn-error btn-sm" onClick={() => handleReject(instructor._id, instructor.email)}>
+                                                            Reject
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </TabPanel>
+                    </TabContext>
+                </Box>
+            </div>
+        </>
+    );
 };
-
-export default AdminInstructors;
