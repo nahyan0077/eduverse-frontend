@@ -42,8 +42,6 @@ export const AdminInstructors: React.FC = () => {
     const navigate = useNavigate();
 
     const handleChange = (event: SyntheticEvent, newValue: string) => {
-		console.log(event,"just for fun");
-		
         setValue(newValue);
     };
 
@@ -97,57 +95,47 @@ export const AdminInstructors: React.FC = () => {
         window.open(cvUrl, "_blank");
     };
 
-	const handleVerify = (id: string, email: string) => {
-		setSelectedInstructor({ id, email });
-		setModalAction(() => async () => {
-			if (selectedInstructor) {
-				const response = await dispatch(verifyInstructorAction(selectedInstructor));
-				if (verifyInstructorAction.fulfilled.match(response)) {
-					setReqInstructors((prev) => prev.filter((instructor) => instructor._id !== id));
-					setInstructors((prev) => prev.map((instructor) => (instructor._id === id ? { ...instructor, isVerified: true } : instructor)));
-					toast.success("Instructor verified successfully!");
-				} else {
-					toast.error("Failed to verify instructor");
-				}
-				setModalVisible(false);
-			}
-		});
-		setModalVisible(true);
-	};
+    const handleVerify = (id: string, email: string) => {
+        setSelectedInstructor({ id, email });
+        setModalAction(() => async () => {
+            const response = await dispatch(verifyInstructorAction({ id, email }));
+            if (verifyInstructorAction.fulfilled.match(response)) {
+                setReqInstructors((prev) => prev.filter((instructor) => instructor._id !== id));
+                setInstructors((prev) => prev.map((instructor) => (instructor._id === id ? { ...instructor, isVerified: true } : instructor)));
+                fetchInstructors();
+                toast.success("Instructor verified successfully!");
+            } else {
+                toast.error("Failed to verify instructor");
+            }
+            setModalVisible(false);
+        });
+        setModalVisible(true);
+    };
 
-	const handleReject = (id: string, email: string) => {
-		setSelectedInstructor({ id, email });
-		setModalAction(() => async () => {
-			if (selectedInstructor) {
-				const response = await dispatch(rejectInstructorAction(selectedInstructor));
-				if (rejectInstructorAction.fulfilled.match(response)) {
-					setReqInstructors((prev) => prev.filter((instructor) => instructor._id !== id));
-					toast.success("Instructor rejected successfully!");
-				} else {
-					toast.error("Failed to reject instructor");
-				}
-				setModalVisible(false);
-			}
-		});
-		setModalVisible(true);
-	};
+    const handleReject = (id: string, email: string) => {
+        setSelectedInstructor({ id, email });
+        setModalAction(() => async () => {
+            const response = await dispatch(rejectInstructorAction({ id, email }));
+            if (rejectInstructorAction.fulfilled.match(response)) {
+                setReqInstructors((prev) => prev.filter((instructor) => instructor._id !== id));
+                fetchInstructors();
+                toast.success("Instructor rejected successfully!");
+            } else {
+                toast.error("Failed to reject instructor");
+            }
+            setModalVisible(false);
+        });
+        setModalVisible(true);
+    };
 
     const handleCancel = () => {
         setModalVisible(false);
     };
 
-	const handleDisplayUser = (id: string) => {
-		let user = reqInstructors.filter((data) => data._id === id);
-		console.log(user,"user to single page");
-	
-		navigate("/admin/user-data", { state: { user } });
-	};
-	const handleDisplayUser1 = (id: string) => {
-		let user = instructors.filter((data) => data._id === id);
-		console.log(user,"user to single page");
-	
-		navigate("/admin/user-data", { state: { user } });
-	};
+    const handleDisplayUser = (id: string, isRequested: boolean) => {
+        const user = (isRequested ? reqInstructors : instructors).filter((data) => data._id === id);
+        navigate("/admin/user-data", { state: { user } });
+    };
 
     if (loading) return <div><LoadingPopUp isLoading={loading} /></div>;
     if (error) return <div>{error}</div>;
@@ -183,9 +171,9 @@ export const AdminInstructors: React.FC = () => {
                                     <tbody>
                                         {instructors.map((instructor, index) => (
                                             <tr key={instructor._id} 
-												className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600 "
-												onClick={()=>handleDisplayUser1(instructor._id)}
-												>
+                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
+                                                onClick={() => handleDisplayUser(instructor._id, false)}
+                                            >
                                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</th>
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     <div className="flex justify-center">
@@ -197,7 +185,7 @@ export const AdminInstructors: React.FC = () => {
                                                 <td>
                                                     <button
                                                         className={`btn btn-sm btn-outline ${instructor.isBlocked ? 'btn-primary' : 'btn-error'}`}
-                                                        onClick={() => handleBlockUnblock(instructor._id, instructor.isBlocked)}
+                                                        onClick={(e) => { e.stopPropagation(); handleBlockUnblock(instructor._id, instructor.isBlocked); }}
                                                     >
                                                         {instructor.isBlocked ? 'Unblock' : 'Block'}
                                                     </button>
@@ -224,10 +212,10 @@ export const AdminInstructors: React.FC = () => {
                                     <tbody>
                                         {reqInstructors.map((instructor, index) => (
                                             <tr 
-												key={instructor._id} 
-												className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-												onClick={()=>handleDisplayUser(instructor._id)}
-												>
+                                                key={instructor._id} 
+                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
+                                                onClick={() => handleDisplayUser(instructor._id, true)}
+                                            >
                                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</th>
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     <div className="flex justify-center">
@@ -237,16 +225,16 @@ export const AdminInstructors: React.FC = () => {
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{instructor.firstName}</td>
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{format(new Date(instructor.createdAt), "dd-MM-yyyy")}</td>
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    <button className="btn btn-outline btn-info btn-sm" onClick={() => downloadCV(instructor.cv)}>
+                                                    <button className="btn btn-outline btn-info btn-sm" onClick={(e) => { e.stopPropagation(); downloadCV(instructor.cv); }}>
                                                         CV <DownloadIcon fontSize="small" />
                                                     </button>
                                                 </td>
                                                 <td>
                                                     <div className="flex justify-center gap-3">
-                                                        <button className="btn btn-outline btn-success btn-sm" onClick={() => handleVerify(instructor._id, instructor.email)}>
+                                                        <button className="btn btn-outline btn-success btn-sm" onClick={(e) => { e.stopPropagation(); handleVerify(instructor._id, instructor.email); }}>
                                                             Verify
                                                         </button>
-                                                        <button className="btn btn-outline btn-error btn-sm" onClick={() => handleReject(instructor._id, instructor.email)}>
+                                                        <button className="btn btn-outline btn-error btn-sm" onClick={(e) => { e.stopPropagation(); handleReject(instructor._id, instructor.email); }}>
                                                             Reject
                                                         </button>
                                                     </div>

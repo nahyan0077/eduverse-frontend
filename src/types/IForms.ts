@@ -46,7 +46,8 @@ export interface SignupFormData {
     isGAuth?: boolean,
     cv?:string,
     isVerified?: boolean,
-    isRejected?: boolean
+    isRejected?: boolean,
+    isRequested?: boolean
 }
 
 export interface LoginFormData {

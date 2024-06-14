@@ -4,11 +4,13 @@ import { RootState } from "@/redux/store";
 import React, { useState, useEffect } from "react";
 import { Watch } from "react-loader-spinner";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useNavigate } from "react-router-dom";
 
 export const InstructorVerification: React.FC = () => {
 	const { theme } = useTheme();
 	const data = useAppSelector((state: RootState) => state.user);
 	const [isRejected, setIsRejected] = useState(false);
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		if (data.data?.isRejected !== undefined) {
@@ -37,15 +39,15 @@ export const InstructorVerification: React.FC = () => {
 								Sorry to inform you that your account verification was
 								unsuccessful.
 							</span>
-							<p className="text-gray-600 text-sm mt-2">
-								Please click on the button below to go to the apply again
+							<p className="text-gray-500 text-sm mt-2">
+								You can apply again in the reapply section in the profile
 							</p>
 							<button
 								className="btn btn-outline btn-accent mt-10"
-								// onClick={handleApplyAgain}
+								onClick={()=>navigate('/instructor/profile')}
 							>
 								{" "}
-								Apply Again{" "}
+								Profile{" "}
 							</button>
 						</div>
 					) : (

@@ -15,6 +15,7 @@ import { editProfileValidationSchema } from "@/validationSchemas/editProfileSche
 import { getUserData } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { CustomPdfFileInput } from "../fileInputs/pdfInput";
+import { useNavigate } from "react-router-dom";
 
 export const InstructorProfile: React.FC = () => {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -22,6 +23,7 @@ export const InstructorProfile: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [userId, setUserId] = useState<string | null>("");
 	const [isLoading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setUserId(data?._id || null);
@@ -104,6 +106,8 @@ export const InstructorProfile: React.FC = () => {
 	const [value, setValue] = React.useState("1");
 
 	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+		console.log(event, "again just for fun ");
+
 		setValue(newValue);
 	};
 
@@ -117,19 +121,30 @@ export const InstructorProfile: React.FC = () => {
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
-	const [newCV, setNewCV] = useState()
+	const [newCV, setNewCV] = useState();
 
-	const handleApplyAgain = () => {
-		console.log(newCV,"cvv again");
+	const handleApplyAgain = async () => {
+		console.log(newCV, "cvv again");
 		if (newCV) {
 			const data = {
+				_id: userId,
 				cv: newCV,
-				
+				isRequested: true,
+				isVerified: false,
+				isRejected: false,
+			};
+
+			const response = await dispatch(updateProfileAction(data));
+
+			if (updateProfileAction.fulfilled.match(response)) {
+				toast.success("New application submitted successfully");
+				navigate("/instructor/verification");
+			} else {
+				toast.error("Error occurred");
 			}
-		}else{
-			toast.error("please upload the CV")
+		} else {
+			toast.error("please upload the CV");
 		}
-		
 	};
 
 	const inputStyle = `w-full px-5 py-3 rounded-lg font-medium border-2 ${
@@ -152,8 +167,7 @@ export const InstructorProfile: React.FC = () => {
 								textColor="inherit"
 							>
 								<Tab label="Profile" value="1" />
-								<Tab label="Reset Password" value="2" />
-								<Tab label="Re-Apply" value="3" />
+								{data?.isRejected && <Tab label="Re-Apply" value="2" />}
 							</TabList>
 						</Box>
 						<TabPanel value="1">
@@ -436,46 +450,38 @@ export const InstructorProfile: React.FC = () => {
 								)}
 							</Formik>
 						</TabPanel>
-						<TabPanel value="2">
-							{/* Add content for "Reset Password" tab here */}
-						</TabPanel>
-						<TabPanel value="3">
-							<div className="flex items-center justify-center bg-gray-200 dark:bg-gray-950 mt-20">
-								<div className="bg-gray-300 dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-3xl">
-									<h2 className="text-xl font-bold mb-8">New Application</h2>
+						{data?.isRejected && (
+							<TabPanel value="2">
+								<div className="flex items-center justify-center bg-gray-200 dark:bg-gray-950 mt-20">
+									<div className="bg-gray-300 dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-3xl">
+										<h2 className="text-xl font-bold mb-8">New Application</h2>
 
-
-												<div className="flex flex-col gap-8">
-													<label
-														htmlFor="CV"
-														className="block text-xs italic mb-2"
-													>
-														*please upload your new cv
-													</label>
-													<div className="w-full">
-														<CustomPdfFileInput
-															theme="dark"
-															onChange={(file: any) => {
-																
-																	setNewCV(file);
-														
-															}}
-														/>
-													</div>
-												</div>
-												<div className="flex space-x-3 justify-end mt-10">
-													<button
-														type="submit"
-														className="btn btn-success btn-outline btn-md"
-														onClick={handleApplyAgain}
-													>
-														Apply Again
-													</button>
-												</div>
-
+										<div className="flex flex-col gap-8">
+											<label htmlFor="CV" className="block text-xs italic mb-2">
+												*please upload your new cv
+											</label>
+											<div className="w-full">
+												<CustomPdfFileInput
+													theme="dark"
+													onChange={(file: any) => {
+														setNewCV(file);
+													}}
+												/>
+											</div>
+										</div>
+										<div className="flex space-x-3 justify-end mt-10">
+											<button
+												type="submit"
+												className="btn btn-success btn-outline btn-md"
+												onClick={handleApplyAgain}
+											>
+												Apply Again
+											</button>
+										</div>
+									</div>
 								</div>
-							</div>
-						</TabPanel>
+							</TabPanel>
+						)}
 					</TabContext>
 				</Box>
 			</div>

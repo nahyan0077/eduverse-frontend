@@ -61,9 +61,13 @@ const InstructorNavbar: React.FC =  () => {
               tabIndex={0}
               className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
             >
-              <li onClick={()=>navigate('/instructor/profile')} >
-                <a>Profile</a>
-              </li>
+              {
+                !userData?.data?.isRequested &&
+                <li onClick={()=>navigate('/instructor/profile')} >
+                  <a>Profile</a>
+                </li>
+
+              }
               <li>
                 <a onClick={handleLogout}>Logout</a>
               </li>
