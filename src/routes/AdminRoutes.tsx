@@ -9,6 +9,7 @@ import  UserDetailPage  from "@/components/admin/AdminUserData";
 import { AdminCourses } from "@/components/admin/AdminCourses";
 import { AdminSingleCourse } from "@/components/admin/course/AdminSingleCourse";
 import { AdminInstructors1 } from "@/components/admin/AdminInstructors1";
+import { Unauthorized } from "@/pages/common/Unauthorized";
 
 export const AdminRoutes = () => {
 
@@ -25,6 +26,7 @@ export const AdminRoutes = () => {
 					<Route path="/courses" element={< AdminCourses  />} />
 					<Route path="/single-course" element={< AdminSingleCourse  />} />
 					<Route path="/instructors1" element={< AdminInstructors1  />} />
+					<Route path="*" element={<Unauthorized />} />
 				</Route>
 			</Routes>
 
