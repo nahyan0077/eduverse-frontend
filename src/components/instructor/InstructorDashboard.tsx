@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTheme } from '../ui/theme-provider';
-import { useNavigate } from 'react-router-dom';
 
 const InstructorDashboard: React.FC = () => {
   const { theme } = useTheme();
-  const navigate = useNavigate()
 
   return (
     <div className="flex-1 overflow-auto p-6">

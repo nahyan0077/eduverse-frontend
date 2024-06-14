@@ -38,10 +38,11 @@ export const AdminInstructors: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [modalAction, setModalAction] = useState<() => void>(() => {});
-    const [selectedInstructor, setSelectedInstructor] = useState<{ id: string; email: string } | null>(null);
     const navigate = useNavigate();
 
     const handleChange = (event: SyntheticEvent, newValue: string) => {
+		console.log(event,"this is just for fun");
+		
         setValue(newValue);
     };
 
@@ -77,7 +78,6 @@ export const AdminInstructors: React.FC = () => {
     };
 
     const handleBlockUnblock = async (id: string, isBlocked: boolean) => {
-        setSelectedInstructor({ id, email: "" });
         setModalAction(() => async () => {
             const response = await dispatch(updateProfileAction({ _id: id, isBlocked: !isBlocked }));
             if (updateProfileAction.fulfilled.match(response)) {
@@ -96,7 +96,6 @@ export const AdminInstructors: React.FC = () => {
     };
 
     const handleVerify = (id: string, email: string) => {
-        setSelectedInstructor({ id, email });
         setModalAction(() => async () => {
             const response = await dispatch(verifyInstructorAction({ id, email }));
             if (verifyInstructorAction.fulfilled.match(response)) {
@@ -113,7 +112,6 @@ export const AdminInstructors: React.FC = () => {
     };
 
     const handleReject = (id: string, email: string) => {
-        setSelectedInstructor({ id, email });
         setModalAction(() => async () => {
             const response = await dispatch(rejectInstructorAction({ id, email }));
             if (rejectInstructorAction.fulfilled.match(response)) {
