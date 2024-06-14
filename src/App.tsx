@@ -11,7 +11,6 @@ import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import SelectionPage from "./pages/auth/Selection";
 import OtpPage from "./pages/auth/OtpPage";
-import VerificationPage from "./pages/Instructor/VerificationPage";
 import { ForgotPassword } from "./pages/auth/ForgotPasswordPage";
 import { ConfirmEmail } from "./pages/auth/ConfirmEmail";
 
