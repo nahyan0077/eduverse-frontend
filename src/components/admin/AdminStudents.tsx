@@ -3,13 +3,12 @@ import { getAllStudentsAction } from "@/redux/store/actions/user";
 import { useEffect, useState } from "react";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import CloseIcon from "@mui/icons-material/Close";
-import { blockUserAction } from "@/redux/store/actions/admin";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { Toaster, toast } from "sonner";
 import { format } from "date-fns";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import { useNavigate } from "react-router-dom";
-
+import { updateProfileAction } from "@/redux/store/actions/user/updateProfileAction";
 
 interface Student {
 	_id: string;
@@ -46,7 +45,10 @@ export const AdminStudents: React.FC = () => {
 				if (getAllStudentsAction.fulfilled.match(resultAction)) {
 					const studentsData = resultAction.payload.data;
 					setStudents(studentsData);
-					const totalPages = studentsData.length === studentsPerPage ? currentPage + 1 : currentPage;
+					const totalPages =
+						studentsData.length === studentsPerPage
+							? currentPage + 1
+							: currentPage;
 					setTotalPages(totalPages);
 				} else {
 					setError("Failed to fetch students");
@@ -64,14 +66,14 @@ export const AdminStudents: React.FC = () => {
 	const handleDelete = async () => {
 		if (selectedStudent) {
 			const response = await dispatch(
-				blockUserAction({
-					id: selectedStudent.id,
+				updateProfileAction({
+					_id: selectedStudent.id,
 					isBlocked: !selectedStudent.isBlocked,
 				})
 			);
 			console.log(response, "block and unblock user..!");
 
-			if (blockUserAction.fulfilled.match(response)) {
+			if (updateProfileAction.fulfilled.match(response)) {
 				setStudents((prevStudents) =>
 					prevStudents.map((student) =>
 						student._id === selectedStudent.id
@@ -119,8 +121,8 @@ export const AdminStudents: React.FC = () => {
 	}
 
 	return (
-		<div className="overflow-x-auto max-w-7xl mx-auto p-8">
-			<Toaster richColors position="top-right" />
+		<div className="max-w-full mx-auto py-10 px-10">
+			<Toaster richColors position="top-center" />
 			{isModalVisible && (
 				<ConfirmModal
 					message={` ${
@@ -131,54 +133,71 @@ export const AdminStudents: React.FC = () => {
 				/>
 			)}
 			<h1 className="text-3xl font-bold ml-10 mb-10">Students</h1>
-			<table className="table table-lg">
-				<thead className="text-lg uppercase text-center bg-black">
-					<tr>
-						<th>Si.No</th>
-						<th>Name</th>
-						<th>Joined</th>
-						<th>Verified</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-				<tbody className="text-center">
-					{students.map((student, index) => (
-						<tr
-							key={student._id}
-							className="hover:bg-gray-800"
-							onClick={() => handleDisplayUser(student._id)}
-						>
-							<th>{(currentPage - 1) * studentsPerPage + index + 1}</th>
-							<td>{student.userName}</td>
-							<td>{format(new Date(student.createdAt), "dd-MM-yyyy")}</td>
-							<td>{student.isVerified ? <DoneOutlineIcon color="success" /> : <CloseIcon />}</td>
-							<td>
-								{student.isBlocked ? (
-									<button
-										className="btn btn-sm btn-outline btn-primary"
-										onClick={(e) => {
-											e.stopPropagation();
-											handleBlock(student._id, student.isBlocked);
-										}}
-									>
-										Unblock
-									</button>
-								) : (
-									<button
-										className="btn btn-sm btn-outline btn-error"
-										onClick={(e) => {
-											e.stopPropagation();
-											handleBlock(student._id, student.isBlocked);
-										}}
-									>
-										Block
-									</button>
-								)}
-							</td>
+			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+				<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr className="text-center">
+							<th scope="col" className="px-6 py-3" >Si.No</th>
+							<th scope="col" className="px-6 py-3" >Name</th>
+							<th scope="col" className="px-6 py-3" >Joined</th>
+							<th scope="col" className="px-6 py-3" >Verified</th>
+							<th scope="col" className="px-6 py-3" >Status</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody className="text-center">
+						{students.map((student, index) => (
+							<tr
+								key={student._id}
+								className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
+								onClick={() => handleDisplayUser(student._id)}
+							>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+								>
+									{(currentPage - 1) * studentsPerPage + index + 1}
+								</th>
+								<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{student.userName}
+								</td>
+								<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{format(new Date(student.createdAt), "dd-MM-yyyy")}
+								</td>
+								<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{student.isVerified ? (
+										<DoneOutlineIcon color="success" />
+									) : (
+										<CloseIcon />
+									)}
+								</td>
+								<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{student.isBlocked ? (
+										<button
+											className="btn btn-sm btn-outline btn-primary"
+											onClick={(e) => {
+												e.stopPropagation();
+												handleBlock(student._id, student.isBlocked);
+											}}
+										>
+											Unblock
+										</button>
+									) : (
+										<button
+											className="btn btn-sm btn-outline btn-error"
+											onClick={(e) => {
+												e.stopPropagation();
+												handleBlock(student._id, student.isBlocked);
+											}}
+										>
+											Block
+										</button>
+									)}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 
 			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6">
