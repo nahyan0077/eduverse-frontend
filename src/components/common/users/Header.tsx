@@ -44,7 +44,7 @@ const Header: React.FC = () => {
 			label: "Home",
 			onClick: () => {
 				console.log('Navigating to Home');
-				navigate("/");
+				navigate("/home");
 			}
 		},
 		{
@@ -102,12 +102,12 @@ const Header: React.FC = () => {
 				<div className="flex items-center justify-between max-w-7xl mx-auto">
 					<div
 						className={`flex items-center ${
-							theme === "light" ? "text-violet-700" : "text-white"
+							theme === "light" ? "bg-gradient-to-r from-pink-700 to-blue-500 bg-clip-text text-transparent" : "bg-gradient-to-r from-pink-600 to-blue-500 bg-clip-text text-transparent"
 						} cursor-pointer`}
-						onClick={() => navigate("/")}
+						onClick={() => navigate("/home")}
 					>
 						<span className="font-extrabold text-3xl">EDU</span>
-						<TbBulb className="font-extrabold text-3xl mt-1" />
+						<TbBulb className="font-extrabold text-3xl mt-1 text-violet-700 dark:text-violet-300" />
 						<span className="font-extrabold text-3xl">VERSE</span>
 					</div>
 

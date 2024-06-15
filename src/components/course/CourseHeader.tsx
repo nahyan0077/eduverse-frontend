@@ -4,9 +4,9 @@ import { Player } from "@lottiefiles/react-lottie-player";
 
 export const CourseHeader: React.FC = () => {
 	return (
-		<div className="flex flex-col lg:flex-row items-center bg-violet-100 dark:bg-gray-900 justify-between rounded-lg px-6 lg:px-24 py-12 mx-4 mt-8">
+		<div className="flex flex-col lg:flex-row items-center bg-violet-100 dark:bg-gray-900 justify-between rounded-s-full px-6 lg:px-24 py-12 ml-4 mt-8">
 			<motion.div
-				className="max-w-lg"
+				className="max-w-lg pl-24"
 				initial={{ opacity: 0, x: -50 }}
 				animate={{ opacity: 1, x: 0 }}
 				transition={{ duration: 0.5 }}
@@ -16,7 +16,7 @@ export const CourseHeader: React.FC = () => {
 				</p>
 				<h1 className="text-3xl lg:text-4xl font-bold mb-4">
 					Start learning from the world’s best{" "}
-					<span className="text-violet-500">institutions</span>
+					<span className="text-violet-500"> platform </span>
 				</h1>
 				<p className="text-gray-600 dark:text-gray-400 mb-6">
 					Tatweer was founded to provide life-transforming learning experiences

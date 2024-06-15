@@ -10,8 +10,8 @@ const SelectionPage: React.FC = () => {
 	return (
 		<Suspense fallback={<div>Loading...</div>}>
 			<Header />
-			<div className="min-h-screen">
-				<div className="flex flex-col lg:flex-row justify-center items-center mt-20 max-w-7xl mx-auto">
+			<div className="min-h-[87.9vh] ">
+				<div className="flex flex-col lg:flex-row justify-center items-center md:pt-20 max-w-7xl mx-auto">
 					<LazyMotion features={domAnimation}>
 						<m.div
 							className="w-full lg:w-1/2 flex flex-col justify-center items-center mb-8 lg:mb-10 lg:mr-4"
@@ -33,7 +33,7 @@ const SelectionPage: React.FC = () => {
 							>
 								Enroll as Student
 							</button>
-							<p className="p-10 text-gray-500 text-center">
+							<p className="p-10 text-gray-500 text-center ">
 								"Join as a student to unlock a world of learning opportunities.
 								Access a diverse range of courses, engage with interactive
 								content, collaborate with peers, and track your progress as you
