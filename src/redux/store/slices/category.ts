@@ -1,5 +1,5 @@
 import {  createSlice } from "@reduxjs/toolkit";
-import {  getAllCategories } from "../actions/category";
+import {  getAllActiveCategories, getAllCategories } from "../actions/category";
 
 interface Category {
     _id: string,
@@ -34,12 +34,12 @@ const categorySlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(getAllCategories.pending, (state: CategoryState) => {
+        .addCase(getAllActiveCategories.pending, (state: CategoryState) => {
             state.loading = true;
             state.error = null;
         })
         .addCase(
-            getAllCategories.fulfilled,
+            getAllActiveCategories.fulfilled,
             (state: CategoryState, action) => {
                 state.loading = false; 
                 state.data = action.payload.data;

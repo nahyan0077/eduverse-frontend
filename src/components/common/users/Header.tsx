@@ -13,7 +13,7 @@ import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import ConfirmModal from "../modal/ConfirmModal";
-import { getAllCategories } from "@/redux/store/actions/category";
+import { getAllActiveCategories } from "@/redux/store/actions/category";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
 	const userData = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		dispatch(getAllCategories());
+		dispatch(getAllActiveCategories());
 	}, [dispatch]);
 
 	const catgoryData = useSelector((state: RootState) => state.category);
