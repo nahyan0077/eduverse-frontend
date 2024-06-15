@@ -23,7 +23,7 @@ export const getActiveCoursesAction = createAsyncThunk(
         try {
 
             const response = await CLIENT_API.get(
-                `/api/course/get-all-active${query}`,
+                `/api/course/get-active-courses${query}`,
                 config
             );
 

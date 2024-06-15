@@ -130,7 +130,7 @@ export const CoursePage: React.FC = () => {
     const filteredAndSortedCourses = sortCourses(filterCourses(courses), sortOrder);
 
     return (
-        <div className={`max-w-full mx-auto px-4 lg:px-24 ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
+        <div className={`max-w-7xl mx-auto  ${theme === 'light' ? ' text-gray-900' : ' text-gray-100'}`}>
             <div className="flex justify-between items-center mb-6  rounded-2xl">
                 {/* if any */}
             </div>
@@ -145,7 +145,7 @@ export const CoursePage: React.FC = () => {
                     </div>
                     <div className="collapse collapse-arrow border mb-6">
                         <input type="checkbox" />
-                        <div className="collapse-title text-xl font-medium">
+                        <div className="collapse-title text-md font-medium">
                             Course Categories
                         </div>
                         <div className="collapse-content">
@@ -165,7 +165,7 @@ export const CoursePage: React.FC = () => {
                     </div>
                     <div className="collapse collapse-arrow border mb-6">
                         <input type="checkbox" />
-                        <div className="collapse-title text-xl font-medium">
+                        <div className="collapse-title text-md font-medium">
                             Level
                         </div>
                         <div className="collapse-content">
@@ -185,7 +185,7 @@ export const CoursePage: React.FC = () => {
                     </div>
                     <div className="collapse collapse-arrow border mb-6">
                     <input type="checkbox" />
-                    <div className="collapse-title text-xl font-medium">
+                    <div className="collapse-title text-md font-medium">
                             Price
                         </div>
                     <div className="collapse-content">
@@ -213,6 +213,7 @@ export const CoursePage: React.FC = () => {
 
                 <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative py-10 px-5">
                     <div className="absolute top-0 right-0 z-10 ">
+                        
                         <Button
                             aria-controls="sort-menu"
                             aria-haspopup="true"
@@ -237,7 +238,7 @@ export const CoursePage: React.FC = () => {
                         const totalDurationSeconds = calculateTotalDuration(course.lessons ?? []);
                         const formattedDuration = formatDuration(totalDurationSeconds);
 
-                        return (
+                        return (<>
                             <motion.div
                                 key={course._id}
                                 className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300"
@@ -296,6 +297,7 @@ export const CoursePage: React.FC = () => {
                                     </div>
                                 </div>
                             </motion.div>
+                        </>
                         );
                     })}
                 </div>

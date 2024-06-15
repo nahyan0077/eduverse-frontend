@@ -4,7 +4,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 
 export const CourseHeader: React.FC = () => {
 	return (
-		<div className="flex flex-col lg:flex-row items-center bg-violet-50 dark:bg-gray-900 justify-between rounded-lg px-6 lg:px-24 py-12 mx-4 mt-8">
+		<div className="flex flex-col lg:flex-row items-center bg-violet-100 dark:bg-gray-900 justify-between rounded-lg px-6 lg:px-24 py-12 mx-4 mt-8">
 			<motion.div
 				className="max-w-lg"
 				initial={{ opacity: 0, x: -50 }}

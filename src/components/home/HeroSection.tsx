@@ -28,9 +28,9 @@ const HeroSection: React.FC = () => {
 	);
 
 	return (
-		<div className="text-violet-700 px-4 sm:px-6 lg:px-8 md:mt-20 lg:mb-10">
+		<div className="text-violet-700 px-4 sm:px-6 lg:px-8 md:mt-16 lg:mb-10">
 			<div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
-				<div className="flex flex-col items-center lg:w-1/2 lg:pr-10">
+				<div className="flex flex-col lg:w-1/2 lg:pr-10">
 					<AnimatePresence>
 						<motion.h1
 							key="heading1"
@@ -73,7 +73,7 @@ const HeroSection: React.FC = () => {
 							will teach you in a more interactive way.
 						</motion.p>
 					</AnimatePresence>
-					<div className="flex items-center justify-center flex-wrap mt-8">
+					<div className="flex items-center  flex-wrap mt-8">
 						{!data ? (
 							<motion.button
 								whileHover={{ scale: 1.05 }}

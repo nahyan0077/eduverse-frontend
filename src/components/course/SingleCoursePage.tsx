@@ -50,21 +50,21 @@ export const SingleCoursePage: React.FC = () => {
 	};
 	return (
 		<div
-			className={`min-h-screen max-w-full mx-auto p-10 ${
-				theme === "light" ? " text-gray-900" : " text-gray-100 mb-5"
+			className={`min-h-screen max-w-7xl mx-auto mt-10 ${
+				theme === "light" ? " text-gray-900" : " text-gray-100 mb-5 "
 			}`}
 		>
 			<Toaster richColors position="top-center" />
 			{courseData ? (
 				<div className="flex flex-col lg:flex-row rounded-2xl overflow-hidden space-y-5 lg:space-y-0 lg:space-x-5">
 					{/* Left Section */}
-					<div className="lg:w-2/3 p-10 rounded-xl">
+					<div className="lg:w-2/3 rounded-xl">
 						<div className="mb-4">
 							<div className="flex items-center mb-2">
 								<img
 									src={courseData.instructorRef.profile.avatar}
 									alt="Instructor"
-									className="object-cover w-10 h-10 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500 mr-3"
+									className="object-cover w-10 h-10 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500 mr-3 ml-1"
 								/>
 								<div>
 									<h2 className="text-lg font-bold ">
@@ -130,7 +130,7 @@ export const SingleCoursePage: React.FC = () => {
 								</div>
 								<div className="flex items-center">
 									<ArticleIcon className="mr-2" />
-									<span>65 articles</span>
+									<span>Quality articles</span>
 								</div>
 								<div className="flex items-center">
 									<CloudDownloadIcon className="mr-2" />
