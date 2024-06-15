@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
 import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { ModeToggle } from "../../ui/mode-toggle";
 import { useTheme } from "../../ui/theme-provider";
@@ -17,6 +18,8 @@ import { getAllActiveCategories } from "@/redux/store/actions/category";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
+	const [searchExpanded, setSearchExpanded] = useState(false);
+	const searchInputRef = useRef<HTMLInputElement>(null);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
@@ -85,6 +88,22 @@ const Header: React.FC = () => {
 		setModalVisible(true);
 	};
 
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				searchInputRef.current &&
+				!searchInputRef.current.contains(event.target as Node)
+			) {
+				setSearchExpanded(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [searchInputRef]);
+
 	return (
 		<>
 			{isModalVisible && (
@@ -102,7 +121,9 @@ const Header: React.FC = () => {
 				<div className="flex items-center justify-between max-w-7xl mx-auto">
 					<div
 						className={`flex items-center ${
-							theme === "light" ? "bg-gradient-to-r from-pink-700 to-blue-500 bg-clip-text text-transparent" : "bg-gradient-to-r from-pink-600 to-blue-500 bg-clip-text text-transparent"
+							theme === "light"
+								? "bg-gradient-to-r from-pink-700 to-blue-500 bg-clip-text text-transparent"
+								: "bg-gradient-to-r from-pink-600 to-blue-500 bg-clip-text text-transparent"
 						} cursor-pointer`}
 						onClick={() => navigate("/home")}
 					>
@@ -111,8 +132,8 @@ const Header: React.FC = () => {
 						<span className="font-extrabold text-3xl">VERSE</span>
 					</div>
 
-					<div className="hidden md:flex items-center space-x-10">
-						{menuItems.map((menuItem) => (
+					<div className="hidden md:flex items-center space-x-3">
+						{ menuItems.map((menuItem) => (
 							<div
 								key={menuItem.label}
 								className="dropdown dropdown-hover relative"
@@ -154,9 +175,23 @@ const Header: React.FC = () => {
 								)}
 							</div>
 						))}
+						<div className="relative flex items-center z-30">
+							<input
+								type="text"
+								ref={searchInputRef}
+								className={`transition-all duration-300 ease-in-out p-3 rounded-full focus:outline-none placeholder:text-violet-800 dark:placeholder:text-violet-200 ${
+									searchExpanded ? "w-72" : "w-36"
+								} bg-violet-100  dark:bg-gray-800`}
+								placeholder="Search"
+								onFocus={() => setSearchExpanded(true)}
+							/>
+							<SearchIcon className="absolute right-3 text-violet-700 dark:text-white" />
+						</div>
 					</div>
-					<div className="hidden md:flex items-center space-x-4">
-						{isAuthenticated && (
+
+					<div className="hidden md:flex items-center space-x-3 relative">
+
+						{isAuthenticated && !searchExpanded && (
 							<div className="hidden md:block dropdown">
 								<div
 									tabIndex={0}
@@ -203,6 +238,7 @@ const Header: React.FC = () => {
 							</button>
 						))}
 					</div>
+
 					<ModeToggle />
 
 					<div

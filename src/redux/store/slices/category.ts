@@ -1,5 +1,5 @@
 import {  createSlice } from "@reduxjs/toolkit";
-import {  getAllActiveCategories, getAllCategories } from "../actions/category";
+import {  getAllActiveCategories } from "../actions/category";
 
 interface Category {
     _id: string,
