@@ -1,5 +1,5 @@
-import { CustomImageFileInput } from "@/components/fileInputs/imageInput";
-import { CustomVideoFileInput } from "@/components/fileInputs/videoInput";
+import { CustomImageFileInput } from "@/components/common/fileInputs/imageInput";
+import { CustomVideoFileInput } from "@/components/common/fileInputs/videoInput";
 import { RootState } from "@/redux/store";
 import { CourseFirst } from "@/types/ICourse";
 import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1";

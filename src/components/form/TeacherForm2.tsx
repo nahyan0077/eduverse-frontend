@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { SignupFormData } from "@/types/IForms";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
-import { CustomPdfFileInput } from "../fileInputs/pdfInput";
+import { CustomPdfFileInput } from "../common/fileInputs/pdfInput";
 import { signupAction } from "@/redux/store/actions/auth";
 
 const TeacherForm2: React.FC = () => {

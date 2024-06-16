@@ -14,7 +14,7 @@ import { ImageUpload } from "@/utils/cloudinary/uploadImage";
 import { editProfileValidationSchema } from "@/validationSchemas/editProfileSchema";
 import { getUserData } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
-import { CustomPdfFileInput } from "../fileInputs/pdfInput";
+import { CustomPdfFileInput } from "../common/fileInputs/pdfInput";
 import { useNavigate } from "react-router-dom";
 
 export const InstructorProfile: React.FC = () => {

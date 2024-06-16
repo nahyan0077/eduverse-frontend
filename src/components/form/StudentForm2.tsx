@@ -3,13 +3,9 @@ import InputField from "@/components/common/skeleton/InputField";
 import { Form, Formik, Field } from "formik";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
-// import { useNavigate } from "react-router-dom";
 import {useLocation, useNavigate} from 'react-router-dom'
 import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
-// import { signupAction } from "@/redux/store/actions/auth";
 import { SignupFormData } from "@/types/IForms";
-// import { useAppDispatch } from "@/hooks/hooks";
-// import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { sendVerificationMail, signupAction } from "@/redux/store/actions/auth";
 import { useAppDispatch } from "@/hooks/hooks";
@@ -19,7 +15,6 @@ import { useAppDispatch } from "@/hooks/hooks";
 
 const StudentForm2: React.FC = () => {
 	const { theme } = useTheme();
-	// const navigate = useNavigate()
 	const location = useLocation()
 
 	const navigate = useNavigate()

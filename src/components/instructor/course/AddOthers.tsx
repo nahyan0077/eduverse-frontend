@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import CourseInputField from "@/components/common/skeleton/CourseInputField";
-import { CustomPdfFileInput } from "@/components/fileInputs/pdfInput";
+import { CustomPdfFileInput } from "@/components/common/fileInputs/pdfInput";
 import { CourseEntity } from "@/types/ICourse";
 import { useAppDispatch } from "@/hooks/hooks";
 import { createCourseAction } from "@/redux/store/actions/course";
