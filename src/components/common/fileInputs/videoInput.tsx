@@ -1,4 +1,4 @@
-import { FC, useState, useRef, ChangeEvent } from "react";
+import { FC, useState, useRef, useEffect, ChangeEvent } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ImageUploadIcon } from "@/components/parts/ImageUploadIcon"; // Assuming you have a VideoUploadIcon component
 import { toast, Toaster } from "sonner";
@@ -7,16 +7,24 @@ import { VideoUpload } from "@/utils/cloudinary/uploadVideo"; // Assuming you ha
 interface CustomVideoFileInputProps {
   onChange: (file: File | null | string) => void;
   theme: string;
+  initialValue?: string; // Add initialValue prop
 }
 
 export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
   onChange,
   theme,
+  initialValue = "", // Set default value to empty string
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(initialValue); // Use initialValue
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (initialValue) {
+      setVideoUrl(initialValue);
+    }
+  }, [initialValue]);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
@@ -61,7 +69,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
       }`}
     >
       <Toaster position="top-center" richColors />
-      {selectedFile ? (
+      {videoUrl ? ( // Check for videoUrl instead of selectedFile
         <div className="mt-4 lg:h-80 lg:mt-0 relative">
           <video src={videoUrl || ""} className="w-full h-full" controls />
           {loading && (

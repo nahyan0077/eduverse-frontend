@@ -41,6 +41,8 @@ const categorySlice = createSlice({
         .addCase(
             getAllActiveCategories.fulfilled,
             (state: CategoryState, action) => {
+                console.log(action.payload.data,"check catgory in reducer");
+                
                 state.loading = false; 
                 state.data = action.payload.data;
                 state.error = null;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, FieldArray, ErrorMessage } from "formik";
 import CourseInputField from "@/components/common/skeleton/CourseInputField";
 import { CustomVideoFileInputDuration } from "@/components/common/fileInputs/videoInputDuration";
@@ -10,7 +10,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Toaster, toast } from "sonner";
 import { useLocation, useNavigate } from "react-router-dom";
 
-// Define the lesson type
 type Lesson = {
   lessonNumber: number;
   title: string;
@@ -21,16 +20,23 @@ type Lesson = {
 };
 
 export const AddLessons: React.FC = () => {
-  const [lessons, setLessons] = useState<Lesson[]>([
-    { lessonNumber: 1, title: "", description: "", objectives: [], video: "", duration: "" },
-  ]);
+  const [lessons, setLessons] = useState<Lesson[]>([]);
   const [individualUploadedLessons, setIndividualUploadedLessons] = useState<Lesson[]>([]);
-  const [allUploadedLessons, setAllUploadedLessons] = useState<Lesson[]>([]);
   const [uploadedLessonIds, setUploadedLessonIds] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const isEditMode = location.state?.oldData;
+  console.log(isEditMode,"isi edit mode onn");
+  
 
-  console.log(location.state, "first form course");
+  useEffect(() => {
+    if (isEditMode) {
+      setLessons(location.state.oldData.lessons);
+      console.log(location.state.oldData.lessons, "check lessons reached");
+    } else {
+      setLessons([{ lessonNumber: 1, title: "", description: "", objectives: [], video: "", duration: "" }]);
+    }
+  }, [isEditMode, location.state]);
 
   const initialValues = {
     lessons: lessons,
@@ -42,16 +48,11 @@ export const AddLessons: React.FC = () => {
       return;
     }
 
-    setAllUploadedLessons(values.lessons);
-    console.log(allUploadedLessons);
-    
-
-    console.log("All Lessons Uploaded:", values.lessons);
-
     const allData = {
       ...location.state.allData,
-      ...values,
+      lessons: values.lessons,
     };
+
     console.log(allData, "form data second form");
 
     navigate('/instructor/add-others', { state: { allData } });
@@ -90,12 +91,13 @@ export const AddLessons: React.FC = () => {
       <div className="max-w-full mx-auto py-10 px-10 text-white space-y-5">
         <Toaster richColors position="top-center" />
         <div className="mb-10 flex justify-between p-4">
-          <h1 className="text-3xl font-bold">Add Lessons</h1>
+          <h1 className="text-3xl font-bold">{isEditMode ? "Edit Lessons" : "Add Lessons"}</h1>
         </div>
         <Formik
           initialValues={initialValues}
           validationSchema={addCourseValidationSchema2}
           onSubmit={handleSubmit}
+          enableReinitialize
         >
           {({ values, setFieldValue, errors, touched }) => (
             <Form>
@@ -124,6 +126,7 @@ export const AddLessons: React.FC = () => {
                                   }
                                 }}
                                 theme="dark"
+                                initialValue={{ url: lesson.video, duration: parseInt(lesson.duration, 10) }}
                               />
                               <ErrorMessage name={`lessons[${index}].video`} component="div" className="text-red-500 text-xs" />
                               <ErrorMessage name={`lessons[${index}].duration`} component="div" className="text-red-500 text-xs" />
@@ -168,7 +171,7 @@ export const AddLessons: React.FC = () => {
               </FieldArray>
               <div className="flex justify-start mt-5">
                 <button className="btn btn-primary" type="submit">
-                  Upload All Lessons
+                  {isEditMode ? "Update Lessons" : "Upload All Lessons"}
                 </button>
               </div>
             </Form>

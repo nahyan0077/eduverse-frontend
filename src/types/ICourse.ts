@@ -1,9 +1,9 @@
 
 
 export interface CourseFirst {
-    title: string;
-    description: string;
-    thumbnail: string;
+    title?: string;
+    description?: string;
+    thumbnail?: string;
     language?: string;
     category?: string;
     pricing?: string;

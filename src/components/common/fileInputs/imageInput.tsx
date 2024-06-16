@@ -1,4 +1,4 @@
-import { FC, useState, useRef, ChangeEvent } from "react";
+import { FC, useState, useRef, useEffect, ChangeEvent } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ImageUploadIcon } from "@/components/parts/ImageUploadIcon";
 import { toast, Toaster } from "sonner";
@@ -7,16 +7,24 @@ import { ImageUpload } from "@/utils/cloudinary/uploadImage";
 interface CustomImageFileInputProps {
 	onChange: (file: File | null | string) => void;
 	theme: string;
+	initialValue?: string; // Add initialValue prop
 }
 
 export const CustomImageFileInput: FC<CustomImageFileInputProps> = ({
 	onChange,
 	theme,
+	initialValue = "", // Set default value to empty string
 }) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
-	const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [imageUrl, setImageUrl] = useState<string | null>(initialValue); // Use initialValue
 	const [loading, setLoading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (initialValue) {
+			setImageUrl(initialValue);
+		}
+	}, [initialValue]);
 
 	const handleButtonClick = () => {
 		fileInputRef.current?.click();
@@ -54,14 +62,12 @@ export const CustomImageFileInput: FC<CustomImageFileInputProps> = ({
 
 	return (
 		<div
-			className={`lg:h-80 border-dashed border-2 rounded-lg text-center  ${
-				theme === "light"
-					? "bg-gray-100 border-gray-200"
-					: "bg-gray-800 border-gray-700"
+			className={`lg:h-80 border-dashed border-2 rounded-lg text-center ${
+				theme === "light" ? "bg-gray-100 border-gray-200" : "bg-gray-800 border-gray-700"
 			}`}
 		>
 			<Toaster position="top-center" richColors />
-			{selectedFile ? (
+			{imageUrl ? ( // Check for imageUrl instead of selectedFile
 				<div className="mt-4 lg:h-80 lg:mt-0 relative">
 					<img
 						src={imageUrl || ""}

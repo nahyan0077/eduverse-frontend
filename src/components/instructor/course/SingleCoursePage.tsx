@@ -9,7 +9,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CodeIcon from "@mui/icons-material/Code";
 import ArticleIcon from "@mui/icons-material/Article";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -22,6 +22,7 @@ export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		if (location.state.course) {
@@ -165,6 +166,12 @@ export const SingleCoursePage: React.FC = () => {
 
 					{/* Right Section */}
 					<div className="lg:w-1/3 py-4 px-6 rounded-2xl bg-gray-100 shadow-md dark:bg-gray-900">
+							<div className="flex justify-center pb-4" >
+						<button className="btn btn-outline btn-accent" onClick={() => navigate('/instructor/add-course',{state: {data: courseData}})} >
+							Update Course
+						</button>
+
+							</div>
 						{/* Video/Image Section */}
 						<div className="relative pb-56 mb-4 overflow-hidden rounded-lg">
 							<iframe
