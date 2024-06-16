@@ -28,7 +28,7 @@ const HeroSection: React.FC = () => {
 	);
 
 	return (
-		<div className={`text-violet-700 px-4 sm:px-6 lg:px-8 md:py-10 bg-gradient-to-r from-fuchsia-50 to-cyan-50 ${theme == 'dark' && 'bg-gradient-to-r from-slate-950 to-slate-900'} `}>
+		<div className={`text-violet-700 px-4 sm:px-6 lg:px-8 md:py-10  ${theme == 'dark' ? 'bg-gradient-to-r from-slate-950 to-slate-900': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50' } `}>
 			<div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between  ">
 				<div className="flex flex-col lg:w-1/2 lg:pr-10 ">
 					<AnimatePresence>
