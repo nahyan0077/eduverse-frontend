@@ -10,7 +10,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 
 const FeaturesSection: React.FC = () => {
 	const { theme } = useTheme();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const motionSettings = {
 		initial: { opacity: 0, y: 50 },
@@ -31,11 +31,11 @@ const FeaturesSection: React.FC = () => {
 						Our <span className="text-violet-700"> Features </span>
 					</h1>
 					<p
-						className={`font-base w-96 py-4 text-center ${
+						className={`font-base py-4  ${
 							theme === "light" ? "text-gray-600" : "text-gray-400"
 						}`}
 					>
-						This is where you can add your feature description.
+						Unlock your potential with EDUVERSE, the leading e-learning platform for the MENA region. Access expert-led courses, personalized learning paths, live sessions, and earn recognized certifications. Join a vibrant community and enjoy seamless learning across all devices. Start your journey today and transform your future with EDUVERSE!
 					</p>
 				</div>
 
@@ -47,7 +47,7 @@ const FeaturesSection: React.FC = () => {
 						<img src={pic1} alt="Feature 1" />
 					</motion.div>
 					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
+						className="flex flex-col items-center w-full lg:w-1/2 md:mt-0"
 						{...motionSettings}
 					>
 						<h1 className="text-violet-700 text-2xl font-bold">
@@ -74,7 +74,7 @@ const FeaturesSection: React.FC = () => {
 
 				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
 					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
+						className="flex flex-col items-center w-full lg:w-1/2"
 						{...motionSettings}
 					>
 						<h1 className="text-violet-700 text-2xl font-bold">
@@ -113,7 +113,7 @@ const FeaturesSection: React.FC = () => {
 						<img src={pic3} alt="Feature 3" />
 					</motion.div>
 					<motion.div
-						className="flex flex-col w-full text-center items-center lg:w-1/2 md:mt-32 "
+						className="flex flex-col w-full text-center items-center lg:w-1/2  "
 						{...motionSettings}
 					>
 						<h1 className="text-violet-700  text-2xl font-bold">
@@ -140,7 +140,7 @@ const FeaturesSection: React.FC = () => {
 
 				<div className="flex mx-auto flex-col-reverse lg:flex-row max-w-7xl justify-center items-center">
 					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
+						className="flex flex-col items-center w-full lg:w-1/2 "
 						{...motionSettings}
 					>
 						<h1 className="text-violet-700 text-2xl font-bold">
@@ -176,15 +176,15 @@ const FeaturesSection: React.FC = () => {
 						theme === "light" ? "bg-gray-100" : "bg-gray-900"
 					} rounded-xl p-5`}
 				>
-					<motion.div className="w-full lg:w-1/2" {...motionSettings}>
-					<Player
-            autoplay
-            loop
-            src="https://lottie.host/645f042e-dfa0-46bf-9f04-41345f0185fa/jqiYhEOdQ1.json"
-            style={{ height: "80%", width: "80%" }}
-          />
-					</motion.div>
-					<motion.div className="w-full lg:w-1/2" {...motionSettings}>
+					<div className="w-full lg:w-1/2">
+						<Player
+							autoplay
+							loop
+							src="https://lottie.host/645f042e-dfa0-46bf-9f04-41345f0185fa/jqiYhEOdQ1.json"
+							style={{ height: "80%", width: "80%" }}
+						/>
+					</div>
+					<div className="w-full lg:w-1/2">
 						<h1 className="text-2xl font-bold text-violet-700 text-center">
 							Join{" "}
 							<span
@@ -206,13 +206,14 @@ const FeaturesSection: React.FC = () => {
 							Unlock endless learning possibilities now!
 						</p>
 						<div className="flex flex-col items-center">
-							<button className="bg-gradient-to-r from-violet-400 to-pink-500 rounded-full text-sm p-3 text-white mt-8 hover:from-violet-500 hover:to-pink-400 shadow-lg"
-							onClick={()=>navigate('/selection')}
+							<button
+								className="bg-gradient-to-r from-violet-400 to-pink-500 rounded-full text-sm p-3 text-white mt-8 hover:from-violet-500 hover:to-pink-400 shadow-lg"
+								onClick={() => navigate("/selection")}
 							>
 								Sign Up for Free
 							</button>
 						</div>
-					</motion.div>
+					</div>
 				</div>
 			</div>
 		</>

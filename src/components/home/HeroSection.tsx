@@ -14,21 +14,21 @@ const HeroSection: React.FC = () => {
 
 	const headingClass = useMemo(
 		() =>
-			`text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 ${
+			`text-4xl sm:text-3xl md:text-5xl font-bold leading-tight mb-4 ${
 				theme === "light" ? "text-violet-700" : "text-white"
 			}`,
 		[theme]
 	);
 	const paragraphClass = useMemo(
 		() =>
-			`text-lg sm:text-md md:text-md font-Josefin mt-1 ${
+			`text-lg sm:text-md md:text-md font-ultrathin mt-1 ${
 				theme === "light" ? "text-violet-700" : "text-gray-300"
 			} `,
 		[theme]
 	);
 
 	return (
-		<div className={`text-violet-700 px-4 sm:px-6 lg:px-8 md:py-10  ${theme == 'dark' ? 'bg-gradient-to-r from-slate-950 to-slate-900': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50' } `}>
+		<div className={`text-violet-700 px-4 sm:px-6 lg:px-8 md:py-10 pb-10  ${theme == 'dark' ? 'bg-gradient-to-r from-slate-950 to-slate-900': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50' } `}>
 			<div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between  ">
 				<div className="flex flex-col lg:w-1/2 lg:pr-10 ">
 					<AnimatePresence>
@@ -79,10 +79,10 @@ const HeroSection: React.FC = () => {
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 1 }}
 								onClick={() => navigate("/selection")}
-								className="bg-violet-700 text-white hover:bg-violet-500 font-bold py-3 pl-6 pr-3 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
+								className="bg-violet-600 text-white hover:bg-violet-500 font-bold py-3 pl-6 pr-3 rounded-xl mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.5, delay: 1 }}
+								transition={{ duration: 0.5, delay: 0.2 }}
 							>
                 <div className="flex items-center space-x-2" >
 
@@ -122,10 +122,10 @@ const HeroSection: React.FC = () => {
 							whileTap={{ scale: 1 }}
 							className={`bg-transparent ${
 								theme === "light" ? "text-violet-700" : "text-white"
-							} border border-violet-700 font-bold py-3 px-6 rounded-full mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]`}
+							} border border-violet-700 font-bold py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]`}
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5, delay: 1.2 }}
+							transition={{ duration: 0.5, delay: 0.2 }}
 						>
 							Learn More
 						</motion.button>

@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
 	const { theme } = useTheme();
 	return (
 		<footer className={`border-gray-200 py-12 ${theme === 'light' ? 'bg-violet-50' : 'bg-gray-900'} max-w-full mx-auto `}>
-			<div className="flex flex-wrap justify-between mx-auto max-w-7xl mb-14">
+			<div className="flex flex-wrap pl-10 md:pl-0 justify-between mx-auto max-w-7xl mb-14">
 				<div className="w-full lg:w-1/5 mb-8 lg:mb-0 px-4">
 					<div className="flex text-purple-700 items-center mb-4">
 						<span className="font-extrabold text-xl">EDU</span>
@@ -62,9 +62,9 @@ const Footer: React.FC = () => {
 					</ul>
 				</div>
 			</div>
-			<div className={`max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-sm text-gray-300 ${theme === 'light' ? 'bg-violet-200' : 'bg-gray-800'} p-4 rounded mt-2`}>
+			<div className={`max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-sm text-gray-700 ${theme === 'light' ? 'bg-violet-200' : 'bg-gray-800'} p-4 rounded mt-2`}>
 				<div className="mb-2 md:mb-0">
-					<h2>privacy policy | terms & conditions</h2>
+					<h2>Privacy policy | terms & conditions</h2>
 				</div>
 				<div>
 					<h2>All copyright (c) 2024 reserved</h2>
