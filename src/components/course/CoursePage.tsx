@@ -1,4 +1,4 @@
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getActiveCoursesAction } from "@/redux/store/actions/course";
 import { Lesson } from "@/types/ICourse";
 import React, { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { RootState } from "@/redux/store";
 import { CurrencyRupee as CurrencyRupeeIcon } from '@mui/icons-material';
 import SortIcon from '@mui/icons-material/Sort';
 import { Menu, MenuItem, Button } from "@mui/material"; // Import MUI components
+import CourseSectionCardLoading from "../common/loadingSkeleton/CourseCard";
 
 const formatDuration = (seconds: number): string => {
     const h = Math.floor(seconds / 3600);
@@ -46,6 +47,8 @@ export const CoursePage: React.FC = () => {
     const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // State for menu anchor
+    const courseData = useSelector((state: RootState) => state.course);
+    const loading = courseData.loading;
 
     const levels = ['beginner', 'intermediate', 'expert'];
 
@@ -184,34 +187,34 @@ export const CoursePage: React.FC = () => {
                         </div>
                     </div>
                     <div className="collapse collapse-arrow border mb-6">
-                    <input type="checkbox" />
-                    <div className="collapse-title text-md font-medium">
+                        <input type="checkbox" />
+                        <div className="collapse-title text-md font-medium">
                             Price
                         </div>
-                    <div className="collapse-content">
-                        <div className="flex flex-col space-y-2">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    className="mr-2"
-                                    checked={selectedPrices.includes('free')}
-                                    onChange={() => handlePriceChange('free')}
-                                /> Free
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    className="mr-2"
-                                    checked={selectedPrices.includes('paid')}
-                                    onChange={() => handlePriceChange('paid')}
-                                /> Paid
-                            </label>
+                        <div className="collapse-content">
+                            <div className="flex flex-col space-y-2">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={selectedPrices.includes('free')}
+                                        onChange={() => handlePriceChange('free')}
+                                    /> Free
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={selectedPrices.includes('paid')}
+                                        onChange={() => handlePriceChange('paid')}
+                                    /> Paid
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
 
-                <div className="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative py-10 px-5">
+                <div className={`w-full ${ !loading ? 'md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative ' : 'py-10 px-5' }`}>
                     <div className="absolute top-0 right-0 z-10 ">
                         
                         <Button
@@ -228,93 +231,101 @@ export const CoursePage: React.FC = () => {
                             keepMounted
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
-                        >
-                            <MenuItem onClick={() => handleSortOrderChange('asc')}>Price: Low to High</MenuItem>
-                            <MenuItem onClick={() => handleSortOrderChange('desc')}>Price: High to Low</MenuItem>
-                        </Menu>
-                    </div>
-
-                    {filteredAndSortedCourses.map((course) => {
-                        const totalDurationSeconds = calculateTotalDuration(course.lessons ?? []);
-                        const formattedDuration = formatDuration(totalDurationSeconds);
-
-                        return (<>
-                            <motion.div
-                                key={course._id}
-                                className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300"
-                                whileHover={{ scale: 1.02 }}
-                                onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}>
-                            
-                                <figure className="relative">
-                                    <motion.img
-                                        src={course.thumbnail}
-                                        alt={course.title}
-                                        className="w-full h-48 object-cover"
-                                        whileHover={{ scale: 1.1 }}
-                                    />
-                                </figure>
-                                <div className="card-body p-4">
-                                    <h2 className="card-title text-lg font-semibold mb-2">{course.title}</h2>
-                                    <p className="text-sm text-gray-500 flex items-center mb-2">
-                                        <div className="avatar mr-2">
-                                            <div className="w-6 rounded-full">
-                                                <img src={course.instructorRef.profile.avatar} alt="Instructor" />
+                            >
+                                <MenuItem onClick={() => handleSortOrderChange('asc')}>Price: Low to High</MenuItem>
+                                <MenuItem onClick={() => handleSortOrderChange('desc')}>Price: High to Low</MenuItem>
+                            </Menu>
+                        </div>
+                        {loading ? (
+                            <div className="flex flex-wrap -mx-4">
+                                {[...Array(9)].map((_, index) => (
+                                    <CourseSectionCardLoading key={index} />
+                                ))}
+                            </div>
+                        ) : (
+                            filteredAndSortedCourses.map((course) => {
+                                const totalDurationSeconds = calculateTotalDuration(course.lessons ?? []);
+                                const formattedDuration = formatDuration(totalDurationSeconds);
+    
+                                return (
+                                    <motion.div
+                                        key={course._id}
+                                        className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300"
+                                        whileHover={{ scale: 1.02 }}
+                                        onClick={() => navigate('/single-course', { state: { course: { ...course, duration: formattedDuration } } })}
+                                    >
+                                        <figure className="relative">
+                                            <motion.img
+                                                src={course.thumbnail}
+                                                alt={course.title}
+                                                className="w-full h-48 object-cover"
+                                                whileHover={{ scale: 1.1 }}
+                                            />
+                                        </figure>
+                                        <div className="card-body p-4">
+                                            <h2 className="card-title text-lg font-semibold mb-2">{course.title}</h2>
+                                            <p className="text-sm text-gray-500 flex items-center mb-2">
+                                                <div className="avatar mr-2">
+                                                    <div className="w-6 rounded-full">
+                                                        <img src={course.instructorRef.profile.avatar} alt="Instructor" />
+                                                    </div>
+                                                </div>
+                                                Instructor: {course?.instructorRef?.firstName}
+                                            </p>
+                                            <p className="text-sm text-gray-500 flex items-center mb-2">
+                                                <AutoStoriesIcon color="secondary" fontSize="small" className="mr-1" />
+                                                Lessons: <span className="font-bold ml-1">{course.lessons?.length}</span>
+                                            </p>
+                                            <p className="text-sm text-gray-500 flex items-center mb-2">
+                                                <AccessTimeIcon color="warning" fontSize="small" className="mr-1" />
+                                                Duration: <span className="font-bold ml-1">{formattedDuration}</span>
+                                            </p>
+                                            <p className="text-lg font-bold text-gray-800 mb-2">
+                                                {course.pricing?.type === 'paid' ? (
+                                                    <>
+                                                        <span className="line-through mr-2">{course.pricing.discountedAmount}</span>
+                                                        <span className="text-red-500"><CurrencyRupeeIcon fontSize="small" />  {course.pricing.amount}</span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-green-500"> Free </span>
+                                                )}
+                                            </p>
+                                            <div className="flex justify-between items-center mt-1">
+                                                <div>
+                                                    {course.level === 'beginner' && (
+                                                        <span className="text-sm text-green-500">⭐ {course.level}</span>
+                                                    )}
+                                                    {course.level === 'intermediate' && (
+                                                        <span className="text-sm text-yellow-500">⭐ {course.level}</span>
+                                                    )}
+                                                    {course.level === 'expert' && (
+                                                        <span className="text-sm text-red-500">⭐ {course.level}</span>
+                                                    )}
+                                                </div>
+                                                <button className="btn btn-primary btn-outline btn-sm">Enroll Now</button>
                                             </div>
                                         </div>
-                                        Instructor: {course?.instructorRef?.firstName}
-                                    </p>
-                                    <p className="text-sm text-gray-500 flex items-center mb-2">
-                                        <AutoStoriesIcon color="secondary" fontSize="small" className="mr-1" />
-                                        Lessons: <span className="font-bold ml-1">{course.lessons?.length}</span>
-                                    </p>
-                                    <p className="text-sm text-gray-500 flex items-center mb-2">
-                                        <AccessTimeIcon color="warning" fontSize="small" className="mr-1" />
-                                        Duration: <span className="font-bold ml-1">{formattedDuration}</span>
-                                    </p>
-                                    <p className="text-lg font-bold text-gray-800 mb-2">
-                                        {course.pricing?.type === 'paid' ? (
-                                            <>
-                                                <span className="line-through mr-2">{course.pricing.discountedAmount}</span>
-                                                <span className="text-red-500"><CurrencyRupeeIcon fontSize="small" />  {course.pricing.amount}</span>
-                                            </>
-                                        ) : (
-                                            <span className="text-green-500"> Free </span>
-                                        )}
-                                    </p>
-                                    <div className="flex justify-between items-center mt-1">
-                                        <div>
-                                            {course.level === 'beginner' && (
-                                                <span className="text-sm text-green-500">⭐ {course.level}</span>
-                                            )}
-                                            {course.level === 'intermediate' && (
-                                                <span className="text-sm text-yellow-500">⭐ {course.level}</span>
-                                            )}
-                                            {course.level === 'expert' && (
-                                                <span className="text-sm text-red-500">⭐ {course.level}</span>
-                                            )}
-                                        </div>
-                                        <button className="btn btn-primary btn-outline btn-sm">Enroll Now</button>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </>
-                        );
-                    })}
+                                    </motion.div>
+                                );
+                            })
+                        )}
+                    </div>
+                </div>
+                <div className="flex justify-center mt-10">
+                    <div className="btn-group">
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                className={`btn ${index + 1 === currentPage ? '' : 'btn-outline'}`}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
-            <div className="flex justify-center mt-10">
-                <div className="btn-group">
-                    {[...Array(totalPages)].map((_, index) => (
-                        <button
-                            key={index}
-                            className={`btn ${index + 1 === currentPage ? '' : 'btn-outline'}`}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-};
+        );
+    };
+    
+                            

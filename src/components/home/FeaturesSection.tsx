@@ -13,9 +13,9 @@ const FeaturesSection: React.FC = () => {
 	const navigate = useNavigate()
 
 	const motionSettings = {
-		initial: { opacity: 0, y: -50 },
-		whileInView: { opacity: 1, y: 0 },
-		transition: { duration: 0.5, ease: "easeInOut", delay: 0.2 },
+		initial: { opacity: 0, y: 50 },
+		whileInView: { opacity: 1, y: 10 },
+		transition: { duration: 0.5, ease: "easeInOut", delay: 0.6 },
 		viewport: { once: true },
 	};
 
