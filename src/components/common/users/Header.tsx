@@ -16,6 +16,7 @@ import ConfirmModal from "../modal/ConfirmModal";
 import { getAllActiveCategories } from "@/redux/store/actions/category";
 import  SearchBar  from "./SearchBar";
 
+
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const navigate = useNavigate();
@@ -85,6 +86,10 @@ const Header: React.FC = () => {
 	const handleLogout = async () => {
 		setModalVisible(true);
 	};
+
+	const handleSearch = () => {
+		
+	}
 
 
 
@@ -159,7 +164,7 @@ const Header: React.FC = () => {
 								)}
 							</div>
 						))}
-						<SearchBar handleSearch={} pathname="" searchQuery="" />
+						<SearchBar handleSearch={handleSearch } pathname="" searchQuery="" />
 					</div>
 
 					<div className="hidden md:flex items-center space-x-3 relative">
