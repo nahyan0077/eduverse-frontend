@@ -30,6 +30,8 @@ import PublicRoute from "./routes/PublicRoutes";
 import { Course } from "./pages/user/Course";
 import { Unauthorized } from "./pages/common/Unauthorized";
 import { SingleCourse } from "./pages/user/SingleCourse";
+import { PaymentSuccess } from "./pages/common/PaymentSuccess";
+import { PaymentFailed } from "./pages/common/PaymentFailed";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -113,6 +115,10 @@ function App() {
 				<Route path="/otp" element={<PublicRoute element={<OtpPage />} allowedRoles={[]} />} />
 				<Route path="/forgot-password" element={<PublicRoute element={<ForgotPassword />} allowedRoles={[]} />} />
 				<Route path="/confirm-email" element={<PublicRoute element={<ConfirmEmail />} allowedRoles={[]} />} />
+
+
+				<Route path="/payment-success" element={<PublicRoute element={<PaymentSuccess />} allowedRoles={[]} />} />
+				<Route path="/payment-failed" element={<PublicRoute element={<PaymentFailed />} allowedRoles={[]} />} />
 
 				        {/* Catch-all route */}
 						<Route path="*" element={<Unauthorized />} />
