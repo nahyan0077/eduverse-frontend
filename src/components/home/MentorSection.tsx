@@ -72,7 +72,6 @@ const MentorsSection: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [instructors, setInstructors] = useState<any[] | []>([]);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const fetchInstructors = async () => {
@@ -84,7 +83,7 @@ const MentorsSection: React.FC = () => {
 				setInstructors(mentors.data);
 				setLoading(false);
 			} catch (err) {
-				setError("Failed to fetch instructors");
+				console.log("Failed to fetch instructors");
 
 			} finally {
         setLoading(false)

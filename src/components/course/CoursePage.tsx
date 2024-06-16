@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { useAppDispatch } from "@/hooks/hooks";
 import { getActiveCoursesAction } from "@/redux/store/actions/course";
 import { Lesson } from "@/types/ICourse";
 import React, { useEffect, useState } from "react";
