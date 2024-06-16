@@ -113,10 +113,10 @@ const FeaturesSection: React.FC = () => {
 						<img src={pic3} alt="Feature 3" />
 					</motion.div>
 					<motion.div
-						className="flex flex-col items-center w-full lg:w-1/2 md:mt-32"
+						className="flex flex-col w-full text-center items-center lg:w-1/2 md:mt-32 "
 						{...motionSettings}
 					>
-						<h1 className="text-violet-700 text-2xl font-bold">
+						<h1 className="text-violet-700  text-2xl font-bold">
 							Class Management{" "}
 							<span
 								className={`${

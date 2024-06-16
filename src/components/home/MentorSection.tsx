@@ -80,13 +80,13 @@ const MentorsSection: React.FC = () => {
 				const mentors = await dispatch(
 					getAllInstructorsAction({ page: 1, limit: 4 })
 				).unwrap();
-				console.log(mentors,"mentors fetch data");
+				console.log(mentors, "mentors fetch data");
 				if (mentors.data.success) {
-					setInstructors(mentors.data);
+					setInstructors(mentors.data.data);
 					setLoading(false);
 				}
 			} catch (err) {
-				setLoading(true)
+				setLoading(true);
 				console.log("Failed to fetch instructors");
 			}
 		};
@@ -109,8 +109,7 @@ const MentorsSection: React.FC = () => {
 								theme === "light" ? "text-gray-900" : "text-white"
 							}`}
 						>
-							{" "}
-							Mentors{" "}
+							Mentors
 						</span>
 					</h2>
 					<button className="bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700">
@@ -130,7 +129,7 @@ const MentorsSection: React.FC = () => {
 					field.
 				</p>
 				{loading ? (
-					<div className="flex flex-row">
+					<div className="flex flex-col lg:flex-row">
 						{Array(4)
 							.fill(null)
 							.map((_, index) => (

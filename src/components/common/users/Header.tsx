@@ -256,6 +256,7 @@ const Header: React.FC = () => {
 									/>
 								</div>
 								<ul className="flex flex-col space-y-2 p-5">
+								<SearchBar handleSearch={handleSearch} searchQuery="" pathname=""  />
 									{menuItems.map((menuItem) => (
 										<li key={menuItem.label}>
 											<a
@@ -276,8 +277,8 @@ const Header: React.FC = () => {
 															<a
 																className={`block p-2 ${
 																	theme === "light"
-																		? "text-violet-700"
-																		: "text-white"
+																	? "text-violet-700"
+																	: "text-white"
 																} cursor-pointer`}
 																onClick={() => {
 																	console.log(

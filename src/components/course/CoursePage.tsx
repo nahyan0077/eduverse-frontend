@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import SortIcon from "@mui/icons-material/Sort";
-import { Menu, MenuItem, Button } from "@mui/material"; // Import MUI components
+import { Menu, MenuItem, Button } from "@mui/material"; 
 import CourseSectionCardLoading from "../common/loadingSkeleton/CourseCard";
 
 const formatDuration = (seconds: number): string => {
@@ -21,15 +21,9 @@ const formatDuration = (seconds: number): string => {
 
 	let result = "";
 
-	if (h > 0) {
-		result += `${h}hr${h > 1 ? "s" : ""} `;
-	}
-	if (m > 0) {
-		result += `${m}min${m > 1 ? "s" : ""} `;
-	}
-	if (s > 0 || (h === 0 && m === 0)) {
-		result += `${s}sec${s > 1 ? "s" : ""}`;
-	}
+	if (h > 0) result += `${h}hr${h > 1 ? "s" : ""} `;
+	if (m > 0) result += `${m}min${m > 1 ? "s" : ""} `;
+	if (s > 0 || (h === 0 && m === 0)) result += `${s}sec${s > 1 ? "s" : ""}`;
 
 	return result.trim();
 };
@@ -93,7 +87,7 @@ export const CoursePage: React.FC = () => {
 
 	const handleSortOrderChange = (order: "asc" | "desc") => {
 		setSortOrder(order);
-		setAnchorEl(null); // Close the menu after selection
+		setAnchorEl(null);
 	};
 
 	const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -139,12 +133,12 @@ export const CoursePage: React.FC = () => {
 
 	return (
 		<div
-			className={`max-w-7xl mx-auto  ${
+			className={`max-w-7xl mx-auto ${
 				theme === "light" ? " text-gray-900" : " text-gray-100"
-			}`}
+			} p-4 sm:p-6 lg:p-8`}
 		>
-			<div className="flex justify-between items-center mb-6  rounded-2xl">
-				{/* if any */}
+			<div className="flex justify-between items-center mb-6 rounded-2xl">
+				{/* Add any additional header content if needed */}
 			</div>
 			<div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
 				<div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 border-2 border-gray-200 dark:border-gray-900 mt-10">
@@ -230,7 +224,7 @@ export const CoursePage: React.FC = () => {
 							: "py-10 px-5"
 					}`}
 				>
-					<div className="absolute top-0 right-0 z-10 ">
+					<div className="relative justify-items-end z-10">
 						<Button
 							aria-controls="sort-menu"
 							aria-haspopup="true"
