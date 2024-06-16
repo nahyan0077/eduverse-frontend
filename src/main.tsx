@@ -18,7 +18,7 @@ const clientId = String(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+		<ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
 			<Provider store={store}>
 				<GoogleOAuthProvider clientId={clientId}>
 					<App />
