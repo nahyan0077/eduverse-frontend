@@ -12,7 +12,7 @@ export default function CourseSectionCardLoading() {
                     </div>
                 </div>
                 <div className="px-1 text-center">
-                    <div className="w-full mt-6 flex flex-col gap-1 justify-around space-y-3">
+                    <div className="w-full mt-6 flex flex-col gap-1 p-3 justify-around space-y-3">
                         <Skeleton width={"90%"} height={"14px"} />
                         <Skeleton width={"70%"} height={"14px"} />
                         <Skeleton width={"90%"} height={"14px"} />
