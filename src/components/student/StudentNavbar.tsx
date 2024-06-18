@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ModeToggle } from "../ui/mode-toggle";
-import { IoMdPerson } from "react-icons/io";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import { useAppDispatch } from "@/hooks/hooks";
