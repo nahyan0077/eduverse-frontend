@@ -6,6 +6,7 @@ import { ThemeProvider } from "./components/ui/theme-provider.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/index.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Toaster } from "sonner";
 
 
 
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 		<ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
 			<Provider store={store}>
 				<GoogleOAuthProvider clientId={clientId}>
+					<Toaster richColors position="top-center" />
 					<App />
 				</GoogleOAuthProvider>
 			</Provider>

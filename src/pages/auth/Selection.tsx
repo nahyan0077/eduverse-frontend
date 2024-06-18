@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import Header from "@/components/common/users/Header";
 import { Player } from "@lottiefiles/react-lottie-player";
-import bglight from '@/assets/logos/bglight.jpg'
 
 
 const SelectionPage: React.FC = () => {

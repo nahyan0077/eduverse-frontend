@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import CourseInputField from "@/components/common/skeleton/CourseInputField";
 import { CustomVideoFileInputDuration } from "@/components/common/fileInputs/videoInputDuration";
 import TagInputField from "@/components/common/skeleton/TagInputField";
 import { addCourseValidationSchema2 } from "@/validationSchemas/addCourseSchema2";

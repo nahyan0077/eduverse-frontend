@@ -1,22 +1,21 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
-import CourseInputField from "@/components/common/skeleton/CourseInputField";
 import { CustomPdfFileInput } from "@/components/common/fileInputs/pdfInput";
 import { CourseEntity } from "@/types/ICourse";
 import { useAppDispatch } from "@/hooks/hooks";
-import { createCourseAction } from "@/redux/store/actions/course";
-import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1";
-import { addCourseValidationSchema33 } from "@/validationSchemas/addCourseSchema3";
+import { createCourseAction, updateCourseAction } from "@/redux/store/actions/course";
+import { addCourseValidationSchema3, addCourseValidationSchema33 } from "@/validationSchemas/addCourseSchema3";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { toast } from "sonner";
 
 export const AddOthers: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { data } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
-  const editMode = location.state.oldData;
+  const editMode = location.state?.oldData;
 
   if (!location.state || !location.state.allData) {
     console.error("Location state is missing or malformed");
@@ -32,6 +31,7 @@ export const AddOthers: React.FC = () => {
 
   const handleSubmit = async (values: any) => {
     const allData: CourseEntity = {
+        _id: location.state.oldData._id,
       title: location.state.allData.title,
       categoryRef: location.state.allData.category,
       instructorRef: data?._id,
@@ -53,10 +53,20 @@ export const AddOthers: React.FC = () => {
       level: values.level,
     };
 
-    const response = await dispatch(createCourseAction(allData));
-    console.log(response, "course create response");
+    let response;
+    if (editMode) {
+      response = await dispatch(updateCourseAction(allData));
+    } else {
+      response = await dispatch(createCourseAction(allData));
+      console.log(response, "course create response");
+    }
 
-    navigate("/instructor/courses");
+    if (response.payload.success) {
+      toast.success(editMode ? "Course updated successfully" : "Course created successfully");
+      navigate("/instructor/courses");
+    } else {
+      toast.error("An error occurred while saving the course. Please try again.");
+    }
   };
 
   return (
@@ -68,7 +78,7 @@ export const AddOthers: React.FC = () => {
         initialValues={initialValues}
         validationSchema={
           location.state.allData.pricing === "paid"
-            ? addCourseValidationSchema1
+            ? addCourseValidationSchema3
             : addCourseValidationSchema33
         }
         onSubmit={handleSubmit}
@@ -172,4 +182,3 @@ export const AddOthers: React.FC = () => {
 };
 
 export default AddOthers;
-
