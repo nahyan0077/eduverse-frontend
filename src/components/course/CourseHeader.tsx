@@ -44,7 +44,7 @@ export const CourseHeader: React.FC = () => {
 				className="mt-8 -ml-3 lg:mt-0 lg:ml-8 flex justify-center items-center"
 				initial={{ opacity: 0, x: 50 }}
 				animate={{ opacity: 1, x: 0 }}
-				transition={{ duration: 1 }}
+				transition={{ duration: 0.5 }}
 			>
 				<Player
 					autoplay

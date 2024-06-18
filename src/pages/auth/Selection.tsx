@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import Header from "@/components/common/users/Header";
 import { Player } from "@lottiefiles/react-lottie-player";
+import bglight from '@/assets/logos/bglight.jpg'
 
 
 const SelectionPage: React.FC = () => {
@@ -11,6 +12,7 @@ const SelectionPage: React.FC = () => {
 		<Suspense fallback={<div>Loading...</div>}>
 			<Header />
 			<div className="min-h-[87.9vh] ">
+				{/* <img src={bglight} alt="" className="absolute -z-9 opacity-20 h-[87vh] items-center" /> */}
 				<div className="flex flex-col lg:flex-row justify-center items-center md:pt-20 max-w-7xl mx-auto">
 					<LazyMotion features={domAnimation}>
 						<m.div
