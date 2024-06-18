@@ -27,7 +27,7 @@ export const createPaymentSessionAction = createAsyncThunk(
 				return rejectWithValue(response.data);
 			}
 		} catch (error: any) {
-			console.log("Create course action Error: ", error);
+			console.log("Create payment session action Error: ", error);
 			const e: AxiosError = error as AxiosError;
 			return rejectWithValue(e.response?.data || e.message);
 		}

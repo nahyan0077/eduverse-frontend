@@ -23,12 +23,12 @@ export const PaymentSuccess: React.FC = () => {
 
 		const response = await dispatch(getPaymentSessionAction(paymentSession._id))
 
-
 		if (!response.payload?.success) {
 			throw new Error("payment failed!")
 		}
 
 		
+
 
 	}
 
