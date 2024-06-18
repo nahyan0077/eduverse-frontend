@@ -1,9 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
+import { getObject } from "@/utils/localStorage";
+import { getPaymentSessionAction } from "@/redux/store/actions/payment/getPaymentSessionAction";
+import { useAppDispatch } from "@/hooks/hooks";
 
 export const PaymentSuccess: React.FC = () => {
 	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
+
+	useEffect(() => {
+		createPayment()
+	}, [])
+	
+
+	const createPayment = async () => {
+		const paymentSession = getObject("payment_session")
+		if (!paymentSession) {
+			navigate('/')
+			return
+		}
+
+		const response = await dispatch(getPaymentSessionAction(paymentSession._id))
+
+
+		if (!response.payload?.success) {
+			throw new Error("payment failed!")
+		}
+
+		
+
+	}
+
 	return (
 		<>
 			<div className="flex min-h-screen items-center justify-center">
