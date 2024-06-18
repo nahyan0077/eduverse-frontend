@@ -8,14 +8,12 @@ import { ModeToggle } from "../../ui/mode-toggle";
 import { useTheme } from "../../ui/theme-provider";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import PersonIcon from "@mui/icons-material/Person";
 import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import ConfirmModal from "../modal/ConfirmModal";
 import { getAllActiveCategories } from "@/redux/store/actions/category";
-import  SearchBar  from "./SearchBar";
-
+import SearchBar from "./SearchBar";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -41,37 +39,6 @@ const Header: React.FC = () => {
 
 	console.log("header data", userData.data);
 
-	const menuItems = [
-		{
-			label: "Home",
-			onClick: () => {
-				console.log('Navigating to Home');
-				navigate("/home");
-			}
-		},
-		{
-			label: "Categories",
-			onClick: () => {},
-			dropdownItems: catgoryData?.data.map((category) => ({
-				label: category.categoryName,
-				onClick: () => {
-					console.log(`Navigating to category ${category.categoryName}`);
-					navigate(`/categories/${category._id}`);
-				},
-			})),
-		},
-		{ label: "Courses", onClick: () => navigate("/courses") },
-		{ label: "Contact", onClick: () => navigate("/contact") },
-		{ label: "About", onClick: () => navigate("/about") },
-	];
-
-	const authItems = isAuthenticated
-		? []
-		: [
-				{ label: "Login", onClick: () => navigate("/login") },
-				{ label: "Get Started", onClick: () => navigate("/selection") },
-		  ];
-
 	const handleDelete = async () => {
 		dispatch(logoutAction()).then(() => {
 			navigate("/");
@@ -87,11 +54,7 @@ const Header: React.FC = () => {
 		setModalVisible(true);
 	};
 
-	const handleSearch = () => {
-		
-	}
-
-
+	const handleSearch = () => {};
 
 	return (
 		<>
@@ -122,54 +85,93 @@ const Header: React.FC = () => {
 					</div>
 
 					<div className="hidden md:flex items-center space-x-3">
-						{ menuItems.map((menuItem) => (
+						<div
+							className="dropdown dropdown-hover relative"
+							onClick={() => navigate("/home")}
+						>
 							<div
-								key={menuItem.label}
-								className="dropdown dropdown-hover relative"
+								tabIndex={0}
+								role="button"
+								className={`btn m-1 ${
+									theme === "light"
+										? "text-violet-700 hover:bg-gray-200 border-white"
+										: "hover:bg-gray-900 border-gray-950"
+								} bg-transparent`}
 							>
-								<div
-									tabIndex={0}
-									role="button"
-									className={`btn m-1 ${
-										theme === "light"
-											? "text-violet-700 hover:bg-gray-200 border-white"
-											: "hover:bg-gray-900 border-gray-950"
-									} bg-transparent`}
-									onClick={() => {
-										console.log(`Menu item clicked: ${menuItem.label}`);
-										menuItem.onClick();
-									}}
-								>
-									{menuItem.label}
-								</div>
-								{menuItem.dropdownItems && (
-									<ul
-										className={`dropdown-content z-[1] menu p-2 shadow ${
-											theme === "light" ? "bg-white" : "bg-gray-950"
-										} rounded-box w-52`}
-									>
-										{menuItem.dropdownItems.map((dropdownItem) => (
-											<li key={dropdownItem.label}>
-												<a
-													onClick={() => {
-														console.log(`Dropdown item clicked: ${dropdownItem.label}`);
-														dropdownItem.onClick();
-													}}
-												>
-													{dropdownItem.label}
-												</a>
-											</li>
-										))}
-									</ul>
-								)}
+								Home
 							</div>
-						))}
-						<SearchBar handleSearch={handleSearch } pathname="" searchQuery="" />
+						</div>
+						<div className="dropdown dropdown-hover relative">
+							<div
+								tabIndex={0}
+								role="button"
+								className={`btn m-1 ${
+									theme === "light"
+										? "text-violet-700 hover:bg-gray-200 border-white"
+										: "hover:bg-gray-900 border-gray-950"
+								} bg-transparent`}
+							>
+								Categories
+							</div>
+							<ul
+								className={`dropdown-content z-[1] menu p-2 shadow ${
+									theme === "light" ? "bg-white" : "bg-gray-950"
+								} rounded-box w-52`}
+							>
+								{catgoryData?.data.map((category) => (
+									<li key={category._id}>
+										<a
+											onClick={() => {
+												console.log(
+													`Navigating to category ${category.categoryName}`
+												);
+												navigate(`/categories/${category._id}`);
+											}}
+										>
+											{category.categoryName}
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+						<div onClick={() => navigate("/courses")}>
+							<div
+								className={`btn m-1 ${
+									theme === "light"
+										? "text-violet-700 hover:bg-gray-200 border-white"
+										: "hover:bg-gray-900 border-gray-950"
+								} bg-transparent`}
+							>
+								Courses
+							</div>
+						</div>
+						<div onClick={() => navigate("/contact")}>
+							<div
+								className={`btn m-1 ${
+									theme === "light"
+										? "text-violet-700 hover:bg-gray-200 border-white"
+										: "hover:bg-gray-900 border-gray-950"
+								} bg-transparent`}
+							>
+								Contact
+							</div>
+						</div>
+						<div onClick={() => navigate("/about")}>
+							<div
+								className={`btn m-1 ${
+									theme === "light"
+										? "text-violet-700 hover:bg-gray-200 border-white"
+										: "hover:bg-gray-900 border-gray-950"
+								} bg-transparent`}
+							>
+								About
+							</div>
+						</div>
+						<SearchBar handleSearch={handleSearch} pathname="" searchQuery="" />
 					</div>
 
 					<div className="hidden md:flex items-center space-x-3 relative">
-
-						{isAuthenticated  && (
+						{isAuthenticated && (
 							<div className="hidden md:block dropdown">
 								<div
 									tabIndex={0}
@@ -180,7 +182,11 @@ const Header: React.FC = () => {
 											: "hover:bg-gray-900"
 									} bg-transparent`}
 								>
-									<img src={userData.data?.profile?.avatar} className="object-cover w-12 h-12 p-1 rounded-full" alt="" />
+									<img
+										src={userData.data?.profile?.avatar}
+										className="object-cover w-12 h-12 p-1 rounded-full"
+										alt=""
+									/>
 									{userName}
 								</div>
 								<ul
@@ -199,22 +205,24 @@ const Header: React.FC = () => {
 							</div>
 						)}
 
-						{authItems.map(({ label, onClick }) => (
-							<button
-								key={label}
-								className={`border border-violet-700 ${
-									label === "Login"
-										? `${theme === "light" ? "text-violet-700" : "text-white"}`
-										: "text-white bg-violet-700"
-								} text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800`}
-								onClick={() => {
-									console.log(`Auth item clicked: ${label}`);
-									onClick();
-								}}
-							>
-								{label}
-							</button>
-						))}
+						{!isAuthenticated && (
+							<>
+								<button
+									className={`border border-violet-700 ${
+										theme === "light" ? "text-violet-700" : "text-white"
+									} text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800`}
+									onClick={() => navigate("/login")}
+								>
+									Login
+								</button>
+								<button
+									className="border border-violet-700 text-white bg-violet-700 text-sm px-4 py-2 rounded-md hover:bg-violet-100 dark:hover:bg-gray-800"
+									onClick={() => navigate("/selection")}
+								>
+									Get Started
+								</button>
+							</>
+						)}
 					</div>
 
 					<ModeToggle />
@@ -256,45 +264,82 @@ const Header: React.FC = () => {
 									/>
 								</div>
 								<ul className="flex flex-col space-y-2 p-5">
-								<SearchBar handleSearch={handleSearch} searchQuery="" pathname=""  />
-									{menuItems.map((menuItem) => (
-										<li key={menuItem.label}>
-											<a
-												className={`block p-3 ${
-													theme === "light" ? "text-violet-700" : "text-white"
-												} cursor-pointer`}
-												onClick={() => {
-													console.log(`Menu item clicked: ${menuItem.label}`);
-													menuItem.onClick();
-												}}
-											>
-												{menuItem.label}
-											</a>
-											{menuItem.dropdownItems && (
-												<ul className="pl-4 mt-2 space-y-1">
-													{menuItem.dropdownItems.map((dropdownItem) => (
-														<li key={dropdownItem.label}>
-															<a
-																className={`block p-2 ${
-																	theme === "light"
-																	? "text-violet-700"
-																	: "text-white"
-																} cursor-pointer`}
-																onClick={() => {
-																	console.log(
-																		`Dropdown item clicked: ${dropdownItem.label}`
-																	);
-																	dropdownItem.onClick();
-																}}
-															>
-																{dropdownItem.label}
-															</a>
-														</li>
-													))}
-												</ul>
-											)}
-										</li>
-									))}
+									<SearchBar
+										handleSearch={handleSearch}
+										searchQuery=""
+										pathname=""
+									/>
+									<li>
+										<a
+											className={`block p-3 ${
+												theme === "light" ? "text-violet-700" : "text-white"
+											} cursor-pointer`}
+											onClick={() => navigate("/home")}
+										>
+											Home
+										</a>
+									</li>
+									<li className="relative">
+										<a
+											className={`block p-3 ${
+												theme === "light" ? "text-violet-700" : "text-white"
+											} cursor-pointer`}
+											onClick={() => {}}
+										>
+											Categories
+										</a>
+										<ul className="pl-4 mt-2 space-y-1">
+											{catgoryData?.data.map((category) => (
+												<li key={category._id}>
+													<a
+														className={`block p-2 ${
+															theme === "light"
+																? "text-violet-700"
+																: "text-white"
+														} cursor-pointer`}
+														onClick={() => {
+															console.log(
+																`Dropdown item clicked: ${category.categoryName}`
+															);
+															navigate(`/categories/${category._id}`);
+														}}
+													>
+														{category.categoryName}
+													</a>
+												</li>
+											))}
+										</ul>
+									</li>
+									<li>
+										<a
+											className={`block p-3 ${
+												theme === "light" ? "text-violet-700" : "text-white"
+											} cursor-pointer`}
+											onClick={() => navigate("/courses")}
+										>
+											Courses
+										</a>
+									</li>
+									<li>
+										<a
+											className={`block p-3 ${
+												theme === "light" ? "text-violet-700" : "text-white"
+											} cursor-pointer`}
+											onClick={() => navigate("/contact")}
+										>
+											Contact
+										</a>
+									</li>
+									<li>
+										<a
+											className={`block p-3 ${
+												theme === "light" ? "text-violet-700" : "text-white"
+											} cursor-pointer`}
+											onClick={() => navigate("/about")}
+										>
+											About
+										</a>
+									</li>
 								</ul>
 							</motion.div>
 						</>

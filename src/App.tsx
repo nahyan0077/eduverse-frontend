@@ -33,9 +33,12 @@ import { SingleCourse } from "./pages/user/SingleCourse";
 import { PaymentSuccess } from "./pages/common/PaymentSuccess";
 import { PaymentFailed } from "./pages/common/PaymentFailed";
 
+
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
 	const dispatch = useAppDispatch();
+
+
 
 	useEffect(() => {
 		if (!data) {
