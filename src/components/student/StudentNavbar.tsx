@@ -44,19 +44,19 @@ const StudentNavbar: React.FC = () => {
 				/>
 			)}
 			<div className="flex items-center">
-				<span className="font-bold text-2xl pl-2">Student Dashboard</span>
+				<span className="font-bold text-2xl pl-2">Student Panel</span>
 				{/* Add any additional navbar items here */}
 			</div>
-			<div className="flex items-center space-x-7">
+			<div className="flex items-center md:space-x-7">
 				<div className="flex items-center ml-4">
-					<div className="hidden md:block dropdown dropdown-end">
+					<div className="dropdown dropdown-end">
 						<div
 							tabIndex={0}
 							role="button"
-							className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
+							className="btn m-1  hover:bg-gray-900 border border-transparent bg-transparent"
 						>
 							<img src={userData.data?.profile?.avatar} className="object-cover w-12 h-12 p-1 rounded-full" alt="" />
-							{userData.data?.userName}
+							<span className="hidden md:block " >{userData.data?.userName}</span>
 						</div>
 						<ul
 							tabIndex={0}
