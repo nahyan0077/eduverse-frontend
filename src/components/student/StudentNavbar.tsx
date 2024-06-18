@@ -55,7 +55,7 @@ const StudentNavbar: React.FC = () => {
 							role="button"
 							className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
 						>
-							<IoMdPerson className="text-xl" />
+							<img src={userData.data?.profile?.avatar} className="object-cover w-12 h-12 p-1 rounded-full" alt="" />
 							{userData.data?.userName}
 						</div>
 						<ul

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ModeToggle } from "../ui/mode-toggle";
-import { IoMdPerson } from "react-icons/io";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import { useAppDispatch } from "@/hooks/hooks";
@@ -52,9 +51,9 @@ const InstructorNavbar: React.FC =  () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
+              className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent "
             >
-              <IoMdPerson className="text-xl" />
+              <img src={userData.data?.profile?.avatar} className="object-cover w-12 h-12 p-1 rounded-full" alt="" />
               {userData.data?.userName}
             </div>
             <ul

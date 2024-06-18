@@ -180,8 +180,8 @@ const Header: React.FC = () => {
 											: "hover:bg-gray-900"
 									} bg-transparent`}
 								>
-									<PersonIcon />
-									{userName?.toUpperCase()}
+									<img src={userData.data?.profile?.avatar} className="object-cover w-12 h-12 p-1 rounded-full" alt="" />
+									{userName}
 								</div>
 								<ul
 									tabIndex={0}
