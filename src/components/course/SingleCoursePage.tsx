@@ -22,12 +22,17 @@ import { Toaster, toast } from "sonner";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import banner from "@/assets/course/banner1.jpg";
+import { createPaymentSessionAction } from "@/redux/store/actions/payment";
+import { useAppDispatch } from "@/hooks/hooks";
+import { storeObject } from "@/utils/localStorage";
+import {loadStripe} from '@stripe/stripe-js'
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
 	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
 
 	const { data } = useSelector((state: RootState) => state.user);
 
@@ -46,10 +51,42 @@ export const SingleCoursePage: React.FC = () => {
 				return;
 			}
 
-			// const response = await cret
+			const stripe = await loadStripe(import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as unknown as string);
+
+			const sessionData = {
+				courseName: courseData.title,
+				courseThumbnail: courseData?.thumbnail,
+                courseId: courseData?._id,
+                amount: courseData?.pricing?.amount,
+                userId: data?._id		
+			}
+
+			const response = await dispatch(createPaymentSessionAction(sessionData))
+
+			if (!response?.payload || !response?.payload?.success) {
+				toast.error("Error occurred")
+                throw new Error("Something went wrong, Try again!");
+            }
+
+			storeObject("payment_session", {
+                ...response.payload?.data,
+                amount: courseData?.pricing?.amount,
+                instructorId: courseData?.instructorRef?._id
+            });
+
+			const sessionId = response?.payload?.data?.sessionId;
+
+            const result = await stripe?.redirectToCheckout({
+                sessionId: sessionId
+            })
+
+            if (result?.error) {
+                throw new Error(result?.error?.message);
+            }
 
 		} catch (error: any) {
 			console.error(error);
+			toast.error(error?.message)
 		}
 	};
 

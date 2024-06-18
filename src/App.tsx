@@ -98,8 +98,8 @@ function App() {
 				<Route path="/otp" element={<PublicRoute element={<OtpPage />} allowedRoles={[]} />} />
 				<Route path="/forgot-password" element={<PublicRoute element={<ForgotPassword />} allowedRoles={[]} />} />
 				<Route path="/confirm-email" element={<PublicRoute element={<ConfirmEmail />} allowedRoles={[]} />} />
-				<Route path="/payment-success" element={<PublicRoute element={<PaymentSuccess />} allowedRoles={[]} />} />
-				<Route path="/payment-failed" element={<PublicRoute element={<PaymentFailed />} allowedRoles={[]} />} />
+				<Route path="/payment-success" element={<PublicRoute element={<PaymentSuccess />} allowedRoles={["student"]} />} />
+				<Route path="/payment-failed" element={<PublicRoute element={<PaymentFailed />} allowedRoles={["student"]} />} />
 
 				{/* Catch-all route */}
 				<Route path="*" element={<Unauthorized />} />

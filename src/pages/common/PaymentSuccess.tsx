@@ -1,7 +1,9 @@
 import React from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useNavigate } from "react-router-dom";
 
 export const PaymentSuccess: React.FC = () => {
+	const navigate = useNavigate()
 	return (
 		<>
 			<div className="flex min-h-screen items-center justify-center">
@@ -20,8 +22,8 @@ export const PaymentSuccess: React.FC = () => {
 						</h2>
 					</div>
 					<div>
-						<button className="btn btn-success btn-outline rounded-full">
-							Home
+						<button onClick={()=>navigate('/')} className="btn btn-success btn-outline rounded-full">
+							Dashboard
 						</button>
 					</div>
 				</div>

@@ -11,8 +11,8 @@ export const useLogoutIfBlocked = () => {
 
   useEffect(() => {
     if (data?.isBlocked) {
-      dispatch(logoutAction()); // Dispatch the logout action
-      navigate("/login"); // Redirect to the login page
+      dispatch(logoutAction()); 
+      navigate("/login"); 
     }
   }, [data, dispatch, navigate]);
 };
