@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, FieldArray, ErrorMessage } from "formik";
+import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import CourseInputField from "@/components/common/skeleton/CourseInputField";
 import { CustomVideoFileInputDuration } from "@/components/common/fileInputs/videoInputDuration";
 import TagInputField from "@/components/common/skeleton/TagInputField";
@@ -25,9 +25,8 @@ export const AddLessons: React.FC = () => {
   const [uploadedLessonIds, setUploadedLessonIds] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const isEditMode = location.state?.oldData;
-  console.log(isEditMode,"isi edit mode onn");
-  
+  const isEditMode = location.state.oldData;
+  console.log(isEditMode, "isi edit mode onn");
 
   useEffect(() => {
     if (isEditMode) {
@@ -54,8 +53,10 @@ export const AddLessons: React.FC = () => {
     };
 
     console.log(allData, "form data second form");
-
-    navigate('/instructor/add-others', { state: { allData } });
+    !isEditMode ?
+    navigate('/instructor/add-others', { state: { allData } })
+    :
+    navigate('/instructor/add-others', { state: { allData, oldData: location.state.oldData  } })
   };
 
   const addLesson = (push: any) => {
@@ -133,10 +134,12 @@ export const AddLessons: React.FC = () => {
                             </div>
                             <div className="w-[50%] p-5 space-y-7">
                               <div className="w-full">
-                                <CourseInputField name={`lessons[${index}].title`} type="text" placeholder="Title" />
+                                <Field name={`lessons[${index}].title`} type="text" placeholder="Title" className="w-full p-3 bg-gray-800 border border-gray-700 rounded" />
+                                <ErrorMessage name={`lessons[${index}].title`} component="div" className="text-red-500 text-xs" />
                               </div>
                               <div className="w-full">
-                                <CourseInputField name={`lessons[${index}].description`} type="text" placeholder="Description" />
+                                <Field name={`lessons[${index}].description`} type="text" placeholder="Description" className="w-full p-3 bg-gray-800 border border-gray-700 rounded" />
+                                <ErrorMessage name={`lessons[${index}].description`} component="div" className="text-red-500 text-xs" />
                               </div>
                               <div className="w-full">
                                 <TagInputField

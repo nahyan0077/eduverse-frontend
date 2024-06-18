@@ -1,4 +1,4 @@
-import { FC, useState, useRef, ChangeEvent } from "react";
+import { FC, useState, useRef, ChangeEvent, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { PdfUploadIcon } from "@/components/parts/PdfUploadIcon";
 import { toast, Toaster } from "sonner";
@@ -7,16 +7,23 @@ import { PdfUpload } from "@/utils/cloudinary/uploadPDF";
 interface CustomPdfFileInputProps {
   onChange: (file: File | null | string) => void;
   theme: string;
+  initialValue?: string | null; // Add optional initialValue prop
 }
 
 export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
   onChange,
   theme,
+  initialValue = null, // Default initialValue to null
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(initialValue); // Set initial value from prop
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Update pdfUrl state when initialValue changes
+  useEffect(() => {
+    setPdfUrl(initialValue);
+  }, [initialValue]);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
@@ -61,12 +68,12 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
       }`}
     >
       <Toaster position="top-center" richColors />
-      {selectedFile ? (
+      {pdfUrl ? (
         <div className="mt-4 lg:h-40 lg:mt-0 relative">
-          <iframe src={pdfUrl || ""} className="w-full h-full" />
+          <iframe src={pdfUrl} className="w-full h-full" />
           {loading && (
             <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 rounded-lg">
-              <ClipLoader color={theme === "light" ? "#000000" : "#000000"} />
+              <ClipLoader color={theme === "light" ? "#000000" : "#ffffff"} />
             </div>
           )}
           <button

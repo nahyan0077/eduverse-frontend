@@ -55,7 +55,7 @@ export const AddCourse: React.FC = () => {
         };
 
         console.log(allData, "first form all data");
-		isEditMode ?
+		!isEditMode ?
 
         navigate('/instructor/add-lessons', { state: { allData } })
 		:
@@ -84,7 +84,7 @@ export const AddCourse: React.FC = () => {
                 initialValues={initialValues}
                 validationSchema={addCourseValidationSchema1}
                 onSubmit={handleSubmit}
-                enableReinitialize // This ensures the form is reinitialized when initialValues change
+                enableReinitialize 
             >
                 {({ setFieldValue, errors, touched, values }) => (
                     <Form>
