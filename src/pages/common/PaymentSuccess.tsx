@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
-import { getObject } from "@/utils/localStorage";
+import { deleteObject, getObject } from "@/utils/localStorage";
 import { getPaymentSessionAction } from "@/redux/store/actions/payment/getPaymentSessionAction";
 import { useAppDispatch } from "@/hooks/hooks";
+import { createPaymentAction } from "@/redux/store/actions/payment";
 
 export const PaymentSuccess: React.FC = () => {
 	const navigate = useNavigate()
@@ -23,12 +24,28 @@ export const PaymentSuccess: React.FC = () => {
 
 		const response = await dispatch(getPaymentSessionAction(paymentSession._id))
 
+		console.log(response,"check payment response");
+		
+
 		if (!response.payload?.success) {
 			throw new Error("payment failed!")
 		}
 
-		
+		const createPaymentData = {
+			userId: paymentSession?.userId,
+			instructorId: paymentSession?.instructorId,
+			courseId: paymentSession?.courseId,
+			method: "card",
+			status: "completed",
+			amount: paymentSession?.amount
+		}
 
+		const response1 = await dispatch(createPaymentAction(createPaymentData))
+		if (!response1.payload?.success) {
+			throw new Error("payment failed!");
+		  }
+	
+		  deleteObject("payment_session");
 
 	}
 
