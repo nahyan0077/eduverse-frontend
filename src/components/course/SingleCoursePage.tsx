@@ -11,7 +11,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CodeIcon from "@mui/icons-material/Code";
 import ArticleIcon from "@mui/icons-material/Article";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -27,6 +27,7 @@ export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
+	const navigate = useNavigate()
 
 	const { data } = useSelector((state: RootState) => state.user);
 
@@ -37,16 +38,16 @@ export const SingleCoursePage: React.FC = () => {
 		}
 	}, [location.state]);
 
-	const handleEnrollCourse = () => {
-		if (courseData.pricing.type === "paid") {
-			toast.success("This is a paid course.");
-			return;
-		}
+	const handleEnrollCourse = async () => {
 		try {
 			if (!data || !data._id) {
 				toast.error("Please login to enroll in the course.");
+				navigate('/login')
 				return;
 			}
+
+			// const response = await cret
+
 		} catch (error: any) {
 			console.error(error);
 		}
