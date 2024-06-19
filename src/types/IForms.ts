@@ -43,6 +43,7 @@ export interface SignupFormData {
     profession?: Profession,
     qualification?: string,
     role?: Role,
+    profit?: string,
     isGAuth?: boolean,
     cv?:string,
     isVerified?: boolean,

@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '../ui/theme-provider';
+import { useAppSelector } from '@/hooks/hooks';
+import { RootState } from '@/redux/store';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 const AdminDashboard: React.FC = () => {
   const { theme } = useTheme();
+  const [profit, setProfit] = useState("")
+
+  const {data} = useAppSelector((state: RootState) => state.user )
+
+  useEffect(() => {
+    if (data && data.profit) {
+      setProfit(data?.profit)
+    }
+  }, [data])
+
+  
+  console.log(profit,"admin overall profit");
+  
 
   return (
     <div className="flex-1 overflow-auto p-6">
@@ -15,7 +31,7 @@ const AdminDashboard: React.FC = () => {
           <h2 className={`text-lg font-semibold mb-2 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
             Total Revenue
           </h2>
-          <p className="text-xl font-bold">$100,000</p>
+          <p className="text-xl font-bold"> <CurrencyRupeeIcon color='success' /> {profit}</p>
         </div>
         {/* Students Box */}
         <div className={`rounded-md p-4 shadow-md transform transition-transform duration-200 hover:scale-105 ${theme === 'light' ? 'bg-white text-gray-900 hover:bg-gray-100' : 'bg-gray-800 text-white hover:bg-gray-700'}`}>
