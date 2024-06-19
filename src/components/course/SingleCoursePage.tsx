@@ -26,6 +26,7 @@ import { createPaymentSessionAction } from "@/redux/store/actions/payment";
 import { useAppDispatch } from "@/hooks/hooks";
 import { storeObject } from "@/utils/localStorage";
 import {loadStripe} from '@stripe/stripe-js'
+import { createEnrollmentAction } from "@/redux/store/actions/enrollment";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -44,6 +45,36 @@ export const SingleCoursePage: React.FC = () => {
 	}, [location.state]);
 
 	const handleEnrollCourse = async () => {
+
+		try {
+			
+			if(courseData?.pricing?.type == 'paid'){
+				handlePayment()
+				return
+			}
+			if (!data || !data._id) {
+				toast.error("Please login to enroll in the course.");
+				navigate('/login')
+				return;
+			}
+			const result = await dispatch(createEnrollmentAction({
+				userId: data._id,
+				courseId: courseData?._id,
+				enrolledAt: Date.now()
+			}));
+	
+			if (!result.payload?.success) {
+				toast.error("Enrollment failed, try again!");
+			};
+	
+			toast.success("Congratulations you have succssfully enrolled to this course..!!")
+		} catch (error: any) {
+			console.log(error);
+			toast.error("Enrollment error",{description: error?.message})
+		}
+	}
+
+	const handlePayment = async () => {
 		try {
 			if (!data || !data._id) {
 				toast.error("Please login to enroll in the course.");
