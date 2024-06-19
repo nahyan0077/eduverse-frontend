@@ -11,9 +11,7 @@ export const CourseHeader: React.FC = () => {
 				animate={{ opacity: 1, x: 0 }}
 				transition={{ duration: 0.5 }}
 			>
-				<p className="text-violet-500 text-sm font-bold mb-2">
-					📈 Improve your skills for free
-				</p>
+
 				<h1 className="text-3xl lg:text-4xl font-bold mb-4">
 					Start learning from the world’s best{" "}
 					<span className="text-violet-500">platform</span>
