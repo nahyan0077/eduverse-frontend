@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import { deleteObject, getObject } from "@/utils/localStorage";
-import { getPaymentSessionAction } from "@/redux/store/actions/payment/getPaymentSessionAction";
 import { useAppDispatch } from "@/hooks/hooks";
-import { createPaymentAction } from "@/redux/store/actions/payment";
+import { createPaymentAction, getPaymentSessionAction } from "@/redux/store/actions/payment";
 
 export const PaymentSuccess: React.FC = () => {
 	const navigate = useNavigate()
@@ -17,6 +16,8 @@ export const PaymentSuccess: React.FC = () => {
 
 	const createPayment = async () => {
 		const paymentSession = getObject("payment_session")
+		console.log(paymentSession,"payment session");
+		
 		if (!paymentSession) {
 			navigate('/')
 			return

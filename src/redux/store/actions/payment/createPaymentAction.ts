@@ -11,7 +11,7 @@ export const createPaymentAction = createAsyncThunk(
 	) => {
 		try {
 			const response = await CLIENT_API.post(
-				"/api/payment",
+				"/api/payment/",
 				data,
 				config
 			);

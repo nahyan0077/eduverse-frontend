@@ -12,7 +12,7 @@ interface CourseState {
 const initialState: CourseState = {
 	loading: false,
 	data: [],
-	error: null,
+	error: null
 };
 
 const courseSlice = createSlice({

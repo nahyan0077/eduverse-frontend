@@ -7,10 +7,14 @@ export const getPaymentSessionAction = createAsyncThunk(
 	"course/getPaymentSession",
 	async (id: string, { rejectWithValue }) => {
 		try {
-			const response = await CLIENT_API.post(
+			console.log(id,"action check");
+			
+			const response = await CLIENT_API.get(
 				`/api/payment/session/${id}`,
 				config
 			);
+			console.log(response,"action ress");
+			
 			if (response.data.success) {
 				return response.data;
 			} else {

@@ -34,6 +34,7 @@ export const SingleCoursePage: React.FC = () => {
 	const { theme } = useTheme();
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+	const [loading, setLoading ] = useState(false)
 
 	const { data } = useSelector((state: RootState) => state.user);
 
@@ -43,6 +44,14 @@ export const SingleCoursePage: React.FC = () => {
 			console.log(location.state.course, "single product data");
 		}
 	}, [location.state]);
+
+	const handleFetchEnrollment = async () => {
+		try {
+			const response = await dispatch()
+		} catch (error: any) {
+			
+		}
+	}
 
 	const handleEnrollCourse = async () => {
 
@@ -57,17 +66,22 @@ export const SingleCoursePage: React.FC = () => {
 				navigate('/login')
 				return;
 			}
-			const result = await dispatch(createEnrollmentAction({
+
+			const result: any = await dispatch(createEnrollmentAction({
 				userId: data._id,
 				courseId: courseData?._id,
 				enrolledAt: Date.now()
 			}));
-	
-			if (!result.payload?.success) {
-				toast.error("Enrollment failed, try again!");
-			};
-	
-			toast.success("Congratulations you have succssfully enrolled to this course..!!")
+			
+			console.log(result,"enrollment --->");
+			
+			if(createEnrollmentAction.fulfilled.match(result)){
+				toast.success("Congratulations you have succssfully enrolled to this course..!!")
+			}else{
+				toast.error("Enrollment failed", {description: result?.payload?.message});
+			}
+
+			
 		} catch (error: any) {
 			console.log(error);
 			toast.error("Enrollment error",{description: error?.message})
@@ -81,7 +95,7 @@ export const SingleCoursePage: React.FC = () => {
 				navigate('/login')
 				return;
 			}
-
+			setLoading(true)
 			const stripe = await loadStripe(import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as unknown as string);
 
 			const sessionData = {
@@ -107,6 +121,7 @@ export const SingleCoursePage: React.FC = () => {
 
 			const sessionId = response?.payload?.data?.sessionId;
 
+			setLoading(false)
             const result = await stripe?.redirectToCheckout({
                 sessionId: sessionId
             })
@@ -131,6 +146,7 @@ export const SingleCoursePage: React.FC = () => {
 					theme === "light" ? "text-gray-900" : "text-gray-100 mb-5"
 				}`}
 			>
+				<LoadingPopUp isLoading={loading} />
 				<Toaster richColors position="top-center" />
 				{courseData ? (
 					<div

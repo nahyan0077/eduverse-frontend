@@ -9,25 +9,25 @@ export const createEnrollmentAction = createAsyncThunk(
         userId: string;
         courseId: string;
         enrolledAt: number;
-    }) => {
+    },{rejectWithValue}) => {
        
         try {
 
             const response = await CLIENT_API.post(
-                `/api/course/enrollment`,
+                `/api/course/enrollment/`,
                 data,
                 config
             );
-
-            if (response.data.success) {
-                return response.data;
-            }
-
-            throw new Error(response.data?.message);
+			if (response.data.success) {
+				return response.data;
+			} else {
+				return rejectWithValue(response.data);
+			}
 
         } catch (error) {
-            const e: any = error as AxiosError;
-            throw new Error(e.response?.data.error || e.response?.data.message || e.message);
+			console.log("Create enrollment action Error: ", error);
+			const e: AxiosError = error as AxiosError;
+			return rejectWithValue(e.response?.data || e.message);
         }
     }
 )
