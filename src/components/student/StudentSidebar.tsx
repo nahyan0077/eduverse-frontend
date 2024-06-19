@@ -9,6 +9,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import EventIcon from '@mui/icons-material/Event';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
 interface SidebarProps {
   open: boolean;
@@ -109,6 +110,17 @@ const StudentSidebar: React.FC<SidebarProps> = ({ open, currentPage, onToggleSid
                 className="ml-2"
               >
                 Requests
+              </motion.span>
+            </Link>
+            <Link to="/student/enrollments" className={linkClasses('enrollments')} onClick={() => setCurrentPage('enrollments')}>
+              <SubscriptionsIcon />
+              <motion.span
+                initial="hidden"
+                animate={open ? "visible" : "hidden"}
+                variants={textVariants}
+                className="ml-2"
+              >
+                Enrollments
               </motion.span>
             </Link>
           </nav>
