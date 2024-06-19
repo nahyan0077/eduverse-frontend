@@ -165,7 +165,7 @@ export const AdminCategory: React.FC = () => {
 							</td>
 							<td className="px-4 py-2 space-x-4">
 								<button
-									className="btn btn-outline btn-info text-sm btn-md "
+									className="btn btn-outline btn-info text-sm btn-sm "
 									onClick={() => handleEditCategory(data)}
 								>
 									Edit
