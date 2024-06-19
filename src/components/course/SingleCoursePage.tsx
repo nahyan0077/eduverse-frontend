@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ShareIcon from "@mui/icons-material/Share";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BoltIcon from "@mui/icons-material/Bolt";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
@@ -25,114 +23,129 @@ import banner from "@/assets/course/banner1.jpg";
 import { createPaymentSessionAction } from "@/redux/store/actions/payment";
 import { useAppDispatch } from "@/hooks/hooks";
 import { storeObject } from "@/utils/localStorage";
-import {loadStripe} from '@stripe/stripe-js'
-import { createEnrollmentAction } from "@/redux/store/actions/enrollment";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+	createEnrollmentAction,
+	getEnrollmentByUserIdAction,
+} from "@/redux/store/actions/enrollment";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
-	const navigate = useNavigate()
-	const dispatch = useAppDispatch()
-	const [loading, setLoading ] = useState(false)
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const [loading, setLoading] = useState(false);
+	const [isEnrolled, setIsEnrolled] = useState(false);
 
 	const { data } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		if (location.state.course) {
+		if (location.state?.course) {
 			setCourseData(location.state.course);
-			console.log(location.state.course, "single product data");
 		}
 	}, [location.state]);
 
+	useEffect(() => {
+		if (data?._id && courseData?._id) {
+			handleFetchEnrollment();
+		}
+	}, [data, courseData]);
+
 	const handleFetchEnrollment = async () => {
 		try {
-			const response = await dispatch()
+			if (data && data._id) {
+				const response = await dispatch(getEnrollmentByUserIdAction(data._id));
+				response.payload.data.forEach((item: any) => {
+					if (item.courseId._id === courseData._id) {
+						setIsEnrolled(true);
+					}
+				});
+			}
 		} catch (error: any) {
-			
+			console.error("Error fetching enrollment:", error);
 		}
-	}
+	};
 
 	const handleEnrollCourse = async () => {
-
 		try {
-			
-			if(courseData?.pricing?.type == 'paid'){
-				handlePayment()
-				return
+			if (courseData?.pricing?.type === "paid") {
+				handlePayment();
+				return;
 			}
 			if (!data || !data._id) {
 				toast.error("Please login to enroll in the course.");
-				navigate('/login')
+				navigate("/login");
 				return;
 			}
 
-			const result: any = await dispatch(createEnrollmentAction({
-				userId: data._id,
-				courseId: courseData?._id,
-				enrolledAt: Date.now()
-			}));
-			
-			console.log(result,"enrollment --->");
-			
-			if(createEnrollmentAction.fulfilled.match(result)){
-				toast.success("Congratulations you have succssfully enrolled to this course..!!")
-			}else{
-				toast.error("Enrollment failed", {description: result?.payload?.message});
-			}
+			const result: any = await dispatch(
+				createEnrollmentAction({
+					userId: data._id,
+					courseId: courseData._id,
+					enrolledAt: Date.now(),
+				})
+			);
 
-			
+			if (createEnrollmentAction.fulfilled.match(result)) {
+				toast.success(
+					"Congratulations! You have successfully enrolled in this course!"
+				);
+			} else {
+				toast.error("Enrollment failed", {
+					description: result?.payload?.message,
+				});
+			}
 		} catch (error: any) {
-			console.log(error);
-			toast.error("Enrollment error",{description: error?.message})
+			console.error("Enrollment error:", error);
+			toast.error("Enrollment error", { description: error?.message });
 		}
-	}
+	};
 
 	const handlePayment = async () => {
 		try {
 			if (!data || !data._id) {
 				toast.error("Please login to enroll in the course.");
-				navigate('/login')
+				navigate("/login");
 				return;
 			}
-			setLoading(true)
-			const stripe = await loadStripe(import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as unknown as string);
+			setLoading(true);
+			const stripe = await loadStripe(
+				import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as string
+			);
 
 			const sessionData = {
 				courseName: courseData.title,
 				courseThumbnail: courseData?.thumbnail,
-                courseId: courseData?._id,
-                amount: courseData?.pricing?.amount,
-                userId: data?._id		
-			}
+				courseId: courseData._id,
+				amount: courseData?.pricing?.amount,
+				userId: data._id,
+			};
 
-			const response = await dispatch(createPaymentSessionAction(sessionData))
+			const response = await dispatch(createPaymentSessionAction(sessionData));
 
 			if (!response?.payload || !response?.payload?.success) {
-				toast.error("Error occurred")
-                throw new Error("Something went wrong, Try again!");
-            }
+				toast.error("Error occurred");
+				throw new Error("Something went wrong, try again!");
+			}
 
 			storeObject("payment_session", {
-                ...response.payload?.data,
-                amount: courseData?.pricing?.amount,
-                instructorId: courseData?.instructorRef?._id
-            });
+				...response.payload?.data,
+				amount: courseData.pricing.amount,
+				instructorId: courseData.instructorRef._id,
+			});
 
-			const sessionId = response?.payload?.data?.sessionId;
+			const sessionId = response.payload.data.sessionId;
 
-			setLoading(false)
-            const result = await stripe?.redirectToCheckout({
-                sessionId: sessionId
-            })
+			setLoading(false);
+			const result = await stripe?.redirectToCheckout({ sessionId });
 
-            if (result?.error) {
-                throw new Error(result?.error?.message);
-            }
-
+			if (result?.error) {
+				throw new Error(result.error.message);
+			}
 		} catch (error: any) {
-			console.error(error);
-			toast.error(error?.message)
+			console.error("Payment error:", error);
+			toast.error(error.message);
 		}
 	};
 
@@ -294,7 +307,11 @@ export const SingleCoursePage: React.FC = () => {
 									</>
 								)}
 								<div className="flex justify-center w-full p-3">
-									{courseData.pricing.type === "paid" ? (
+									{isEnrolled ? (
+										<div className="badge badge-success badge-lg font-bold animate-pulse transition duration-300 ease-in-out">
+											Already Enrolled
+										</div>
+									) : courseData.pricing.type === "paid" ? (
 										<button
 											className="btn bg-violet-500 btn-block hover:bg-violet-300 text-white "
 											onClick={handleEnrollCourse}
@@ -309,16 +326,6 @@ export const SingleCoursePage: React.FC = () => {
 											Enroll Now
 										</button>
 									)}
-								</div>
-								<div className="flex justify-around mb-4 py-2">
-									<button className="flex items-center px-4 py-2 btn btn-outline btn-error rounded-full">
-										<FavoriteBorderIcon fontSize="small" />
-										<span className="ml-1">Add to Wishlist</span>
-									</button>
-									<button className="flex items-center px-6 py-2 btn btn-outline btn-error rounded-full">
-										<ShareIcon fontSize="small" />
-										<span className="ml-1">Share Course</span>
-									</button>
 								</div>
 							</div>
 							<div className="p-4">
