@@ -4,12 +4,14 @@ import { getEnrollmentByUserIdAction } from "@/redux/store/actions/enrollment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useNavigate } from "react-router-dom";
 
 export const StudentEnrollment: React.FC = () => {
     const { data } = useSelector((state: RootState) => state.user);
     const dispatch = useAppDispatch();
     const [enrollments, setEnrollments] = useState<any[]>([]);
     const [isEmpty, setIsEmpty] = useState(false);
+	const navigate = useNavigate();
 
     useEffect(() => {
         if (data && data._id) {
@@ -43,7 +45,7 @@ export const StudentEnrollment: React.FC = () => {
             ) : (
                 <div className="flex flex-wrap justify-center gap-10 p-10">
                     {enrollments.map((enrollment: any) => (
-                        <div key={enrollment._id} className="card w-72 glass">
+                        <div key={enrollment._id} className="card w-72 glass" onClick={()=>navigate('/student/single-enrollment',{state: enrollment.courseId})} >
                             <figure>
                                 <img
                                     src={enrollment.courseId.thumbnail}

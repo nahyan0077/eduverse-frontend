@@ -13,142 +13,36 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CodeIcon from "@mui/icons-material/Code";
 import ArticleIcon from "@mui/icons-material/Article";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { useTheme } from "../ui/theme-provider";
-import LoadingPopUp from "../common/skeleton/LoadingPopUp";
+import { useTheme } from "@/components/ui/theme-provider";
+import LoadingPopUp from "@/components/common/skeleton/LoadingPopUp";
 import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import { Toaster, toast } from "sonner";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import banner from "@/assets/course/banner1.jpg";
-import { createPaymentSessionAction } from "@/redux/store/actions/payment";
 import { useAppDispatch } from "@/hooks/hooks";
-import { storeObject } from "@/utils/localStorage";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-	createEnrollmentAction,
-	getEnrollmentByUserIdAction,
-} from "@/redux/store/actions/enrollment";
+
+import { CourseReview } from "./CourseReview";
 
 
-export const SingleCoursePage: React.FC = () => {
+export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [loading, setLoading] = useState(false);
-	const [isEnrolled, setIsEnrolled] = useState(false);
 
 	const { data } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		if (location.state?.course) {
-			setCourseData(location.state.course);
+		if (location.state) {
+			setCourseData(location.state);
 		}
 	}, [location.state]);
 
-	useEffect(() => {
-		if (data?._id && courseData?._id) {
-			handleFetchEnrollment();
-		}
-	}, [data, courseData]);
-
-	const handleFetchEnrollment = async () => {
-		try {
-			if (data && data._id) {
-				const response = await dispatch(getEnrollmentByUserIdAction(data._id));
-				response.payload.data.forEach((item: any) => {
-					if (item.courseId._id === courseData._id) {
-						setIsEnrolled(true);
-					}
-				});
-			}
-		} catch (error: any) {
-			console.error("Error fetching enrollment:", error);
-		}
-	};
-
-	const handleEnrollCourse = async () => {
-		try {
-			if (courseData?.pricing?.type === "paid") {
-				handlePayment();
-				return;
-			}
-			if (!data || !data._id) {
-				toast.error("Please login to enroll in the course.");
-				navigate("/login");
-				return;
-			}
-
-			const result: any = await dispatch(
-				createEnrollmentAction({
-					userId: data._id,
-					courseId: courseData._id,
-					enrolledAt: Date.now(),
-				})
-			);
-
-			if (createEnrollmentAction.fulfilled.match(result)) {
-				toast.success(
-					"Congratulations! You have successfully enrolled in this course!"
-				);
-			} else {
-				toast.error("Enrollment failed", {
-					description: result?.payload?.message,
-				});
-			}
-		} catch (error: any) {
-			console.error("Enrollment error:", error);
-			toast.error("Enrollment error", { description: error?.message });
-		}
-	};
-
-	const handlePayment = async () => {
-		try {
-			if (!data || !data._id) {
-				toast.error("Please login to enroll in the course.");
-				navigate("/login");
-				return;
-			}
-			setLoading(true);
-			const stripe = await loadStripe(
-				import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as string
-			);
-
-			const sessionData = {
-				courseName: courseData.title,
-				courseThumbnail: courseData?.thumbnail,
-				courseId: courseData._id,
-				amount: courseData?.pricing?.amount,
-				userId: data._id,
-			};
-
-			const response = await dispatch(createPaymentSessionAction(sessionData));
-
-			if (!response?.payload || !response?.payload?.success) {
-				toast.error("Error occurred");
-				throw new Error("Something went wrong, try again!");
-			}
-
-			storeObject("payment_session", {
-				...response.payload?.data,
-				amount: courseData.pricing.amount,
-				instructorId: courseData.instructorRef._id,
-			});
-
-			const sessionId = response.payload.data.sessionId;
-
-			setLoading(false);
-			const result = await stripe?.redirectToCheckout({ sessionId });
-
-			if (result?.error) {
-				throw new Error(result.error.message);
-			}
-		} catch (error: any) {
-			console.error("Payment error:", error);
-			toast.error(error.message);
-		}
-	};
+    console.log(location.state,"statee data in single enrooll");
+    
 
 	return (
 		<>
@@ -160,7 +54,7 @@ export const SingleCoursePage: React.FC = () => {
 					theme === "light" ? "text-gray-900" : "text-gray-100 mb-5"
 				}`}
 			>
-				<LoadingPopUp isLoading={loading} />
+				{/* <LoadingPopUp isLoading={loading} /> */}
 				<Toaster richColors position="top-center" />
 				{courseData ? (
 					<div
@@ -279,6 +173,8 @@ export const SingleCoursePage: React.FC = () => {
 									</div>
 								))}
 							</div>
+							
+							<CourseReview />
 
 						</div>
 
@@ -309,27 +205,7 @@ export const SingleCoursePage: React.FC = () => {
 										</p>
 									</>
 								)}
-								<div className="flex justify-center w-full p-3">
-									{isEnrolled ? (
-										<div className="badge badge-success badge-lg font-bold animate-pulse transition duration-300 ease-in-out">
-											Already Enrolled
-										</div>
-									) : courseData.pricing.type === "paid" ? (
-										<button
-											className="btn bg-violet-500 btn-block hover:bg-violet-300 text-white "
-											onClick={handleEnrollCourse}
-										>
-											Buy Now
-										</button>
-									) : (
-										<button
-											className="btn btn-success btn-block  "
-											onClick={handleEnrollCourse}
-										>
-											Enroll Now
-										</button>
-									)}
-								</div>
+
 							</div>
 							<div className="p-4">
 								<div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
@@ -406,4 +282,3 @@ export const SingleCoursePage: React.FC = () => {
 	);
 };
 
-export default SingleCoursePage;
