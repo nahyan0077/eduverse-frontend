@@ -67,7 +67,7 @@ const Header: React.FC = () => {
 			)}
 			<nav
 				className={`p-5 shadow-md sticky top-0 z-10 ${
-					theme === "light" ? "bg-white" : "bg-gray-950"
+					theme === "light" ? "bg-transparent backdrop-blur-2xl black" : "bg-transparent backdrop-blur-2xl black"
 				}`}
 			>
 				<div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -94,8 +94,8 @@ const Header: React.FC = () => {
 								role="button"
 								className={`btn m-1 ${
 									theme === "light"
-										? "text-violet-700 hover:bg-gray-200 border-white"
-										: "hover:bg-gray-900 border-gray-950"
+										? "text-violet-700 hover:bg-gray-200 border-transparent"
+										: "text-white hover:bg-gray-900 border-transparent"
 								} bg-transparent`}
 							>
 								Home
@@ -107,8 +107,8 @@ const Header: React.FC = () => {
 								role="button"
 								className={`btn m-1 ${
 									theme === "light"
-										? "text-violet-700 hover:bg-gray-200 border-white"
-										: "hover:bg-gray-900 border-gray-950"
+										? "text-violet-700 hover:bg-gray-200 border-transparent"
+										: "text-white hover:bg-gray-900 border-transparent"
 								} bg-transparent`}
 							>
 								Categories
@@ -138,8 +138,8 @@ const Header: React.FC = () => {
 							<div
 								className={`btn m-1 ${
 									theme === "light"
-										? "text-violet-700 hover:bg-gray-200 border-white"
-										: "hover:bg-gray-900 border-gray-950"
+										? "text-violet-700 hover:bg-gray-200 border-transparent"
+										: "text-white hover:bg-gray-900 border-transparent"
 								} bg-transparent`}
 							>
 								Courses
@@ -149,8 +149,8 @@ const Header: React.FC = () => {
 							<div
 								className={`btn m-1 ${
 									theme === "light"
-										? "text-violet-700 hover:bg-gray-200 border-white"
-										: "hover:bg-gray-900 border-gray-950"
+										? "text-violet-700 hover:bg-gray-200 border-transparent"
+										: "text-white hover:bg-gray-900 border-transparent"
 								} bg-transparent`}
 							>
 								Contact
@@ -160,8 +160,8 @@ const Header: React.FC = () => {
 							<div
 								className={`btn m-1 ${
 									theme === "light"
-										? "text-violet-700 hover:bg-gray-200 border-white"
-										: "hover:bg-gray-900 border-gray-950"
+										? "text-violet-700 hover:bg-gray-200 border-transparent"
+										: "text-white hover:bg-gray-900 border-transparent"
 								} bg-transparent`}
 							>
 								About
@@ -178,8 +178,8 @@ const Header: React.FC = () => {
 									role="button"
 									className={`btn m-1 ${
 										theme === "light"
-											? "text-violet-700 hover:bg-gray-200"
-											: "hover:bg-gray-900"
+										? "text-violet-700 hover:bg-gray-200 border-transparent"
+										: "text-white hover:bg-gray-900 border-transparent"
 									} bg-transparent`}
 								>
 									<img

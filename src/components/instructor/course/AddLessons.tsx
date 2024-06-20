@@ -24,8 +24,8 @@ export const AddLessons: React.FC = () => {
   const [uploadedLessonIds, setUploadedLessonIds] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const isEditMode = location.state.oldData;
-  console.log(isEditMode, "isi edit mode onn");
+  const isEditMode = location.state?.oldData;
+  console.log(isEditMode, "is edit mode on");
 
   useEffect(() => {
     if (isEditMode) {
@@ -45,6 +45,7 @@ export const AddLessons: React.FC = () => {
       toast.error("Please add lessons");
       return;
     }
+   
 
     const allData = {
       ...location.state.allData,
@@ -52,10 +53,9 @@ export const AddLessons: React.FC = () => {
     };
 
     console.log(allData, "form data second form");
-    !isEditMode ?
-    navigate('/instructor/add-others', { state: { allData } })
-    :
-    navigate('/instructor/add-others', { state: { allData, oldData: location.state.oldData  } })
+    !isEditMode
+      ? navigate('/instructor/add-others', { state: { allData } })
+      : navigate('/instructor/add-others', { state: { allData, oldData: location.state.oldData } });
   };
 
   const addLesson = (push: any) => {
@@ -68,118 +68,124 @@ export const AddLessons: React.FC = () => {
       video: "",
       duration: ""
     };
-    setLessons([...lessons, newLesson]);
+    console.log(newLesson,"new lessons")
     push(newLesson);
+    setLessons([...lessons, newLesson]);
+    console.log(lessons,"all added lesons");
+    
   };
 
   const removeLesson = (remove: any) => {
     if (lessons.length > 1) {
-      setLessons(lessons.slice(0, -1));
+      const newLessons = lessons.slice(0, -1);
+      setLessons(newLessons);
       remove(lessons.length - 1);
     }
   };
 
   const uploadIndividualLesson = (lesson: Lesson) => {
+    console.log(lesson,"lessons each");
+    
     setIndividualUploadedLessons([...individualUploadedLessons, lesson]);
+    console.log(individualUploadedLessons,"indivdual lessons");
+    
     setUploadedLessonIds([...uploadedLessonIds, lesson.lessonNumber]);
-    console.log("Individual Lesson Uploaded:", lesson);
+    console.log("Individual Lesson id:", uploadedLessonIds);
     toast.success(`Lesson ${lesson.lessonNumber} added successfully`);
   };
 
   return (
-    <>
-      <div className="max-w-full mx-auto py-10 px-10 text-white space-y-5">
-        <Toaster richColors position="top-center" />
-        <div className="mb-10 flex justify-between p-4">
-          <h1 className="text-3xl font-bold">{isEditMode ? "Edit Lessons" : "Add Lessons"}</h1>
-        </div>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={addCourseValidationSchema2}
-          onSubmit={handleSubmit}
-          enableReinitialize
-        >
-          {({ values, setFieldValue, errors, touched }) => (
-            <Form>
-              <FieldArray name="lessons">
-                {({ push, remove }) => (
-                  <>
-                    {values.lessons.map((lesson, index) => {
-                      const lessonErrors = errors.lessons?.[index] || {};
-                      const lessonTouched = touched.lessons?.[index] || {};
-                      const isLessonValid = !Object.keys(lessonErrors).length && Object.keys(lessonTouched).length;
+    <div className="max-w-full mx-auto py-10 px-10 text-white space-y-5">
+      <Toaster richColors position="top-center" />
+      <div className="mb-10 flex justify-between p-4">
+        <h1 className="text-3xl font-bold">{isEditMode ? "Edit Lessons" : "Add Lessons"}</h1>
+      </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={addCourseValidationSchema2}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ values, setFieldValue, errors, touched }) => (
+          <Form>
+            <FieldArray name="lessons">
+              {({ push, remove }) => (
+                <>
+                  {values.lessons.map((lesson, index) => {
+                    const lessonErrors = errors.lessons?.[index] || {};
+                    const lessonTouched = touched.lessons?.[index] || {};
+                    const isLessonValid = !Object.keys(lessonErrors).length && Object.keys(lessonTouched).length;
 
-                      return (
-                        <div key={lesson.lessonNumber} className="collapse collapse-plus bg-gray-900 mb-5">
-                          <input type="checkbox" name={`my-accordion-${index}`} defaultChecked={index === 0} />
-                          <div className="collapse-title text-xl font-medium flex items-center justify-between">
-                            Lesson {lesson.lessonNumber}
-                            {uploadedLessonIds.includes(lesson.lessonNumber) && <DoneOutlineIcon color="success" />}
+                    return (
+                      <div key={lesson.lessonNumber} className="collapse collapse-plus bg-gray-900 mb-5">
+                        <input type="checkbox" name={`my-accordion-${index}`} defaultChecked={index === 0} />
+                        <div className="collapse-title text-xl font-medium flex items-center justify-between">
+                          Lesson {lesson.lessonNumber}
+                          {uploadedLessonIds.includes(lesson.lessonNumber) && <DoneOutlineIcon color="success" />}
+                        </div>
+                        <div className="flex collapse-content">
+                          <div className="w-[50%] p-5">
+                            <CustomVideoFileInputDuration
+                              onChange={(file) => {
+                                if (file) {
+                                  setFieldValue(`lessons[${index}].video`, file.url);
+                                  setFieldValue(`lessons[${index}].duration`, file.duration.toString());
+                                }
+                              }}
+                              theme="dark"
+                              initialValue={{ url: lesson.video, duration: parseInt(lesson.duration, 10) }}
+                            />
+                            <ErrorMessage name={`lessons[${index}].video`} component="div" className="text-red-500 text-xs" />
+                            <ErrorMessage name={`lessons[${index}].duration`} component="div" className="text-red-500 text-xs" />
                           </div>
-                          <div className="flex collapse-content">
-                            <div className="w-[50%] p-5">
-                              <CustomVideoFileInputDuration
-                                onChange={(file) => {
-                                  if (file) {
-                                    setFieldValue(`lessons[${index}].video`, file.url);
-                                    setFieldValue(`lessons[${index}].duration`, file.duration.toString());
-                                  }
-                                }}
-                                theme="dark"
-                                initialValue={{ url: lesson.video, duration: parseInt(lesson.duration, 10) }}
+                          <div className="w-[50%] p-5 space-y-7">
+                            <div className="w-full">
+                              <Field name={`lessons[${index}].title`} type="text" placeholder="Title" className="w-full p-3 bg-gray-800 border border-gray-700 rounded" />
+                              <ErrorMessage name={`lessons[${index}].title`} component="div" className="text-red-500 text-xs" />
+                            </div>
+                            <div className="w-full">
+                              <Field name={`lessons[${index}].description`} type="text" placeholder="Description" className="w-full p-3 bg-gray-800 border border-gray-700 rounded" />
+                              <ErrorMessage name={`lessons[${index}].description`} component="div" className="text-red-500 text-xs" />
+                            </div>
+                            <div className="w-full">
+                              <TagInputField
+                                tags={lesson.objectives}
+                                setTags={(tags) => setFieldValue(`lessons[${index}].objectives`, tags)}
                               />
-                              <ErrorMessage name={`lessons[${index}].video`} component="div" className="text-red-500 text-xs" />
-                              <ErrorMessage name={`lessons[${index}].duration`} component="div" className="text-red-500 text-xs" />
+                              <ErrorMessage name={`lessons[${index}].objectives`} component="div" className="text-red-500 text-xs" />
                             </div>
-                            <div className="w-[50%] p-5 space-y-7">
-                              <div className="w-full">
-                                <Field name={`lessons[${index}].title`} type="text" placeholder="Title" className="w-full p-3 bg-gray-800 border border-gray-700 rounded" />
-                                <ErrorMessage name={`lessons[${index}].title`} component="div" className="text-red-500 text-xs" />
-                              </div>
-                              <div className="w-full">
-                                <Field name={`lessons[${index}].description`} type="text" placeholder="Description" className="w-full p-3 bg-gray-800 border border-gray-700 rounded" />
-                                <ErrorMessage name={`lessons[${index}].description`} component="div" className="text-red-500 text-xs" />
-                              </div>
-                              <div className="w-full">
-                                <TagInputField
-                                  tags={lesson.objectives}
-                                  setTags={(tags) => setFieldValue(`lessons[${index}].objectives`, tags)}
-                                />
-                                <ErrorMessage name={`lessons[${index}].objectives`} component="div" className="text-red-500 text-xs" />
-                              </div>
-                              <button
-                                className="btn btn-info"
-                                type="button"
-                                disabled={!isLessonValid}
-                                onClick={() => uploadIndividualLesson(lesson)}
-                              >
-                                Upload Lesson
-                              </button>
-                            </div>
+                            <button
+                              className="btn btn-info"
+                              type="button"
+                              disabled={!isLessonValid}
+                              onClick={() => uploadIndividualLesson(lesson)}
+                            >
+                              Upload Lesson
+                            </button>
                           </div>
                         </div>
-                      );
-                    })}
-                    <div className="flex justify-end space-x-4">
-                      <button className="btn btn-warning btn-outline" type="button" onClick={() => addLesson(push)}>
-                        <AddIcon /> Add Lesson
-                      </button>
-                      <button className="btn btn-error btn-outline" type="button" onClick={() => removeLesson(remove)}>
-                        <ClearIcon /> Remove Lesson
-                      </button>
-                    </div>
-                  </>
-                )}
-              </FieldArray>
-              <div className="flex justify-start mt-5">
-                <button className="btn btn-primary" type="submit">
-                  {isEditMode ? "Update Lessons" : "Upload All Lessons"}
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </>
+                      </div>
+                    );
+                  })}
+                  <div className="flex justify-end space-x-4">
+                    <button className="btn btn-warning btn-outline" type="button" onClick={() => addLesson(push)}>
+                      <AddIcon /> Add Lesson
+                    </button>
+                    <button className="btn btn-error btn-outline" type="button" onClick={() => removeLesson(remove)}>
+                      <ClearIcon /> Remove Lesson
+                    </button>
+                  </div>
+                </>
+              )}
+            </FieldArray>
+            <div className="flex justify-start mt-5">
+              <button className="btn btn-primary" type="submit">
+                {isEditMode ? "Update Lessons" : "Upload All Lessons"}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };

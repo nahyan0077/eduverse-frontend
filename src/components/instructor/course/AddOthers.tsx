@@ -21,6 +21,8 @@ export const AddOthers: React.FC = () => {
     console.error("Location state is missing or malformed");
     return <div>Error: Location state is missing or malformed</div>;
   }
+  console.log(location.state.allData,"all data from add lessons");
+  
 
   const initialValues = {
     title: editMode ? location.state.oldData.attachments?.title || "" : "",
@@ -31,7 +33,6 @@ export const AddOthers: React.FC = () => {
 
   const handleSubmit = async (values: any) => {
     const allData: CourseEntity = {
-        _id: location.state.oldData._id,
       title: location.state.allData.title,
       categoryRef: location.state.allData.category,
       instructorRef: data?._id,
@@ -55,6 +56,7 @@ export const AddOthers: React.FC = () => {
 
     let response;
     if (editMode) {
+      allData._id = location.state.oldData._id 
       response = await dispatch(updateCourseAction(allData));
     } else {
       response = await dispatch(createCourseAction(allData));

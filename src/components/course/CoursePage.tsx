@@ -11,9 +11,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import SortIcon from "@mui/icons-material/Sort";
-import { Menu, MenuItem, Button } from "@mui/material"; // Import MUI components
+import { Menu, MenuItem, Button } from "@mui/material";
 import CourseSectionCardLoading from "../common/loadingSkeleton/CourseCard";
-import { CourseReview } from "./CourseReview";
 
 const formatDuration = (seconds: number): string => {
 	const h = Math.floor(seconds / 3600);
