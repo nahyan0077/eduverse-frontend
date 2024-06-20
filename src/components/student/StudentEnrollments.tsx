@@ -45,7 +45,7 @@ export const StudentEnrollment: React.FC = () => {
             ) : (
                 <div className="flex flex-wrap justify-center gap-10 p-10">
                     {enrollments.map((enrollment: any) => (
-                        <div key={enrollment._id} className="card w-72 glass" onClick={()=>navigate('/student/single-enrollment',{state: enrollment.courseId})} >
+                        <div key={enrollment._id} className="card w-72 glass" onClick={()=>navigate('/student/single-enrollment',{state: enrollment.courseId._id})} >
                             <figure>
                                 <img
                                     src={enrollment.courseId.thumbnail}

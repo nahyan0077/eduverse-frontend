@@ -41,6 +41,10 @@ export const SingleEnrollmentPage: React.FC = () => {
 		}
 	}, [location.state]);
 
+    const fetchData = async () => {
+        // const response = await dispatch()
+    }
+
     console.log(location.state,"statee data in single enrooll");
     
 
@@ -56,7 +60,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 			>
 				{/* <LoadingPopUp isLoading={loading} /> */}
 				<Toaster richColors position="top-center" />
-				{courseData ? (
+
 					<div
 						className={`relative flex flex-col lg:flex-row rounded-3xl overflow-hidden space-y-5 lg:space-y-0 lg:space-x-5 -mt-20 p-4  ${
 							theme == "dark"
@@ -69,13 +73,13 @@ export const SingleEnrollmentPage: React.FC = () => {
 							<div className="mb-4 bg-violet-200 dark:bg-gray-950 rounded-t-3xl p-6">
 								<div className="flex items-center mb-2 ">
 									<img
-										src={courseData.instructorRef.profile.avatar}
+										src=""
 										alt="Instructor"
 										className="object-cover w-10 h-10 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500 mr-3 ml-1"
 									/>
 									<div>
 										<h2 className="text-lg font-bold">
-											{courseData.instructorRef.firstName}
+									
 										</h2>
 										<p className="text-sm text-gray-600 dark:text-gray-400">
 											Instructor
@@ -90,15 +94,15 @@ export const SingleEnrollmentPage: React.FC = () => {
 									</span>
 									<span className="ml-4 text-gray-600 dark:text-gray-400">
 										<LibraryBooksIcon color="warning" fontSize="small" />{" "}
-										{courseData.lessons.length} Lessons
+								 Lessons
 									</span>
 									<span className="ml-4 text-gray-600 dark:text-gray-400">
 										<AccessTimeIcon color="warning" fontSize="small" />{" "}
-										{courseData.duration} hours
+									hours
 									</span>
 									<span className="ml-4 text-gray-600 dark:text-gray-400">
 										<BoltIcon color="warning" fontSize="small" />{" "}
-										{courseData.level}
+								
 									</span>
 								</div>
 							</div>
@@ -107,7 +111,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 								<div className="mb-4">
 									<h3 className="text-lg font-bold mb-2">Overview</h3>
 									<p className="text-sm text-gray-600 dark:text-gray-400">
-										{courseData?.description}
+									
 									</p>
 								</div>
 
@@ -158,20 +162,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 								<label htmlFor="lesson" className="ml-2 font-bold text-xl">
 									Lessons:
 								</label>
-								{courseData.lessons.map((data: any, index: number) => (
-									<div
-										className="collapse collapse-arrow bg-gray-100 dark:bg-gray-800 mb-2"
-										key={index}
-									>
-										<input type="radio" name="my-accordion-1" />
-										<div className="collapse-title text-md font-medium">
-											{index + 1 + ".  " + data.title}
-										</div>
-										<div className="collapse-content text-xs">
-											<p>{data.description}</p>
-										</div>
-									</div>
-								))}
+
 							</div>
 							
 							<CourseReview />
@@ -184,27 +175,14 @@ export const SingleEnrollmentPage: React.FC = () => {
 							{/* Video/Image Section */}
 							<div className="relative pb-56 mb-4 overflow-hidden rounded-lg">
 								<iframe
-									src={courseData?.trial.video}
+									src=""
 									className="absolute h-full w-full object-cover"
 									title="Course Video"
 								/>
 							</div>
 							{/* Course Info */}
 							<div className="text-center mb-4">
-								{courseData.pricing.type === "free" ? (
-									<p className="text-green-500 text-2xl font-bold mb-2">FREE</p>
-								) : (
-									<>
-										<p className="text-green-500 text-2xl font-bold mb-2">
-											{" "}
-											<CurrencyRupeeIcon /> {courseData.pricing.amount}
-										</p>
 
-										<p className="text-gray-600 dark:text-gray-400 line-through mb-2">
-											${courseData?.pricing.amount} 50% off
-										</p>
-									</>
-								)}
 
 							</div>
 							<div className="p-4">
@@ -248,25 +226,25 @@ export const SingleEnrollmentPage: React.FC = () => {
 										<li className="flex items-center">
 											<PeopleIcon className="mr-2" />
 											<span>
-												Enrolled: <strong>{courseData.students}</strong>
+												Enrolled: <strong></strong>
 											</span>
 										</li>
 										<li className="flex items-center">
 											<AccessTimeIcon className="mr-2" />
 											<span>
-												Duration: <strong>{courseData.duration} hours</strong>
+												Duration: <strong>hours</strong>
 											</span>
 										</li>
 										<li className="flex items-center">
 											<LibraryBooksIcon className="mr-2" />
 											<span>
-												Chapters: <strong>{courseData.lessons.length}</strong>
+												Chapters: <strong></strong>
 											</span>
 										</li>
 										<li className="flex items-center">
 											<BoltIcon className="mr-2" />
 											<span>
-												Level: <strong>{courseData.level}</strong>
+												Level: <strong></strong>
 											</span>
 										</li>
 									</ul>
@@ -274,9 +252,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 							</div>
 						</div>
 					</div>
-				) : (
-					<LoadingPopUp isLoading={true} />
-				)}
+
 			</div>
 		</>
 	);
