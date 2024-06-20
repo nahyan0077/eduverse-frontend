@@ -23,6 +23,7 @@ import { CourseReview } from "./CourseReview";
 import { getAllCourseByIdAction } from "@/redux/store/actions/course";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -169,13 +170,25 @@ export const SingleEnrollmentPage: React.FC = () => {
 										className="collapse collapse-arrow bg-gray-100 dark:bg-gray-800 mb-2"
 										key={index}
 									>
-										<input type="radio" name="my-accordion-1" />
-										<div className="collapse-title text-md font-medium">
+										<input type="checkbox" name="my-accordion-1" />
+										<div className="collapse-title text-md flex font-medium">
 											{index + 1 + ".  " + lesson.title}
 										</div>
-										<div className="collapse-content text-xs">
-											<iframe src={lesson?.video} ></iframe>
-											<p>{lesson.description}</p>
+										<div className="collapse-content ">
+											<iframe src={lesson?.video} allowFullScreen></iframe>
+											<p className="text-sm p-4"> {lesson.description}</p>
+											<div className="ml-3">
+												{lesson.objectives.map((obj: any) => {
+													return (
+														<ul className="text-sm text-gray-300">
+															<li>
+																{" "}
+																<ArrowForwardIcon color="primary" /> {obj}{" "}
+															</li>
+														</ul>
+													);
+												})}
+											</div>
 										</div>
 									</div>
 								))}
