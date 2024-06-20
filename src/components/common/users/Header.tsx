@@ -195,7 +195,10 @@ const Header: React.FC = () => {
 										theme === "light" ? "bg-gray-100" : "bg-gray-950"
 									} rounded-box w-52`}
 								>
-									<li>
+									<li onClick={()=>navigate(`/student`)} >
+										<a>Dashboard</a>
+									</li>
+									<li onClick={()=>navigate('/student/profile')} >
 										<a>Profile</a>
 									</li>
 									<li>
