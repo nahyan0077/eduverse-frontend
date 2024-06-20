@@ -6,8 +6,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-
-
+import HouseIcon from "@mui/icons-material/House";
 
 const StudentNavbar: React.FC = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
@@ -54,24 +53,33 @@ const StudentNavbar: React.FC = () => {
 							role="button"
 							className="btn m-1  hover:bg-gray-900 border border-transparent bg-transparent"
 						>
-							<img src={userData.data?.profile?.avatar} className="object-cover w-12 h-12 p-1 rounded-full" alt="" />
-							<span className="hidden md:block " >{userData.data?.userName}</span>
+							<img
+								src={userData.data?.profile?.avatar}
+								className="object-cover w-12 h-12 p-1 rounded-full"
+								alt=""
+							/>
+							<span className="hidden md:block ">
+								{userData.data?.userName}
+							</span>
 						</div>
 						<ul
 							tabIndex={0}
 							className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
 						>
 							<li>
-								<a onClick={()=>navigate('/student/profile')} >Profile</a>
+								<a onClick={() => navigate("/student/profile")}>Profile</a>
 							</li>
 							<li>
-								<a onClick={()=>navigate('/home')} >Home</a>
+								<a onClick={() => navigate("/home")}>Home</a>
 							</li>
 							<li>
 								<a onClick={handleLogout}>Logout</a>
 							</li>
 						</ul>
 					</div>
+				</div>
+				<div className="cursor-pointer hover:bg-gray-900 p-2 rounded-xl" onClick={()=>navigate('/home')} >
+					<HouseIcon />
 				</div>
 				<ModeToggle />
 			</div>

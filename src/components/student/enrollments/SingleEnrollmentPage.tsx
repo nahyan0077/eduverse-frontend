@@ -24,6 +24,8 @@ import { getAllCourseByIdAction } from "@/redux/store/actions/course";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import HouseIcon from '@mui/icons-material/House';
+
 
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -196,7 +198,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 
 							<div className="flex flex-col space-y-4 p-10">
 								<label htmlFor="lesson" className="ml-2 font-bold text-xl">
-									Attachments:
+									Assignments:
 								</label>
 								<div className="bg-gray-800 rounded-xl flex justify-between items-center p-4">
 									<h1 className="flex items-center text-gray-300">
