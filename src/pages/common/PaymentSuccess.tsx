@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import { deleteObject, getObject } from "@/utils/localStorage";
@@ -8,12 +8,18 @@ import { createPaymentAction, getPaymentSessionAction } from "@/redux/store/acti
 export const PaymentSuccess: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const isFirstRun = useRef(true); // Flag to prevent double invocation
 
     useEffect(() => {
-        createPayment();
+        if (isFirstRun.current) {
+            console.log("useEffect triggered");
+            createPayment();
+            isFirstRun.current = false;
+        }
     }, []);
 
     const createPayment = async () => {
+        console.log("createPayment called");
         const paymentSession = getObject("payment_session");
         console.log(paymentSession, "payment session");
 
@@ -40,6 +46,7 @@ export const PaymentSuccess: React.FC = () => {
             };
 
             const response1 = await dispatch(createPaymentAction(createPaymentData));
+            console.log(response1, "create payment response");
             if (!response1.payload?.success) {
                 throw new Error("Payment creation failed!");
             }
@@ -47,7 +54,7 @@ export const PaymentSuccess: React.FC = () => {
             deleteObject("payment_session");
         } catch (error) {
             console.error(error);
-            navigate('/'); 
+            navigate('/');
         }
     };
 
