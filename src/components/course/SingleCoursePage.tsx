@@ -28,6 +28,7 @@ import {
 	createEnrollmentAction,
 	getEnrollmentByUserIdAction,
 } from "@/redux/store/actions/enrollment";
+import { CourseReview } from "./CourseReview";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -165,7 +166,7 @@ export const SingleCoursePage: React.FC = () => {
 					<div
 						className={`relative flex flex-col lg:flex-row rounded-3xl overflow-hidden space-y-5 lg:space-y-0 lg:space-x-5 -mt-20 p-4  ${
 							theme == "dark"
-								? "bg-gradient-to-r from-slate-900 to-slate-700"
+								? "bg-slate-800"
 								: "bg-gradient-to-r from-fuchsia-50 to-violet-100"
 						} `}
 					>
@@ -259,7 +260,7 @@ export const SingleCoursePage: React.FC = () => {
 								</div>
 							</div>
 
-							<div className="flex flex-col space-y-4 p-10">
+							<div className="flex flex-col space-y-4 p-10 ">
 								<label htmlFor="lesson" className="ml-2 font-bold text-xl">
 									Lessons:
 								</label>
@@ -278,7 +279,11 @@ export const SingleCoursePage: React.FC = () => {
 									</div>
 								))}
 							</div>
+							
+							<CourseReview />
+
 						</div>
+
 
 						{/* Right Section */}
 						<div className="lg:w-1/3 py-4 px-6 rounded-e-3xl rounded-s-md bg-white dark:bg-gray-900 shadow-lg">
