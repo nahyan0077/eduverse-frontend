@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '../ui/theme-provider';
-import { useAppSelector } from '@/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { RootState } from '@/redux/store';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import { getAllInstructorsAction, getAllStudentsAction } from '@/redux/store/actions/user';
 
 const AdminDashboard: React.FC = () => {
   const { theme } = useTheme();
   const [profit, setProfit] = useState("")
+  const [counts, setCounts] = useState({
+    studentCount: "",
+    instructorCount: ""
+  })
 
   const {data} = useAppSelector((state: RootState) => state.user )
+  const dispatch = useAppDispatch()
+  const fetchDatas = async () =>  {
+    const students: any = await dispatch(getAllStudentsAction({}))
+    const instructors = await dispatch(getAllInstructorsAction({}))
+    console.log("students" ,students);
+    console.log("instricut" ,instructors);
+    setCounts({studentCount: students?.payload?.data.length , instructorCount: instructors?.payload?.data.length})
+  }
 
   useEffect(() => {
     if (data && data.profit) {
       setProfit(data?.profit)
     }
+    fetchDatas()
   }, [data])
 
   
@@ -38,14 +52,14 @@ const AdminDashboard: React.FC = () => {
           <h2 className={`text-lg font-semibold mb-2 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
             Total Students
           </h2>
-          <p className="text-xl font-bold">500</p>
+          <p className="text-xl font-bold">{counts.studentCount}</p>
         </div>
         {/* Instructors Box */}
         <div className={`rounded-md p-4 shadow-md transform transition-transform duration-200 hover:scale-105 ${theme === 'light' ? 'bg-white text-gray-900 hover:bg-gray-100' : 'bg-gray-800 text-white hover:bg-gray-700'}`}>
           <h2 className={`text-lg font-semibold mb-2 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
             Total Instructors
           </h2>
-          <p className="text-xl font-bold">25</p>
+          <p className="text-xl font-bold">{counts.instructorCount}</p>
         </div>
       </div>
     </div>
