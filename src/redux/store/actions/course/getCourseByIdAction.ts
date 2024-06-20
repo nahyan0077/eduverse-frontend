@@ -4,9 +4,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 export const getAllCourseByIdAction = createAsyncThunk (
-    "course/getAllCourseById", async (id: string, {rejectWithValue}) => {
+    "course/getCourseById", async (id: string, {rejectWithValue}) => {
         try {
-            const response = await CLIENT_API.get(`/api/course/${id}`,config)
+            const response = await CLIENT_API.get(`/api/course/enrolled/${id}`,config)
 
             if (response.data.success) {
 				return response.data;
