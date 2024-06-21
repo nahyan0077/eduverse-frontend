@@ -29,12 +29,6 @@ export const PaymentSuccess: React.FC = () => {
         }
 
         try {
-            const response = await dispatch(getPaymentSessionAction(paymentSession._id));
-            console.log(response, "check payment response");
-
-            if (!response.payload?.success) {
-                throw new Error("Payment failed!");
-            }
 
             const createPaymentData = {
                 userId: paymentSession.userId,
