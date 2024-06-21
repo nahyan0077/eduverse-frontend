@@ -20,12 +20,11 @@ import { Toaster, toast } from "sonner";
 import banner from "@/assets/course/banner1.jpg";
 import { useAppDispatch } from "@/hooks/hooks";
 import { CourseReview } from "./CourseReview";
-import { getAllCourseByIdAction } from "@/redux/store/actions/course";
+import { getCourseByIdAction } from "@/redux/store/actions/course";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import HouseIcon from '@mui/icons-material/House';
-
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -36,18 +35,15 @@ export const SingleEnrollmentPage: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		if (location.state) {
-			setCourseData(location.state);
-		}
 		fetchData();
 	}, [location.state]);
 
 	const fetchData = async () => {
 		setLoading(true);
-		const response = await dispatch(getAllCourseByIdAction(location.state));
+		const response = await dispatch(getCourseByIdAction(location.state.courseId));
 		setCourseData(response.payload.data);
 		setLoading(false);
-		console.log(response, "get course data");
+		
 	};
 
 	if (loading) {
@@ -176,8 +172,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 										<div className="collapse-title text-md flex font-medium">
 											{index + 1 + ".  " + lesson.title}
 										</div>
-										<div className="collapse-content ">
-											<iframe src={lesson?.video} allowFullScreen></iframe>
+										<div className="collapse-content">
 											<p className="text-sm p-4"> {lesson.description}</p>
 											<div className="ml-3">
 												{lesson.objectives.map((obj: any) => {
@@ -190,6 +185,12 @@ export const SingleEnrollmentPage: React.FC = () => {
 														</ul>
 													);
 												})}
+											</div>
+											<div className="flex py-3 items-center">
+												<button className="btn btn-outline btn-warning btn-sm ml-auto" onClick={()=>navigate('/student/course-preview',{state:{ courseData, enrollmentId: location.state.enrollmentId}})} >
+													<OndemandVideoIcon color="warning" />
+													Preview
+												</button>
 											</div>
 										</div>
 									</div>
