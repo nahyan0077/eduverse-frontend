@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 export const getAllCourseAction = createAsyncThunk(
 	"course/get-all-courses",
 	async (
-		data: { page?: string | number; limit?: string | number },
+		data: { page?: string | number; limit?: string | number; search?: string },
 		{ rejectWithValue }
 	) => {
 		try {
@@ -15,13 +15,16 @@ export const getAllCourseAction = createAsyncThunk(
 				query += `page=${data.page}&`;
 			}
 			if (data?.limit) {
-				query += `limit=${data.limit}`;
+				query += `limit=${data.limit}&`;
+			}
+			if (data?.search) {
+				query += `search=${encodeURIComponent(data.search)}&`;
 			}
 
-			const response = await CLIENT_API.get(
-				`/api/course/${query}`,
-				config
-			);
+			// Remove trailing '&' if it exists
+			query = query.slice(-1) === "&" ? query.slice(0, -1) : query;
+
+			const response = await CLIENT_API.get(`/api/course/${query}`, config);
 			if (response.data.success) {
 				return response.data;
 			} else {
