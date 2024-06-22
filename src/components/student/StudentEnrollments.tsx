@@ -31,7 +31,7 @@ export const StudentEnrollment: React.FC = () => {
     };
 
     return (
-        <div className="max-h-screen flex justify-center items-center">
+        <div className="max-h-screen max-w-full mx-auto px-24">
             {isEmpty ? (
                 <div className="pt-20 mt-20 text-center">
                     <Player
@@ -43,7 +43,10 @@ export const StudentEnrollment: React.FC = () => {
 					<h2 className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-pink-500 bg-clip-text text-transparent" >No enrollments found</h2>
                 </div>
             ) : (
-                <div className="flex flex-wrap justify-center gap-10 p-10">
+                <div className="flex flex-col max-w-full mx-auto" >
+
+                <h2 className="text-3xl font-bold px-10 pt-8" >Enrolled  Courses</h2>
+                <div className="flex flex-wrap  gap-10 p-10">
                     {enrollments.map((enrollment: any) => (
                         <div key={enrollment._id} className="card w-72 glass" 
                         onClick={()=>navigate('/student/single-enrollment',{state: {enrollmentId:enrollment._id ,courseId:enrollment.courseId._id}})} >
@@ -64,6 +67,7 @@ export const StudentEnrollment: React.FC = () => {
                             </div>
                         </div>
                     ))}
+                </div>
                 </div>
             )}
         </div>

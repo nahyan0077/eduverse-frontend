@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CourseEntity, Lesson } from "@/types/ICourse";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const formatDuration = (seconds: number): string => {
 	const h = Math.floor(seconds / 3600);
@@ -71,6 +72,18 @@ export const InstructorCourses: React.FC = () => {
 					Add Course
 				</button>
 			</div>
+			{
+				instructorCourse.length == 0 ? 
+				<div className="text-center">
+				<Player
+					autoplay
+					loop
+					src="https://lottie.host/2a21cfdf-5523-444f-a483-a4673cd63c49/bKl0W0Zndb.json"
+					style={{ height: "20%", width: "20%" }}
+				/>
+				<h2 className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-pink-500 bg-clip-text text-transparent" >No courses found</h2>
+			</div>
+			:
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{instructorCourse.map((course: CourseEntity) => {
 					const totalDurationSeconds = calculateTotalDuration(
@@ -123,6 +136,7 @@ export const InstructorCourses: React.FC = () => {
 					);
 				})}
 			</div>
+			}
 		</div>
 	);
 };
