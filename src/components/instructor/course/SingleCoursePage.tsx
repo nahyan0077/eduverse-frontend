@@ -17,12 +17,13 @@ import { useTheme } from "../../ui/theme-provider";
 import LoadingPopUp from "../../common/skeleton/LoadingPopUp";
 import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ReactPlayer from "react-player";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (location.state.course) {
@@ -144,7 +145,13 @@ export const SingleCoursePage: React.FC = () => {
 									</div>
 									<div className="collapse-content text-sm p-4">
 										<div className="flex space-x-3">
-											<iframe src={data.video} className="w-1/2 h-48"></iframe>
+											<ReactPlayer
+												url={data.video}
+												width="60%"
+												height="60%"
+												controls={true}
+												className="rounded-lg overflow-hidden"
+											/>
 											<div className="mt-2">
 												<p>{data.description}</p>
 												{data?.objectives.map(
@@ -166,19 +173,27 @@ export const SingleCoursePage: React.FC = () => {
 
 					{/* Right Section */}
 					<div className="lg:w-1/3 py-4 px-6 rounded-2xl bg-gray-100 shadow-md dark:bg-gray-900">
-							<div className="flex justify-center pb-4" >
-						<button className="btn btn-outline btn-accent" onClick={() => navigate('/instructor/add-course',{state: {data: courseData}})} >
-							Update Course
-						</button>
-
-							</div>
+						<div className="flex justify-center pb-4">
+							<button
+								className="btn btn-outline btn-accent"
+								onClick={() =>
+									navigate("/instructor/add-course", {
+										state: { data: courseData },
+									})
+								}
+							>
+								Update Course
+							</button>
+						</div>
 						{/* Video/Image Section */}
-						<div className="relative pb-56 mb-4 overflow-hidden rounded-lg">
-							<iframe
-								src={courseData?.trial.video}
-								className="absolute h-full w-full object-cover"
-								title="Course Video"
-							/>
+						<div className="relative mb-8  overflow-hidden rounded-lg">
+						<ReactPlayer
+												url={courseData.trial.video}
+												width="100%"
+												height="100%"
+												controls={true}
+												className="rounded-lg overflow-hidden"
+											/>
 						</div>
 						{/* Course Info */}
 						<div className="text-center mb-4">

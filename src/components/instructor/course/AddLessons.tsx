@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { CustomVideoFileInputDuration } from "@/components/common/fileInputs/videoInputDuration";
 import TagInputField from "@/components/common/skeleton/TagInputField";
@@ -19,33 +19,29 @@ type Lesson = {
 };
 
 export const AddLessons: React.FC = () => {
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [individualUploadedLessons, setIndividualUploadedLessons] = useState<Lesson[]>([]);
-  const [uploadedLessonIds, setUploadedLessonIds] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
   const isEditMode = location.state?.oldData;
-  console.log(isEditMode, "is edit mode on");
-
-  useEffect(() => {
-    if (isEditMode) {
-      setLessons(location.state.oldData.lessons);
-      console.log(location.state.oldData.lessons, "check lessons reached");
-    } else {
-      setLessons([{ lessonNumber: 1, title: "", description: "", objectives: [], video: "", duration: "" }]);
-    }
-  }, [isEditMode, location.state]);
+  const initialLessons: Lesson[] = isEditMode
+    ? location.state.oldData.lessons
+    : [{ lessonNumber: 1, title: "", description: "", objectives: [], video: "", duration: "" }];
 
   const initialValues = {
-    lessons: lessons,
+    lessons: initialLessons,
   };
+
+  useEffect(() => {
+    console.log(isEditMode, "is edit mode on");
+    if (isEditMode) {
+      console.log(location.state.oldData.lessons, "check lessons reached");
+    }
+  }, [isEditMode, location.state]);
 
   const handleSubmit = (values: any) => {
     if (values.lessons.length === 0) {
       toast.error("Please add lessons");
       return;
     }
-   
 
     const allData = {
       ...location.state.allData,
@@ -58,39 +54,8 @@ export const AddLessons: React.FC = () => {
       : navigate('/instructor/add-others', { state: { allData, oldData: location.state.oldData } });
   };
 
-  const addLesson = (push: any) => {
-    const newLessonNumber = lessons.length + 1;
-    const newLesson = {
-      lessonNumber: newLessonNumber,
-      title: "",
-      description: "",
-      objectives: [],
-      video: "",
-      duration: ""
-    };
-    console.log(newLesson,"new lessons")
-    push(newLesson);
-    setLessons([...lessons, newLesson]);
-    console.log(lessons,"all added lesons");
-    
-  };
-
-  const removeLesson = (remove: any) => {
-    if (lessons.length > 1) {
-      const newLessons = lessons.slice(0, -1);
-      setLessons(newLessons);
-      remove(lessons.length - 1);
-    }
-  };
-
-  const uploadIndividualLesson = (lesson: Lesson) => {
-    console.log(lesson,"lessons each");
-    
-    setIndividualUploadedLessons([...individualUploadedLessons, lesson]);
-    console.log(individualUploadedLessons,"indivdual lessons");
-    
-    setUploadedLessonIds([...uploadedLessonIds, lesson.lessonNumber]);
-    console.log("Individual Lesson id:", uploadedLessonIds);
+  const uploadIndividualLesson = (lesson: Lesson, setFieldValue: any) => {
+    setFieldValue(`lessons[${lesson.lessonNumber - 1}].uploaded`, true);
     toast.success(`Lesson ${lesson.lessonNumber} added successfully`);
   };
 
@@ -111,7 +76,7 @@ export const AddLessons: React.FC = () => {
             <FieldArray name="lessons">
               {({ push, remove }) => (
                 <>
-                  {values.lessons.map((lesson, index) => {
+                  {values.lessons.map((lesson:any, index) => {
                     const lessonErrors = errors.lessons?.[index] || {};
                     const lessonTouched = touched.lessons?.[index] || {};
                     const isLessonValid = !Object.keys(lessonErrors).length && Object.keys(lessonTouched).length;
@@ -121,7 +86,7 @@ export const AddLessons: React.FC = () => {
                         <input type="checkbox" name={`my-accordion-${index}`} defaultChecked={index === 0} />
                         <div className="collapse-title text-xl font-medium flex items-center justify-between">
                           Lesson {lesson.lessonNumber}
-                          {uploadedLessonIds.includes(lesson.lessonNumber) && <DoneOutlineIcon color="success" />}
+                          {lesson?.uploaded && <DoneOutlineIcon color="success" />}
                         </div>
                         <div className="flex collapse-content">
                           <div className="w-[50%] p-5">
@@ -158,7 +123,7 @@ export const AddLessons: React.FC = () => {
                               className="btn btn-info"
                               type="button"
                               disabled={!isLessonValid}
-                              onClick={() => uploadIndividualLesson(lesson)}
+                              onClick={() => uploadIndividualLesson(lesson, setFieldValue)}
                             >
                               Upload Lesson
                             </button>
@@ -168,10 +133,14 @@ export const AddLessons: React.FC = () => {
                     );
                   })}
                   <div className="flex justify-end space-x-4">
-                    <button className="btn btn-warning btn-outline" type="button" onClick={() => addLesson(push)}>
+                    <button
+                      className="btn btn-warning btn-outline"
+                      type="button"
+                      onClick={() => push({ lessonNumber: values.lessons.length + 1, title: "", description: "", objectives: [], video: "", duration: "" })}
+                    >
                       <AddIcon /> Add Lesson
                     </button>
-                    <button className="btn btn-error btn-outline" type="button" onClick={() => removeLesson(remove)}>
+                    <button className="btn btn-error btn-outline" type="button" onClick={() => remove(values.lessons.length - 1)}>
                       <ClearIcon /> Remove Lesson
                     </button>
                   </div>

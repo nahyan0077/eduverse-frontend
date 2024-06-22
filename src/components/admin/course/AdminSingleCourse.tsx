@@ -16,13 +16,17 @@ import {
 	CurrencyRupee as CurrencyRupeeIcon,
 	Verified as VerifiedIcon,
 } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../../ui/theme-provider";
 import LoadingPopUp from "../../common/skeleton/LoadingPopUp";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { useAppDispatch } from "@/hooks/hooks";
 import { updateCourseAction } from "@/redux/store/actions/course";
 import DangerousIcon from "@mui/icons-material/Dangerous";
+import ReactPlayer from "react-player";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { toast } from "sonner";
+
 
 export const AdminSingleCourse: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -31,6 +35,7 @@ export const AdminSingleCourse: React.FC = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [isModalVisible1, setModalVisible1] = useState(false);
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		if (location.state.data) {
@@ -47,9 +52,13 @@ export const AdminSingleCourse: React.FC = () => {
 		};
 
 		console.log(data, "this data to send");
-
 		const result = await dispatch(updateCourseAction(data));
-
+		if(result.payload.success){
+			toast.success("Course approved ")
+			navigate('/')
+		}else{
+			toast.error(result.payload.message)
+		}
 		console.log(result, "approve course");
 
 		setModalVisible(false);
@@ -62,12 +71,13 @@ export const AdminSingleCourse: React.FC = () => {
 		};
 
 		const result = await dispatch(updateCourseAction(data));
-
+		navigate('/')
 		console.log(result, "reject course");
 
 		setModalVisible1(false);
 	};
 	const handleCancel = () => {
+
 		setModalVisible(false);
 		setModalVisible1(false);
 	};
@@ -199,19 +209,27 @@ export const AdminSingleCourse: React.FC = () => {
 									</div>
 									<div className="collapse-content text-xs p-4">
 										<div className="flex space-x-3">
-											<iframe
-												src={lesson.video}
-												className="w-1/2 h-48"
-											></iframe>
+											<ReactPlayer
+												url={courseData.trial.video}
+												width="60%"
+												height="60%"
+												controls={true}
+												className="rounded-lg overflow-hidden"
+											/>
 											<div>
-												<p>{lesson.description}</p>
-												{lesson?.objectives.map(
-													(objective: string, idx: number) => (
-														<div key={idx} className="flex items-center">
-															<p>{objective}</p>
-														</div>
-													)
-												)}
+											<p className="text-sm p-4"> {lesson.description}</p>
+											<div className="ml-3">
+												{lesson.objectives.map((obj: any) => {
+													return (
+														<ul className="text-sm text-gray-300">
+															<li>
+																{" "}
+																<ArrowForwardIcon color="primary" /> {obj}{" "}
+															</li>
+														</ul>
+													);
+												})}
+											</div>
 											</div>
 										</div>
 									</div>
@@ -223,11 +241,13 @@ export const AdminSingleCourse: React.FC = () => {
 					{/* Right Section */}
 					<div className="lg:w-1/3 p-6 rounded-2xl bg-gray-50 dark:bg-gray-800">
 						{/* Video/Image Section */}
-						<div className="relative pb-56 mb-4 overflow-hidden rounded-lg">
-							<iframe
-								src={courseData?.trial.video}
-								className="absolute h-full w-full object-cover"
-								title="Course Video"
+						<div className="relative mb-8 overflow-hidden rounded-lg">
+							<ReactPlayer
+								url={courseData.trial.video}
+								width="100%"
+								height="100%"
+								controls={true}
+								className="rounded-lg overflow-hidden"
 							/>
 						</div>
 						{/* Course Info */}
@@ -309,7 +329,9 @@ export const AdminSingleCourse: React.FC = () => {
 								</ul>
 							</div>
 						</div>
-						{!courseData.isPublished && !courseData.isRejected  && courseData.isRequested ?  (
+						{!courseData.isPublished &&
+						!courseData.isRejected &&
+						courseData.isRequested ? (
 							<div>
 								<p className="p-4 text-sm italic">
 									After verifiying all the course details you can either approve
@@ -338,14 +360,12 @@ export const AdminSingleCourse: React.FC = () => {
 								</button>
 							</div>
 						) : (
-							
 							<div className="flex justify-center">
 								<button className="btn btn-outline btn-error">
 									{" "}
 									<DangerousIcon color="error" /> Rejected
 								</button>
 							</div>
-						
 						)}
 					</div>
 				</div>
