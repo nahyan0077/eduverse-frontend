@@ -46,7 +46,7 @@ export const CoursePage: React.FC = () => {
 	const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 	const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // State for menu anchor
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const courseData = useSelector((state: RootState) => state.course);
 	const loading = courseData.loading;
 
@@ -60,7 +60,7 @@ export const CoursePage: React.FC = () => {
 		const response = await dispatch(getActiveCoursesAction({ page, limit: 6 }));
 		if (getActiveCoursesAction.fulfilled.match(response)) {
 			setCourses(response.payload.data);
-			setTotalPages(response.payload.totalPages);
+			setTotalPages(3);
 			console.log("Fetched courses:", response);
 		} else {
 			console.error("Failed to fetch courses:", response.payload);

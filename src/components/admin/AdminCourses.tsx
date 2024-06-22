@@ -18,7 +18,6 @@ import PendingIcon from "@mui/icons-material/Pending";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import HelpIcon from "@mui/icons-material/Help";
 import { SearchBar } from "../common/admin/SearchBar";
-import SortIcon from "@mui/icons-material/Sort";
 import Pagination from "../common/admin/Pagination";
 
 interface Course {
@@ -47,6 +46,8 @@ export const AdminCourses: React.FC = () => {
 	const [totalPages, setTotalPage] = useState(1);
 
 	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        console.log(event);
+        
 		setValue(newValue);
 	};
 
@@ -84,7 +85,7 @@ export const AdminCourses: React.FC = () => {
 				...currentCourse,
 				isBlocked: !currentCourse.isBlocked,
 			};
-			const result = await dispatch(updateCourseAction(data));
+			await dispatch(updateCourseAction(data));
 			setModalVisible(false);
 			fetchCourses();
 		}

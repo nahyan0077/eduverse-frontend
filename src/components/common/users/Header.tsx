@@ -13,7 +13,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import ConfirmModal from "../modal/ConfirmModal";
 import { getAllActiveCategories } from "@/redux/store/actions/category";
-import SearchBar from "./SearchBar";
+import GlobalSearchBar from "./globalSearchBar";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -54,7 +54,9 @@ const Header: React.FC = () => {
 		setModalVisible(true);
 	};
 
-	const handleSearch = () => {};
+	const handleSearch = (query: string) => {
+		navigate(`/search/?query=${query}`)
+	};
 
 	return (
 		<>
@@ -167,7 +169,7 @@ const Header: React.FC = () => {
 								About
 							</div>
 						</div>
-						<SearchBar handleSearch={handleSearch} pathname="" searchQuery="" />
+						<GlobalSearchBar handleSearch={handleSearch} />
 					</div>
 
 					<div className="hidden md:flex items-center space-x-3 relative">
@@ -267,10 +269,8 @@ const Header: React.FC = () => {
 									/>
 								</div>
 								<ul className="flex flex-col space-y-2 p-5">
-									<SearchBar
+									<GlobalSearchBar
 										handleSearch={handleSearch}
-										searchQuery=""
-										pathname=""
 									/>
 									<li>
 										<a
