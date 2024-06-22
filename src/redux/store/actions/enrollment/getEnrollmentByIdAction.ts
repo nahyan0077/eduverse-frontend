@@ -3,10 +3,10 @@ import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-export const getEnrollmentByUserIdAction = createAsyncThunk (
-    "course/getEnrollmentByUserIdAction", async (userId: string, {rejectWithValue}) => {
+export const getEnrollmentByIdAction = createAsyncThunk (
+    "course/getEnrollmentById", async (id: string, {rejectWithValue}) => {
         try {
-            const response = await CLIENT_API.get(`/api/course/enrollment/user/${userId}`,config)
+            const response = await CLIENT_API.get(`/api/course/enrollment/${id}`,config)
 
 			if (response.data.success) {
 				return response.data;
@@ -15,7 +15,7 @@ export const getEnrollmentByUserIdAction = createAsyncThunk (
 			}
 
         } catch (error) {
-			console.log("Fetch enrollment action Error: ", error);
+			console.log("Fetch enrollment by id action Error: ", error);
 			const e: AxiosError = error as AxiosError;
 			return rejectWithValue(e.response?.data || e.message); 
         }
