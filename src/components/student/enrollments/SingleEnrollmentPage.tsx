@@ -201,7 +201,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 								<label htmlFor="lesson" className="ml-2 font-bold text-xl">
 									Assignments:
 								</label>
-								<div className="bg-gray-800 rounded-xl flex justify-between items-center p-4">
+								<div className="bg-gray-800 rounded-xl flex flex-col lg:flex-row justify-between items-center p-4">
 									<h1 className="flex items-center text-gray-300">
 										<ReadMoreIcon className="mr-4" />
 										<span>{courseData.attachments.title}</span>
