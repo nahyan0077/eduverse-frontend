@@ -4,13 +4,13 @@ import { Player } from "@lottiefiles/react-lottie-player";
 export const Unauthorized: React.FC = () => {
 	return (
 		<>
-			<div className="min-h-screen flex py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 items-center">
+			<div className="min-h-screen flex mx-auto max-w-screen-xl lg:py-16 lg:px-6 items-center">
 				<div className="mx-auto max-w-screen-sm text-center">
 					<Player
 						autoplay
 						loop
 						src="https://lottie.host/f3ca6c01-bbc2-4e82-8cd0-d92cabe8300d/vo2ejNhW8z.json"
-						style={{ height: "80%", width: "80%" }}
+						style={{ height: "60%", width: "60%" }}
 					/>
 					<p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
 						Something's missing.

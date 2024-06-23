@@ -24,7 +24,7 @@ import { getCourseByIdAction } from "@/redux/store/actions/course";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -40,10 +40,11 @@ export const SingleEnrollmentPage: React.FC = () => {
 
 	const fetchData = async () => {
 		setLoading(true);
-		const response = await dispatch(getCourseByIdAction(location.state.courseId));
+		const response = await dispatch(
+			getCourseByIdAction(location.state.courseId)
+		);
 		setCourseData(response.payload.data);
 		setLoading(false);
-		
 	};
 
 	if (loading) {
@@ -187,7 +188,17 @@ export const SingleEnrollmentPage: React.FC = () => {
 												})}
 											</div>
 											<div className="flex py-3 items-center">
-												<button className="btn btn-outline btn-warning btn-sm ml-auto" onClick={()=>navigate('/student/course-preview',{state:{ courseData, enrollmentId: location.state.enrollmentId}})} >
+												<button
+													className="btn btn-outline btn-warning btn-sm ml-auto"
+													onClick={() =>
+														navigate("/student/course-preview", {
+															state: {
+																courseData,
+																enrollmentId: location.state.enrollmentId,
+															},
+														})
+													}
+												>
 													<OndemandVideoIcon color="warning" />
 													Preview
 												</button>
