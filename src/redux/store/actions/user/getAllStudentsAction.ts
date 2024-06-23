@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 
 export const getAllStudentsAction = createAsyncThunk(
     'admin/get-instructors',
-    async (data: { page?: string | number; limit?: string | number }, { rejectWithValue }) => {
+    async (data: { page?: string | number; limit?: string | number, search?: string }, { rejectWithValue }) => {
         try {
             let query = "?";
             if (data?.page) {
@@ -14,6 +14,9 @@ export const getAllStudentsAction = createAsyncThunk(
             if (data?.limit) {
                 query += `limit=${data.limit}`;
             }
+            if(data.search){
+                query += `search=${data.search}`
+            }
 
             const response = await CLIENT_API.get(`/api/user/get-all-students${query}`, config);
             if (response.data.success) {
@@ -21,6 +24,7 @@ export const getAllStudentsAction = createAsyncThunk(
             } else {
                 return rejectWithValue(response.data);
             }
+            
         } catch (error: any) {
             console.log("Get students action Error: ", error);
             const e: AxiosError = error as AxiosError;

@@ -14,6 +14,7 @@ import SortIcon from "@mui/icons-material/Sort";
 import { Menu, MenuItem, Button } from "@mui/material";
 import CourseSectionCardLoading from "../common/loadingSkeleton/CourseCard";
 import { SearchBar } from "../common/admin/SearchBar";
+import Pagination from "../common/admin/Pagination";
 
 const formatDuration = (seconds: number): string => {
 	const h = Math.floor(seconds / 3600);
@@ -50,19 +51,21 @@ export const CoursePage: React.FC = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const courseData = useSelector((state: RootState) => state.course);
 	const loading = courseData.loading;
-	const [searchQuery, setSearchQuery] = useState("")
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const levels = ["beginner", "intermediate", "expert"];
 
 	useEffect(() => {
 		fetchCourse(currentPage);
-	}, [dispatch, currentPage,searchQuery]);
+	}, [dispatch, currentPage, searchQuery]);
 
 	const fetchCourse = async (page: number) => {
-		const response = await dispatch(getActiveCoursesAction({ page, limit: 6 , search: searchQuery}));
+		const response = await dispatch(
+			getActiveCoursesAction({ page, limit: 3, search: searchQuery })
+		);
 		if (getActiveCoursesAction.fulfilled.match(response)) {
-			setCourses(response.payload.data);
-			setTotalPages(3);
+			setCourses(response.payload.data.courses);
+			setTotalPages(response.payload.data.totalPages);
 			console.log("Fetched courses:", response);
 		} else {
 			console.error("Failed to fetch courses:", response.payload);
@@ -141,10 +144,8 @@ export const CoursePage: React.FC = () => {
 
 	// search implementation
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchQuery(e.target.value)
-	}
-
-
+		setSearchQuery(e.target.value);
+	};
 
 	return (
 		<div
@@ -158,7 +159,7 @@ export const CoursePage: React.FC = () => {
 			<div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
 				<div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 border-2 border-gray-200 dark:border-gray-900 mt-10">
 					<div className="mb-6">
-						<SearchBar onSearchChange={handleSearchChange}  />
+						<SearchBar onSearchChange={handleSearchChange} />
 					</div>
 					<div className="collapse collapse-arrow border mb-6">
 						<input type="checkbox" />
@@ -275,7 +276,7 @@ export const CoursePage: React.FC = () => {
 							return (
 								<motion.div
 									key={course._id}
-									className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300 max-w-xs"
+									className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300 max-w-xs "
 									whileHover={{ scale: 1.02 }}
 									onClick={() =>
 										navigate("/single-course", {
@@ -293,7 +294,7 @@ export const CoursePage: React.FC = () => {
 											whileHover={{ scale: 1.1 }}
 										/>
 									</figure>
-									<div className="card-body p-4">
+									<div className="card-body p-4 max-h-96">
 										<h2 className="card-title text-lg font-semibold mb-2">
 											{course.title}
 										</h2>
@@ -374,20 +375,14 @@ export const CoursePage: React.FC = () => {
 					)}
 				</div>
 			</div>
+
+			{/* pagination */}
 			<div className="flex justify-center mt-10">
-				<div className="btn-group">
-					{[...Array(totalPages)].map((_, index) => (
-						<button
-							key={index}
-							className={`btn ${
-								index + 1 === currentPage ? "" : "btn-outline"
-							}`}
-							onClick={() => handlePageChange(index + 1)}
-						>
-							{index + 1}
-						</button>
-					))}
-				</div>
+				<Pagination
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+				/>
 			</div>
 		</div>
 	);

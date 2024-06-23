@@ -9,6 +9,8 @@ import { format } from "date-fns";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import { useNavigate } from "react-router-dom";
 import { updateProfileAction } from "@/redux/store/actions/user/updateProfileAction";
+import { SearchBar } from "../common/admin/SearchBar";
+import Pagination from "../common/admin/Pagination";
 
 interface Student {
 	_id: string;
@@ -33,23 +35,23 @@ export const AdminStudents: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const studentsPerPage = 5;
 	const [totalPages, setTotalPages] = useState<number>(1);
+	const [searchQuery, setSearchQuery] = useState("");
 
 	useEffect(() => {
 		const fetchStudents = async () => {
 			try {
 				const resultAction = await dispatch(
-					getAllStudentsAction({ page: currentPage, limit: studentsPerPage })
+					getAllStudentsAction({
+						page: currentPage,
+						limit: studentsPerPage,
+						search: searchQuery,
+					})
 				);
-				console.log(resultAction, "action result get students");
 
 				if (getAllStudentsAction.fulfilled.match(resultAction)) {
-					const studentsData = resultAction.payload.data;
-					setStudents(studentsData);
-					const totalPages =
-						studentsData.length === studentsPerPage
-							? currentPage + 1
-							: currentPage;
-					setTotalPages(totalPages);
+					setStudents(resultAction.payload.data.data);
+
+					setTotalPages(resultAction.payload.data.totalPages);
 				} else {
 					setError("Failed to fetch students");
 				}
@@ -61,7 +63,7 @@ export const AdminStudents: React.FC = () => {
 		};
 
 		fetchStudents();
-	}, [dispatch, currentPage]);
+	}, [dispatch, currentPage, searchQuery]);
 
 	const handleDelete = async () => {
 		if (selectedStudent) {
@@ -112,6 +114,10 @@ export const AdminStudents: React.FC = () => {
 		setCurrentPage(page);
 	};
 
+	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchQuery(e.target.value);
+	};
+
 	if (loading) {
 		return <LoadingPopUp isLoading={loading} />;
 	}
@@ -133,15 +139,32 @@ export const AdminStudents: React.FC = () => {
 				/>
 			)}
 			<h1 className="text-3xl font-bold ml-10 mb-10">Students</h1>
+			{/* <------------------- search -----------------> */}
+
+			<div className="flex justify-end items-center">
+				<div>
+					<SearchBar onSearchChange={handleSearchChange} />
+				</div>
+			</div>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
 						<tr className="text-center">
-							<th scope="col" className="px-6 py-3" >Si.No</th>
-							<th scope="col" className="px-6 py-3" >Name</th>
-							<th scope="col" className="px-6 py-3" >Joined</th>
-							<th scope="col" className="px-6 py-3" >Verified</th>
-							<th scope="col" className="px-6 py-3" >Status</th>
+							<th scope="col" className="px-6 py-3">
+								Si.No
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Name
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Joined
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Verified
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Status
+							</th>
 						</tr>
 					</thead>
 					<tbody className="text-center">
@@ -201,19 +224,11 @@ export const AdminStudents: React.FC = () => {
 
 			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6">
-				<div className="join">
-					{Array.from({ length: totalPages }, (_, index) => (
-						<input
-							key={index}
-							className="join-item btn btn-square btn-sm"
-							type="radio"
-							name="options"
-							aria-label={`${index + 1}`}
-							checked={currentPage === index + 1}
-							onChange={() => handlePageChange(index + 1)}
-						/>
-					))}
-				</div>
+				<Pagination
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+				/>
 			</div>
 		</div>
 	);
