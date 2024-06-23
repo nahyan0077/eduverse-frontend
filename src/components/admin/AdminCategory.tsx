@@ -12,6 +12,7 @@ import {
 import { Toaster, toast } from "sonner";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { editCategoryAction } from "@/redux/store/actions/category/editCategoryAction";
+import { SearchBar } from "../common/admin/SearchBar";
 
 interface Categories {
 	_id: string;
@@ -28,6 +29,8 @@ export const AdminCategory: React.FC = () => {
 	const [categories, setCategories] = useState<Categories[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [editCategory, setEditCategory] = useState<Categories | null>(null);
+	const [searchQuery, setSearchQuery] = useState("");
+	
 
 	// Pagination states
 	const [currentPage, setCurrentPage] = useState(1);
@@ -57,7 +60,7 @@ export const AdminCategory: React.FC = () => {
 		};
 
 		fetchCategories();
-	}, [dispatch]);
+	}, [dispatch, searchQuery]);
 
 	console.log(categories, "categories");
 
@@ -103,7 +106,10 @@ export const AdminCategory: React.FC = () => {
 		setIsEditModalOpen(true);
 	};
 
-	const handleSubmitEditCategory = async (values: { categoryName: string; status: string }) => {
+	const handleSubmitEditCategory = async (values: {
+		categoryName: string;
+		status: string;
+	}) => {
 		try {
 			if (editCategory) {
 				const response = await dispatch(
@@ -115,9 +121,13 @@ export const AdminCategory: React.FC = () => {
 				);
 
 				if (response.meta.requestStatus == "fulfilled") {
-					setCategories(categories.map(category =>
-						category._id === editCategory._id ? response.payload.data : category
-					));
+					setCategories(
+						categories.map((category) =>
+							category._id === editCategory._id
+								? response.payload.data
+								: category
+						)
+					);
 					toast.success("Category edited successfully..!");
 					setIsEditModalOpen(false);
 				} else if (response.meta.requestStatus == "rejected") {
@@ -128,6 +138,12 @@ export const AdminCategory: React.FC = () => {
 			toast.error(error.message || "An error occurred");
 		}
 	};
+
+	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchQuery(e.target.value)
+		console.log(searchQuery);
+		
+	}
 
 	return (
 		<div className="max-w-full mx-auto items-center px-20 py-20">
@@ -140,41 +156,66 @@ export const AdminCategory: React.FC = () => {
 				>
 					Add Category
 				</button>
-			</div  >
+			</div>
+			{/* <------------------- search -----------------> */}
+
+			<div className="flex justify-end items-center">
+				<div>
+					<SearchBar onSearchChange={handleSearchChange} />
+				</div>
+			</div>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-			<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 px-20">
-				<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
-					<tr className="text-center" >
-						<th scope="col" className="px-6 py-3">Si.No</th>
-						<th scope="col" className="px-6 py-3">Name</th>
-						<th scope="col" className="px-6 py-3">Status</th>
-						<th scope="col" className="px-6 py-3">Actions</th>
-					</tr>
-				</thead>
-				<tbody className="text-center ">
-					{currentItems.map((data, index) => (
-						<tr key={data._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-							<th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{indexOfFirstItem + index + 1}</th>
-							<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{data.categoryName}</td>
-							<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-								{data.status === "active" ? (
-									<button className="badge badge-success">Active</button>
-								) : (
-									<button className="badge badge-error">Blocked</button>
-								)}
-							</td>
-							<td className="px-4 py-2 space-x-4">
-								<button
-									className="btn btn-outline btn-info text-sm btn-sm "
-									onClick={() => handleEditCategory(data)}
-								>
-									Edit
-								</button>
-							</td>
+				<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 px-20">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+						<tr className="text-center">
+							<th scope="col" className="px-6 py-3">
+								Si.No
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Name
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Status
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Actions
+							</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody className="text-center ">
+						{currentItems.map((data, index) => (
+							<tr
+								key={data._id}
+								className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
+							>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+								>
+									{indexOfFirstItem + index + 1}
+								</th>
+								<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{data.categoryName}
+								</td>
+								<td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{data.status === "active" ? (
+										<button className="badge badge-success">Active</button>
+									) : (
+										<button className="badge badge-error">Blocked</button>
+									)}
+								</td>
+								<td className="px-4 py-2 space-x-4">
+									<button
+										className="btn btn-outline btn-info text-sm btn-sm "
+										onClick={() => handleEditCategory(data)}
+									>
+										Edit
+									</button>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6">
@@ -192,7 +233,6 @@ export const AdminCategory: React.FC = () => {
 					))}
 				</div>
 			</div>
-
 
 			{isModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">

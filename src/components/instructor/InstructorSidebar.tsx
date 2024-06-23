@@ -5,8 +5,10 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import ClassIcon from "@mui/icons-material/Class";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-// import SchoolIcon from '@mui/icons-material/School';
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ChatIcon from '@mui/icons-material/Chat';
+
+
 
 interface SidebarProps {
 	open: boolean;
@@ -122,6 +124,21 @@ const InstructorSidebar: React.FC<SidebarProps> = ({
 								className="ml-2"
 							>
 								Requests
+							</motion.span>
+						</Link>
+						<Link
+							to="/instructor/chat"
+							className={linkClasses("chat")}
+							onClick={() => setCurrentPage("chat")}
+						>
+							<ChatIcon />
+							<motion.span
+								initial="hidden"
+								animate={open ? "visible" : "hidden"}
+								variants={textVariants}
+								className="ml-2"
+							>
+								Chats
 							</motion.span>
 						</Link>
 					</nav>
