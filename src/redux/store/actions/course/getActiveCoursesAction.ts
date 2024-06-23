@@ -8,7 +8,8 @@ export const getActiveCoursesAction = createAsyncThunk(
     async (
         data: {
             page: number,
-            limit: number
+            limit: number,
+            search: string
         }, {rejectWithValue}
     ) => {
 
@@ -17,8 +18,12 @@ export const getActiveCoursesAction = createAsyncThunk(
             query += `page=${data.page}&`;
         }
         if (data?.limit) {
-            query += `limit=${data.limit}`;
+            query += `limit=${data.limit}&`;
         }
+        if (data?.search) {
+            query += `search=${data.search}`;
+        }
+        
         
         try {
 

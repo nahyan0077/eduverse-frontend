@@ -13,6 +13,7 @@ import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import SortIcon from "@mui/icons-material/Sort";
 import { Menu, MenuItem, Button } from "@mui/material";
 import CourseSectionCardLoading from "../common/loadingSkeleton/CourseCard";
+import { SearchBar } from "../common/admin/SearchBar";
 
 const formatDuration = (seconds: number): string => {
 	const h = Math.floor(seconds / 3600);
@@ -49,15 +50,16 @@ export const CoursePage: React.FC = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const courseData = useSelector((state: RootState) => state.course);
 	const loading = courseData.loading;
+	const [searchQuery, setSearchQuery] = useState("")
 
 	const levels = ["beginner", "intermediate", "expert"];
 
 	useEffect(() => {
 		fetchCourse(currentPage);
-	}, [dispatch, currentPage]);
+	}, [dispatch, currentPage,searchQuery]);
 
 	const fetchCourse = async (page: number) => {
-		const response = await dispatch(getActiveCoursesAction({ page, limit: 6 }));
+		const response = await dispatch(getActiveCoursesAction({ page, limit: 6 , search: searchQuery}));
 		if (getActiveCoursesAction.fulfilled.match(response)) {
 			setCourses(response.payload.data);
 			setTotalPages(3);
@@ -137,6 +139,13 @@ export const CoursePage: React.FC = () => {
 		sortOrder
 	);
 
+	// search implementation
+	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchQuery(e.target.value)
+	}
+
+
+
 	return (
 		<div
 			className={`max-w-7xl mx-auto  ${
@@ -149,11 +158,7 @@ export const CoursePage: React.FC = () => {
 			<div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
 				<div className="w-full md:w-1/4 p-5 rounded-xl shadow-xl py-10 border-2 border-gray-200 dark:border-gray-900 mt-10">
 					<div className="mb-6">
-						<input
-							type="text"
-							placeholder="Search Course"
-							className="input input-bordered w-full bg-violet-50 dark:bg-gray-900"
-						/>
+						<SearchBar onSearchChange={handleSearchChange}  />
 					</div>
 					<div className="collapse collapse-arrow border mb-6">
 						<input type="checkbox" />
