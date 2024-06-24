@@ -51,10 +51,10 @@ export const SingleEnrollmentPage: React.FC = () => {
 		return <LoadingPopUp isLoading={true} />;
 	}
 
-	const handleReviewSubmit = (review: string) => {
-		console.log(review,"review text");
-		
-	}
+	const handleReviewSubmit = async (review: string) => {
+		console.log(review, "review text");
+		// const response = await dispatch()
+	};
 
 	return (
 		<>
@@ -232,6 +232,8 @@ export const SingleEnrollmentPage: React.FC = () => {
 									</a>
 								</div>
 							</div>
+
+							{/* <---------------- course review -----------> */}
 
 							<CourseReview handleSubmit={handleReviewSubmit} />
 						</div>
