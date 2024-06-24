@@ -10,9 +10,6 @@ import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import { useLocation, useNavigate } from "react-router-dom";
-import CodeIcon from "@mui/icons-material/Code";
-import ArticleIcon from "@mui/icons-material/Article";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme } from "../ui/theme-provider";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
@@ -28,7 +25,11 @@ import {
 	createEnrollmentAction,
 	getEnrollmentByUserIdAction,
 } from "@/redux/store/actions/enrollment";
-
+import { CourseIncludesSection } from "./CourseIncludesSection";
+import { ReviewsSection } from "../student/enrollments/CourseReview";
+import { ReviewEntity } from "@/types/IReview";
+import { getAllReviewsAction } from "@/redux/store/actions/review";
+import Pagination from "../common/admin/Pagination";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -38,6 +39,11 @@ export const SingleCoursePage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [loading, setLoading] = useState(false);
 	const [isEnrolled, setIsEnrolled] = useState(false);
+	const [reviews, setReviews] = useState <ReviewEntity[]> ([])
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPage] = useState(1);
+	const [courseId, setCourseId] = useState("")
+	const [overallRating, setOverallRating] = useState<number>(0);
 
 	const { data } = useSelector((state: RootState) => state.user);
 
@@ -46,6 +52,12 @@ export const SingleCoursePage: React.FC = () => {
 			setCourseData(location.state.course);
 		}
 	}, [location.state]);
+
+	useEffect(() => {
+		if (courseData) {
+		  fetchReviews();
+		}
+	  }, [courseData,currentPage]);
 
 	useEffect(() => {
 		if (data?._id && courseData?._id) {
@@ -62,11 +74,27 @@ export const SingleCoursePage: React.FC = () => {
 						setIsEnrolled(true);
 					}
 				});
+				setCourseId(response.payload.data._id)
 			}
 		} catch (error: any) {
 			console.error("Error fetching enrollment:", error);
 		}
 	};
+	
+	const fetchReviews = async () => {
+		const response = await dispatch(getAllReviewsAction({page:currentPage,limit:4,courseId: courseData?._id}))
+		console.log(response,"get all reviews");
+		setReviews(response.payload.data.reviews)
+		setCurrentPage(response.payload.data.currentPage)
+		setTotalPage(response.payload.data.totalPages)
+
+		if (reviews.length > 0 ) {
+            const totalRating = reviews.reduce((sum, review) => sum + review?.rating, 0);
+            const averageRating = totalRating / reviews.length;
+            setOverallRating(Number(averageRating.toFixed(1)));
+			
+        }
+	}
 
 	const handleEnrollCourse = async () => {
 		try {
@@ -150,6 +178,11 @@ export const SingleCoursePage: React.FC = () => {
 		}
 	};
 
+
+	const handlePageChange = ( page: number ) => {
+		setCurrentPage(page)
+	}
+
 	return (
 		<>
 			<div className="relative w-full h-[15vh] md:h-[30vh] ">
@@ -228,37 +261,8 @@ export const SingleCoursePage: React.FC = () => {
 								</div>
 							</div>
 
-							<div className="rounded-lg shadow-md p-10 mb-6">
-								<h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-									This course includes:
-								</h2>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
-									<div className="flex items-center">
-										<VideocamIcon className="mr-2" />
-										<span>Content on-demand video</span>
-									</div>
-									<div className="flex items-center">
-										<CodeIcon className="mr-2" />
-										<span>Coding exercises</span>
-									</div>
-									<div className="flex items-center">
-										<ArticleIcon className="mr-2" />
-										<span>Quality articles</span>
-									</div>
-									<div className="flex items-center">
-										<CloudDownloadIcon className="mr-2" />
-										<span>Downloadable resources</span>
-									</div>
-									<div className="flex items-center">
-										<PhonelinkIcon className="mr-2" />
-										<span>Access on mobile and TV</span>
-									</div>
-									<div className="flex items-center">
-										<EmojiEventsIcon className="mr-2" />
-										<span>Certificate of completion</span>
-									</div>
-								</div>
-							</div>
+							{/* here */}
+							<CourseIncludesSection />
 
 							<div className="flex flex-col space-y-4 p-10 ">
 								<label htmlFor="lesson" className="ml-2 font-bold text-xl">
@@ -280,8 +284,24 @@ export const SingleCoursePage: React.FC = () => {
 								))}
 							</div>
 
-						</div>
+														{/* <---------------- course review -----------> */}
 
+														<div className="lg:w-ful">
+								<div className="bg-white dark:bg-gray-900 p-6 rounded-xl mb-6 shadow-md">
+									<h2 className="text-xl font-bold mb-4">Course Reviews</h2>
+									<div className="flex justify-end" >
+									<span className=" text-md badge badge-ghost badge-lg font-bold p-2">Average rating: {overallRating}</span>
+
+									</div>
+									<ReviewsSection reviews={reviews} />
+									<Pagination
+										currentPage={currentPage}
+										totalPages={totalPages}
+										onPageChange={handlePageChange}
+									/>
+								</div>
+							</div>
+						</div>
 
 						{/* Right Section */}
 						<div className="lg:w-1/3 py-4 px-6 rounded-e-3xl rounded-s-md bg-white dark:bg-gray-900 shadow-lg">

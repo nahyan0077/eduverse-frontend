@@ -61,7 +61,7 @@ export const CoursePage: React.FC = () => {
 
 	const fetchCourse = async (page: number) => {
 		const response = await dispatch(
-			getActiveCoursesAction({ page, limit: 3, search: searchQuery })
+			getActiveCoursesAction({ page, limit: 6, search: searchQuery })
 		);
 		if (getActiveCoursesAction.fulfilled.match(response)) {
 			setCourses(response.payload.data.courses);
