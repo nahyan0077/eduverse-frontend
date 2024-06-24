@@ -40,7 +40,7 @@ export const InstructorCourses: React.FC = () => {
 		const fetchCourses = async () => {
 			const result = await dispatch(getAllCourseAction({ page: 1, limit: 10 }));
 			if (getAllCourseAction.fulfilled.match(result)) {
-				setCourseData(result.payload.data);
+				setCourseData(result.payload.data.courses);
 				console.log("course data---->", courseData);
 			} else {
 				console.error("Failed to fetch courses:", result.payload);

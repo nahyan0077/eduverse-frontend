@@ -43,24 +43,27 @@ const Login: React.FC = () => {
 
 		console.log("login approval", result);
 
+		if (!result.payload || !result.payload.success) {
+			toast.error(result?.payload?.message || userData?.error);
+		} else {
+			dispatch(storeUserData(result.payload.data));
 
-			if (!result.payload || !result.payload.success) {
-				toast.error(result?.payload?.message || userData?.error);
+			if (
+				result.payload.data.role == "instructor" &&
+				result.payload.data.isVerified
+			) {
+				navigate("/");
+			} else if (
+				result.payload.data.role == "instructor" &&
+				!result.payload.data.isVerified
+			) {
+				navigate("/");
+			} else if (result.payload.data.role == "student") {
+				navigate("/home");
 			} else {
-				dispatch(storeUserData(result.payload.data));
-	
-				if (result.payload.data.role == "instructor" && result.payload.data.isVerified ) {
-					navigate("/");
-				}else if (result.payload.data.role == "instructor" && !result.payload.data.isVerified ) {
-					navigate("/");
-				} else if (result.payload.data.role == "student") {
-					navigate("/home");
-				} else {
-					navigate("/admin");
-				}
+				navigate("/admin");
 			}
-	
-
+		}
 	};
 
 	const loginWithGoogle = async (credentialResponse: any) => {
@@ -69,7 +72,11 @@ const Login: React.FC = () => {
 
 			console.log(response.payload, "check gauth");
 
-			if (response.payload.existingUser && response.payload.data.isGAuth && !response.payload.data.isBlocked) {
+			if (
+				response.payload.existingUser &&
+				response.payload.data.isGAuth &&
+				!response.payload.data.isBlocked
+			) {
 				dispatch(storeUserData(response.payload.data));
 
 				navigate("/");
@@ -84,19 +91,21 @@ const Login: React.FC = () => {
 					duration: 6000,
 				});
 				return;
-			}else if (
+			} else if (
 				!response.payload.existingUser &&
 				!response.payload.data.isGAuth
-			){
-				navigate('/selection')
-				return
-			}else if(response.payload.existingUser && response.payload.data.isBlocked){
+			) {
+				navigate("/selection");
+				return;
+			} else if (
+				response.payload.existingUser &&
+				response.payload.data.isBlocked
+			) {
 				toast.error("This account blocked..!", {
-					description:
-						"Your account has been blocked by the Eduverse Team !!",
+					description: "Your account has been blocked by the Eduverse Team !!",
 					duration: 6000,
 				});
-				return
+				return;
 			}
 
 			const allData: SignupFormData = {
@@ -136,6 +145,29 @@ const Login: React.FC = () => {
 						transition={{ duration: 0.5 }}
 					>
 						<img src={login} alt="Login" className="lg:w-[80%]" />
+
+						
+						{/* ------------Login demo datas------*/}
+
+						<label htmlFor="my_modal_6" className="btn btn-ghost">
+							Click Me
+						</label>
+
+						<input type="checkbox" id="my_modal_6" className="modal-toggle" />
+						<div className="modal " role="dialog">
+							<div className="modal-box bg-white dark:bg-gray-900">
+								<h3 className="text-lg font-bold">Demo datas!</h3>
+								<h3 className="">admin@eduverse.in</h3>
+								<h3 className="">Admin@123</h3>
+
+								<div className="modal-action">
+									<label htmlFor="my_modal_6" className="btn">
+										Close!
+									</label>
+								</div>
+							</div>
+						</div>
+
 					</motion.div>
 					<motion.div
 						className="w-full lg:w-1/2 p-5"
