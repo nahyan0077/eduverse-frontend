@@ -15,12 +15,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
 			<Provider store={store}>
-				<SocketProvider>
-					<GoogleOAuthProvider clientId={clientId}>
-						<Toaster richColors position="top-center" />
+				<GoogleOAuthProvider clientId={clientId}>
+					<Toaster richColors position="top-center" />
+					<SocketProvider>
 						<App />
-					</GoogleOAuthProvider>
-				</SocketProvider>
+					</SocketProvider>
+				</GoogleOAuthProvider>
 			</Provider>
 		</ThemeProvider>
 	</React.StrictMode>

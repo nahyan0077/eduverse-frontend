@@ -51,6 +51,11 @@ export const SingleEnrollmentPage: React.FC = () => {
 		return <LoadingPopUp isLoading={true} />;
 	}
 
+	const handleReviewSubmit = (review: string) => {
+		console.log(review,"review text");
+		
+	}
+
 	return (
 		<>
 			<div className="relative w-full h-[15vh] md:h-[30vh] ">
@@ -228,7 +233,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 								</div>
 							</div>
 
-							<CourseReview />
+							<CourseReview handleSubmit={handleReviewSubmit} />
 						</div>
 
 						{/* Right Section */}
