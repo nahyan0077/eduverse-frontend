@@ -101,3 +101,30 @@ export const CourseReview: React.FC<CourseReviewProps> = ({ handleSubmit }) => {
 		</div>
 	);
 };
+
+
+export const ReviewsSection = ({ reviews }: any) => {
+    return (
+      <div>
+        {reviews.map((review: any) => (
+          <div key={review._id} className="p-4 mb-4 border-b border-gray-700">
+            <div className="flex items-center mb-2">
+              <img
+                src={review.userId.profile.avatar}
+                alt="User Avatar"
+                className="object-cover w-8 h-8 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500 mr-3 ml-1"
+              />
+              <div>
+                <h4 className="font-semibold">{review.userId.firstName}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{review.comment}</p>
+              </div>
+            </div>
+            <div className="flex items-center text-yellow-500">
+              {"★".repeat(review.rating)}{" "}
+              {"☆".repeat(5 - review.rating)}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };

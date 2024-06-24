@@ -3,25 +3,25 @@ import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-export const getAllReviewsAction = createAsyncThunk (
-    "course/getAllReviews", async (data: { page: number | string, limit: number | string, courseId: string },{rejectWithValue} ) => {
+export const getAllReviewsAction = createAsyncThunk(
+    "course/getAllReviews",
+    async (data: { page: number | string, limit: number | string, courseId: string }, { rejectWithValue }) => {
         try {
-
-            let query = "?"
-
-            if(data?.courseId){
-                query += `courseId=${data.courseId}&`
+            const query = new URLSearchParams();
+            
+            if (data?.courseId) {
+                query.append("courseId", data.courseId);
+            }
+            
+            if (data?.page) {
+                query.append("page", data.page.toString());
+            }
+            
+            if (data?.limit) {
+                query.append("limit", data.limit.toString());
             }
 
-            if(data?.page){
-                query += `page=${data.page}&`
-            }
-
-            if(data?.limit){
-                query += `page=${data.limit}`
-            }
-
-            const response = await CLIENT_API.get(`/api/course/review${query}`,config)
+            const response = await CLIENT_API.get(`/api/course/review?${query.toString()}`, config);
 
             if (response.data.success) {
                 return response.data;
@@ -35,4 +35,4 @@ export const getAllReviewsAction = createAsyncThunk (
             return rejectWithValue(e.response?.data || e.message);
         }
     }
-)
+);

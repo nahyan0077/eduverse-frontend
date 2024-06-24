@@ -19,7 +19,7 @@ import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import { Toaster, toast } from "sonner";
 import banner from "@/assets/course/banner1.jpg";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { CourseReview } from "./CourseReview";
+import { CourseReview, ReviewsSection } from "./CourseReview";
 import { getCourseByIdAction } from "@/redux/store/actions/course";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -28,6 +28,7 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { createReviewAction, getAllReviewsAction } from "@/redux/store/actions/review";
 import { ReviewEntity } from "@/types/IReview";
 import { RootState } from "@/redux/store";
+import Pagination from "@/components/common/admin/Pagination";
 
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -36,27 +37,47 @@ export const SingleEnrollmentPage: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [loading, setLoading] = useState(false);
+	const [reviews, setReviews] = useState <ReviewEntity[]> ([])
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPage] = useState(1);
+	const [courseId, setCourseId] = useState("")
+	const [overallRating, setOverallRating] = useState<number>(0);
 
 	const { data } = useAppSelector((state: RootState) => state.user)
 
 	useEffect(() => {
 		fetchData();
-		fetchReviews()
 	}, [location.state]);
+
+	useEffect(() => {
+		if (courseData) {
+		  fetchReviews();
+		}
+	  }, [courseData,currentPage]);
 
 	const fetchData = async () => {
 		setLoading(true);
 		const response = await dispatch(
 			getCourseByIdAction(location.state.courseId)
 		);
+		setCourseId(response.payload.data._id)
 		setCourseData(response.payload.data);
 		setLoading(false);
 	};
 
 	const fetchReviews = async () => {
-		const response = await dispatch(getAllReviewsAction({page:1,limit:5,courseId: courseData?._id}))
+		const response = await dispatch(getAllReviewsAction({page:currentPage,limit:4,courseId: courseId}))
 		console.log(response,"get all reviews");
-		
+		setReviews(response.payload.data.reviews)
+		setCurrentPage(response.payload.data.currentPage)
+		setTotalPage(response.payload.data.totalPages)
+
+		if (reviews.length > 0 ) {
+            const totalRating = reviews.reduce((sum, review) => sum + review?.rating, 0);
+            const averageRating = totalRating / reviews.length;
+            setOverallRating(Number(averageRating.toFixed(1)));
+			
+        }
 	}
 
 	if (loading) {
@@ -77,9 +98,12 @@ export const SingleEnrollmentPage: React.FC = () => {
 		const response = await dispatch(createReviewAction(reviewData))
 
 		console.log(response,"create review");
-		
-
+	
 	};
+
+	const handlePageChange = ( page: number ) => {
+		setCurrentPage(page)
+	}
 
 	return (
 		<>
@@ -122,9 +146,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 								<h1 className="text-2xl font-bold mb-2">{courseData.title}</h1>
 								<div className="flex items-center flex-wrap">
 									<span className="text-yellow-500">★★★★☆</span>
-									<span className="ml-2 text-gray-600 dark:text-gray-400">
-										(15)
-									</span>
+									<span className="ml-2 text-gray-600 dark:text-gray-400">({overallRating})</span>
 									<span className="ml-4 text-gray-600 dark:text-gray-400">
 										<LibraryBooksIcon color="warning" fontSize="small" />{" "}
 										{courseData.lessons.length} Lessons
@@ -260,7 +282,24 @@ export const SingleEnrollmentPage: React.FC = () => {
 
 							{/* <---------------- course review -----------> */}
 
-							<CourseReview handleSubmit={handleReviewSubmit} />
+							<div className="lg:w-ful">
+								<div className="bg-white dark:bg-gray-900 p-6 rounded-xl mb-6 shadow-md">
+									<h2 className="text-xl font-bold mb-4">Course Reviews</h2>
+									<CourseReview handleSubmit={handleReviewSubmit} />
+									<div className="flex justify-end" >
+									<span className=" text-md badge badge-ghost badge-lg font-bold p-2">Average rating: {overallRating}</span>
+
+									</div>
+									<ReviewsSection reviews={reviews} />
+									<Pagination
+										currentPage={currentPage}
+										totalPages={totalPages}
+										onPageChange={handlePageChange}
+									/>
+								</div>
+							</div>
+			
+
 						</div>
 
 						{/* Right Section */}
