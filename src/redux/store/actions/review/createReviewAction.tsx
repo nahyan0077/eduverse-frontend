@@ -1,13 +1,13 @@
 import { config } from "@/common/configurations";
-import { CourseEntity } from "@/types/ICourse";
+import { ReviewEntity } from "@/types/IReview";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-export const createCourseAction = createAsyncThunk (
-    "course/createReview", async (data: CourseEntity,{rejectWithValue} ) => {
+export const createReviewAction = createAsyncThunk (
+    "course/createReview", async (data: ReviewEntity,{rejectWithValue} ) => {
         try {
-            const response = await CLIENT_API.post('/api/course/',data,config)
+            const response = await CLIENT_API.post('/api/course/review',data,config)
 
             if (response.data.success) {
                 return response.data;
@@ -16,7 +16,7 @@ export const createCourseAction = createAsyncThunk (
             }
 
         } catch (error: any) {
-            console.log("Create course action Error: ", error);
+            console.log("Create review action Error: ", error);
             const e: AxiosError = error as AxiosError;
             return rejectWithValue(e.response?.data || e.message);
         }

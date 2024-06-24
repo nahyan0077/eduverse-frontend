@@ -18,13 +18,16 @@ import LoadingPopUp from "@/components/common/skeleton/LoadingPopUp";
 import { CurrencyRupee as CurrencyRupeeIcon } from "@mui/icons-material";
 import { Toaster, toast } from "sonner";
 import banner from "@/assets/course/banner1.jpg";
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { CourseReview } from "./CourseReview";
 import { getCourseByIdAction } from "@/redux/store/actions/course";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import { createReviewAction } from "@/redux/store/actions/review";
+import { ReviewEntity } from "@/types/IReview";
+import { RootState } from "@/redux/store";
 
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -33,6 +36,8 @@ export const SingleEnrollmentPage: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [loading, setLoading] = useState(false);
+
+	const { data } = useAppSelector((state: RootState) => state.user)
 
 	useEffect(() => {
 		fetchData();
@@ -47,13 +52,30 @@ export const SingleEnrollmentPage: React.FC = () => {
 		setLoading(false);
 	};
 
+	const fetchReviews = async () => {
+		
+	}
+
 	if (loading) {
 		return <LoadingPopUp isLoading={true} />;
 	}
 
-	const handleReviewSubmit = async (review: string) => {
-		console.log(review, "review text");
-		// const response = await dispatch()
+	const handleReviewSubmit = async (comment: string, rating: number) => {
+		console.log(comment, "review text");
+		console.log(rating, "rating");
+
+		const reviewData: ReviewEntity = {
+			userId: data?._id,
+			courseId: courseData._id,
+			comment,
+			rating,
+		}
+
+		const response = await dispatch(createReviewAction(reviewData))
+
+		console.log(response,"create review");
+		
+
 	};
 
 	return (

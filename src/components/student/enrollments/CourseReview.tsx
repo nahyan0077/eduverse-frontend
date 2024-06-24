@@ -18,8 +18,7 @@ export const CourseReview: React.FC<CourseReviewProps> = ({ handleSubmit }) => {
 		}
 		handleSubmit(reviewText, rating);
 		setReviewText("");
-        toast.success("Review submitted successfully")
-		setRating(0); // Reset rating after submit
+		setRating(0); 
 	};
 
 	const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
