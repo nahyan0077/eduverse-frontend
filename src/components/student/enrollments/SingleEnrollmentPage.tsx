@@ -25,7 +25,7 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
-import { createReviewAction } from "@/redux/store/actions/review";
+import { createReviewAction, getAllReviewsAction } from "@/redux/store/actions/review";
 import { ReviewEntity } from "@/types/IReview";
 import { RootState } from "@/redux/store";
 
@@ -41,6 +41,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 
 	useEffect(() => {
 		fetchData();
+		fetchReviews()
 	}, [location.state]);
 
 	const fetchData = async () => {
@@ -53,6 +54,8 @@ export const SingleEnrollmentPage: React.FC = () => {
 	};
 
 	const fetchReviews = async () => {
+		const response = await dispatch(getAllReviewsAction({page:1,limit:5,courseId: courseData?._id}))
+		console.log(response,"get all reviews");
 		
 	}
 
