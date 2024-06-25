@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { ChatSidebar } from "../common/chat/ChatSidebar";
 import { ChatWindow } from "../common/chat/ChatWindow";
 import { ChatSidebar } from "../common/chat/ChatSidebar";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { getInstructorsByStudentAction } from "@/redux/store/actions/enrollment";
+import { RootState } from "@/redux/store";
 
 export const StudentChat: React.FC = () => {
 
@@ -35,7 +38,23 @@ export const StudentChat: React.FC = () => {
 		{ sender: "other", text: "You will try.", time: "12:55" },
 	];
 
-    const users = ['user1']
+
+    const dispatch = useAppDispatch()
+    const {data} = useAppSelector((state: RootState) => state.user)
+    const [users, setUsers] = useState([])
+
+    useEffect(()=>{
+        fetchInstructorsByStudent()
+    },[dispatch])
+
+    const fetchInstructorsByStudent = async () => {
+        if (data?._id) {
+            const response = await dispatch(getInstructorsByStudentAction(data?._id))
+            console.log(response.payload.data,"chat studetn instructors");
+            setUsers(response?.payload?.data)
+            console.log(users,"usdfse studen inst");
+        }
+    } 
 
     const onSendMessage = () => {
 		console.log("Send message");
