@@ -22,7 +22,7 @@ export const ChatSidebar: React.FC<SidebarProps> = ({ users }) => {
                 {users?.map((user, index) => (
                     <div key={index} className="flex items-center p-4 border-b border-gray-800 hover:bg-gray-800 transition-colors duration-200 rounded-md">
                         <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src={user.userId.profile.avatar} alt="User Avatar" className="w-full h-full object-cover" />
+                            <img src={user?.userId?.profile?.avatar} alt="User Avatar" className="w-full h-full object-cover" />
                         </div>
                         <div className="text-white font-bold">{user?.userId?.userName}</div>
                     </div>

@@ -10,6 +10,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import ChatIcon from '@mui/icons-material/Chat';
 
 interface SidebarProps {
 	open: boolean;
@@ -155,6 +156,21 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 								className="ml-2"
 							>
 								Enrollments
+							</motion.span>
+						</Link>
+						<Link
+							to="/student/chat"
+							className={linkClasses("chat")}
+							onClick={() => setCurrentPage("chat")}
+						>
+							<ChatIcon />
+							<motion.span
+								initial="hidden"
+								animate={open ? "visible" : "hidden"}
+								variants={textVariants}
+								className="ml-2"
+							>
+								Chats
 							</motion.span>
 						</Link>
 					</nav>
