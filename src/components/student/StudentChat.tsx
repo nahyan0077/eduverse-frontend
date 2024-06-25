@@ -67,7 +67,13 @@ export const StudentChat: React.FC = () => {
         }
     } 
 
-
+    const handleCreateNewChat = (userId: string) => {
+        console.log(userId,"new chte test");
+        const newChatRoom = {
+            senderId: data?._id,
+            receiverId: userId
+        }
+    }
 
     const onSendMessage = () => {
 		console.log("Send message");
@@ -76,7 +82,7 @@ export const StudentChat: React.FC = () => {
 	return (
 		<>
 			<div className="flex h-full bg-gray-900">
-				<ChatSidebar users={users} onlineUsers={onlineUsers} />
+				<ChatSidebar users={users} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
 				<ChatWindow
 					messages={messages}
 					currentUser={"user"}

@@ -70,12 +70,20 @@ export const InstructorChat: React.FC = () => {
 		}
 	};
 
+    const handleCreateNewChat = (userId: string) => {
+        console.log(userId,"create chat userId");
+        const newChatRoom = {
+            senderId: data?._id,
+            receiverId: userId
+        }
+        
+    }
 
 	console.log(onlineUsers, "these are socket online userse");
 
 	return (
 		<div className="flex h-full bg-gray-900">
-			<ChatSidebar users={studentsEnrolledByInstructor} onlineUsers={onlineUsers} />
+			<ChatSidebar users={studentsEnrolledByInstructor} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
 			<ChatWindow
 				messages={messages}
 				currentUser={"user"}
