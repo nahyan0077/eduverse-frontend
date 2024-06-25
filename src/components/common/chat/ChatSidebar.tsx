@@ -2,7 +2,7 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 interface SidebarProps {
-    users: string[];
+    users: any[];
 }
 
 export const ChatSidebar: React.FC<SidebarProps> = ({ users }) => {
@@ -19,12 +19,12 @@ export const ChatSidebar: React.FC<SidebarProps> = ({ users }) => {
                 </div>
             </header>
             <div className="flex-1 overflow-y-auto custom-scrollbar">
-                {users.map((user, index) => (
+                {users?.map((user, index) => (
                     <div key={index} className="flex items-center p-4 border-b border-gray-800 hover:bg-gray-800 transition-colors duration-200 rounded-md">
                         <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="User Avatar" className="w-full h-full object-cover" />
+                            <img src={user.userId.profile.avatar} alt="User Avatar" className="w-full h-full object-cover" />
                         </div>
-                        <div className="text-white">{user}</div>
+                        <div className="text-white font-bold">{user?.userId?.userName}</div>
                     </div>
                 ))}
             </div>

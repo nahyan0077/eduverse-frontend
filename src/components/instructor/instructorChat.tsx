@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ChatSidebar } from "../common/chat/ChatSidebar";
 import { ChatWindow } from "../common/chat/ChatWindow";
 import { SocketContext } from "@/context/SocketProvider";
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { getStudentsEnrolledByInstructorAction } from "@/redux/store/actions/enrollment";
+import { RootState } from "@/redux/store";
 
 
 
@@ -11,6 +13,10 @@ import { useAppDispatch } from "@/hooks/hooks";
 export const InstructorChat: React.FC = () => {
 
     const dispatch = useAppDispatch()
+    const {data} = useAppSelector((state: RootState) => state.user)
+    const [ studentsEnrolledByInstructor, setStudentsEnrolledByInstructor] = useState([])
+
+
     const messages = [
         { sender: "other", text: "You were the Chosen One!", time: "12:45" },
         { sender: "user", text: "I hate you!", time: "12:46" },
@@ -56,17 +62,26 @@ export const InstructorChat: React.FC = () => {
             setOnlineUsers && setOnlineUsers(users)
         })
     },[socket])
-    const fetchEnrollments = async () => {
 
-        // const response = await dispatch()
+    useEffect(()=>{
+        fetchEnrollments()
+    },[dispatch])
+
+    const fetchEnrollments = async () => {
+        if (data?._id) {
+            const response = await dispatch(getStudentsEnrolledByInstructorAction(data?._id))
+            console.log(response,"get all stundtt");
+            setStudentsEnrolledByInstructor(response.payload.data)
+        }
     }
 
+    
     console.log(onlineUsers,"these are socket online userse");
     
 
     return (
         <div className="flex h-full bg-gray-900">
-            <ChatSidebar users={users} />
+            <ChatSidebar users={studentsEnrolledByInstructor} />
             <ChatWindow messages={messages} currentUser={currentUser} onSendMessage={onSendMessage} />
         </div>
     );

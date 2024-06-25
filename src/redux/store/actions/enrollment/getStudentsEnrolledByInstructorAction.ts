@@ -3,7 +3,7 @@ import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-export const getStudentsEnrolledByInstructor = createAsyncThunk(
+export const getStudentsEnrolledByInstructorAction = createAsyncThunk(
 	"course/getStudentsEnrolledByInstructor",
 	async (instructorId: string, { rejectWithValue }) => {
 		try {
