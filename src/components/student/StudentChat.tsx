@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { ChatSidebar } from "../common/chat/ChatSidebar";
 import { ChatWindow } from "../common/chat/ChatWindow";
 import { ChatSidebar } from "../common/chat/ChatSidebar";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getInstructorsByStudentAction } from "@/redux/store/actions/enrollment";
 import { RootState } from "@/redux/store";
+import { SocketContext } from "@/context/SocketProvider";
 
 export const StudentChat: React.FC = () => {
 
@@ -42,10 +43,20 @@ export const StudentChat: React.FC = () => {
     const dispatch = useAppDispatch()
     const {data} = useAppSelector((state: RootState) => state.user)
     const [users, setUsers] = useState([])
-
+    const { socket, onlineUsers, setOnlineUsers } = useContext(SocketContext) || {}
+    useEffect(()=>{
+        socket?.on("online-users",(users)=>{
+            setOnlineUsers && setOnlineUsers(users)
+        })
+    },[socket])
+    
     useEffect(()=>{
         fetchInstructorsByStudent()
     },[dispatch])
+
+
+    console.log(onlineUsers,"online users");
+    
 
     const fetchInstructorsByStudent = async () => {
         if (data?._id) {
@@ -56,6 +67,8 @@ export const StudentChat: React.FC = () => {
         }
     } 
 
+
+
     const onSendMessage = () => {
 		console.log("Send message");
 	};
@@ -63,7 +76,7 @@ export const StudentChat: React.FC = () => {
 	return (
 		<>
 			<div className="flex h-full bg-gray-900">
-				<ChatSidebar users={users} />
+				<ChatSidebar users={users} onlineUsers={onlineUsers} />
 				<ChatWindow
 					messages={messages}
 					currentUser={"user"}

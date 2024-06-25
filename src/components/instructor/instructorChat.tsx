@@ -42,9 +42,6 @@ export const InstructorChat: React.FC = () => {
 		{ sender: "other", text: "You will try.", time: "12:55" },
 	];
 
-	const users = ["Demo User 1", "Demo User 2", "Demo User 3"];
-
-	const currentUser = "user";
 
 	const onSendMessage = () => {
 		console.log("Send message");
@@ -73,11 +70,12 @@ export const InstructorChat: React.FC = () => {
 		}
 	};
 
+
 	console.log(onlineUsers, "these are socket online userse");
 
 	return (
 		<div className="flex h-full bg-gray-900">
-			<ChatSidebar users={studentsEnrolledByInstructor} />
+			<ChatSidebar users={studentsEnrolledByInstructor} onlineUsers={onlineUsers} />
 			<ChatWindow
 				messages={messages}
 				currentUser={"user"}
