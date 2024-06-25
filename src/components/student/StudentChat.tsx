@@ -43,7 +43,7 @@ export const StudentChat: React.FC = () => {
     const dispatch = useAppDispatch()
     const {data} = useAppSelector((state: RootState) => state.user)
     const [users, setUsers] = useState([])
-    const { socket, onlineUsers, setOnlineUsers } = useContext(SocketContext) || {}
+    const { socket, onlineUsers, setOnlineUsers, currentRoom, setCurrentRoom } = useContext(SocketContext) || {}
     useEffect(()=>{
         socket?.on("online-users",(users)=>{
             setOnlineUsers && setOnlineUsers(users)
@@ -54,8 +54,6 @@ export const StudentChat: React.FC = () => {
         fetchInstructorsByStudent()
     },[dispatch])
 
-
-    console.log(onlineUsers,"online users");
     
 
     const fetchInstructorsByStudent = async () => {
@@ -67,11 +65,19 @@ export const StudentChat: React.FC = () => {
         }
     } 
 
-    const handleCreateNewChat = (userId: string) => {
-        console.log(userId,"new chte test");
-        const newChatRoom = {
-            senderId: data?._id,
-            receiverId: userId
+    const createPrivateRoomId = (id1: string, id2: string) => {
+        id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1
+    }
+
+    const handleCreateNewChat = (receiverData: any) => {
+        if(data?._id){
+            const roomId = createPrivateRoomId(data?._id, receiverData._id)
+            console.log(receiverData,"create chat userId");
+            const newChatRoom = {
+                roomId,
+                receiverId: receiverData?._id
+            }
+            socket?.emit("join-room",newChatRoom)
         }
     }
 

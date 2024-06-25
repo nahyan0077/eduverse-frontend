@@ -7,7 +7,7 @@ interface SidebarProps {
         userId: string;
         socketId: string;
     }[] | undefined;
-    onCreateNewChat: (userId: string) => void; // New prop for handling new chat creation
+    onCreateNewChat: (userId: string) => void; 
 }
 
 export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCreateNewChat }) => {
@@ -30,7 +30,7 @@ export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCrea
                             onlineUser.userId ===
                             (user.userId?._id || user.instructorRef?._id)
                     );
-                    const userId = user.userId?._id || user.instructorRef?._id;
+                    const userId = user.userId || user.instructorRef;
 
                     return (
                         <div

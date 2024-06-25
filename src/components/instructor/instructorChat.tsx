@@ -11,6 +11,7 @@ export const InstructorChat: React.FC = () => {
 	const { data } = useAppSelector((state: RootState) => state.user);
 	const [studentsEnrolledByInstructor, setStudentsEnrolledByInstructor] =
 		useState([]);
+    const [currentChat, setCurrentChat] = useState<any>()
 
 	const messages = [
 		{ sender: "other", text: "You were the Chosen One!", time: "12:45" },
@@ -70,13 +71,20 @@ export const InstructorChat: React.FC = () => {
 		}
 	};
 
-    const handleCreateNewChat = (userId: string) => {
-        console.log(userId,"create chat userId");
-        const newChatRoom = {
-            senderId: data?._id,
-            receiverId: userId
+    const createPrivateRoomId = (id1: string, id2: string) => {
+        id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1
+    }
+
+    const handleCreateNewChat = (reciverData: any) => {
+        if(data?._id){
+            const roomId = createPrivateRoomId(data?._id, reciverData._id)
+            console.log(reciverData,"create chat userId");
+            const newChatRoom = {
+                roomId,
+                receiverId: reciverData?._id
+            }
+            socket?.emit("join-room",newChatRoom) 
         }
-        
     }
 
 	console.log(onlineUsers, "these are socket online userse");

@@ -30,6 +30,7 @@ import { ReviewsSection } from "../student/enrollments/CourseReview";
 import { ReviewEntity } from "@/types/IReview";
 import { getAllReviewsAction } from "@/redux/store/actions/review";
 import Pagination from "../common/admin/Pagination";
+import { createChatAction } from "@/redux/store/actions/chat";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -96,6 +97,17 @@ export const SingleCoursePage: React.FC = () => {
         }
 	}
 
+
+	const createNewChat = async (studentId: string, instructorId: string) => {
+
+		const response = await dispatch(createChatAction({
+			participants:[studentId,instructorId]
+		}))
+		console.log(response,"text");
+		
+
+}
+
 	const handleEnrollCourse = async () => {
 		try {
 			if (courseData?.pricing?.type === "paid") {
@@ -120,6 +132,10 @@ export const SingleCoursePage: React.FC = () => {
 				toast.success(
 					"Congratulations! You have successfully enrolled in this course!"
 				);
+
+				//chat creation
+				createNewChat(data._id, courseData.instructorRef._id)
+
 			} else {
 				toast.error("Enrollment failed", {
 					description: result?.payload?.message,

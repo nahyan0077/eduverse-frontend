@@ -3,12 +3,13 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import { deleteObject, getObject } from "@/utils/localStorage";
 import { useAppDispatch } from "@/hooks/hooks";
-import { createPaymentAction, getPaymentSessionAction } from "@/redux/store/actions/payment";
+import { createPaymentAction } from "@/redux/store/actions/payment";
+import { createChatAction } from "@/redux/store/actions/chat";
 
 export const PaymentSuccess: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const isFirstRun = useRef(true); // Flag to prevent double invocation
+    const isFirstRun = useRef(true); 
 
     useEffect(() => {
         if (isFirstRun.current) {
@@ -17,6 +18,16 @@ export const PaymentSuccess: React.FC = () => {
             isFirstRun.current = false;
         }
     }, []);
+
+    const createNewChat = async (studentId: string, instructorId: string) => {
+
+            const response = await dispatch(createChatAction({
+                participants:[studentId,instructorId]
+            }))
+            console.log(response,"text");
+            
+
+    }
 
     const createPayment = async () => {
         console.log("createPayment called");
@@ -43,6 +54,8 @@ export const PaymentSuccess: React.FC = () => {
             console.log(response1, "create payment response");
             if (!response1.payload?.success) {
                 throw new Error("Payment creation failed!");
+            }else{
+                createNewChat(paymentSession.userId, paymentSession.instructorId)
             }
 
             deleteObject("payment_session");

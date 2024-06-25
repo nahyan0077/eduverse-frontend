@@ -7,6 +7,8 @@ interface SocketContextType {
     socket: Socket | null;
     onlineUsers: { userId: string; socketId: string }[];
     setOnlineUsers: (users: { userId: string; socketId: string }[]) => void;
+    currentRoom: string;
+    setCurrentRoom: (room: string) => void;
 }
 
 interface SocketProviderProps {
@@ -21,11 +23,14 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const { data } = useAppSelector((state: RootState) => state.user);
     const [socket, setSocket] = useState<Socket | null>(null);
     const [onlineUsers, setOnlineUsers] = useState<{ userId: string; socketId: string }[]>([]);
+    const [currentRoom, setCurrentRoom] = useState<string>("");
 
     const contextValues: SocketContextType = {
         socket,
         onlineUsers,
         setOnlineUsers,
+        currentRoom, 
+        setCurrentRoom,
     };
 
     useEffect(() => {
