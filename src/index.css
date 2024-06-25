@@ -89,27 +89,25 @@
 
 
 
-/* input[type=date]:required:invalid::-webkit-datetime-edit {
-  color: transparent;
-}
-input[type=date]:focus::-webkit-datetime-edit {
-  color: black !important;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
 }
 
-input[type=date]::-webkit-datetime-edit-text {
-  -webkit-appearance: none;
-  display: none;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2D3748;
 }
-input[type=date]::-webkit-datetime-edit-month-field{
-  -webkit-appearance: none;
-  display: none;
-}
-input[type=date]::-webkit-datetime-edit-day-field {
-  -webkit-appearance: none;
-  display: none;
-}
-input[type=date]::-webkit-datetime-edit-year-field {
-  -webkit-appearance: none;
-  display: none;
-} */
 
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4A5568;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #4A5568 #2D3748;
+}

@@ -1,4 +1,5 @@
 import "./App.css";
+import "./index.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/store";
