@@ -13,26 +13,33 @@ export const InstructorChat: React.FC = () => {
     const [chats, setChats] = useState<any[]>([]);
     const [messages, setMessages] = useState<any[]>([]);
     const [roomId, setRoomId] = useState<string | null>(null);
-
+    const [typingData, setTypingData] = useState <{isTyping: boolean,senderId: string} | null> (null);
     const { socket, onlineUsers, setOnlineUsers } = useContext(SocketContext) || {};
+	
 
     useEffect(() => {
         socket?.on("online-users", (users) => {
             setOnlineUsers && setOnlineUsers(users);
         });
 
-		
-		console.log(messages,"----->msg");
-
         socket?.on("receive-message", (message) => {
-			console.log(message,"message");
 			
             setMessages((prevMessages) => [...prevMessages,message] );
+        });
+
+        socket?.on("isTyping", (senderId) => {
+            if (senderId !== data?._id) {
+                setTypingData({ isTyping: true, senderId });
+                setTimeout(() => {
+                    setTypingData({ isTyping: false, senderId });
+                }, 3000);
+            }
         });
 
         return () => {
             socket?.off("online-users");
             socket?.off("receive-message");
+			socket?.off("isTyping");
         };
     }, [socket, setOnlineUsers]);
 
@@ -62,7 +69,7 @@ export const InstructorChat: React.FC = () => {
     };
 
     const handleCreateNewChat = async (receiverData: any, isOnline: any) => {
-        setCurrentChat({ ...receiverData, isOnline });
+        setCurrentChat({ ...receiverData, isOnline, roomId });
         if (data?._id) {
             const newRoomId = createPrivateRoomId(data?._id, receiverData._id);
             setRoomId(newRoomId);
@@ -94,6 +101,7 @@ export const InstructorChat: React.FC = () => {
                 currentUser={data?._id || ""}
                 onSendMessage={onSendMessage}
                 currentChat={currentChat}
+				typingData={typingData}
             />
         </div>
     );
