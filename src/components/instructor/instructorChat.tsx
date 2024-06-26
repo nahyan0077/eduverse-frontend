@@ -3,14 +3,12 @@ import { ChatSidebar } from "../common/chat/ChatSidebar";
 import { ChatWindow } from "../common/chat/ChatWindow";
 import { SocketContext } from "@/context/SocketProvider";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { getStudentsEnrolledByInstructorAction } from "@/redux/store/actions/enrollment";
 import { RootState } from "@/redux/store";
-import { getChatsByUserIdAction, getMessagesByChatIdAction } from "@/redux/store/actions/chat";
+import { createMessageAction, getChatsByUserIdAction, getMessagesByChatIdAction } from "@/redux/store/actions/chat";
 
 export const InstructorChat: React.FC = () => {
     const dispatch = useAppDispatch();
     const { data } = useAppSelector((state: RootState) => state.user);
-    const [studentsEnrolledByInstructor, setStudentsEnrolledByInstructor] = useState([]);
     const [currentChat, setCurrentChat] = useState<any>(null);
     const [chats, setChats] = useState<any[]>([]);
     const [messages, setMessages] = useState<any[]>([]);
@@ -23,26 +21,24 @@ export const InstructorChat: React.FC = () => {
             setOnlineUsers && setOnlineUsers(users);
         });
 
-        // socket?.on("receive-message", (message) => {
-		// 	console.log(message,"my messages")
+		
+		console.log(messages,"----->msg");
+
+        socket?.on("receive-message", (message) => {
+			console.log(message,"message");
 			
-        //     setMessages((prevMessages) => [...prevMessages, message]);
-        // });
+            setMessages((prevMessages) => [...prevMessages,message] );
+        });
 
         return () => {
             socket?.off("online-users");
             socket?.off("receive-message");
         };
-    }, [socket]);
-
-
-    useEffect(() => {
-        fetchEnrollments();
-    }, [dispatch]);
+    }, [socket, setOnlineUsers]);
 
     useEffect(() => {
         fetchChatsByUserId();
-    }, [data, socket]);
+    }, [data, dispatch]);
 
     const fetchChatsByUserId = async () => {
         if (data?._id) {
@@ -61,14 +57,6 @@ export const InstructorChat: React.FC = () => {
         }
     };
 
-    const fetchEnrollments = async () => {
-        if (data?._id) {
-            const response = await dispatch(getStudentsEnrolledByInstructorAction(data?._id));
-            setStudentsEnrolledByInstructor(response.payload.data);
-        }
-    };
-
-
     const createPrivateRoomId = (id1: string, id2: string) => {
         return id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1;
     };
@@ -76,19 +64,16 @@ export const InstructorChat: React.FC = () => {
     const handleCreateNewChat = async (receiverData: any, isOnline: any) => {
         setCurrentChat({ ...receiverData, isOnline });
         if (data?._id) {
-            const roomId = createPrivateRoomId(data?._id, receiverData._id);
-            setRoomId(roomId);
-            socket?.emit("join-room", roomId);
-            // Fetch messages for the selected chat if needed
+            const newRoomId = createPrivateRoomId(data?._id, receiverData._id);
+            setRoomId(newRoomId);
+            socket?.emit("join-room", newRoomId);
 
-			const response = await dispatch(getMessagesByChatIdAction(currentChat?.chatId))
-			console.log(response,"fetch messaeges");
-			
+            const response = await dispatch(getMessagesByChatIdAction(receiverData.chatId));
+            setMessages(response.payload.data);
         }
-
     };
 
-    const onSendMessage = (message: string) => {
+    const onSendMessage = async (message: string) => {
         if (roomId && currentChat && data?._id) {
             const newMessage = {
                 roomId,
@@ -97,11 +82,7 @@ export const InstructorChat: React.FC = () => {
                 content: message,
             };
             socket?.emit("send-message", newMessage);
-
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
-
-			
-
+            await dispatch(createMessageAction(newMessage));
         }
     };
 
@@ -110,7 +91,7 @@ export const InstructorChat: React.FC = () => {
             <ChatSidebar users={chats} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
             <ChatWindow
                 messages={messages}
-                currentUser={data?._id}
+                currentUser={data?._id || ""}
                 onSendMessage={onSendMessage}
                 currentChat={currentChat}
             />

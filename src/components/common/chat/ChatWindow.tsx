@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -6,25 +6,34 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { ChatMessage } from "./ChatMessage";
 
 interface Message {
-    sender: string;
-    text: string;
-    time: string;
+    senderId: string;
+    content: string;
+    createdAt: string;
 }
 
 interface ChatWindowProps {
     messages: Message[];
     currentUser: string;
     onSendMessage: (message: string) => void;
-    currentChat: any
+    currentChat: any;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
     messages,
     currentUser,
     onSendMessage,
-    currentChat
+    currentChat,
 }) => {
     const [inputMessage, setInputMessage] = useState("");
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const handleSendMessage = () => {
         if (inputMessage.trim()) {
@@ -63,6 +72,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                                     currentUser={currentUser}
                                 />
                             ))}
+                            <div ref={messagesEndRef} />
                         </div>
                         <div className="border-t border-gray-200 dark:border-gray-700 p-4">
                             <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg">
@@ -79,7 +89,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                                     value={inputMessage}
                                     onChange={(e) => setInputMessage(e.target.value)}
                                     onKeyPress={(e) => {
-                                        if (e.key === 'Enter') handleSendMessage();
+                                        if (e.key === "Enter") handleSendMessage();
                                     }}
                                 />
                                 <button

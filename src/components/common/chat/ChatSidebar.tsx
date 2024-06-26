@@ -7,7 +7,7 @@ interface SidebarProps {
         userId: string;
         socketId: string;
     }[] | undefined;
-    onCreateNewChat: (userId: string, isOnline: boolean | undefined) => void; 
+    onCreateNewChat: (userId: string, isOnline: boolean | undefined) =>  void; 
 }
 
 export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCreateNewChat }) => {
