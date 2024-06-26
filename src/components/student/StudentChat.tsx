@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getInstructorsByStudentAction } from "@/redux/store/actions/enrollment";
 import { RootState } from "@/redux/store";
 import { SocketContext } from "@/context/SocketProvider";
+import { getChatsByUserIdAction } from "@/redux/store/actions/chat";
 
 export const StudentChat: React.FC = () => {
 
@@ -44,12 +45,15 @@ export const StudentChat: React.FC = () => {
     const {data} = useAppSelector((state: RootState) => state.user)
     const [users, setUsers] = useState([])
     const { socket, onlineUsers, setOnlineUsers, currentRoom, setCurrentRoom } = useContext(SocketContext) || {}
+	const [currentChat, setCurrentChat] = useState<any>(null);
     useEffect(()=>{
         socket?.on("online-users",(users)=>{
             setOnlineUsers && setOnlineUsers(users)
         })
+
     },[socket])
     
+	
     useEffect(()=>{
         fetchInstructorsByStudent()
     },[dispatch])
@@ -69,20 +73,35 @@ export const StudentChat: React.FC = () => {
         id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1
     }
 
-    const handleCreateNewChat = (receiverData: any) => {
-        if(data?._id){
-            const roomId = createPrivateRoomId(data?._id, receiverData._id)
-            console.log(receiverData,"create chat userId");
+    const handleCreateNewChat = (receiverData: any,isOnline: any) => {
+		console.log(receiverData,isOnline,"sender data");
+		
+		setCurrentChat({...receiverData,isOnline})
+        if (data?._id) {
+            const roomId = createPrivateRoomId(data?._id, receiverData._id);
             const newChatRoom = {
                 roomId,
                 receiverId: receiverData?._id
-            }
-            socket?.emit("join-room",newChatRoom)
+            };
+            socket?.emit("join-room", newChatRoom);
+
         }
-    }
+    };
 
     const onSendMessage = () => {
 		console.log("Send message");
+	};
+
+	useEffect(() => {
+		fetchChatsByUserId();
+	}, [data]);
+
+	const fetchChatsByUserId = async () => {
+		if (data?._id) {
+			const response = await dispatch(getChatsByUserIdAction(data?._id));
+			console.log(response,"get chat by userid");
+			
+		}
 	};
 
 	return (
@@ -93,6 +112,7 @@ export const StudentChat: React.FC = () => {
 					messages={messages}
 					currentUser={"user"}
 					onSendMessage={onSendMessage}
+					currentChat={currentChat}
 				/>
 			</div>
 		</>

@@ -5,98 +5,115 @@ import { SocketContext } from "@/context/SocketProvider";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getStudentsEnrolledByInstructorAction } from "@/redux/store/actions/enrollment";
 import { RootState } from "@/redux/store";
+import { getChatsByUserIdAction, getMessagesByChatIdAction } from "@/redux/store/actions/chat";
 
 export const InstructorChat: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const { data } = useAppSelector((state: RootState) => state.user);
-	const [studentsEnrolledByInstructor, setStudentsEnrolledByInstructor] =
-		useState([]);
-    const [currentChat, setCurrentChat] = useState<any>()
+    const dispatch = useAppDispatch();
+    const { data } = useAppSelector((state: RootState) => state.user);
+    const [studentsEnrolledByInstructor, setStudentsEnrolledByInstructor] = useState([]);
+    const [currentChat, setCurrentChat] = useState<any>(null);
+    const [chats, setChats] = useState<any[]>([]);
+    const [messages, setMessages] = useState<any[]>([]);
+    const [roomId, setRoomId] = useState<string | null>(null);
 
-	const messages = [
-		{ sender: "other", text: "You were the Chosen One!", time: "12:45" },
-		{ sender: "user", text: "I hate you!", time: "12:46" },
-		{
-			sender: "other",
-			text: "It's over Anakin, I have the high ground!",
-			time: "12:47",
-		},
-		{ sender: "user", text: "You underestimate my power!", time: "12:48" },
-		{ sender: "other", text: "Don't try it.", time: "12:49" },
-		{
-			sender: "user",
-			text: "You were my brother, Anakin! I loved you.",
-			time: "12:50",
-		},
-		{ sender: "other", text: "I HATE YOU!", time: "12:51" },
-		{
-			sender: "user",
-			text: "You were supposed to destroy the Sith, not join them!",
-			time: "12:52",
-		},
-		{
-			sender: "other",
-			text: "Bring balance to the Force, not leave it in darkness!",
-			time: "12:53",
-		},
-		{ sender: "user", text: "I will do what I must.", time: "12:54" },
-		{ sender: "other", text: "You will try.", time: "12:55" },
-	];
+    const { socket, onlineUsers, setOnlineUsers } = useContext(SocketContext) || {};
+
+    useEffect(() => {
+        socket?.on("online-users", (users) => {
+            setOnlineUsers && setOnlineUsers(users);
+        });
+
+        // socket?.on("receive-message", (message) => {
+		// 	console.log(message,"my messages")
+			
+        //     setMessages((prevMessages) => [...prevMessages, message]);
+        // });
+
+        return () => {
+            socket?.off("online-users");
+            socket?.off("receive-message");
+        };
+    }, [socket]);
 
 
-	const onSendMessage = () => {
-		console.log("Send message");
-	};
+    useEffect(() => {
+        fetchEnrollments();
+    }, [dispatch]);
 
-	const { socket, onlineUsers, setOnlineUsers } =
-		useContext(SocketContext) || {};
+    useEffect(() => {
+        fetchChatsByUserId();
+    }, [data, socket]);
 
-	useEffect(() => {
-		socket?.on("online-users", (users) => {
-			setOnlineUsers && setOnlineUsers(users);
-		});
-	}, [socket]);
+    const fetchChatsByUserId = async () => {
+        if (data?._id) {
+            const response = await dispatch(getChatsByUserIdAction(data?._id));
+            const chatData = response.payload.data.map((chat: any) => {
+                const participant = chat?.participants.find((participantId: any) => participantId._id !== data?._id);
+                return {
+                    ...participant,
+                    name: participant.userName,
+                    chatId: chat._id,
+                    receiverId: participant._id,
+                    createdAt: Date.now(),
+                };
+            });
+            setChats(chatData);
+        }
+    };
 
-	useEffect(() => {
-		fetchEnrollments();
-	}, [dispatch]);
+    const fetchEnrollments = async () => {
+        if (data?._id) {
+            const response = await dispatch(getStudentsEnrolledByInstructorAction(data?._id));
+            setStudentsEnrolledByInstructor(response.payload.data);
+        }
+    };
 
-	const fetchEnrollments = async () => {
-		if (data?._id) {
-			const response = await dispatch(
-				getStudentsEnrolledByInstructorAction(data?._id)
-			);
-			console.log(response, "get all stundtt");
-			setStudentsEnrolledByInstructor(response.payload.data);
-		}
-	};
 
     const createPrivateRoomId = (id1: string, id2: string) => {
-        id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1
-    }
+        return id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1;
+    };
 
-    const handleCreateNewChat = (reciverData: any) => {
-        if(data?._id){
-            const roomId = createPrivateRoomId(data?._id, reciverData._id)
-            console.log(reciverData,"create chat userId");
-            const newChatRoom = {
-                roomId,
-                receiverId: reciverData?._id
-            }
-            socket?.emit("join-room",newChatRoom) 
+    const handleCreateNewChat = async (receiverData: any, isOnline: any) => {
+        setCurrentChat({ ...receiverData, isOnline });
+        if (data?._id) {
+            const roomId = createPrivateRoomId(data?._id, receiverData._id);
+            setRoomId(roomId);
+            socket?.emit("join-room", roomId);
+            // Fetch messages for the selected chat if needed
+
+			const response = await dispatch(getMessagesByChatIdAction(currentChat?.chatId))
+			console.log(response,"fetch messaeges");
+			
         }
-    }
 
-	console.log(onlineUsers, "these are socket online userse");
+    };
 
-	return (
-		<div className="flex h-full bg-gray-900">
-			<ChatSidebar users={studentsEnrolledByInstructor} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
-			<ChatWindow
-				messages={messages}
-				currentUser={"user"}
-				onSendMessage={onSendMessage}
-			/>
-		</div>
-	);
+    const onSendMessage = (message: string) => {
+        if (roomId && currentChat && data?._id) {
+            const newMessage = {
+                roomId,
+                chatId: currentChat?.chatId,
+                senderId: data?._id,
+                content: message,
+            };
+            socket?.emit("send-message", newMessage);
+
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+			
+
+        }
+    };
+
+    return (
+        <div className="flex h-full bg-gray-900">
+            <ChatSidebar users={chats} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
+            <ChatWindow
+                messages={messages}
+                currentUser={data?._id}
+                onSendMessage={onSendMessage}
+                currentChat={currentChat}
+            />
+        </div>
+    );
 };

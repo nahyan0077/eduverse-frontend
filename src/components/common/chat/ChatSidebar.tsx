@@ -7,7 +7,7 @@ interface SidebarProps {
         userId: string;
         socketId: string;
     }[] | undefined;
-    onCreateNewChat: (userId: string) => void; 
+    onCreateNewChat: (userId: string, isOnline: boolean | undefined) => void; 
 }
 
 export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCreateNewChat }) => {
@@ -28,21 +28,20 @@ export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCrea
                     const isOnline = onlineUsers?.some(
                         (onlineUser) =>
                             onlineUser.userId ===
-                            (user.userId?._id || user.instructorRef?._id)
+                            (user._id || user.instructorRef?._id)
                     );
-                    const userId = user.userId || user.instructorRef;
+                    const userData = user;
 
                     return (
                         <div
                             key={index}
                             className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 rounded-md cursor-pointer"
-                            onClick={() => onCreateNewChat(userId)}
+                            onClick={() => onCreateNewChat(userData,isOnline)}
                         >
                             <div className="w-12 h-12 rounded-full overflow-hidden mr-4 relative">
                                 <img
                                     src={
-                                        user?.userId?.profile?.avatar ||
-                                        user?.instructorRef?.profile?.avatar
+                                        user?.profile?.avatar 
                                     }
                                     alt="User Avatar"
                                     className="w-full h-full object-cover"
@@ -53,10 +52,10 @@ export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCrea
                             </div>
                             <div className="flex-1">
                                 <div className="text-gray-900 dark:text-white font-bold">
-                                    {user?.userId?.userName || user?.instructorRef?.userName}
+                                    {user?.userName}
                                 </div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    {user?.userId?.role || user?.instructorRef?.role}
+                                    {user?.role}
                                 </p>
                             </div>
                             <div className="ml-2">
