@@ -59,11 +59,15 @@ export const ChatMessage: React.FC<MessageProps> = ({
 				return (
 					<span className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white p-2">
 						<FaFilePdf className="w-5 h-5 text-red-100 " />
-                     <a href={message.content} target="_blank" rel="noopener noreferrer" className="text-gray-300 ">
-						View PDF
-				</a>
+						<a
+							href={message.content}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-gray-300 "
+						>
+							View PDF
+						</a>
 					</span>
-
 				);
 			default:
 				return <p>{message.content}</p>;
@@ -84,11 +88,6 @@ export const ChatMessage: React.FC<MessageProps> = ({
 					/>
 				</div>
 			</div>
-			<div className="chat-header">
-				<span className="text-xs opacity-50">
-					{formatChatTime(message.createdAt)}
-				</span>
-			</div>
 
 			<div
 				className={`chat-bubble text-white ${
@@ -98,6 +97,9 @@ export const ChatMessage: React.FC<MessageProps> = ({
 				}`}
 			>
 				{renderContent()}
+				<div className="chat-header text-xs opacity-50 p-1 ">
+					{formatChatTime(message.createdAt)}
+				</div>
 			</div>
 			{isCurrentUser && (
 				<div className="chat-footer text-xs opacity-50">
