@@ -35,9 +35,9 @@ export const InstructorChat: React.FC = () => {
         });
 
         socket?.on("isTyping", (senderId) => {
-            console.log(senderId,"is typingg")
+            console.log(senderId,"is typingg",currentChat?._id)
             
-            if (senderId !== data?._id) {
+            if (senderId == currentChat?._id) {
                 setTypingData({ isTyping: true, senderId });
                 setTimeout(() => {
                     setTypingData({ isTyping: false, senderId });
@@ -51,8 +51,8 @@ export const InstructorChat: React.FC = () => {
             socket?.off("receive-message");
 			socket?.off("isTyping");
         };
-    }, [socket, setOnlineUsers]);
-
+    }, [socket, setOnlineUsers, currentChat, data?._id]);
+    
     useEffect(() => {
         fetchChatsByUserId();
     }, [data, dispatch]);
@@ -68,6 +68,7 @@ export const InstructorChat: React.FC = () => {
                     chatId: chat._id,
                     receiverId: participant._id,
                     createdAt: Date.now(),
+                    lastSeen: chat?.lastSeen 
                 };
             });
             setChats(chatData);
@@ -89,9 +90,6 @@ export const InstructorChat: React.FC = () => {
             setMessages(response.payload.data);
         }
     };
-
-    console.log(currentChat,"curr chat");
-    
 
     const onSendMessage = async (message: string) => {
         if (roomId && currentChat && data?._id) {

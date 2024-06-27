@@ -37,15 +37,14 @@ export const StudentChat: React.FC = () => {
 
 		socket?.on("receive-message", (message) => {
 			console.log(message, "message");
-      
-                setMessages((prevMessages) => [...prevMessages,message] );
-  
+
+			setMessages((prevMessages) => [...prevMessages, message]);
 		});
 
 		socket?.on("isTyping", (senderId) => {
-            console.log(senderId,"-->",data?._id)
-            
-			if (senderId !== data?._id) {
+			console.log(senderId, "-->", currentChat?._id);
+
+			if (senderId == currentChat?._id) {
 				setTypingData({ isTyping: true, senderId });
 				setTimeout(() => {
 					setTypingData({ isTyping: false, senderId });
@@ -54,12 +53,12 @@ export const StudentChat: React.FC = () => {
 		});
 
 		return () => {
-            socket?.off("new-user")
+			socket?.off("new-user");
 			socket?.off("online-users");
 			socket?.off("receive-message");
 			socket?.off("isTyping");
 		};
-	}, [socket, setOnlineUsers]);
+	}, [socket, setOnlineUsers, currentChat, data?._id]);
 
 	useEffect(() => {
 		fetchChatsByUserId();
@@ -78,6 +77,7 @@ export const StudentChat: React.FC = () => {
 					chatId: chat._id,
 					receiverId: participant._id,
 					createdAt: Date.now(),
+					lastSeen: chat.lastSeen,
 				};
 			});
 			setChats(chatData);
