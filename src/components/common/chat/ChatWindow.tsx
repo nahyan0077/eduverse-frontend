@@ -8,6 +8,7 @@ import { SocketContext } from "@/context/SocketProvider";
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import SyncLoader from "react-spinners/SyncLoader";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 interface Message {
     senderId: string;
@@ -31,10 +32,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     typingData,
 }) => {
     const [inputMessage, setInputMessage] = useState("");
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const { socket } = useContext(SocketContext) || {};
     const { data } = useAppSelector((state: RootState) => state.user);
-	const [isTyping, setTyping] = useState <boolean> ()
+    const [isTyping, setTyping] = useState<boolean>();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -59,6 +61,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
         }
     };
 
+    const handleEmojiClick = (emojiData: EmojiClickData) => {
+        setInputMessage(inputMessage + emojiData.emoji);
+        setShowEmojiPicker(false);
+    };
+
     return (
         <section className="hidden lg:flex flex-col w-2/3 bg-white dark:bg-gray-900">
             {currentChat ? (
@@ -78,10 +85,12 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                             <div className={`text-sm text-gray-500 dark:text-gray-400`}>
                                 {currentChat.isOnline ? "Online" : "Offline"}
                             </div>
-                        </div>
                             <div className={`text-sm text-gray-500 dark:text-gray-400`}>
-                                {typingData && typingData.senderId === currentChat.receiverId && typingData.isTyping ? <SyncLoader size={"5"} className="ml-3" color="#ffffff"  /> : ""}
+                                {typingData && typingData.senderId === currentChat.receiverId && typingData.isTyping ? (
+                                    <SyncLoader size={"5"} className="ml-3" color="#ffffff" />
+                                ) : ""}
                             </div>
+                        </div>
                     </header>
                     <div className="flex-1 flex flex-col overflow-hidden">
                         <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
@@ -95,10 +104,18 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                             <div ref={messagesEndRef} />
                         </div>
                         <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-                            <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-                                <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-500">
+                            <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg relative">
+                                <button 
+                                    className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-500"
+                                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                >
                                     <EmojiEmotionsIcon fontSize="medium" />
                                 </button>
+                                {showEmojiPicker && (
+                                    <div className="absolute bottom-12 left-0">
+                                        <EmojiPicker onEmojiClick={handleEmojiClick} />
+                                    </div>
+                                )}
                                 <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-500">
                                     <AttachFileIcon fontSize="medium" />
                                 </button>
