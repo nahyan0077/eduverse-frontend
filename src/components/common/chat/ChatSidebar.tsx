@@ -12,7 +12,7 @@ interface SidebarProps {
 
 export const ChatSidebar: React.FC<SidebarProps> = ({ users, onlineUsers, onCreateNewChat }) => {
     return (
-        <section className="w-1/3 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-900">
+        <section className="w-1/3 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-950">
             <header className="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="relative">
                     <input

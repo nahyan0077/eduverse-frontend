@@ -11,8 +11,7 @@ import { InstructorProfile } from '@/components/instructor/InstructorProfile';
 import { InstructorVerification } from '@/components/instructor/InstructorVerification';
 import { VerificationProtectedRoute } from './VerificationProtectedRoutes';
 import { Unauthorized } from '@/pages/common/Unauthorized';
-import { Chat } from '@/pages/chat/Chat';
-import { InstructorChat } from '@/components/instructor/instructorChat';
+import { InstructorChat } from '@/components/instructor/InstructorChat';
 
 export const InstructorRoutes: React.FC = () => {
   return (

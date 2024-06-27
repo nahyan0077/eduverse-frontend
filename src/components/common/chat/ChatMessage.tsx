@@ -3,6 +3,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import DoneIcon from "@mui/icons-material/Done";
+import { FaFilePdf } from "react-icons/fa";
 
 interface MessageProps {
 	message: {
@@ -10,11 +11,12 @@ interface MessageProps {
 		content: string;
 		createdAt: string;
 		recieverSeen: boolean;
+		contentType: string;
 	};
 	currentUser: string;
 }
 
-function formatChatTime(isoString: any) {
+function formatChatTime(isoString: string) {
 	const date = new Date(isoString);
 
 	let hours: any = date.getHours();
@@ -34,6 +36,40 @@ export const ChatMessage: React.FC<MessageProps> = ({
 }) => {
 	const isCurrentUser = message.senderId === currentUser;
 	const { data } = useAppSelector((state: RootState) => state.user);
+
+	const renderContent = () => {
+		switch (message.contentType) {
+			case "image":
+				return (
+					<img
+						src={message.content}
+						alt="User sent image"
+						className="max-w-sm rounded-lg"
+					/>
+				);
+			case "video":
+				return (
+					<video
+						src={message.content}
+						controls
+						className="max-w-sm rounded-lg"
+					></video>
+				);
+			case "application":
+				return (
+					<span className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white p-2">
+						<FaFilePdf className="w-5 h-5 text-red-100 " />
+                     <a href={message.content} target="_blank" rel="noopener noreferrer" className="text-gray-300 ">
+						View PDF
+				</a>
+					</span>
+
+				);
+			default:
+				return <p>{message.content}</p>;
+		}
+	};
+
 	return (
 		<div className={`chat ${isCurrentUser ? "chat-end" : "chat-start"}`}>
 			<div className="chat-image avatar">
@@ -55,13 +91,13 @@ export const ChatMessage: React.FC<MessageProps> = ({
 			</div>
 
 			<div
-				className={`chat-bubble ${
+				className={`chat-bubble text-white ${
 					isCurrentUser
-						? "bg-blue-700"
+						? "bg-gradient-to-r from-fuchsia-600 to-purple-600"
 						: "bg-gradient-to-r from-slate-700 to-slate-800"
 				}`}
 			>
-				{message.content}
+				{renderContent()}
 			</div>
 			{isCurrentUser && (
 				<div className="chat-footer text-xs opacity-50">

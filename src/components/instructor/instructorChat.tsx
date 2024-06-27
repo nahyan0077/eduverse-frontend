@@ -13,9 +13,8 @@ export const InstructorChat: React.FC = () => {
     const [chats, setChats] = useState<any[]>([]);
     const [messages, setMessages] = useState<any[]>([]);
     const [roomId, setRoomId] = useState<string | null>(null);
-    const [typingData, setTypingData] = useState <{isTyping: boolean,senderId: string} | null> (null);
+    const [typingData, setTypingData] = useState<{ isTyping: boolean, senderId: string } | null>(null);
     const { socket, onlineUsers, setOnlineUsers } = useContext(SocketContext) || {};
-	
 
     useEffect(() => {
         socket?.on("online-users", (users) => {
@@ -23,21 +22,18 @@ export const InstructorChat: React.FC = () => {
         });
 
         if (data?._id && socket) {
-			console.log("Emitting new-user event with userId:", data._id);
-			socket.emit("new-user", data._id);
-		}
+            console.log("Emitting new-user event with userId:", data._id);
+            socket.emit("new-user", data._id);
+        }
 
         socket?.on("receive-message", (message) => {
-			console.log(message,"new messag");
- 
-                setMessages((prevMessages) => [...prevMessages,message] );
- 
+            console.log(message, "new message");
+            setMessages((prevMessages) => [...prevMessages, message]);
         });
 
         socket?.on("isTyping", (senderId) => {
-            console.log(senderId,"is typingg",currentChat?._id)
-            
-            if (senderId == currentChat?._id) {
+            console.log(senderId, "is typing", currentChat?._id);
+            if (senderId === currentChat?._id) {
                 setTypingData({ isTyping: true, senderId });
                 setTimeout(() => {
                     setTypingData({ isTyping: false, senderId });
@@ -46,13 +42,13 @@ export const InstructorChat: React.FC = () => {
         });
 
         return () => {
-            socket?.off("new-user")
+            socket?.off("new-user");
             socket?.off("online-users");
             socket?.off("receive-message");
-			socket?.off("isTyping");
+            socket?.off("isTyping");
         };
     }, [socket, setOnlineUsers, currentChat, data?._id]);
-    
+
     useEffect(() => {
         fetchChatsByUserId();
     }, [data, dispatch]);
@@ -68,7 +64,7 @@ export const InstructorChat: React.FC = () => {
                     chatId: chat._id,
                     receiverId: participant._id,
                     createdAt: Date.now(),
-                    lastSeen: chat?.lastSeen 
+                    lastSeen: chat?.lastSeen,
                 };
             });
             setChats(chatData);
@@ -76,7 +72,7 @@ export const InstructorChat: React.FC = () => {
     };
 
     const createPrivateRoomId = (id1: string, id2: string) => {
-        return id1 > id2 ? id1 + "_" + id2 : id2 + "_" + id1;
+        return id1 > id2 ? `${id1}_${id2}` : `${id2}_${id1}`;
     };
 
     const handleCreateNewChat = async (receiverData: any, isOnline: any) => {
@@ -84,20 +80,23 @@ export const InstructorChat: React.FC = () => {
             const newRoomId = createPrivateRoomId(data?._id, receiverData._id);
             setRoomId(newRoomId);
             socket?.emit("join-room", newRoomId);
-            setCurrentChat({ ...receiverData, isOnline, roomId });
+            setCurrentChat({ ...receiverData, isOnline, roomId: newRoomId });
 
             const response = await dispatch(getMessagesByChatIdAction(receiverData.chatId));
             setMessages(response.payload.data);
         }
     };
 
-    const onSendMessage = async (message: string) => {
+    const onSendMessage = async ({ content , contentType }: any) => {
+        console.log(content, contentType, "message---->");
+
         if (roomId && currentChat && data?._id) {
             const newMessage = {
                 roomId,
                 chatId: currentChat?.chatId,
                 senderId: data?._id,
-                content: message,
+                content,
+                contentType
             };
             socket?.emit("send-message", newMessage);
             await dispatch(createMessageAction(newMessage));
@@ -112,7 +111,7 @@ export const InstructorChat: React.FC = () => {
                 currentUser={data?._id || ""}
                 onSendMessage={onSendMessage}
                 currentChat={currentChat}
-				typingData={typingData}
+                typingData={typingData}
             />
         </div>
     );
