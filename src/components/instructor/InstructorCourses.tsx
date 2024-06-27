@@ -65,7 +65,7 @@ export const InstructorCourses: React.FC = () => {
 	};
 
 	return (
-		<div className="max-w-7xl mx-auto py-20">
+		<div className="max-w-7xl mx-auto py-20 ">
 			<div className="flex justify-between p-6 mb-5">
 				<h2 className="text-4xl font-bold">Courses</h2>
 				<button className="btn btn-outline btn-warning" onClick={handleClick}>
