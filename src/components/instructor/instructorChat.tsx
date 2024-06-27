@@ -22,21 +22,31 @@ export const InstructorChat: React.FC = () => {
             setOnlineUsers && setOnlineUsers(users);
         });
 
+        if (data?._id && socket) {
+			console.log("Emitting new-user event with userId:", data._id);
+			socket.emit("new-user", data._id);
+		}
+
         socket?.on("receive-message", (message) => {
-			
-            setMessages((prevMessages) => [...prevMessages,message] );
+			console.log(message,"new messag");
+ 
+                setMessages((prevMessages) => [...prevMessages,message] );
+ 
         });
 
         socket?.on("isTyping", (senderId) => {
+            console.log(senderId,"is typingg")
+            
             if (senderId !== data?._id) {
                 setTypingData({ isTyping: true, senderId });
                 setTimeout(() => {
                     setTypingData({ isTyping: false, senderId });
-                }, 3000);
+                }, 2000);
             }
         });
 
         return () => {
+            socket?.off("new-user")
             socket?.off("online-users");
             socket?.off("receive-message");
 			socket?.off("isTyping");
@@ -69,16 +79,19 @@ export const InstructorChat: React.FC = () => {
     };
 
     const handleCreateNewChat = async (receiverData: any, isOnline: any) => {
-        setCurrentChat({ ...receiverData, isOnline, roomId });
         if (data?._id) {
             const newRoomId = createPrivateRoomId(data?._id, receiverData._id);
             setRoomId(newRoomId);
             socket?.emit("join-room", newRoomId);
+            setCurrentChat({ ...receiverData, isOnline, roomId });
 
             const response = await dispatch(getMessagesByChatIdAction(receiverData.chatId));
             setMessages(response.payload.data);
         }
     };
+
+    console.log(currentChat,"curr chat");
+    
 
     const onSendMessage = async (message: string) => {
         if (roomId && currentChat && data?._id) {

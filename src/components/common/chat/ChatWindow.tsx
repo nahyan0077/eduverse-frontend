@@ -19,6 +19,7 @@ interface Message {
 	senderId: string;
 	content: string;
 	createdAt: string;
+	recieverSeen: boolean;
 }
 
 interface ChatWindowProps {
@@ -50,6 +51,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 	useEffect(() => {
 		scrollToBottom();
 	}, [messages]);
+
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		socket?.emit("typing", {
@@ -90,9 +92,14 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [showEmojiPicker]);
+    console.log(currentChat,"curret chat");
+
+    console.log(typingData,"typing data");
+    
+    
 
 	return (
-		<section className="hidden lg:flex flex-col w-2/3 bg-white dark:bg-gray-900">
+		<section className="flex flex-col w-2/3 bg-white dark:bg-gray-900">
 			{currentChat ? (
 				<>
 					<header className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
@@ -103,18 +110,20 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 								className="w-full h-full object-cover"
 							/>
 						</div>
-						<div>
-							<div className="font-bold text-gray-900 dark:text-white">
-								{currentChat.userName}
-							</div>
-							<div className={`text-sm text-gray-500 dark:text-gray-400`}>
-								{currentChat.isOnline ? "Online" : "Offline"}
+						<div className="flex">
+							<div className="">
+								<div className="font-bold text-gray-900 dark:text-white">
+									{currentChat.userName}
+								</div>
+								<div className={`text-sm text-gray-500 dark:text-gray-400`}>
+									{currentChat.isOnline ? "Online" : "Offline"}
+								</div>
 							</div>
 							<div className={`text-sm text-gray-500 dark:text-gray-400`}>
 								{typingData &&
-								typingData.senderId === currentChat.receiverId &&
+								// typingData.senderId === currentChat.receiverId &&
 								typingData.isTyping ? (
-									<SyncLoader size={"5"} className="ml-3" color="#ffffff" />
+									<SyncLoader  className="ml-3 " size={5} color="#ffffff" />
 								) : (
 									""
 								)}
@@ -188,7 +197,10 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 							style={{ height: "30%", width: "30%" }}
 						/>
 					</div>
-					<div>Select a chat to start messaging  <span className="animate-ping" >......</span> </div>
+					<div>
+						Select a chat to start messaging{" "}
+						<span className="animate-ping">......</span>{" "}
+					</div>
 				</div>
 			)}
 		</section>

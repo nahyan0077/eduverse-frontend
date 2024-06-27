@@ -41,10 +41,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
             newSocket.on("connect", () => {
                 console.log("Socket connected at client");
-                if (data?._id) {
-                    console.log("Emitting new-user event with userId:", data._id);
-                    newSocket.emit("new-user", data._id);
-                }
+                // if (data?._id) {
+                //     console.log("Emitting new-user event with userId:", data._id);
+                //     newSocket.emit("new-user", data._id);
+                // }
             });
 
             newSocket.on("disconnect", () => {
