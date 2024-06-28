@@ -15,6 +15,8 @@ export const StudentChat: React.FC = () => {
     const [roomId, setRoomId] = useState<string | null>(null);
     const [typingData, setTypingData] = useState<{ isTyping: boolean, senderId: string } | null>(null);
     const { socket, onlineUsers, setOnlineUsers } = useContext(SocketContext) || {};
+    const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth <= 768);
+    const [showChatWindow, setShowChatWindow] = useState<boolean>(false);
 
     useEffect(() => {
         socket?.on("online-users", (users) => {
@@ -22,17 +24,14 @@ export const StudentChat: React.FC = () => {
         });
 
         if (data?._id && socket) {
-            console.log("Emitting new-user event with userId:", data._id);
             socket.emit("new-user", data._id);
         }
 
         socket?.on("receive-message", (message) => {
-            console.log(message, "new message");
             setMessages((prevMessages) => [...prevMessages, message]);
         });
 
         socket?.on("isTyping", (senderId) => {
-            console.log(senderId, "is typing", currentChat?._id);
             if (senderId === currentChat?._id) {
                 setTypingData({ isTyping: true, senderId });
                 setTimeout(() => {
@@ -48,6 +47,16 @@ export const StudentChat: React.FC = () => {
             socket?.off("isTyping");
         };
     }, [socket, setOnlineUsers, currentChat, data?._id]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 1024);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         fetchChatsByUserId();
@@ -84,12 +93,14 @@ export const StudentChat: React.FC = () => {
 
             const response = await dispatch(getMessagesByChatIdAction(receiverData.chatId));
             setMessages(response.payload.data);
+
+            if (isMobileView) {
+                setShowChatWindow(true);
+            }
         }
     };
 
-    const onSendMessage = async ({ content , contentType }: any) => {
-        console.log(content,contentType, "message---->");
-
+    const onSendMessage = async ({ content, contentType }: any) => {
         if (roomId && currentChat && data?._id) {
             const newMessage = {
                 roomId,
@@ -103,16 +114,25 @@ export const StudentChat: React.FC = () => {
         }
     };
 
+    const handleBackClick = () => {
+        setShowChatWindow(false);
+    };
+
     return (
         <div className="flex h-full bg-gray-900">
-            <ChatSidebar users={chats} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
-            <ChatWindow
-                messages={messages}
-                currentUser={data?._id || ""}
-                onSendMessage={onSendMessage}
-                currentChat={currentChat}
-                typingData={typingData}
-            />
+            {!isMobileView || !showChatWindow ? (
+                <ChatSidebar users={chats} onlineUsers={onlineUsers} onCreateNewChat={handleCreateNewChat} />
+            ) : null}
+            {(!isMobileView || showChatWindow) && (
+                <ChatWindow
+                    messages={messages}
+                    currentUser={data?._id || ""}
+                    onSendMessage={onSendMessage}
+                    currentChat={currentChat}
+                    typingData={typingData}
+                    onBack={handleBackClick}
+                />
+            )}
         </div>
     );
 };

@@ -22,21 +22,23 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import { ImageUpload } from "@/utils/cloudinary/uploadImage";
 import LoadingPopUp from "../skeleton/LoadingPopUp";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface Message {
 	senderId: string;
 	content: string;
 	createdAt: string;
 	recieverSeen: boolean;
-	contentType: string; // Added type here to handle file types
+	contentType: string; 
 }
 
 interface ChatWindowProps {
 	messages: Message[];
 	currentUser: any;
-	onSendMessage: (message: { content: string, contentType?: string }) => void; // Modified onSendMessage to accept message object
+	onSendMessage: (message: { content: string, contentType?: string }) => void; 
 	currentChat: any;
 	typingData: { isTyping: boolean; senderId: string } | null;
+	onBack: () => void;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -45,6 +47,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 	onSendMessage,
 	currentChat,
 	typingData,
+	onBack
 }) => {
 	const [inputMessage, setInputMessage] = useState("");
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -88,7 +91,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 
 	const handleEmojiClick = (emojiData: EmojiClickData) => {
 		setInputMessage(inputMessage + emojiData.emoji);
-		setShowEmojiPicker(false);
+	
 	};
 
 	const handleClickOutside = (event: MouseEvent) => {
@@ -137,11 +140,15 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 	};
 
 	return (
-		<section className="flex flex-col w-2/3 bg-white dark:bg-gray-950">
+		<section className="flex flex-col w-full bg-white dark:bg-gray-950">
             <LoadingPopUp isLoading={loading} />
 			{currentChat ? (
 				<>
 					<header className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
+					<ArrowBackIcon 
+                    className="cursor-pointer xl:hidden"
+                    onClick={onBack}
+                />
 						<div className="w-12 h-12 rounded-full overflow-hidden mr-4">
 							<img
 								src={currentChat?.profile?.avatar}

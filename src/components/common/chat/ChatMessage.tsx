@@ -44,7 +44,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
 					<img
 						src={message.content}
 						alt="User sent image"
-						className="max-w-sm rounded-lg"
+						className=" w-40 lg:w-64 rounded-lg"
 					/>
 				);
 			case "video":
@@ -52,7 +52,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
 					<video
 						src={message.content}
 						controls
-						className="max-w-sm rounded-lg"
+						className="w-40 lg:w-64 rounded-lg"
 					></video>
 				);
 			case "application":
