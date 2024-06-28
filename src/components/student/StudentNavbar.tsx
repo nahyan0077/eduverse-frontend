@@ -36,7 +36,7 @@ const StudentNavbar: React.FC = () => {
 		<nav className="flex items-center justify-between flex-wrap bg-gray-800 p-4 lg:px-6 lg:py-3 z-10">
 			{isModalVisible && (
 				<ConfirmModal
-					message="Are you sure you want to logout?"
+					message="  logout?"
 					onConfirm={handleDelete}
 					onCancel={handleCancel}
 				/>

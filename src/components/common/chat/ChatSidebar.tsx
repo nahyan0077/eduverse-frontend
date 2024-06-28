@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 interface SidebarProps {
@@ -17,12 +17,24 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
 	onlineUsers,
 	onCreateNewChat,
 }) => {
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchQuery(e.target.value);
+	};
+
+	const filteredUsers = users.filter((user) => 
+        user?.userName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+
 	return (
 		<section className="w-1/3 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-950">
 			<header className="p-4 border-b border-gray-200 dark:border-gray-700">
 				<div className="relative">
 					<input
 						type="text"
+						onChange={handleSearch}
 						placeholder="Search..."
 						className="w-full p-3 pl-10 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
@@ -30,7 +42,7 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
 				</div>
 			</header>
 			<div className="flex-1 overflow-y-auto custom-scrollbar">
-				{users?.map((user, index) => {
+				{filteredUsers.map((user, index) => {
 					const isOnline = onlineUsers?.some(
 						(onlineUser) =>
 							onlineUser.userId === (user._id || user.instructorRef?._id)

@@ -276,7 +276,7 @@ export const CoursePage: React.FC = () => {
 							return (
 								<motion.div
 									key={course._id}
-									className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300 max-w-xs "
+									className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300 max-w-xs h-full"
 									whileHover={{ scale: 1.02 }}
 									onClick={() =>
 										navigate("/single-course", {
