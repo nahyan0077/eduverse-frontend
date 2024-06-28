@@ -69,6 +69,21 @@ export const ChatMessage: React.FC<MessageProps> = ({
 						</a>
 					</span>
 				);
+			case "audio":
+				return (
+					<div className="mb-2 p-2  rounded-lg w-full">
+					<audio 
+					  src={message.content} 
+					  controls 
+					  preload="metadata"
+					  className="max-w-xl"
+					  onError={(e) => console.error("Audio playback error:", e)}
+					>
+					  Your browser does not support the audio element.
+					</audio>
+				  </div>
+				
+				);
 			default:
 				return <p>{message.content}</p>;
 		}
@@ -90,7 +105,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
 			</div>
 
 			<div
-				className={`chat-bubble text-white ${
+				className={`chat-bubble text-white rounded-3xl ${
 					isCurrentUser
 						? "bg-gradient-to-r from-fuchsia-600 to-purple-600"
 						: "bg-gradient-to-r from-slate-700 to-slate-800"
