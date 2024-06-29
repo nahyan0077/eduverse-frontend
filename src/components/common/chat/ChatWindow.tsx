@@ -70,6 +70,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
         scrollToBottom();
     }, [messages]);
 
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         socket?.emit("typing", {
             roomId: currentChat.roomId,
@@ -92,6 +93,13 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 
             let messageContent = selectedFile ? cloudURL : inputMessage;
             let messageType = selectedFile ? fileType : "text";
+
+			console.log(messageType,"typeee");
+			
+			console.log(inputMessage,"alldatatss");
+			console.log( selectedFile, "alldatatss--1");
+			console.log(audioBlob,"alldatatss--2");
+			
 
             if (audioBlob) {
                 setLoading(true);

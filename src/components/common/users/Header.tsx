@@ -245,7 +245,7 @@ const Header: React.FC = () => {
 					{menuOpen && (
 						<>
 							<motion.div
-								className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50 z-20"
+								className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50 z-20 "
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 								exit={{ opacity: 0 }}
@@ -256,7 +256,7 @@ const Header: React.FC = () => {
 							<motion.div
 								className={`fixed top-0 w-[70%] h-full right-0 ${
 									theme === "light" ? "bg-white" : "bg-gray-900"
-								} shadow-md z-30`}
+								} shadow-md z-30 `}
 								initial={{ x: "100%" }}
 								animate={{ x: 0 }}
 								exit={{ x: "100%" }}
@@ -268,7 +268,7 @@ const Header: React.FC = () => {
 										onClick={() => setMenuOpen(false)}
 									/>
 								</div>
-								<ul className="flex flex-col space-y-2 p-5">
+								<ul className="flex flex-col space-y-2 p-5 bg-white dark:bg-gray-900 min-h-screen">
 									<GlobalSearchBar
 										handleSearch={handleSearch}
 									/>

@@ -15,7 +15,7 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
   theme,
   initialValue = null, // Default initialValue to null
 }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   const [pdfUrl, setPdfUrl] = useState<string | null>(initialValue); // Set initial value from prop
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -34,7 +34,7 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
     if (!file) return;
 
     setLoading(true);
-    setSelectedFile(file);
+
 
     try {
       const pdfUrl = await PdfUpload(file);
@@ -54,7 +54,7 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
   };
 
   const handleClearFile = () => {
-    setSelectedFile(null);
+
     setPdfUrl(null);
     onChange(null);
   };

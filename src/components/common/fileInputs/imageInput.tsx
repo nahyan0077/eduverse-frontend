@@ -15,7 +15,7 @@ export const CustomImageFileInput: FC<CustomImageFileInputProps> = ({
 	theme,
 	initialValue = "", // Set default value to empty string
 }) => {
-	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
 	const [imageUrl, setImageUrl] = useState<string | null>(initialValue); // Use initialValue
 	const [loading, setLoading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +35,7 @@ export const CustomImageFileInput: FC<CustomImageFileInputProps> = ({
 		if (!file) return;
 
 		setLoading(true);
-		setSelectedFile(file);
+
 
 		try {
 			const imageUrl = await ImageUpload(file);
@@ -55,7 +55,7 @@ export const CustomImageFileInput: FC<CustomImageFileInputProps> = ({
 	};
 
 	const handleClearFile = () => {
-		setSelectedFile(null);
+
 		setImageUrl(null);
 		onChange(null);
 	};

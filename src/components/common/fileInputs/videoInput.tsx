@@ -15,7 +15,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
   theme,
   initialValue = "", // Set default value to empty string
 }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   const [videoUrl, setVideoUrl] = useState<string | null>(initialValue); // Use initialValue
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +35,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
     if (!file) return;
 
     setLoading(true);
-    setSelectedFile(file);
+
 
     try {
       const videoUrl = await VideoUpload(file);
@@ -55,7 +55,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
   };
 
   const handleClearFile = () => {
-    setSelectedFile(null);
+
     setVideoUrl(null);
     onChange(null);
   };

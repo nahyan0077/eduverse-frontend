@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { ChatListSkeleton } from "../loadingSkeleton/ChatList";
 
 interface SidebarProps {
 	users: any[];
@@ -10,12 +13,14 @@ interface SidebarProps {
 		  }[]
 		| undefined;
 	onCreateNewChat: (userId: string, isOnline: boolean | undefined) => void;
+	loading: boolean; // Add this prop to indicate loading state
 }
 
 export const ChatSidebar: React.FC<SidebarProps> = ({
 	users,
 	onlineUsers,
 	onCreateNewChat,
+	loading, // Add this prop to indicate loading state
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -23,10 +28,9 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
 		setSearchQuery(e.target.value);
 	};
 
-	const filteredUsers = users.filter((user) => 
-        user?.userName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
+	const filteredUsers = users.filter((user) =>
+		user?.userName.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	return (
 		<section className="w-full lg:w-1/2 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-950">
@@ -42,49 +46,53 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
 				</div>
 			</header>
 			<div className="flex-1 overflow-y-auto custom-scrollbar">
-				{filteredUsers.map((user, index) => {
-					const isOnline = onlineUsers?.some(
-						(onlineUser) =>
-							onlineUser.userId === (user._id || user.instructorRef?._id)
-					);
-					const userData = user;
+				{loading ? (
+					<ChatListSkeleton />
+				) : (
+					filteredUsers.map((user, index) => {
+						const isOnline = onlineUsers?.some(
+							(onlineUser) =>
+								onlineUser.userId === (user._id || user.instructorRef?._id)
+						);
+						const userData = user;
 
-					return (
-						<div
-							key={index}
-							className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 rounded-md cursor-pointer"
-							onClick={() => onCreateNewChat(userData, isOnline)}
-						>
-							<div className="w-12 h-12 rounded-full overflow-hidden mr-4 relative">
-								<img
-									src={user?.profile?.avatar}
-									alt="User Avatar"
-									className="w-full h-full object-cover"
-								/>
-								{isOnline && (
-									<div className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
-								)}
-							</div>
-							<div className="flex-1">
-								<div className="text-gray-900 dark:text-white font-bold">
-									{user?.userName}
+						return (
+							<div
+								key={index}
+								className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 rounded-md cursor-pointer"
+								onClick={() => onCreateNewChat(userData, isOnline)}
+							>
+								<div className="w-12 h-12 rounded-full overflow-hidden mr-4 relative">
+									<img
+										src={user?.profile?.avatar}
+										alt="User Avatar"
+										className="w-full h-full object-cover"
+									/>
+									{isOnline && (
+										<div className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
+									)}
 								</div>
-								<p className="text-sm text-gray-500 dark:text-gray-400">
-									{user?.role}
-								</p>
+								<div className="flex-1">
+									<div className="text-gray-900 dark:text-white font-bold">
+										{user?.userName}
+									</div>
+									<p className="text-sm text-gray-500 dark:text-gray-400">
+										{user?.role}
+									</p>
+								</div>
+								<div className="ml-2">
+									{isOnline ? (
+										<span className="text-xs text-green-500">Online</span>
+									) : (
+										<span className="text-xs text-gray-400 dark:text-gray-500">
+											Offline
+										</span>
+									)}
+								</div>
 							</div>
-							<div className="ml-2">
-								{isOnline ? (
-									<span className="text-xs text-green-500">Online</span>
-								) : (
-									<span className="text-xs text-gray-400 dark:text-gray-500">
-										Offline
-									</span>
-								)}
-							</div>
-						</div>
-					);
-				})}
+						);
+					})
+				)}
 			</div>
 		</section>
 	);

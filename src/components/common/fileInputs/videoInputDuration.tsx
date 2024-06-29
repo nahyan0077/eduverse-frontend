@@ -15,16 +15,16 @@ export const CustomVideoFileInputDuration: FC<CustomVideoFileInputDurationProps>
   theme,
   initialValue = null,
 }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   const [videoUrl, setVideoUrl] = useState<string | null>(initialValue?.url || null);
-  const [duration, setDuration] = useState<number | null>(initialValue?.duration || null);
+
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (initialValue) {
       setVideoUrl(initialValue.url);
-      setDuration(initialValue.duration);
+
     }
   }, [initialValue]);
 
@@ -37,7 +37,7 @@ export const CustomVideoFileInputDuration: FC<CustomVideoFileInputDurationProps>
     if (!file) return;
 
     setLoading(true);
-    setSelectedFile(file);
+
 
     try {
       const result = await VideoUploadWithDuration(file);
@@ -49,7 +49,7 @@ export const CustomVideoFileInputDuration: FC<CustomVideoFileInputDurationProps>
       const { secure_url, duration } = result;
 
       setVideoUrl(secure_url);
-      setDuration(duration);
+
       onChange({ url: secure_url, duration });
     } catch (error) {
       toast.error("Video upload failed. Please check the console for details.");
@@ -60,9 +60,9 @@ export const CustomVideoFileInputDuration: FC<CustomVideoFileInputDurationProps>
   };
 
   const handleClearFile = () => {
-    setSelectedFile(null);
+
     setVideoUrl(null);
-    setDuration(null);
+
     onChange(null);
   };
 

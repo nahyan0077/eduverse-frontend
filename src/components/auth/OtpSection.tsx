@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../ui/theme-provider";
 import { useAppDispatch } from "@/hooks/hooks";
 import { verifyOtpAction } from "@/redux/store/actions/auth/verifyOtpAction";
-import { Toaster, toast } from 'sonner';
-import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from 'sonner';
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -141,7 +140,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
 
     return (
         <>
-            <Toaster richColors position="top-center" />
             <LoadingPopUp isLoading={isLoading} />
             <motion.div 
                 className={`w-full md:w-1/2 flex flex-col items-center px-4 py-16  rounded-2xl shadow-lg ${theme == 'light' ?  'bg-white' : 'bg-gray-900'} bg-gray-900 `}

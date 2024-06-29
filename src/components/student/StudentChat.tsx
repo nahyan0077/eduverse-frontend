@@ -40,6 +40,15 @@ export const StudentChat: React.FC = () => {
             }
         });
 
+        // socket?.on("last-seen",(userId)=> {
+        //     console.log("last seennn");
+
+            
+        //     setCurrentChat((currChat: any) => [...currChat, userId])
+        // })
+
+        
+
         return () => {
             socket?.off("new-user");
             socket?.off("online-users");
@@ -47,6 +56,7 @@ export const StudentChat: React.FC = () => {
             socket?.off("isTyping");
         };
     }, [socket, setOnlineUsers, currentChat, data?._id]);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -65,20 +75,29 @@ export const StudentChat: React.FC = () => {
     const fetchChatsByUserId = async () => {
         if (data?._id) {
             const response = await dispatch(getChatsByUserIdAction(data?._id));
-            const chatData = response.payload.data.map((chat: any) => {
+            console.log(response.payload.data, "students all users chat list");
+    
+            const chatDataMap = new Map();
+    
+            response.payload.data.forEach((chat: any) => {
                 const participant = chat?.participants.find((participantId: any) => participantId._id !== data?._id);
-                return {
-                    ...participant,
-                    name: participant.userName,
-                    chatId: chat._id,
-                    receiverId: participant._id,
-                    createdAt: Date.now(),
-                    lastSeen: chat?.lastSeen,
-                };
+                if (participant && !chatDataMap.has(participant._id)) {
+                    chatDataMap.set(participant._id, {
+                        ...participant,
+                        name: participant.userName,
+                        chatId: chat._id,
+                        receiverId: participant._id,
+                        createdAt: Date.now(),
+                        lastSeen: chat?.lastSeen,
+                    });
+                }
             });
+    
+            const chatData = Array.from(chatDataMap.values());
             setChats(chatData);
         }
     };
+    
 
     const createPrivateRoomId = (id1: string, id2: string) => {
         return id1 > id2 ? `${id1}_${id2}` : `${id2}_${id1}`;
