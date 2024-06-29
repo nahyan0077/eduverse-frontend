@@ -1,13 +1,20 @@
-import Header from "@/components/common/users/Header"
-import { CourseHeader } from "@/components/course/CourseHeader"
-import { CoursePage } from "@/components/course/CoursePage"
+import Header from "@/components/common/users/Header";
+import React, { Suspense, lazy } from "react";
+import LoadingPopUp from "@/components/common/skeleton/LoadingPopUp";
+
+const CourseHeader = lazy(() => import("@/components/course/CourseHeader"));
+const CoursePage = lazy(() => import("@/components/course/CoursePage"));
 
 export const Course: React.FC = () => {
-    return (
-        <>
-            <Header />
-            <CourseHeader/>
-            <CoursePage />
-        </>
-    )
-} 
+	return (
+		<>
+			<Header />
+			<Suspense fallback={<LoadingPopUp isLoading />}>
+				<CourseHeader />
+			</Suspense>
+			<Suspense fallback={<LoadingPopUp isLoading />}>
+				<CoursePage />
+			</Suspense>
+		</>
+	);
+};

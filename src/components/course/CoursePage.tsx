@@ -387,3 +387,6 @@ export const CoursePage: React.FC = () => {
 		</div>
 	);
 };
+
+
+export default CoursePage

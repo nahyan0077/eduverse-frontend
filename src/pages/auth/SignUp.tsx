@@ -15,7 +15,7 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { SignupFormData } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/hooks";
 import { motion } from "framer-motion";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
 import { storeUserData } from "@/redux/store/slices/user";
 
@@ -51,8 +51,6 @@ const SignUp: React.FC = () => {
 				isGAuth: false,
 			};
 
-			console.log("nwe check", allData);
-
 			if (location.state.role === "student") {
 				navigate("/student-form", { state: allData });
 			} else {
@@ -66,7 +64,6 @@ const SignUp: React.FC = () => {
 	const loginWithGoogle = async (credentialResponse: any) => {
 		try {
 			const response = await dispatch(googleAuthAction(credentialResponse));
-			console.log("google auth res: ", response);
 
 			if (response.payload.existingUser && response.payload.data.isGAuth) {
 				dispatch(storeUserData(response.payload.data));
@@ -90,8 +87,6 @@ const SignUp: React.FC = () => {
 				isVerified: location.state.role == "instructor" ? false : true,
 			};
 
-			console.log("signup 1", allData);
-
 			if (location.state.role === "student") {
 				navigate("/student-form", { state: allData });
 			} else {
@@ -105,7 +100,6 @@ const SignUp: React.FC = () => {
 
 	return (
 		<>
-			<Toaster position="top-center" richColors />
 			<Header />
 			<div className="min-h-screen">
 				<div className="flex flex-col md:flex-row max-w-7xl mx-auto items-center">

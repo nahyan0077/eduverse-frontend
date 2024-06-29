@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ChatListSkeleton } from "../loadingSkeleton/ChatList";
 

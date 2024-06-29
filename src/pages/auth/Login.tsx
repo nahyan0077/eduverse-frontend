@@ -1,3 +1,4 @@
+import React from "react";
 import login from "@/assets/auth/loginss.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/common/users/Header";
@@ -9,11 +10,9 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { loginAction } from "@/redux/store/actions/auth/loginAction";
-import { Toaster, toast } from "sonner";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
 import { storeUserData } from "@/redux/store/slices/user";
 import { RootState } from "@/redux/store";
-import { useEffect } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { SignupFormData } from "@/types/IForms";
 import { googleAuthAction } from "@/redux/store/actions/auth";
@@ -30,18 +29,8 @@ const Login: React.FC = () => {
 
 	const userData = useAppSelector((state: RootState) => state.user);
 
-	useEffect(() => {
-		console.log("User Data:", userData);
-	}, [userData]);
-
-	console.log(location.state, "login");
-
 	const handleSubmit = async (value: any) => {
-		console.log(value, "login data");
-
 		const result = await dispatch(loginAction(value));
-
-		console.log("login approval", result);
 
 		if (!result.payload || !result.payload.success) {
 			toast.error(result?.payload?.message || userData?.error);
@@ -69,8 +58,6 @@ const Login: React.FC = () => {
 	const loginWithGoogle = async (credentialResponse: any) => {
 		try {
 			const response = await dispatch(googleAuthAction(credentialResponse));
-
-			console.log(response.payload, "check gauth");
 
 			if (
 				response.payload.existingUser &&
@@ -117,8 +104,6 @@ const Login: React.FC = () => {
 				isVerified: location.state.role == "instructor" ? false : true,
 			};
 
-			console.log(allData, "check gauth----->");
-
 			if (location.state.role === "student") {
 				navigate("/student-form", { state: allData });
 			} else {
@@ -134,7 +119,6 @@ const Login: React.FC = () => {
 
 	return (
 		<>
-			<Toaster richColors position="top-center" />
 			<Header />
 			<div className="min-h-screen">
 				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center mt-20">

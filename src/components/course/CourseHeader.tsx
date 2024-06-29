@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Player } from "@lottiefiles/react-lottie-player";
 
-export const CourseHeader: React.FC = () => {
+const CourseHeader: React.FC = () => {
 	return (
 		<div className="flex flex-col lg:flex-row items-center bg-violet-100 dark:bg-gray-900 justify-between rounded-s-full px-6 lg:px-24 py-12 ml-4 mt-8">
 			<motion.div
@@ -54,3 +54,5 @@ export const CourseHeader: React.FC = () => {
 		</div>
 	);
 };
+
+export default CourseHeader
