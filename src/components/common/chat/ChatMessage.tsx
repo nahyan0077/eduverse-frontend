@@ -76,7 +76,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
 					  src={message.content} 
 					  controls 
 					  preload="metadata"
-					  className="max-w-xl"
+					  className="w-40  lg:max-w-xl"
 					  onError={(e) => console.error("Audio playback error:", e)}
 					>
 					  Your browser does not support the audio element.

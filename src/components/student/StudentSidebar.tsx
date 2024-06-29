@@ -2,13 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-// import PeopleIcon from '@mui/icons-material/People';
 import ClassIcon from "@mui/icons-material/Class";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-// import SchoolIcon from '@mui/icons-material/School';
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import EventIcon from "@mui/icons-material/Event";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import ChatIcon from '@mui/icons-material/Chat';
 
@@ -113,36 +109,7 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 								Assignments
 							</motion.span>
 						</Link>
-						<Link
-							to="/student/events"
-							className={linkClasses("events")}
-							onClick={() => setCurrentPage("events")}
-						>
-							<EventIcon />
-							<motion.span
-								initial="hidden"
-								animate={open ? "visible" : "hidden"}
-								variants={textVariants}
-								className="ml-2"
-							>
-								Events
-							</motion.span>
-						</Link>
-						<Link
-							to="/student/requests"
-							className={linkClasses("requests")}
-							onClick={() => setCurrentPage("requests")}
-						>
-							<AccessTimeIcon />
-							<motion.span
-								initial="hidden"
-								animate={open ? "visible" : "hidden"}
-								variants={textVariants}
-								className="ml-2"
-							>
-								Requests
-							</motion.span>
-						</Link>
+
 						<Link
 							to="/student/enrollments"
 							className={linkClasses("enrollments")}

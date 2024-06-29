@@ -184,7 +184,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     };
 
     return (
-        <section className="flex flex-col w-full bg-white dark:bg-gray-950">
+        <section className="flex flex-col w-full bg-gray-200 dark:bg-gray-950">
             <LoadingPopUp isLoading={loading} />
             {currentChat ? (
                 <>

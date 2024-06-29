@@ -31,7 +31,7 @@ export const StudentEnrollments: React.FC = () => {
     };
 
     return (
-        <div className="max-h-screen max-w-full mx-auto px-24">
+        <div className="min-h-screen max-w-full mx-auto px-24">
             {isEmpty ? (
                 <div className="pt-20 mt-20 text-center">
                     <Player
