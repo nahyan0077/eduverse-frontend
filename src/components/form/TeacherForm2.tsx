@@ -24,10 +24,8 @@ const TeacherForm2: React.FC = () => {
 		profession: "",
 		qualification: "",
 		social: "",
-		cv: ""
+		cv: "",
 	};
-
-	console.log("first form data", location.state);
 
 	const handleSubmit = async (value: any) => {
 		setLoading(true);
@@ -37,7 +35,7 @@ const TeacherForm2: React.FC = () => {
 			contact: {
 				...location.state.contact,
 				address: value.address,
-				social: value.social
+				social: value.social,
 			},
 			qualification: value.qualification,
 			profession: value.profession,
@@ -48,23 +46,17 @@ const TeacherForm2: React.FC = () => {
 			cv: value.cv,
 		};
 
-		console.log(allData, "teacher form last all data");
-
 		if (!allData.isGAuth) {
 			setLoading(true);
-			const response1 = await dispatch(sendVerificationMail(location.state.email));
-			console.log(response1, "notification mail");
+			await dispatch(sendVerificationMail(location.state.email));
+
 			setLoading(false);
-			navigate('/otp', { state: allData });
+			navigate("/otp", { state: allData });
 		} else {
-
-			const response: any = await dispatch(signupAction(allData))
-
-			console.log(response,"instru signup gauth");
-			
+			await dispatch(signupAction(allData));
 
 			setLoading(false);
-			navigate('/');
+			navigate("/");
 		}
 	};
 
@@ -76,7 +68,9 @@ const TeacherForm2: React.FC = () => {
 					htmlFor="student form"
 					className="text-violet-700 text-xl md:text-3xl font-extrabold px-3"
 				>
-					<span className={`${theme === "dark" ? "text-white" : "text-violet-700"}`}>
+					<span
+						className={`${theme === "dark" ? "text-white" : "text-violet-700"}`}
+					>
 						Teacher
 					</span>{" "}
 					Enrollment Form
@@ -91,15 +85,26 @@ const TeacherForm2: React.FC = () => {
 								<Form>
 									<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 										<div className="w-full">
-											<InputField name="address" placeholder="Address" type="text" />
+											<InputField
+												name="address"
+												placeholder="Address"
+												type="text"
+											/>
 										</div>
 									</div>
 									<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 										<div className="w-full">
-											<InputField name="dateOfBirth" placeholder="Date of Birth" type="date" />
+											<InputField
+												name="dateOfBirth"
+												placeholder="Date of Birth"
+												type="date"
+											/>
 										</div>
 										<div className="w-full ">
-											<label htmlFor="date of birth" className="block text-xs font-semibold mb-2">
+											<label
+												htmlFor="date of birth"
+												className="block text-xs font-semibold mb-2"
+											>
 												PROFESSION
 											</label>
 											<Field
@@ -119,14 +124,25 @@ const TeacherForm2: React.FC = () => {
 									</div>
 									<div className={`flex flex-col md:flex-row gap-5 px-5 py-2`}>
 										<div className="w-full md:w-1/2">
-											<InputField name="qualification" placeholder="Qualification" type="text" />
+											<InputField
+												name="qualification"
+												placeholder="Qualification"
+												type="text"
+											/>
 										</div>
 										<div className="w-full md:w-1/2">
-											<InputField name="social" placeholder="Social" type="text" />
+											<InputField
+												name="social"
+												placeholder="Social"
+												type="text"
+											/>
 										</div>
 									</div>
 									<div className="flex flex-col w-full gap-4 px-5 py-2">
-										<label htmlFor="uploadcv" className="block text-xs font-semibold ">
+										<label
+											htmlFor="uploadcv"
+											className="block text-xs font-semibold "
+										>
 											UPLOAD CV
 										</label>
 										<CustomPdfFileInput

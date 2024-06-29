@@ -80,7 +80,6 @@ const MentorsSection: React.FC = () => {
 				const mentors = await dispatch(
 					getAllInstructorsAction({ page: 1, limit: 4 })
 				).unwrap();
-				console.log(mentors, "mentors fetch data");
 				if (mentors.success) {
 					setInstructors(mentors.data);
 					setLoading(false);

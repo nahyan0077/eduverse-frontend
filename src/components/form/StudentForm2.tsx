@@ -3,47 +3,39 @@ import InputField from "@/components/common/skeleton/InputField";
 import { Form, Formik, Field } from "formik";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from "react-router-dom";
 import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
 import { SignupFormData } from "@/types/IForms";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { sendVerificationMail, signupAction } from "@/redux/store/actions/auth";
 import { useAppDispatch } from "@/hooks/hooks";
 
-
-
-
 const StudentForm2: React.FC = () => {
 	const { theme } = useTheme();
-	const location = useLocation()
+	const location = useLocation();
 
-	const navigate = useNavigate()
-	const dispatch = useAppDispatch()
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
-	const [isLoading,setLoading] = useState(false)
+	const [isLoading, setLoading] = useState(false);
 
-	
 	const initialValues = {
 		address: "",
 		dateOfBirth: "",
-        profession : "",
-        qualification: "",
-        social: ""
+		profession: "",
+		qualification: "",
+		social: "",
 	};
 
-	console.log(location.state,"form1 student");
-	
-
-
 	const handleSubmit = async (value: any) => {
-		setLoading(true)
-		console.log(value,"studenr form2 data");
-		const allData: SignupFormData  = {
+		setLoading(true);
+		console.log(value, "studenr form2 data");
+		const allData: SignupFormData = {
 			...location.state,
-			contact:{
+			contact: {
 				...location.state.contact,
 				address: value.address,
-				social: value.social
+				social: value.social,
 			},
 			qualification: value.qualification,
 			profession: value.profession,
@@ -51,28 +43,23 @@ const StudentForm2: React.FC = () => {
 				...location.state.profile,
 				dateOfBirth: value.dateOfBirth,
 			},
-		}
-		console.log(allData,"final student all data");
+		};
 
-		if(!allData.isGAuth){
+		if (!allData.isGAuth) {
+			dispatch(sendVerificationMail(location.state.email));
+			setLoading(false);
+			navigate("/otp", { state: allData });
+		} else {
+			console.log("its gAuth", allData);
 
-			const response1 = await dispatch(sendVerificationMail(location.state.email))
-			console.log(response1,"noteif mail");
-			setLoading(false)
-			navigate('/otp',{state:allData})
+			await dispatch(signupAction(allData));
 
-		}else{
-			console.log("its gAuth",allData);
-
-			const response: any = await dispatch(signupAction(allData))
-			console.log("signup final ress",response);
-
-			if (allData.role == 'student') {
-				setLoading(false)
-				navigate('/')
-			}else{
-				setLoading(false)
-				navigate('/verification-page')
+			if (allData.role == "student") {
+				setLoading(false);
+				navigate("/");
+			} else {
+				setLoading(false);
+				navigate("/verification-page");
 			}
 		}
 	};
@@ -97,7 +84,11 @@ const StudentForm2: React.FC = () => {
 						<img className="w-full h-auto" src={form_image} alt="" />
 					</div>
 					<div className="w-full md:w-1/2">
-						<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={studentFormSchema2} >
+						<Formik
+							initialValues={initialValues}
+							onSubmit={handleSubmit}
+							validationSchema={studentFormSchema2}
+						>
 							<Form>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
@@ -110,7 +101,7 @@ const StudentForm2: React.FC = () => {
 								</div>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
-                                    <InputField
+										<InputField
 											name="dateOfBirth"
 											placeholder="Date of Birth"
 											type="date"
@@ -146,7 +137,7 @@ const StudentForm2: React.FC = () => {
 											type="text"
 										/>
 									</div>
-                                    <div className="w-full md:w-1/2">
+									<div className="w-full md:w-1/2">
 										<InputField
 											name="social"
 											placeholder="social"

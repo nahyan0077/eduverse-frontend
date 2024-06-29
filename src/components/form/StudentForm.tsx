@@ -22,23 +22,19 @@ const StudentForm: React.FC = () => {
 		phone: "",
 		gender: "",
 	};
-	console.log(location.state, "location");
-	
+
 	const handleSubmit = (value: any) => {
-		console.log(value, "student form data");
-		
 		let allData: SignupFormData = {
 			...location.state,
 			firstName: value.firstName,
 			lastName: value.lastName,
-			profile:{
+			profile: {
 				gender: value.gender,
 			},
 			contact: {
 				phone: value.phone,
-			}
+			},
 		};
-		console.log(allData, "all data student form");
 
 		navigate("/student-form2", { state: allData });
 	};
@@ -73,7 +69,11 @@ const StudentForm: React.FC = () => {
 					transition={{ duration: 0.5 }}
 				>
 					<div className="mb-4">
-						<img className="w-1/5 mx-auto rounded-full" src="https://www.pngkey.com/png/detail/72-729716_user-avatar-png-graphic-free-download-icon.png" alt="User" />
+						<img
+							className="w-1/5 mx-auto rounded-full"
+							src="https://www.pngkey.com/png/detail/72-729716_user-avatar-png-graphic-free-download-icon.png"
+							alt="User"
+						/>
 					</div>
 					<Formik
 						initialValues={initialValues}

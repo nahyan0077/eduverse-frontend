@@ -43,7 +43,6 @@ export const SingleCoursePage: React.FC = () => {
 	const [reviews, setReviews] = useState <ReviewEntity[]> ([])
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPage] = useState(1);
-	const [courseId, setCourseId] = useState("")
 	const [overallRating, setOverallRating] = useState<number>(0);
 
 	const { data } = useSelector((state: RootState) => state.user);
@@ -75,7 +74,6 @@ export const SingleCoursePage: React.FC = () => {
 						setIsEnrolled(true);
 					}
 				});
-				setCourseId(response.payload.data._id)
 			}
 		} catch (error: any) {
 			console.error("Error fetching enrollment:", error);

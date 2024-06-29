@@ -9,12 +9,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import teacherFormSchema1 from "@/validationSchemas/teacherFormSchema1";
 import { SignupFormData } from "@/types/IForms";
 
-
-
 const TeacherForm: React.FC = () => {
 	const { theme } = useTheme();
-	const navigate = useNavigate()
-	const location = useLocation()
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const initialValues = {
 		firstName: "",
@@ -32,17 +30,15 @@ const TeacherForm: React.FC = () => {
 			...location.state,
 			firstName: value.firstName,
 			lastName: value.lastName,
-			profile:{
+			profile: {
 				gender: value.gender,
 			},
 			contact: {
 				phone: value.phone,
-			}
+			},
 		};
-		console.log(allData,"all data teacher form");
-		
 
-        navigate('/teacher-form2',{state:allData})
+		navigate("/teacher-form2", { state: allData });
 	};
 
 	return (
@@ -68,7 +64,11 @@ const TeacherForm: React.FC = () => {
 						<div className="mb-4">
 							<img className="w-1/5 mx-auto" src={mUser} alt="" />
 						</div>
-						<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={teacherFormSchema1} >
+						<Formik
+							initialValues={initialValues}
+							onSubmit={handleSubmit}
+							validationSchema={teacherFormSchema1}
+						>
 							<Form>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
@@ -89,7 +89,7 @@ const TeacherForm: React.FC = () => {
 								</div>
 								<div className="flex flex-col md:flex-row gap-5 px-5 py-2">
 									<div className="w-full">
-									<InputField
+										<InputField
 											name="lastName"
 											placeholder="last name"
 											type="text"
@@ -106,11 +106,7 @@ const TeacherForm: React.FC = () => {
 								</div>
 								<div className={`flex flex-col md:flex-row gap-5 px-5 py-2`}>
 									<div className="w-full md:w-1/2">
-										<InputField
-											name="phone"
-											placeholder="phone"
-											type="text"
-										/>
+										<InputField name="phone" placeholder="phone" type="text" />
 									</div>
 									<div className="w-full md:w-1/2">
 										<label
@@ -133,13 +129,15 @@ const TeacherForm: React.FC = () => {
 											<option value="female">Female</option>
 											<option value="female">Other</option>
 										</Field>
-										<ErrorMessage name="gender" className="text-xs font-semibold text-red-500 ml-3" component="span" />
+										<ErrorMessage
+											name="gender"
+											className="text-xs font-semibold text-red-500 ml-3"
+											component="span"
+										/>
 									</div>
-									
 								</div>
 								<div className="flex justify-end p-5 items-center">
 									<button
-									
 										className={`border bg-transparent border-violet-700 text-violet-200 text-sm hover:bg-violet-700 px-2 py-2 rounded-md flex items-center ${
 											theme == "light" ? "bg-violet-700" : "bg-gray-900"
 										}`}
