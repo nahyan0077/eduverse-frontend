@@ -50,7 +50,7 @@ const InstructorSidebar: React.FC<SidebarProps> = ({
 					<div className="flex items-center px-4 py-6 mt-3">
 						<button
 							onClick={onToggleSidebar}
-							className="text-gray-300 hover:text-white ml-2 mr-3 focus:outline-none"
+							className="text-gray-300 hover:text-white ml-2 mr-3 focus:outline-none "
 						>
 							<MenuRoundedIcon />
 						</button>

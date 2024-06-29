@@ -34,7 +34,7 @@ const StudentNavbar: React.FC = () => {
 	};
 
 	return (
-		<nav className="flex flex-col lg:flex-row items-center justify-center lg:justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10 sticky top-0">
+		<nav className="flex  items-center justify-center lg:justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10 sticky top-0">
 			{isModalVisible && (
 				<ConfirmModal
 					message="  logout?"
@@ -43,7 +43,7 @@ const StudentNavbar: React.FC = () => {
 				/>
 			)}
 			<div className="flex items-center">
-				<span className="font-bold text-2xl pl-2 text-white">Student Panel</span>
+				<span className="font-bold text-md lg:text-2xl pl-2 text-white">Student Panel</span>
 				{/* Add any additional navbar items here */}
 			</div>
 			<div className="flex items-center md:space-x-7">
@@ -56,7 +56,7 @@ const StudentNavbar: React.FC = () => {
 						>
 							<img
 								src={userData.data?.profile?.avatar}
-								className="object-cover w-12 h-12 p-1 rounded-full"
+								className="object-cover w-10 lg:w-12 h-10 lg:h-12 p-1 rounded-full"
 								alt=""
 							/>
 							<span className="hidden md:block ">
@@ -79,7 +79,7 @@ const StudentNavbar: React.FC = () => {
 						</ul>
 					</div>
 				</div>
-				<div className="cursor-pointer hover:bg-gray-900 p-2 rounded-xl" onClick={()=>navigate('/home')} >
+				<div className="cursor-pointer hover:bg-gray-900 p-2 hidden lg:block rounded-xl" onClick={()=>navigate('/home')} >
 					<HouseIcon color="primary" />
 				</div>
 				<ModeToggle />

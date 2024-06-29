@@ -34,7 +34,7 @@ const InstructorNavbar: React.FC =  () => {
   };
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-4 lg:px-6 lg:py-3 z-10">
+    <nav className="flex items-center justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10">
       {isModalVisible && (
         <ConfirmModal
           message="logout"
@@ -43,7 +43,7 @@ const InstructorNavbar: React.FC =  () => {
         />
       )}
       <div className="flex items-center">
-        <span className="font-bold text-2xl pl-2">Instructor Panel</span>
+        <span className="font-bold text-md lg:text-2xl pl-2 text-white">Instructor Panel</span>
       </div>
       <div className="flex items-center md:space-x-7">
         <div className="flex items-center ml-4">
@@ -58,7 +58,7 @@ const InstructorNavbar: React.FC =  () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
+              className="dropdown-content z-[1] menu p-2 shadow bg-white dark:bg-gray-950 rounded-box w-52"
             >
               {
                 !userData?.data?.isRequested &&
