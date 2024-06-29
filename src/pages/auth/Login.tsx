@@ -16,6 +16,7 @@ import { RootState } from "@/redux/store";
 import { GoogleLogin } from "@react-oauth/google";
 import { SignupFormData } from "@/types/IForms";
 import { googleAuthAction } from "@/redux/store/actions/auth";
+import Footer from "@/components/common/users/Footer";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -240,6 +241,7 @@ const Login: React.FC = () => {
 					</motion.div>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };

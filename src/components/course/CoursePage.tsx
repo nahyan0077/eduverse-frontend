@@ -113,7 +113,7 @@ export const CoursePage: React.FC = () => {
 					handleSortOrderChange={handleSortOrderChange}
 				/>
 			</div>
-			<div className="flex justify-center mt-10">
+			<div className="flex justify-center my-10">
 				<Pagination
 					currentPage={currentPage}
 					totalPages={totalPages}

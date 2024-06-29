@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
 import { storeUserData } from "@/redux/store/slices/user";
+import Footer from "@/components/common/users/Footer";
 
 const SignUp: React.FC = () => {
 	const navigate = useNavigate();
@@ -184,6 +185,7 @@ const SignUp: React.FC = () => {
 					</motion.div>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };

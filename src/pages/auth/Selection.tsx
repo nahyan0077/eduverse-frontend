@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import Header from "@/components/common/users/Header";
 import { Player } from "@lottiefiles/react-lottie-player";
+import Footer from "@/components/common/users/Footer";
 
 
 const SelectionPage: React.FC = () => {
@@ -72,6 +73,7 @@ const SelectionPage: React.FC = () => {
 					</LazyMotion>
 				</div>
 			</div>
+			<Footer />
 		</Suspense>
 	);
 };
