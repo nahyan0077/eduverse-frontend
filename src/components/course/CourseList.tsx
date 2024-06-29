@@ -41,8 +41,9 @@ const CourseList: React.FC<CourseListProps> = ({
 					: "py-10 px-5"
 			}`}
 		>
-			<div className="absolute top-0 right-0 z-10 ">
+			<div className=" lg:absolute top-0 right-0 z-10 ">
 				<Button
+                    color="inherit"
 					aria-controls="sort-menu"
 					aria-haspopup="true"
 					onClick={handleMenuClick}
@@ -52,6 +53,7 @@ const CourseList: React.FC<CourseListProps> = ({
 				</Button>
 				<Menu
 					id="sort-menu"
+                    color="inherit"
 					anchorEl={anchorEl}
 					keepMounted
 					open={Boolean(anchorEl)}

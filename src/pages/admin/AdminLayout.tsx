@@ -17,7 +17,7 @@ export const AdminLayout: React.FC = () => {
       <AdminSidebar open={sidebarOpen} currentPage={currentPage} onToggleSidebar={handleToggleSidebar} setCurrentPage={setCurrentPage} />
       <div className={`flex flex-col flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
         <AdminNavbar />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-950">
           <Outlet />
         </div>
       </div>

@@ -34,7 +34,6 @@ export const CoursePage: React.FC = () => {
 		if (getActiveCoursesAction.fulfilled.match(response)) {
 			setCourses(response.payload.data.courses);
 			setTotalPages(response.payload.data.totalPages);
-			console.log("Fetched courses:", response);
 		} else {
 			console.error("Failed to fetch courses:", response.payload);
 		}
@@ -92,7 +91,7 @@ export const CoursePage: React.FC = () => {
 			}`}
 		>
 			<div className="flex justify-between items-center mb-6 rounded-2xl">
-				{/* Add any additional elements here */}
+				
 			</div>
 			<div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
 				<FilterPanel

@@ -4,7 +4,7 @@ import AdminDashboard from "@/components/admin/AdminDashBoard";
 import AdminStudents from "@/components/admin/AdminStudents";
 import { AdminCategory } from "@/components/admin/AdminCategory";
 import  UserDetailPage  from "@/components/admin/AdminUserData";
-import { AdminCourses } from "@/components/admin/AdminCourses";
+import  AdminCourses  from "@/components/admin/AdminCourses";
 import { AdminSingleCourse } from "@/components/admin/course/AdminSingleCourse";
 import { Unauthorized } from "@/pages/common/Unauthorized";
 import { AdminInstructors } from "@/components/admin/AdminInstructors";

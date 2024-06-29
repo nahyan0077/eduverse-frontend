@@ -32,7 +32,7 @@ const AdminNavbar: React.FC = () => {
 	};
 
 	return (
-		<nav className="flex items-center justify-between flex-wrap bg-gray-800 p-4 lg:px-6 lg:py-3 z-10">
+		<nav className="flex items-center justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10">
 			{isModalVisible && (
 				<ConfirmModal
 					message="logout"
@@ -53,14 +53,12 @@ const AdminNavbar: React.FC = () => {
 							className="btn m-1 hover:bg-gray-900 border border-transparent bg-transparent"
 						>
 							<IoMdPerson className="text-xl"  />
+							ADMIN
 						</div>
 						<ul
 							tabIndex={0}
-							className="dropdown-content z-[1] menu p-2 shadow bg-gray-950 rounded-box w-52"
+							className="dropdown-content z-[1] menu p-2 shadow bg-white dark:bg-gray-950 rounded-box w-52"
 						>
-							<li>
-								<a>Profile</a>
-							</li>
 							<li>
 								<a onClick={handleLogout}>Logout</a>
 							</li>
