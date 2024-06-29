@@ -134,7 +134,7 @@ export const StudentChat: React.FC = () => {
 				contentType,
 			};
 			socket?.emit("send-message", newMessage);
-			await dispatch(createMessageAction(newMessage));
+			await dispatch(createMessageAction(newMessage)); 
 		}
 	};
 
@@ -143,7 +143,7 @@ export const StudentChat: React.FC = () => {
 	};
 
 	return (
-		<div className="flex h-full bg-gray-900">
+		<div className="flex  bg-gray-900 ">
 			{!isMobileView || !showChatWindow ? (
 				<ChatSidebar
 					users={chats}

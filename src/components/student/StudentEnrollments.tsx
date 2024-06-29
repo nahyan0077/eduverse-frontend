@@ -31,7 +31,7 @@ export const StudentEnrollments: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen max-w-full mx-auto px-24">
+        <div className="max-h-screen mx-auto lg:px-24 p-4">
             {isEmpty ? (
                 <div className="pt-20 mt-20 text-center">
                     <Player
@@ -43,31 +43,33 @@ export const StudentEnrollments: React.FC = () => {
 					<h2 className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-pink-500 bg-clip-text text-transparent" >No enrollments found</h2>
                 </div>
             ) : (
-                <div className="flex flex-col max-w-full mx-auto" >
-
-                <h2 className="text-3xl font-bold px-10 pt-8" >Enrolled  Courses</h2>
-                <div className="flex flex-wrap  gap-10 p-10">
-                    {enrollments.map((enrollment: any) => (
-                        <div key={enrollment._id} className="card w-72 glass" 
-                        onClick={()=>navigate('/student/single-enrollment',{state: {enrollmentId:enrollment._id ,courseId:enrollment.courseId._id}})} >
-                            <figure>
-                                <img
-                                    src={enrollment.courseId.thumbnail}
-                                    alt={enrollment.courseId.title}
-                                />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title text-sm">
-                                    {enrollment.courseId.title}
-                                </h2>
-                                <div className="text-right">
-                                    <progress className="progress progress-primary w-56 mt-4" value="70" max="100"></progress>
-                                    <button className="btn btn-sm btn-neutral">1/4</button>
+                <div className="flex flex-col">
+                    <h2 className="text-3xl font-bold px-4 pt-8">Enrolled Courses</h2>
+                    <div className="flex flex-wrap gap-8 p-4">
+                        {enrollments.map((enrollment: any) => (
+                            <div
+                                key={enrollment._id}
+                                className="card w-full sm:w-72 glass"
+                                onClick={() => navigate('/student/single-enrollment', { state: { enrollmentId: enrollment._id, courseId: enrollment.courseId._id } })}
+                            >
+                                <figure>
+                                    <img
+                                        src={enrollment.courseId.thumbnail}
+                                        alt={enrollment.courseId.title}
+                                    />
+                                </figure>
+                                <div className="card-body">
+                                    <h2 className="card-title text-sm">
+                                        {enrollment.courseId.title}
+                                    </h2>
+                                    <div className="text-right">
+                                        <progress className="progress progress-primary w-full sm:w-56 mt-4" value="70" max="100"></progress>
+                                        <button className="btn btn-sm btn-neutral mt-2">1/4</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>

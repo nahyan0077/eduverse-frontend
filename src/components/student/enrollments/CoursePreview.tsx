@@ -51,7 +51,8 @@ export const CoursePreview: React.FC = () => {
 
     const handleProgress = async (played: number, lessonId: string) => {
         setProgress((prev) => ({ ...prev, [lessonId]: played }));
-
+        console.log(progress,"progress");
+        
         if (played >= 0.7 && !completed[lessonId]) {
             setCompleted((prev) => ({ ...prev, [lessonId]: true }));
 
@@ -81,7 +82,7 @@ export const CoursePreview: React.FC = () => {
                             width="100%"
                             height="100%"
                             controls={true}
-                            className="rounded-lg overflow-hidden"
+                            className="rounded-lg overflow-hidden "
                             onProgress={({ played }) => {
                                 const currentLesson = courseData.lessons.find((lesson: any) => lesson.video === previewVideo);
                                 if (currentLesson) {

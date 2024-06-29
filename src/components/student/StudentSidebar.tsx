@@ -32,7 +32,7 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 	};
 
 	const linkClasses = (page: string) =>
-		`px-4 py-4 ml-2 flex items-center text-gray-300 hover:bg-gray-950 hover:text-white transition-colors rounded-l-full ${
+		`px-4 py-4 ml-2 flex items-center text-gray-300 hover:bg-gray-950 hover:text-white transition-colors rounded-l-full  ${
 			currentPage === page ? "bg-gray-950 text-white" : ""
 		}`;
 

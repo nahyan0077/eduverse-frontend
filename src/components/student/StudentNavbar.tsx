@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import HouseIcon from "@mui/icons-material/House";
-import { useTheme } from "../ui/theme-provider";
+
 
 const StudentNavbar: React.FC = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
@@ -34,7 +34,7 @@ const StudentNavbar: React.FC = () => {
 	};
 
 	return (
-		<nav className="flex flex-col lg:flex-row items-center justify-center lg:justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10">
+		<nav className="flex flex-col lg:flex-row items-center justify-center lg:justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10 sticky top-0">
 			{isModalVisible && (
 				<ConfirmModal
 					message="  logout?"

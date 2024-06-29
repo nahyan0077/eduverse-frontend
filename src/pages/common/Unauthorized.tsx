@@ -4,7 +4,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 export const Unauthorized: React.FC = () => {
 	return (
 		<>
-			<div className="min-h-screen flex mx-auto max-w-screen-xl lg:py-16 lg:px-6 items-center">
+			<div className="h- flex mx-auto max-w-screen-xl items-center">
 				<div className="mx-auto max-w-screen-sm text-center">
 					<Player
 						autoplay

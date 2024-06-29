@@ -86,7 +86,7 @@ export const AddOthers: React.FC = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ setFieldValue, values }) => (
+        {({ setFieldValue }) => (
           <Form>
             <div className="flex space-x-6">
               <div className="w-[50%] space-y-6">
@@ -172,6 +172,7 @@ export const AddOthers: React.FC = () => {
               <button
                 className="btn btn-info btn-outline"
                 type="submit"
+                
               >
                 Submit
               </button>

@@ -31,7 +31,6 @@ export const AddLessons: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(isEditMode, "is edit mode on");
     if (isEditMode) {
       console.log(location.state.oldData.lessons, "check lessons reached");
     }

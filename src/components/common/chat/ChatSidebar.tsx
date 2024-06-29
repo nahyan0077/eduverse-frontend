@@ -12,14 +12,14 @@ interface SidebarProps {
 		  }[]
 		| undefined;
 	onCreateNewChat: (userId: string, isOnline: boolean | undefined) => void;
-	loading: boolean; // Add this prop to indicate loading state
+	loading: boolean; 
 }
 
 export const ChatSidebar: React.FC<SidebarProps> = ({
 	users,
 	onlineUsers,
 	onCreateNewChat,
-	loading, // Add this prop to indicate loading state
+	loading,
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -32,7 +32,7 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
 	);
 
 	return (
-		<section className="w-full lg:w-1/2 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-100 dark:bg-gray-950">
+		<section className="w-full lg:w-1/2 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-100 dark:bg-gray-950  lg:h-[89vh]">
 			<header className="p-4 border-b border-gray-200 dark:border-gray-700">
 				<div className="relative">
 					<input
