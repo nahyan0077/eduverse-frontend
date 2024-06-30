@@ -1,6 +1,6 @@
 import React from "react";
 import ReactPlayer from "react-player";
-import CourseDetails from "./CourseDetails";
+
 
 const CoursePreview: React.FC<{ courseData: any }> = ({ courseData }) => {
   return (

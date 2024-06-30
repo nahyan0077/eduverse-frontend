@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useTheme } from "@/components/ui/theme-provider";
 import LoadingPopUp from "@/components/common/skeleton/LoadingPopUp";
@@ -25,7 +25,6 @@ export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
 	const { theme } = useTheme();
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [loading, setLoading] = useState(false);
 	const [reviews, setReviews] = useState<ReviewEntity[]>([]);
