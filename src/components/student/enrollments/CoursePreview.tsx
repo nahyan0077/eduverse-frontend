@@ -7,7 +7,7 @@ import { EnrollmentEntity } from "@/types/IEnrollment";
 import { unwrapResult } from "@reduxjs/toolkit";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import PendingIcon from '@mui/icons-material/Pending';
-
+import DownloadIcon from '@mui/icons-material/Download';
 
 export const CoursePreview: React.FC = () => {
     const location = useLocation();
@@ -31,8 +31,6 @@ export const CoursePreview: React.FC = () => {
             const enrollmentData = unwrapResult(result);
             setEnrollment(enrollmentData.data);
             initializeProgress(enrollmentData.data);
-			console.log(enrollmentData,"enrol data");
-			
         } catch (error) {
             console.error("Failed to fetch enrollment:", error);
         }
@@ -51,65 +49,84 @@ export const CoursePreview: React.FC = () => {
 
     const handleProgress = async (played: number, lessonId: string) => {
         setProgress((prev) => ({ ...prev, [lessonId]: played }));
-        console.log(progress,"progress");
         
         if (played >= 0.7 && !completed[lessonId]) {
             setCompleted((prev) => ({ ...prev, [lessonId]: true }));
 
-            const response = await dispatch(UpdateLessonProgressAction({
+            await dispatch(UpdateLessonProgressAction({
                 enrollmentId,
                 lessonId,
                 totalLessons
             }));
-
-            console.log("Updated lesson progress:", response);
         }
     };
 
+    const allLessonsCompleted = courseData.lessons.every((lesson: any) => completed[lesson._id]);
+
     return (
-        <div className="min-h-screen flex flex-col items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-            <div className="max-w-full w-full px-5 py-2">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
-                    <div className="col-span-3 flex justify-between items-center skeleton bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-bold mb-4">{courseData?.title}</h2>
-						{enrollment?.completionStatus == "completed" ? 
-						<span className="text-green-400 font-bold mr-2" ><BeenhereIcon color="success" className="mr-2" />COMPLETED</span>: 
-						<span className="text-orange-500-400 font-bold mr-2" ><PendingIcon color="warning" className="mr-2" />IN-PROGRESS</span> }
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-8">
+            <div className="container mx-auto px-4">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-3xl font-bold">{courseData?.title}</h1>
+                        {enrollment?.completionStatus === "completed" ? 
+                            <span className="text-green-500 font-semibold flex items-center">
+                                <BeenhereIcon className="mr-2" />COMPLETED
+                            </span> : 
+                            <span className="text-orange-500 font-semibold flex items-center">
+                                <PendingIcon className="mr-2" />IN-PROGRESS
+                            </span>
+                        }
                     </div>
-                    <div className="col-span-2 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
-                        <ReactPlayer
-                            url={previewVideo}
-                            width="100%"
-                            height="100%"
-                            controls={true}
-                            className="rounded-lg overflow-hidden "
-                            onProgress={({ played }) => {
-                                const currentLesson = courseData.lessons.find((lesson: any) => lesson.video === previewVideo);
-                                if (currentLesson) {
-                                    handleProgress(played, currentLesson._id);
-                                }
-                            }}
-                        />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2">
+                        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                            <ReactPlayer
+                                url={previewVideo}
+                                width="100%"
+                                height="480px"
+                                controls={true}
+                                className="rounded-lg overflow-hidden"
+                                onProgress={({ played }) => {
+                                    const currentLesson = courseData.lessons.find((lesson: any) => lesson.video === previewVideo);
+                                    if (currentLesson) {
+                                        handleProgress(played, currentLesson._id);
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
-                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
-                        <h2 className="text-xl font-bold mb-4">Lessons</h2>
-                        <div className="flex flex-col space-y-2">
+
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                        <h2 className="text-2xl font-bold mb-6">Lessons</h2>
+                        <div className="space-y-4">
                             {courseData?.lessons.map((lesson: any) => (
                                 <div
                                     key={lesson.lessonNumber}
-                                    className="collapse collapse-arrow bg-base-200"
-                                    onClick={() => setPreviewVideo(lesson.video)}
+                                    className="collapse collapse-arrow bg-gray-100 dark:bg-gray-700 rounded-lg"
                                 >
                                     <input type="radio" name="my-accordion-2" />
-                                    <div className="collapse-title text-md font-medium">
-                                        {lesson.lessonNumber}. {lesson.title} {completed[lesson._id] ? "✅" : ""}
+                                    <div 
+                                        className="collapse-title text-lg font-medium flex items-center justify-between cursor-pointer"
+                                        onClick={() => setPreviewVideo(lesson.video)}
+                                    >
+                                        <span>{lesson.lessonNumber}. {lesson.title}</span>
+                                        {completed[lesson._id] && <BeenhereIcon className="text-green-500" />}
                                     </div>
-                                    <div className="text-sm collapse-content">
+                                    <div className="collapse-content text-sm">
                                         <p className="p-2">{lesson.description}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
+                        
+                        {allLessonsCompleted && (
+                            <button className="btn btn-primary w-full mt-8 flex items-center justify-center">
+                                <DownloadIcon className="mr-2" /> Download Certificate
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

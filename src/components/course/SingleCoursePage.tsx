@@ -26,7 +26,7 @@ import {
 	getEnrollmentByUserIdAction,
 } from "@/redux/store/actions/enrollment";
 import { CourseIncludesSection } from "./CourseIncludesSection";
-import { ReviewsSection } from "../student/enrollments/CourseReview";
+import { ReviewsSection } from "../student/enrollments/singleEnrollments/CourseReview";
 import { ReviewEntity } from "@/types/IReview";
 import { getAllReviewsAction } from "@/redux/store/actions/review";
 import Pagination from "../common/admin/Pagination";

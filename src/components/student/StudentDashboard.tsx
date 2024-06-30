@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from '../ui/theme-provider';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { getEnrollmentByUserIdAction } from '@/redux/store/actions/enrollment';
+import { RootState } from '@/redux/store';
 
 const StudentDashboard: React.FC = () => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch()
+  const {data} = useAppSelector((state: RootState) => state.user)
+
+  useEffect(()=>{
+    fetchCoursesEnrolled()
+  },[])
+  
+  const fetchCoursesEnrolled = async () => {
+    if (data?._id) {
+      const response =  await dispatch(getEnrollmentByUserIdAction(data?._id))
+      console.log(response.payload.data,"get all enrolled courses");
+      
+    }
+  }
 
   return (
     <div className="flex-1 overflow-auto p-6">

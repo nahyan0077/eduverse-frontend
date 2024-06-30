@@ -51,11 +51,21 @@ export const StudentChat: React.FC = () => {
 			}
 		});
 
+
+		socket?.on("get-delete-message", (messageId) => {
+			setMessages(prevMessages => 
+				prevMessages.map(msg => 
+					msg._id === messageId ? { ...msg, isDeleted: true } : msg
+				)
+			);
+		});
+
 		return () => {
 			socket?.off("new-user");
 			socket?.off("online-users");
 			socket?.off("receive-message");
 			socket?.off("isTyping");
+			socket?.off("get-delete-message");
 		};
 	}, [socket, setOnlineUsers, currentChat, data?._id]);
 
@@ -124,6 +134,8 @@ export const StudentChat: React.FC = () => {
 		}
 	};
 
+	
+
 	const onSendMessage = async ({ content, contentType }: any) => {
 		if (roomId && currentChat && data?._id) {
 			const newMessage = {
@@ -134,7 +146,7 @@ export const StudentChat: React.FC = () => {
 				contentType,
 			};
 			socket?.emit("send-message", newMessage);
-			await dispatch(createMessageAction(newMessage)); 
+			await dispatch(createMessageAction(newMessage));
 		}
 	};
 
@@ -143,7 +155,7 @@ export const StudentChat: React.FC = () => {
 	};
 
 	return (
-		<div className="flex  bg-gray-900 ">
+		<div className="flex bg-gray-900">
 			{!isMobileView || !showChatWindow ? (
 				<ChatSidebar
 					users={chats}

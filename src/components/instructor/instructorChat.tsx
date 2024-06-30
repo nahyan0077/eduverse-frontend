@@ -51,11 +51,21 @@ export const InstructorChat: React.FC = () => {
 			}
 		});
 
+
+		socket?.on("get-delete-message", (messageId) => {
+			setMessages(prevMessages => 
+				prevMessages.map(msg => 
+					msg._id === messageId ? { ...msg, isDeleted: true } : msg
+				)
+			);
+		});
+
 		return () => {
 			socket?.off("new-user");
 			socket?.off("online-users");
 			socket?.off("receive-message");
 			socket?.off("isTyping");
+			socket?.off("get-delete-message");
 		};
 	}, [socket, setOnlineUsers, currentChat, data?._id]);
 
@@ -116,6 +126,7 @@ export const InstructorChat: React.FC = () => {
 			const response = await dispatch(
 				getMessagesByChatIdAction(receiverData.chatId)
 			);
+
 			setMessages(response.payload.data);
 
 			if (isMobileView) {
@@ -123,6 +134,8 @@ export const InstructorChat: React.FC = () => {
 			}
 		}
 	};
+
+	
 
 	const onSendMessage = async ({ content, contentType }: any) => {
 		if (roomId && currentChat && data?._id) {

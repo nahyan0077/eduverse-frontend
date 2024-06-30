@@ -229,6 +229,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                                     key={index}
                                     message={message}
                                     currentUser={currentUser}
+                                    currentChat={currentChat}
                                 />
                             ))}
                             <div ref={messagesEndRef} />

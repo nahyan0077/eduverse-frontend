@@ -1,9 +1,14 @@
-import React from "react";
-import { useAppSelector } from "@/hooks/hooks";
+import React, { useContext, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import DoneIcon from "@mui/icons-material/Done";
 import { FaFilePdf } from "react-icons/fa";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ConfirmModal from "../modal/ConfirmModal";
+import { updateMessageAction } from "@/redux/store/actions/chat/updateMessageAction";
+import ErrorIcon from "@mui/icons-material/Error";
+import { SocketContext } from "@/context/SocketProvider";
 
 interface MessageProps {
 	message: {
@@ -12,8 +17,12 @@ interface MessageProps {
 		createdAt: string;
 		recieverSeen: boolean;
 		contentType: string;
+		chatId?: string;
+		_id?: string;
+		isDeleted?: boolean;
 	};
 	currentUser: string;
+	currentChat: any;
 }
 
 function formatChatTime(isoString: string) {
@@ -33,9 +42,33 @@ function formatChatTime(isoString: string) {
 export const ChatMessage: React.FC<MessageProps> = ({
 	message,
 	currentUser,
+	currentChat,
 }) => {
 	const isCurrentUser = message.senderId === currentUser;
 	const { data } = useAppSelector((state: RootState) => state.user);
+	const dispatch = useAppDispatch();
+	const [isModalVisible, setModalVisible] = useState(false);
+	const { socket } = useContext(SocketContext) || {};
+
+	const handleDeleteChat = () => {
+		setModalVisible(true);
+	};
+
+
+
+	const handleDelete = async () => {
+		console.log(currentChat, "cur uder check");
+
+		if (message?.chatId) {
+			await dispatch(updateMessageAction({_id:message?._id, isDeleted: true}));
+			socket?.emit("delete-message",{messageId:message?._id, roomId:currentChat?.roomId})
+			setModalVisible(false);
+		}
+	};
+
+	const handleCancel = () => {
+		setModalVisible(false);
+	};
 
 	const renderContent = () => {
 		switch (message.contentType) {
@@ -71,18 +104,17 @@ export const ChatMessage: React.FC<MessageProps> = ({
 				);
 			case "audio":
 				return (
-					<div className="mb-2 p-2  rounded-lg w-full">
-					<audio 
-					  src={message.content} 
-					  controls 
-					  preload="metadata"
-					  className="w-40  lg:max-w-xl"
-					  onError={(e) => console.error("Audio playback error:", e)}
-					>
-					  Your browser does not support the audio element.
-					</audio>
-				  </div>
-				
+					<div className="mb-2 pr-5 pt-3  rounded-lg w-full">
+						<audio
+							src={message.content}
+							controls
+							preload="metadata"
+							className="w-40 lg:w-60 "
+							onError={(e) => console.error("Audio playback error:", e)}
+						>
+							Your browser does not support the audio element.
+						</audio>
+					</div>
 				);
 			default:
 				return <p>{message.content}</p>;
@@ -90,41 +122,77 @@ export const ChatMessage: React.FC<MessageProps> = ({
 	};
 
 	return (
-		<div className={`chat ${isCurrentUser ? "chat-end" : "chat-start"}`}>
-			<div className="chat-image avatar">
-				<div className="w-10 rounded-full">
-					<img
-						src={
-							isCurrentUser
-								? data?.profile?.avatar
-								: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-						}
-						alt="User Avatar"
-					/>
-				</div>
-			</div>
-
-			<div
-				className={`chat-bubble text-white rounded-3xl ${
-					isCurrentUser
-						? "bg-gradient-to-r from-fuchsia-600 to-purple-600"
-						: "bg-gradient-to-r from-slate-700 to-slate-800"
-				}`}
-			>
-				{renderContent()}
-				<div className="chat-header text-xs opacity-50 p-1 ">
-					{formatChatTime(message.createdAt)}
-				</div>
-			</div>
-			{isCurrentUser && (
-				<div className="chat-footer text-xs opacity-50">
-					{message.recieverSeen ? (
-						<DoneAllIcon fontSize="small" color="info" />
-					) : (
-						<DoneIcon fontSize="small" />
-					)}
-				</div>
+		<>
+			{isModalVisible && (
+				<ConfirmModal
+					message="delete this message ?"
+					onConfirm={handleDelete}
+					onCancel={handleCancel}
+				/>
 			)}
-		</div>
+			<div className={`chat ${isCurrentUser ? "chat-end" : "chat-start"}`}>
+				<div className="chat-image avatar">
+					<div className="w-10 rounded-full">
+						<img
+							src={
+								isCurrentUser
+									? data?.profile?.avatar
+									: currentChat?.profile?.avatar
+							}
+							alt="User Avatar"
+						/>
+					</div>
+				</div>
+				<div className="flex">
+					{isCurrentUser && !message.isDeleted && (
+						<div className="flex items-center">
+							<div className="dropdown dropdown-left">
+								<div tabIndex={0} role="button" className="">
+									<MoreVertIcon fontSize="small" />
+								</div>
+								<ul
+									tabIndex={0}
+									className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+								>
+									<li>
+										<a onClick={handleDeleteChat}>Delete for everyone</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					)}
+					<div
+						className={`chat-bubble text-white rounded-3xl ${
+							isCurrentUser ? "lg:ml-2" : "lg:ml-6"
+						} text-sm ${
+							isCurrentUser
+								? "bg-gradient-to-r from-fuchsia-600 to-purple-600"
+								: "bg-gradient-to-r from-slate-700 to-slate-800"
+						}`}
+					>
+						{message?.isDeleted ? (
+							<span className="italic text-sm">
+								<ErrorIcon />
+								This message is deleted
+							</span>
+						) : (
+							renderContent()
+						)}
+						<div className="chat-header text-xs opacity-50 p-1 ">
+							{formatChatTime(message.createdAt)}
+						</div>
+					</div>
+				</div>
+				{isCurrentUser && (
+					<div className="chat-footer text-xs opacity-50">
+						{message.recieverSeen ? (
+							<DoneAllIcon fontSize="small" color="info" />
+						) : (
+							<DoneIcon fontSize="small" />
+						)}
+					</div>
+				)}
+			</div>
+		</>
 	);
 };
