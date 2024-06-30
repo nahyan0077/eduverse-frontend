@@ -30,7 +30,7 @@ export const StudentEnrollments: React.FC = () => {
   };
 
   const handleSearchChange = () => {
-    
+
   };
 
   return (
@@ -76,13 +76,14 @@ export const StudentEnrollments: React.FC = () => {
                 </figure>
                 <div className="card-body p-4">
                   <h2 className="card-title text-sm">{enrollment.courseId.title}</h2>
-                  <div className="text-right mt-4">
+                  <div className=" mt-2">
+                    <p className="text-sm" > {enrollment.courseId.level} </p>
                     <progress
                       className="progress progress-primary w-full sm:w-56"
-                      value="70"
+                      value={enrollment.progress.overallCompletionPercentage}
                       max="100"
                     ></progress>
-                    <button className="btn btn-sm btn-neutral mt-2">1/4</button>
+                    <button className="btn btn-sm btn-neutral mt-2"> {enrollment.progress.overallCompletionPercentage} % </button>
                   </div>
                 </div>
               </div>
