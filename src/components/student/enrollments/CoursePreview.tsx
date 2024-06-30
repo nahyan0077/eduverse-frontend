@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { useLocation } from "react-router-dom";
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { UpdateLessonProgressAction, getEnrollmentByIdAction } from "@/redux/store/actions/enrollment";
 import { EnrollmentEntity } from "@/types/IEnrollment";
 import { unwrapResult } from "@reduxjs/toolkit";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import PendingIcon from '@mui/icons-material/Pending';
 import DownloadIcon from '@mui/icons-material/Download';
+import { generateCertificate } from "@/redux/store/actions/course/generateCertificate";
+import { RootState } from "@/redux/store";
 
 export const CoursePreview: React.FC = () => {
     const location = useLocation();
@@ -18,6 +20,7 @@ export const CoursePreview: React.FC = () => {
     const [completed, setCompleted] = useState<{ [key: string]: boolean }>({});
     const [enrollment, setEnrollment] = useState<EnrollmentEntity | null>(null);
     const dispatch = useAppDispatch();
+    const {data} = useAppSelector((state: RootState) => state.user)
 
     useEffect(() => {
         fetchEnrollment();
@@ -62,6 +65,16 @@ export const CoursePreview: React.FC = () => {
             }));
         }
     };
+
+    const handleCertificateGenerate = async () => {
+        const newData = {
+            courseId: courseData._id,
+            userId: data?._id
+        }
+        const response = await dispatch(generateCertificate(newData))
+        console.log(response,"pdf download");
+        
+    }
 
     const allLessonsCompleted = courseData.lessons.every((lesson: any) => completed[lesson._id]);
 
@@ -125,7 +138,9 @@ export const CoursePreview: React.FC = () => {
                         </div>
                         
                         {allLessonsCompleted && (
-                            <button className="btn btn-primary w-full mt-8 flex items-center justify-center">
+                            <button className="btn btn-primary w-full mt-8 flex items-center justify-center" 
+                                onClick={handleCertificateGenerate}
+                            >
                                 <DownloadIcon className="mr-2" /> Download Certificate
                             </button>
                         )}
