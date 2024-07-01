@@ -1,5 +1,5 @@
 import LoadingPopUp from "@/components/common/skeleton/LoadingPopUp";
-import React, { Suspense, lazy, useEffect } from "react";
+import React, { Suspense, lazy } from "react";
 
 const FeaturesSection = lazy(() => import("@/components/home/FeaturesSection"));
 const Footer = lazy(() => import("@/components/common/users/Footer"));

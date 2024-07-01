@@ -67,7 +67,7 @@ const StudentDashboard: React.FC = () => {
       </div>
 
 	{/*<------------- student login streak -------------> */}
-	
+
       <div className="mb-10">
         <StreakDisplay streak={data?.loginStreak || 0} weeklyLogin={data?.weeklyLogins || []} theme={theme} />
       </div>
@@ -168,7 +168,7 @@ const CourseCard: React.FC<{ course: any; theme: string }> = ({ course, theme })
               role="progressbar"
             >
               <span className="text-sm font-bold">
-                {course.progress.overallCompletionPercentage}%
+                {Math.trunc(course.progress.overallCompletionPercentage)}%
               </span>
             </div>
           </div>
