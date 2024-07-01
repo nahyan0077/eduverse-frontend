@@ -1,3 +1,4 @@
+// StudentDashboard.tsx
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../ui/theme-provider";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
@@ -5,6 +6,7 @@ import { getEnrollmentByUserIdAction } from "@/redux/store/actions/enrollment";
 import { RootState } from "@/redux/store";
 import { useNavigate } from "react-router-dom";
 import { FaGraduationCap, FaBook, FaListAlt } from "react-icons/fa";
+import StreakDisplay from "./StreakDisplay";
 
 const StudentDashboard: React.FC = () => {
   const { theme } = useTheme();
@@ -63,6 +65,13 @@ const StudentDashboard: React.FC = () => {
           theme={theme}
         />
       </div>
+
+	{/*<------------- student login streak -------------> */}
+	
+      <div className="mb-10">
+        <StreakDisplay streak={data?.loginStreak || 0} weeklyLogin={data?.weeklyLogins || []} theme={theme} />
+      </div>
+
 
       <div className="mb-8">
         <div className="flex justify-between items-center mb-6">

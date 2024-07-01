@@ -50,7 +50,9 @@ export interface SignupFormData {
     isRejected?: boolean,
     isRequested?: boolean,
     isBlocked?: boolean,
-    // lastSeen?: Date,
+    lastLoginDate?: Date;
+    loginStreak?: number;
+    weeklyLogins?: boolean[];
 }
 
 export interface LoginFormData {

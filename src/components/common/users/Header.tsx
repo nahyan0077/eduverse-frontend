@@ -14,6 +14,7 @@ import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
 import ConfirmModal from "../modal/ConfirmModal";
 import { getAllActiveCategories } from "@/redux/store/actions/category";
 import GlobalSearchBar from "./globalSearchBar";
+import { FaFire } from "react-icons/fa";
 
 const Header: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -172,39 +173,56 @@ const Header: React.FC = () => {
 
 					<div className="hidden md:flex items-center space-x-3 relative">
 						{isAuthenticated && (
-							<div className="hidden md:block dropdown">
-								<div
-									tabIndex={0}
-									role="button"
-									className={`btn m-1 ${
-										theme === "light"
-											? "text-violet-700 hover:bg-gray-200 border-transparent"
-											: "text-white hover:bg-gray-900 border-transparent"
-									} bg-transparent`}
-								>
-									<img
-										src={userData.data?.profile?.avatar}
-										className="object-cover w-12 h-12 p-1 rounded-full"
-										alt=""
-									/>
-									{userName}
+							<div className="flex items-center">
+								<div className="">
+									<div className="flex items-center">
+										<FaFire
+											className={`text-2xl mr-2 ${
+												theme === "light"
+													? "text-orange-500"
+													: "text-orange-400"
+											}`}
+										/>
+										<span className="text-xl font-bold">
+											{userData.data?.loginStreak}
+										</span>
+										<span className="ml-1 text-sm font-medium">days</span>
+									</div>
 								</div>
-								<ul
-									tabIndex={0}
-									className={`dropdown-content z-[1] menu p-2 shadow ${
-										theme === "light" ? "bg-gray-100" : "bg-gray-950"
-									} rounded-box w-52`}
-								>
-									<li onClick={() => navigate(`/student`)}>
-										<a>Dashboard</a>
-									</li>
-									<li onClick={() => navigate("/student/profile")}>
-										<a>Profile</a>
-									</li>
-									<li>
-										<a onClick={handleLogout}>Logout</a>
-									</li>
-								</ul>
+								<div className="hidden md:block dropdown">
+									<div
+										tabIndex={0}
+										role="button"
+										className={`btn m-1 ${
+											theme === "light"
+												? "text-violet-700 hover:bg-gray-200 border-transparent"
+												: "text-white hover:bg-gray-900 border-transparent"
+										} bg-transparent`}
+									>
+										<img
+											src={userData.data?.profile?.avatar}
+											className="object-cover w-12 h-12 p-1 rounded-full"
+											alt=""
+										/>
+										{userName}
+									</div>
+									<ul
+										tabIndex={0}
+										className={`dropdown-content z-[1] menu p-2 shadow ${
+											theme === "light" ? "bg-gray-100" : "bg-gray-950"
+										} rounded-box w-52`}
+									>
+										<li onClick={() => navigate(`/student`)}>
+											<a>Dashboard</a>
+										</li>
+										<li onClick={() => navigate("/student/profile")}>
+											<a>Profile</a>
+										</li>
+										<li>
+											<a onClick={handleLogout}>Logout</a>
+										</li>
+									</ul>
+								</div>
 							</div>
 						)}
 
@@ -271,7 +289,7 @@ const Header: React.FC = () => {
 									<GlobalSearchBar handleSearch={handleSearch} />
 									<li>
 										{
-											<>
+											<div className="flex items-center">
 												<div
 													tabIndex={0}
 													role="button"
@@ -288,7 +306,24 @@ const Header: React.FC = () => {
 													/>
 													{userName}
 												</div>
-											</>
+												<div className="">
+													<div className="flex items-center">
+														<FaFire
+															className={`text-2xl mr-2 ${
+																theme === "light"
+																	? "text-orange-500"
+																	: "text-orange-400"
+															}`}
+														/>
+														<span className="text-xl font-bold">
+															{userData.data?.loginStreak}
+														</span>
+														<span className="ml-1 text-sm font-medium">
+															days
+														</span>
+													</div>
+												</div>
+											</div>
 										}
 									</li>
 									<li>

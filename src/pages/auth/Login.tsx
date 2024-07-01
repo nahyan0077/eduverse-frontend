@@ -49,7 +49,7 @@ const Login: React.FC = () => {
 			) {
 				navigate("/");
 			} else if (result.payload.data.role == "student") {
-				navigate("/home");
+				navigate("/");
 			} else {
 				navigate("/admin");
 			}
