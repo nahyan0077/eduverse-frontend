@@ -288,7 +288,7 @@ const Header: React.FC = () => {
 								<ul className="flex flex-col space-y-2 p-5 bg-white dark:bg-gray-900 min-h-screen">
 									<GlobalSearchBar handleSearch={handleSearch} />
 									<li>
-										{
+										{isAuthenticated &&
 											<div className="flex items-center">
 												<div
 													tabIndex={0}
@@ -408,6 +408,19 @@ const Header: React.FC = () => {
 											}}
 										>
 											About
+										</a>
+									</li>
+									<li>
+										<a
+											className={`block p-3 ${
+												theme === "light" ? "text-violet-700" : "text-white"
+											} cursor-pointer`}
+											onClick={() => {
+												setMenuOpen(false);
+												navigate("/login");
+											}}
+										>
+											Login
 										</a>
 									</li>
 								</ul>

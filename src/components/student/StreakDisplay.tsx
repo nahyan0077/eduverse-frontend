@@ -29,7 +29,7 @@ const StreakDisplay: React.FC<{ streak: number; weeklyLogin: boolean[]; theme: s
         {days.map((day, index) => (
           <div key={index} className="flex flex-col items-center">
             <div
-              className={`w-10 h-10 mb-1 flex items-center justify-center rounded-full ${
+              className={`w-6 lg:w-10 h-6 lg:h-10 mb-1 flex items-center justify-center rounded-full ${
                 weeklyLogin[index]
                   ? theme === "light"
                     ? "bg-green-500 text-white"
