@@ -19,8 +19,9 @@ export const CoursePreview: React.FC = () => {
     const [progress, setProgress] = useState<{ [key: string]: number }>({});
     const [completed, setCompleted] = useState<{ [key: string]: boolean }>({});
     const [enrollment, setEnrollment] = useState<EnrollmentEntity | null>(null);
+    const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
-    const {data} = useAppSelector((state: RootState) => state.user)
+    const { data } = useAppSelector((state: RootState) => state.user);
 
     useEffect(() => {
         fetchEnrollment();
@@ -30,14 +31,15 @@ export const CoursePreview: React.FC = () => {
 
     const fetchEnrollment = async () => {
         try {
+            setLoading(true);
             const result = await dispatch(getEnrollmentByIdAction(enrollmentId));
             const enrollmentData = unwrapResult(result);
             setEnrollment(enrollmentData.data);
             initializeProgress(enrollmentData.data);
-            console.log(progress,"test");
-            
         } catch (error) {
             console.error("Failed to fetch enrollment:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -52,35 +54,52 @@ export const CoursePreview: React.FC = () => {
         }
     };
 
-    const handleProgress = async (played: number, lessonId: string) => {
+    const handleProgress = async ({ played }: { played: number }, lessonId: string) => {
         setProgress((prev) => ({ ...prev, [lessonId]: played }));
-        
+        console.log(`Lesson ID: ${lessonId}, Played: ${played}`);
+
         if (played >= 0.7 && !completed[lessonId]) {
+            console.log(`Updating lesson ${lessonId} to completed`);
             setCompleted((prev) => ({ ...prev, [lessonId]: true }));
 
-            await dispatch(UpdateLessonProgressAction({
-                enrollmentId,
-                lessonId,
-                totalLessons
-            }));
+            try {
+                const result = await dispatch(UpdateLessonProgressAction({
+                    enrollmentId,
+                    lessonId,
+                    totalLessons
+                }));
+                const updatedData = unwrapResult(result);
+                console.log("Update success:", updatedData);
+            } catch (error) {
+                console.error("Failed to update lesson progress:", error);
+            }
         }
     };
 
     const handleCertificateGenerate = async () => {
-        const newData = {
-            courseId: courseData._id,
-            userId: data?._id
+        try {
+            setLoading(true);
+            const newData = {
+                courseId: courseData._id,
+                userId: data?._id
+            };
+            const response = await dispatch(generateCertificate(newData));
+            const result = unwrapResult(response);
+
+            console.log(result, "pdf download");
+        } catch (error) {
+            console.error("Failed to generate certificate:", error);
+        } finally {
+            setLoading(false);
         }
-        const response = await dispatch(generateCertificate(newData))
-        console.log(response,"pdf download");
-        
-    }
+    };
 
     const allLessonsCompleted = courseData.lessons.every((lesson: any) => completed[lesson._id]);
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-8">
             <div className="container mx-auto px-4">
+                {loading && <div>Loading...</div>}
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
                     <div className="flex justify-between items-center">
                         <h1 className="text-3xl font-bold">{courseData?.title}</h1>
@@ -107,7 +126,7 @@ export const CoursePreview: React.FC = () => {
                                 onProgress={({ played }) => {
                                     const currentLesson = courseData.lessons.find((lesson: any) => lesson.video === previewVideo);
                                     if (currentLesson) {
-                                        handleProgress(played, currentLesson._id);
+                                        handleProgress({ played }, currentLesson._id);
                                     }
                                 }}
                             />
@@ -140,8 +159,9 @@ export const CoursePreview: React.FC = () => {
                         {allLessonsCompleted && (
                             <button className="btn btn-primary w-full mt-8 flex items-center justify-center" 
                                 onClick={handleCertificateGenerate}
+                                disabled={loading}
                             >
-                                <DownloadIcon className="mr-2" /> Download Certificate
+                                <DownloadIcon className="mr-2" /> {loading ? 'Generating...' : 'Download Certificate'}
                             </button>
                         )}
                     </div>
