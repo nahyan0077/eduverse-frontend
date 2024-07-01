@@ -18,9 +18,11 @@ const AdminDashboard: React.FC = () => {
   const fetchDatas = async () =>  {
     const students: any = await dispatch(getAllStudentsAction({}))
     const instructors = await dispatch(getAllInstructorsAction({}))
-    console.log("students" ,students);
-    console.log("instricut" ,instructors);
-    setCounts({studentCount: students?.payload?.data.length , instructorCount: instructors?.payload?.data.length})
+
+    setCounts({studentCount: students?.payload?.data.data.length , instructorCount: instructors?.payload?.data.length})
+
+    console.log(students,"suteeeeee");
+    
   }
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const AdminDashboard: React.FC = () => {
   }, [data])
 
   
-  console.log(profit,"admin overall profit");
+  console.log(counts,"admin overall profit");
   
 
   return (
