@@ -7,12 +7,13 @@ import { RootState } from "@/redux/store";
 import { useNavigate } from "react-router-dom";
 import { FaGraduationCap, FaBook, FaListAlt } from "react-icons/fa";
 import StreakDisplay from "./StreakDisplay";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 
 const StudentDashboard: React.FC = () => {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data } = useAppSelector((state: RootState) => state.user);
+  const { data, loading } = useAppSelector((state: RootState) => state.user);
   const [completedCourses, setCompletedCourses] = useState<any[]>([]);
   const [ongoingCourses, setOngoingCourses] = useState<any[]>([]);
   const [totalCourses, setTotalCourses] = useState<any[]>([]);
@@ -38,6 +39,12 @@ const StudentDashboard: React.FC = () => {
       setTotalCourses(enrollments);
     }
   };
+
+  if(loading){
+    return(
+      <LoadingPopUp isLoading={loading} />
+    )
+  }
 
   return (
     <div className={`flex-1 overflow-auto p-8`}>

@@ -1,4 +1,3 @@
-// StreakDisplay.tsx
 import React from "react";
 import { FaFire } from "react-icons/fa";
 
@@ -7,7 +6,8 @@ const StreakDisplay: React.FC<{ streak: number; weeklyLogin: boolean[]; theme: s
   weeklyLogin,
   theme,
 }) => {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const currentDayIndex = new Date().getDay();
 
   return (
     <div
@@ -37,7 +37,7 @@ const StreakDisplay: React.FC<{ streak: number; weeklyLogin: boolean[]; theme: s
                   : theme === "light"
                   ? "bg-gray-200 text-gray-400"
                   : "bg-gray-700 text-gray-400"
-              }`}
+              } ${index === currentDayIndex && "ring-4 ring-yellow-500"}`}
             >
               {weeklyLogin[index] && (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
