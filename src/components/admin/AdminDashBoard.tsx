@@ -151,7 +151,8 @@ const AdminDashboard: React.FC = () => {
                 label={({ name, value, percent }: any) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
               >
                 {courseData.map((entry: any, index: any) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  
+                  <Cell className={`${entry}`} key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip />

@@ -69,7 +69,7 @@ const AdminCourses: React.FC = () => {
 	const handleDelete = async () => {
 		if (currentCourse) {
 			const data = { ...currentCourse, isBlocked: !currentCourse.isBlocked };
-			await dispatch(updateCourseAction(data));
+			await dispatch(updateCourseAction({data,incrementStudentsEnrolled: false}));
 			setModalVisible(false);
 			fetchCourses();
 		}

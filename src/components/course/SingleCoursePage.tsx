@@ -31,6 +31,7 @@ import { ReviewEntity } from "@/types/IReview";
 import { getAllReviewsAction } from "@/redux/store/actions/review";
 import Pagination from "../common/admin/Pagination";
 import { createChatAction } from "@/redux/store/actions/chat";
+import { updateCourseAction } from "@/redux/store/actions/course";
 
 export const SingleCoursePage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
@@ -130,6 +131,11 @@ export const SingleCoursePage: React.FC = () => {
 				toast.success(
 					"Congratulations! You have successfully enrolled in this course!"
 				);
+
+				await dispatch(updateCourseAction({
+					data: { _id: courseData._id },
+					incrementStudentsEnrolled: true
+				}));
 
 				//chat creation
 				createNewChat(data._id, courseData.instructorRef._id)

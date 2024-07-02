@@ -5,12 +5,12 @@ import { AxiosError } from "axios";
 
 export const updateCourseAction = createAsyncThunk(
     "course/updateCourse",
-    async (data: any,{rejectWithValue}) => {
+    async ({data, incrementStudentsEnrolled}: {data: any, incrementStudentsEnrolled: boolean},{rejectWithValue}) => {
        
         try {
 
             const response = await CLIENT_API.put(
-                "/api/course/",
+                `/api/course?incrementStudentsEnrolled=${incrementStudentsEnrolled}`,
                 data,
                 config
             );

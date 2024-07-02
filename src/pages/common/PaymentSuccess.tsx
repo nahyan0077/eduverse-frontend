@@ -5,6 +5,7 @@ import { deleteObject, getObject } from "@/utils/localStorage";
 import { useAppDispatch } from "@/hooks/hooks";
 import { createPaymentAction } from "@/redux/store/actions/payment";
 import { createChatAction } from "@/redux/store/actions/chat";
+import { updateCourseAction } from "@/redux/store/actions/course";
 
 export const PaymentSuccess: React.FC = () => {
     const navigate = useNavigate();
@@ -20,13 +21,10 @@ export const PaymentSuccess: React.FC = () => {
     }, []);
 
     const createNewChat = async (studentId: string, instructorId: string) => {
-
-            const response = await dispatch(createChatAction({
-                participants:[studentId,instructorId]
-            }))
-            console.log(response,"text");
-            
-
+        const response = await dispatch(createChatAction({
+            participants: [studentId, instructorId]
+        }));
+        console.log(response, "text");
     }
 
     const createPayment = async () => {
@@ -40,6 +38,11 @@ export const PaymentSuccess: React.FC = () => {
         }
 
         try {
+         
+            await dispatch(updateCourseAction({
+                data: { _id: paymentSession.courseId },
+                incrementStudentsEnrolled: true
+            }));
 
             const createPaymentData = {
                 userId: paymentSession.userId,
@@ -52,10 +55,11 @@ export const PaymentSuccess: React.FC = () => {
 
             const response1 = await dispatch(createPaymentAction(createPaymentData));
             console.log(response1, "create payment response");
+
             if (!response1.payload?.success) {
                 throw new Error("Payment creation failed!");
-            }else{
-                createNewChat(paymentSession.userId, paymentSession.instructorId)
+            } else {
+                await createNewChat(paymentSession.userId, paymentSession.instructorId);
             }
 
             deleteObject("payment_session");
