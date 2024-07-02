@@ -15,7 +15,7 @@ interface MessageProps {
 		senderId: string;
 		content: string;
 		createdAt: string;
-		recieverSeen: boolean;
+		receiverSeen: boolean;
 		contentType: string;
 		chatId?: string;
 		_id?: string;
@@ -54,7 +54,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
 		setModalVisible(true);
 	};
 
-
+	
 
 	const handleDelete = async () => {
 		console.log(currentChat, "cur uder check");
@@ -184,11 +184,11 @@ export const ChatMessage: React.FC<MessageProps> = ({
 					</div>
 				</div>
 				{isCurrentUser && (
-					<div className="chat-footer text-xs opacity-50">
-						{message.recieverSeen ? (
-							<DoneAllIcon fontSize="small" color="info" />
+					<div className="chat-footer text-xs opacity-50 p-2">
+						{message.receiverSeen ? (
+							"Seen"
 						) : (
-							<DoneIcon fontSize="small" />
+							"Delivered"
 						)}
 					</div>
 				)}

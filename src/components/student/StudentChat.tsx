@@ -27,7 +27,10 @@ export const StudentChat: React.FC = () => {
 		window.innerWidth <= 768
 	);
 	const [showChatWindow, setShowChatWindow] = useState<boolean>(false);
-	const [chatListLoading, setChatListLoading] = useState(false)
+	const [chatListLoading, setChatListLoading] = useState(false);
+	const [unreadCounts, setUnreadCounts] = useState<{
+		[chatId: string]: number;
+	}>({});
 
 	useEffect(() => {
 		socket?.on("online-users", (users) => {
@@ -40,6 +43,13 @@ export const StudentChat: React.FC = () => {
 
 		socket?.on("receive-message", (message) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
+
+			if (message.senderId !== data?._id) {
+				setUnreadCounts((prevCount) => ({
+					...prevCount,
+					[message.chatId]: (prevCount[message.chatId] || 0) + 1,
+				}));
+			}
 		});
 
 		socket?.on("isTyping", (senderId) => {
@@ -51,13 +61,30 @@ export const StudentChat: React.FC = () => {
 			}
 		});
 
-
 		socket?.on("get-delete-message", (messageId) => {
-			setMessages(prevMessages => 
-				prevMessages.map(msg => 
+			setMessages((prevMessages) =>
+				prevMessages.map((msg) =>
 					msg._id === messageId ? { ...msg, isDeleted: true } : msg
 				)
 			);
+		});
+
+		socket?.on("message-seen-update", ({ messageId, userId }) => {
+			if (userId !== data?._id) {
+				setMessages((prevMessages) =>
+					prevMessages.map((msg) =>
+						msg._id === messageId ? { ...msg, receiverSeen: true } : msg
+					)
+				);
+			}
+
+			// Reseting unread count
+			if (currentChat?.chatId) {
+				setUnreadCounts((prevCounts) => ({
+					...prevCounts,
+					[currentChat.chatId]: 0,
+				}));
+			}
 		});
 
 		return () => {
@@ -66,6 +93,7 @@ export const StudentChat: React.FC = () => {
 			socket?.off("receive-message");
 			socket?.off("isTyping");
 			socket?.off("get-delete-message");
+			socket?.off("message-seen-update");
 		};
 	}, [socket, setOnlineUsers, currentChat, data?._id]);
 
@@ -80,14 +108,29 @@ export const StudentChat: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
+		if (currentChat && messages.length > 0) {
+			const unseenMessages = messages.filter(
+				(msg) => !msg.receiverSeen && msg.senderId !== data?._id
+			);
+
+			unseenMessages.forEach((msg) => {
+				socket?.emit("message-seen", {
+					roomId,
+					chatId: currentChat.chatId,
+					userId: data?._id,
+				});
+			});
+		}
+	}, [messages, currentChat, socket, data?._id]);
+
+	useEffect(() => {
 		fetchChatsByUserId();
 	}, [data, dispatch]);
 
 	const fetchChatsByUserId = async () => {
 		if (data?._id) {
-			setChatListLoading(true)
+			setChatListLoading(true);
 			const response = await dispatch(getChatsByUserIdAction(data?._id));
-			console.log(response.payload.data, "students all users chat list");
 
 			const chatDataMap = new Map();
 
@@ -106,7 +149,7 @@ export const StudentChat: React.FC = () => {
 					});
 				}
 			});
-			setChatListLoading(false)
+			setChatListLoading(false);
 			const chatData = Array.from(chatDataMap.values());
 			setChats(chatData);
 		}
@@ -126,6 +169,7 @@ export const StudentChat: React.FC = () => {
 			const response = await dispatch(
 				getMessagesByChatIdAction(receiverData.chatId)
 			);
+
 			setMessages(response.payload.data);
 
 			if (isMobileView) {
@@ -133,8 +177,6 @@ export const StudentChat: React.FC = () => {
 			}
 		}
 	};
-
-	
 
 	const onSendMessage = async ({ content, contentType }: any) => {
 		if (roomId && currentChat && data?._id) {
@@ -162,6 +204,7 @@ export const StudentChat: React.FC = () => {
 					onlineUsers={onlineUsers}
 					onCreateNewChat={handleCreateNewChat}
 					loading={chatListLoading}
+					unreadCounts={unreadCounts}
 				/>
 			) : null}
 			{(!isMobileView || showChatWindow) && (
