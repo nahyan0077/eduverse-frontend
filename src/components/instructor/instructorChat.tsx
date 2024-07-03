@@ -138,7 +138,8 @@ export const InstructorChat: React.FC = () => {
 				(msg) => !msg.receiverSeen && msg.senderId !== data?._id
 			);
 
-			unseenMessages.forEach((msg) => {
+			unseenMessages.forEach(() => {
+				
 				socket?.emit("message-seen", {
 					roomId,
 					chatId: currentChat.chatId,
