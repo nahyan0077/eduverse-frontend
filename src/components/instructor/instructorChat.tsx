@@ -8,6 +8,7 @@ import {
 	createMessageAction,
 	getChatsByUserIdAction,
 	getMessagesByChatIdAction,
+	updateUnreadCount,
 } from "@/redux/store/actions/chat";
 
 export const InstructorChat: React.FC = () => {
@@ -41,19 +42,40 @@ export const InstructorChat: React.FC = () => {
 			socket.emit("new-user", data._id);
 		}
 
-		socket?.on("receive-message", (message) => {
+		socket?.on("receive-message", async (message) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
-
-			//updating unread count
+	  
+			// Update unread count
 			if (message.senderId !== data?._id) {
-				setUnreadCounts((prevCount) => ({
-					...prevCount,
-					[message.chatId]: (prevCount[message.chatId] || 0) + 1,
-				}));
+			  setUnreadCounts((prevCount) => ({
+				...prevCount,
+				[message.chatId]: (prevCount[message.chatId] || 0) + 1,
+			  }));
+	  
+			  await dispatch(
+				updateUnreadCount({
+				  _id: message.chatId,
+				  unreadCount: unreadCounts[message.chatId] + 1,
+				})
+			  );
 			}
-
-			
-		});
+	  
+			// Move the chat to the top of the list
+			setChats((prevChats) => {
+			  const updatedChats = prevChats.map((chat) =>
+				chat.chatId === message.chatId
+				  ? { ...chat, lastMessage: message }
+				  : chat
+			  );
+			  const sortedChats = updatedChats.sort((a, b) =>
+				new Date(b.lastMessage?.createdAt || b.createdAt) >
+				new Date(a.lastMessage?.createdAt || a.createdAt)
+				  ? 1
+				  : -1
+			  );
+			  return sortedChats;
+			});
+		  });
 
 		socket?.on("isTyping", (senderId) => {
 			if (senderId === currentChat?._id) {
@@ -123,6 +145,17 @@ export const InstructorChat: React.FC = () => {
 					userId: data?._id,
 				});
 			});
+
+			setUnreadCounts((prevCounts) => ({
+				...prevCounts,
+				[currentChat.chatId]: 0,
+			}));
+	
+			// Update the server about unread count reset
+			dispatch(updateUnreadCount({
+				_id: currentChat.chatId,
+				unreadCount: 0
+			}));
 		}
 	}, [messages, currentChat, socket, data?._id]);
 
@@ -136,7 +169,9 @@ export const InstructorChat: React.FC = () => {
 			const response = await dispatch(getChatsByUserIdAction(data?._id));
 			console.log(response.payload.data, "students all users chat list");
 
+
 			const chatDataMap = new Map();
+			const unreadCountsMap: any = {};
 
 			response.payload.data.forEach((chat: any) => {
 				const participant = chat?.participants.find(
@@ -150,12 +185,15 @@ export const InstructorChat: React.FC = () => {
 						receiverId: participant._id,
 						createdAt: Date.now(),
 						lastSeen: chat?.lastSeen,
+						unreadCounts: chat.unreadCounts
 					});
+					unreadCountsMap[chat._id] = chat.unreadCounts || 0;
 				}
 			});
 			setChatListLoading(false);
 			const chatData = Array.from(chatDataMap.values());
 			setChats(chatData);
+			console.log(chatData,"chekc chat dat");
 		}
 	};
 

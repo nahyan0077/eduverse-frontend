@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 export const updateUnreadCount = createAsyncThunk (
     "chat/updateUnreadCount" , async (data: any,{rejectWithValue}) => {
         try {
-            const response = await CLIENT_API.patch('/api/chat/unreadCount',data,config)
+            const response = await CLIENT_API.patch('/api/chat/unread-count',data,config)
 
 			if (response.data.success) {
 				return response.data;

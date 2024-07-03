@@ -82,7 +82,7 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
                   </p>
                 </div>
                 <div className="flex items-center gap-2 ml-2">
-                  {unreadCounts[user.chatId] > 0 && (
+				{(unreadCounts[user.chatId] > 0) && (
                     <span className="border border-violet-700 text-white text-xs font-bold px-2 py-1 rounded-full mb-1">
                       {unreadCounts[user.chatId]}
                     </span>
