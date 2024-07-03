@@ -44,12 +44,15 @@ export const InstructorChat: React.FC = () => {
 		socket?.on("receive-message", (message) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 
+			//updating unread count
 			if (message.senderId !== data?._id) {
 				setUnreadCounts((prevCount) => ({
 					...prevCount,
 					[message.chatId]: (prevCount[message.chatId] || 0) + 1,
 				}));
 			}
+
+			
 		});
 
 		socket?.on("isTyping", (senderId) => {
