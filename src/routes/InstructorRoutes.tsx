@@ -12,6 +12,8 @@ import { InstructorVerification } from '@/components/instructor/InstructorVerifi
 import { VerificationProtectedRoute } from './VerificationProtectedRoutes';
 import { Unauthorized } from '@/pages/common/Unauthorized';
 import { InstructorChat } from '@/components/instructor/InstructorChat';
+import { InstructorExams } from '@/components/instructor/InstructorExams';
+import { AddExam } from '@/components/instructor/exams/AddExam';
 
 export const InstructorRoutes: React.FC = () => {
   return (
@@ -25,7 +27,9 @@ export const InstructorRoutes: React.FC = () => {
         <Route path="/single-course" element={<VerificationProtectedRoute element={<SingleCoursePage />} />} />
         <Route path="/profile"  element={<InstructorProfile />}  />
         <Route path="/verification" element={<InstructorVerification />} />
-        <Route path="/chat" element={<InstructorChat />} />
+        <Route path="/chat" element={<VerificationProtectedRoute element={<InstructorChat />} />} />
+        <Route path="/exams" element={<VerificationProtectedRoute element={<InstructorExams />} />}/>
+        <Route path="/add-exam" element={<VerificationProtectedRoute element={<AddExam />} />} />
         <Route path="*" element={<Unauthorized />} />
       </Route>
     </Routes>

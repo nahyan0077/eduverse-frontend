@@ -2,11 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
 import ClassIcon from "@mui/icons-material/Class";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ChatIcon from '@mui/icons-material/Chat';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+
 
 
 
@@ -82,18 +83,18 @@ const InstructorSidebar: React.FC<SidebarProps> = ({
 							</motion.span>
 						</Link>
 						<Link
-							to="/instructor/students"
-							className={linkClasses("students")}
-							onClick={() => setCurrentPage("students")}
+							to="/instructor/exams"
+							className={linkClasses("exams")}
+							onClick={() => setCurrentPage("exams")}
 						>
-							<PeopleIcon />
-							<motion.span
+							<BorderColorIcon
+ />							<motion.span
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
 								className="ml-2"
 							>
-								Students
+								Exams
 							</motion.span>
 						</Link>
 						<Link
