@@ -34,7 +34,7 @@ const InstructorNavbar: React.FC =  () => {
   };
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10">
+    <nav className="flex items-center justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10 sticky top-0">
       {isModalVisible && (
         <ConfirmModal
           message="logout"
