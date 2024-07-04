@@ -4,11 +4,12 @@ import { getAssessmentsByInstructorIdAction } from "@/redux/store/actions/assess
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 interface Exam {
   _id: string;
   title: string;
-  courseId: string;
+  courseId: any;
   totalScore: number;
   passingScore: number;
   createdAt: string;
@@ -84,8 +85,14 @@ export const InstructorExams: React.FC = () => {
           </table>
         </div>
       ) : (
-        <div className="text-center py-10 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-          <p className="text-gray-500 dark:text-gray-400">No exams found. Create your first exam!</p>
+        <div className="text-center py-10 lg:pt-20 shadow-md rounded-lg">
+                    <Player
+            autoplay
+            loop
+            src="https://lottie.host/2a21cfdf-5523-444f-a483-a4673cd63c49/bKl0W0Zndb.json"
+            style={{ height: "200px", width: "200px", margin: "0 auto" }}
+          />
+          <p className="text-gray-500 text-xl font-bold mt-3 dark:text-gray-400">No exams found. Create your first exam!</p>
         </div>
       )}
     </div>
