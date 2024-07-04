@@ -80,9 +80,9 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 							</motion.span>
 						</Link>
 						<Link
-							to="/student/classes"
-							className={linkClasses("classes")}
-							onClick={() => setCurrentPage("classes")}
+							to="/student/exams-list"
+							className={linkClasses("exams-list")}
+							onClick={() => setCurrentPage("exams-list")}
 						>
 							<ClassIcon />
 							<motion.span
@@ -91,7 +91,7 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 								variants={textVariants}
 								className="ml-2"
 							>
-								Classes
+								Exams
 							</motion.span>
 						</Link>
 						<Link

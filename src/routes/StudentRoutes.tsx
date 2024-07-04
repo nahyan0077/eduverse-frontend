@@ -1,6 +1,7 @@
 import { StudentChat } from "@/components/student/StudentChat";
 import StudentDashboard from "@/components/student/StudentDashboard";
 import { StudentEnrollments } from "@/components/student/StudentEnrollments";
+import { StudentExamsList } from "@/components/student/StudentExamsList";
 import {StudentProfile} from "@/components/student/StudentProfile";
 import { CoursePreview } from "@/components/student/enrollments/CoursePreview";
 import { SingleEnrollmentPage } from "@/components/student/enrollments/SingleEnrollmentPage";
@@ -21,6 +22,7 @@ export const StudentRoutes = () => {
 				<Route path="/course-preview" element={<CoursePreview />} />
 				<Route path="/chat" element={<StudentChat />} />
 				<Route path="/exam" element={<StudentExam />} />
+				<Route path="/exams-list" element={<StudentExamsList />} />
 			</Route>
 		</Routes>
 	);

@@ -143,14 +143,14 @@ export const CoursePreview: React.FC = () => {
 							</div>
 
 							<div className="text-center">
-								<p className="text-xl font-semibold">Time Limit: 10 minutes</p>
+								<p className="text-xl font-semibold">Time Limit: 5 minutes</p>
 								<p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
 									Complete the exam within the allocated time to earn your
 									certificate.
 								</p>
 							</div>
 
-							<div className="space-y-4 w-full">
+							<div className="space-y-4 w-full ml-40">
 								<ul className="text-sm">
 									<li className="flex items-center mb-2">
 										<svg
@@ -178,7 +178,7 @@ export const CoursePreview: React.FC = () => {
 												clipRule="evenodd"
 											/>
 										</svg>
-										You can't return to previous questions
+										Don't close window without completing the exam
 									</li>
 									<li className="flex items-center">
 										<svg
