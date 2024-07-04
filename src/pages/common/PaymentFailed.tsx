@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { deleteObject } from "@/utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 export const PaymentFailed: React.FC = () => {
+	const navigate = useNavigate()
 	useEffect(()=>{
 
 		deleteObject("payment_session")
@@ -26,7 +28,7 @@ export const PaymentFailed: React.FC = () => {
 						</h2>
 					</div>
 					<div>
-						<button className="btn btn-warning btn-outline rounded-full">
+						<button className="btn btn-warning btn-outline rounded-full" onClick={()=>navigate('/courses')} >
 							Home
 						</button>
 					</div>
