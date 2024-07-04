@@ -7,11 +7,13 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import timesup from "@/assets/exam/timesup.svg";
 import { useNavigate } from "react-router-dom";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import CancelIcon from "@mui/icons-material/Cancel";
 import DownloadIcon from "@mui/icons-material/Download";
 import { generateCertificate } from "@/redux/store/actions/course/generateCertificate";
 import { RootState } from "@/redux/store";
+import { createOrUpdateResultAction } from "@/redux/store/actions/result";
+import { toast } from "sonner";
+import success from "@/assets/exam/success.svg";
+import failed from "@/assets/exam/failed.svg";
 
 export const StudentExam: React.FC = () => {
 	const searchParams = new URLSearchParams(location.search);
@@ -32,8 +34,8 @@ export const StudentExam: React.FC = () => {
 		correctAnswers: number;
 		wrongAnswers: number;
 	}>({ score: 0, passed: false, correctAnswers: 0, wrongAnswers: 0 });
-    const {data} = useAppSelector((state: RootState) => state.user)
- 	const navigate = useNavigate();
+	const { data } = useAppSelector((state: RootState) => state.user);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchExam();
@@ -77,7 +79,16 @@ export const StudentExam: React.FC = () => {
 		}
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
+		console.log(selectedAnswers, "selected anse");
+
+		let answerLength = Object.keys(selectedAnswers);
+
+		if (answerLength.length < 5) {
+			toast.error("Please answer all the questions..!");
+			return;
+		}
+
 		let correctAnswers = 0;
 		examData.questions.forEach((question: any) => {
 			if (selectedAnswers[question._id] === question.answer) {
@@ -97,7 +108,16 @@ export const StudentExam: React.FC = () => {
 			wrongAnswers,
 		});
 
-        
+		const response = await dispatch(
+			createOrUpdateResultAction({
+				userRef: data?._id,
+				isPassed: passed,
+				score,
+				assessmentRef: examData?._id,
+			})
+		);
+
+		console.log(response.payload.data, "exam submistin result");
 
 		setShowResultModal(true);
 	};
@@ -115,8 +135,8 @@ export const StudentExam: React.FC = () => {
 			courseId: examData?.courseId?._id,
 			userId: data?._id,
 		};
-        console.log(newData,"certi data");
-        
+		console.log(newData, "certi data");
+
 		const response = await dispatch(generateCertificate(newData));
 		console.log(response, "pdf download");
 	};
@@ -211,16 +231,24 @@ export const StudentExam: React.FC = () => {
 			{showResultModal && (
 				<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center">
 					<div className="bg-gray-900 p-8 rounded-lg shadow-xl w-96 max-w-md">
-						<h2 className="text-2xl font-bold mb-6 text-center text-white">
+						<h2 className="text-2xl font-bold mb-3 text-center text-white">
 							Exam Results
 						</h2>
+						<div className="flex justify-center mb-4">
+							{examResult.passed ? (
+								<img src={success} alt="success" className="w-40 h-40" />
+							) : (
+								<img src={failed} alt="success" className="w-40 h-40" />
+							)}
+						</div>
 
 						{/* Horizontal display of main results */}
 						<div className="grid grid-cols-2 gap-4 mb-6 text-center">
 							<div className="bg-gray-800 p-3 rounded-lg">
 								<p className="text-sm text-gray-400 mb-1">Score</p>
 								<p className="text-xl font-bold text-white">
-									{examResult.score.toFixed(2)}/{examData.totalScore}
+									{Math.trunc(Number(examResult.score.toFixed(2)))}/
+									{examData.totalScore}
 								</p>
 							</div>
 							<div className="bg-gray-800 p-3 rounded-lg">
