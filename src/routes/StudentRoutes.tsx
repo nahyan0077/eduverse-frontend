@@ -4,6 +4,7 @@ import { StudentEnrollments } from "@/components/student/StudentEnrollments";
 import {StudentProfile} from "@/components/student/StudentProfile";
 import { CoursePreview } from "@/components/student/enrollments/CoursePreview";
 import { SingleEnrollmentPage } from "@/components/student/enrollments/SingleEnrollmentPage";
+import { StudentExam } from "@/components/student/enrollments/StudentExam";
 import { Unauthorized } from "@/pages/common/Unauthorized";
 import StudentLayout from "@/pages/student/StudentLayout";
 import { Route, Routes } from "react-router-dom";
@@ -19,6 +20,7 @@ export const StudentRoutes = () => {
 				<Route path="/single-enrollment" element={<SingleEnrollmentPage />} />
 				<Route path="/course-preview" element={<CoursePreview />} />
 				<Route path="/chat" element={<StudentChat />} />
+				<Route path="/exam" element={<StudentExam />} />
 			</Route>
 		</Routes>
 	);

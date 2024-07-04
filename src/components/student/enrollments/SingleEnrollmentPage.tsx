@@ -21,6 +21,7 @@ import CourseReviews from "./singleEnrollments/CourseReviews";
 import CourseDetails from "./singleEnrollments/CourseDetails";
 import CoursePreview from "./singleEnrollments/CoursePreview";
 
+
 export const SingleEnrollmentPage: React.FC = () => {
 	const [courseData, setCourseData] = useState<any>(null);
 	const location = useLocation();
@@ -32,6 +33,7 @@ export const SingleEnrollmentPage: React.FC = () => {
 	const [totalPages, setTotalPage] = useState(1);
 	const [courseId, setCourseId] = useState("");
 	const [overallRating, setOverallRating] = useState<number>(0);
+
 
 	const { data } = useAppSelector((state: RootState) => state.user);
 
@@ -72,6 +74,8 @@ export const SingleEnrollmentPage: React.FC = () => {
 			setOverallRating(Number(averageRating.toFixed(1)));
 		}
 	};
+
+
 
 	if (loading) {
 		return <LoadingPopUp isLoading={true} />;
