@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { deleteObject } from "@/utils/localStorage";
 
 export const PaymentFailed: React.FC = () => {
+	useEffect(()=>{
+
+		deleteObject("payment_session")
+	},[])
+
 	return (
 		<>
 			<div className="flex min-h-screen items-center justify-center">

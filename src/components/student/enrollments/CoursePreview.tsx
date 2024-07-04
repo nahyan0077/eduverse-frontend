@@ -47,6 +47,8 @@ export const CoursePreview: React.FC = () => {
 			const enrollmentData = unwrapResult(result);
 			setEnrollment(enrollmentData.data);
 			initializeProgress(enrollmentData.data);
+            console.log(progress,"test");
+            
 		} catch (error) {
 			console.error("Failed to fetch enrollment:", error);
 		}
