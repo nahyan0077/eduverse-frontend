@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { FaGraduationCap, FaBook, FaListAlt } from "react-icons/fa";
 import StreakDisplay from "./StreakDisplay";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
+import { getUserData } from "@/redux/store/actions/auth";
 
 const StudentDashboard: React.FC = () => {
   const { theme } = useTheme();
@@ -17,10 +18,22 @@ const StudentDashboard: React.FC = () => {
   const [completedCourses, setCompletedCourses] = useState<any[]>([]);
   const [ongoingCourses, setOngoingCourses] = useState<any[]>([]);
   const [totalCourses, setTotalCourses] = useState<any[]>([]);
+  const [userData, setUserData] = useState <any> ()
 
   useEffect(() => {
     fetchCoursesEnrolled();
+    fetchUser()
   }, []);
+
+
+
+  const fetchUser = async () => {
+
+      const response = await dispatch(getUserData())
+      console.log(response.payload.data,"user data");
+      setUserData(response.payload.data)
+
+  }
 
   const fetchCoursesEnrolled = async () => {
     if (data?._id) {
@@ -76,7 +89,7 @@ const StudentDashboard: React.FC = () => {
 	{/*<------------- student login streak -------------> */}
 
       <div className="mb-10">
-        <StreakDisplay streak={data?.loginStreak || 0} weeklyLogin={data?.weeklyLogins || []} theme={theme} />
+        <StreakDisplay streak={userData?.loginStreak || 0} weeklyLogin={userData?.weeklyLogins || []} theme={theme} />
       </div>
 
 

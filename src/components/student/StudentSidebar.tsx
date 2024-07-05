@@ -7,6 +7,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import ChatIcon from '@mui/icons-material/Chat';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface SidebarProps {
 	open: boolean;
@@ -50,7 +51,10 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 							onClick={onToggleSidebar}
 							className="text-gray-300 hover:text-white ml-2 mr-3 focus:outline-none"
 						>
-							<MenuRoundedIcon />
+							{
+								!open ?
+							<MenuRoundedIcon /> : <ArrowBackIcon />
+							}
 						</button>
 						{open && (
 							<motion.span
@@ -66,7 +70,8 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 					<nav className="flex-1 flex flex-col space-y-4 mt-2">
 						<Link
 							to="/student"
-							className={linkClasses("dashboard")}
+							className={`${linkClasses("dashboard")} tooltip `}
+							data-tip="Dashboard"
 							onClick={() => setCurrentPage("dashboard")}
 						>
 							<DashboardIcon />
@@ -74,14 +79,15 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
-								className="ml-2"
+								className="ml-2 "
 							>
 								Dashboard
 							</motion.span>
 						</Link>
 						<Link
 							to="/student/exams-list"
-							className={linkClasses("exams-list")}
+							className={`${linkClasses("exam-list")} tooltip `}
+							data-tip="Exams"
 							onClick={() => setCurrentPage("exams-list")}
 						>
 							<ClassIcon />
@@ -96,7 +102,8 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 						</Link>
 						<Link
 							to="/student/assignments"
-							className={linkClasses("assignments")}
+							className={`${linkClasses("assignments")} tooltip  `}
+							data-tip="Assignments"
 							onClick={() => setCurrentPage("assignments")}
 						>
 							<AssignmentIcon />
@@ -112,7 +119,8 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 
 						<Link
 							to="/student/enrollments"
-							className={linkClasses("enrollments")}
+							className={`${linkClasses("enrollments")} tooltip `}
+							data-tip="Enrollments"
 							onClick={() => setCurrentPage("enrollments")}
 						>
 							<SubscriptionsIcon />
@@ -127,7 +135,8 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 						</Link>
 						<Link
 							to="/student/chat"
-							className={linkClasses("chat")}
+							className={`${linkClasses("chat")} tooltip `}
+							data-tip="Chat"
 							onClick={() => setCurrentPage("chat")}
 						>
 							<ChatIcon />
