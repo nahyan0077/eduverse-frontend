@@ -112,6 +112,11 @@ export const InstructorChat: React.FC = () => {
 			}
 		});
 
+		socket?.on("last-seen",(userId) => {
+			console.log("lasst seen reached",userId);
+			
+		})
+
 		return () => {
 			socket?.off("new-user");
 			socket?.off("online-users");

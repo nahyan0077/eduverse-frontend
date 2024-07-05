@@ -56,6 +56,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
             // Cleanup
             return () => {
                 newSocket.disconnect();
+                console.log("socket disconnected frontend");
+                
             };
         }
     }, [data]);

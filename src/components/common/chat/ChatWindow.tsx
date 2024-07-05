@@ -29,7 +29,7 @@ interface Message {
 	senderId: string;
 	content: string;
 	createdAt: string;
-	recieverSeen: boolean;
+	receiverSeen: boolean;
 	contentType: string;
 }
 
