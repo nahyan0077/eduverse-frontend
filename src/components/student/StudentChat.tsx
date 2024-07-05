@@ -10,6 +10,8 @@ import {
 	getMessagesByChatIdAction,
 	updateUnreadCount,
 } from "@/redux/store/actions/chat";
+import { toast } from "sonner";
+
 
 export const StudentChat: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -191,6 +193,7 @@ export const StudentChat: React.FC = () => {
 						createdAt: Date.now(),
 						lastSeen: chat?.lastSeen,
 						unreadCounts: chat.unreadCounts,
+						subscriptionType: chat.subscriptionType,
 					});
 					unreadCountsMap[chat._id] = chat.unreadCounts || 0;
 				}
@@ -216,6 +219,15 @@ export const StudentChat: React.FC = () => {
 			const response = await dispatch(
 				getMessagesByChatIdAction(receiverData.chatId)
 			);
+
+
+			//check subscription
+			console.log(receiverData.subscriptionType,"is chat id ther");
+			if (receiverData.subscriptionType) {
+				
+				toast.error("Please subscribe to chat")
+				return
+			}
 
 			setMessages(response.payload.data);
 
@@ -244,6 +256,7 @@ export const StudentChat: React.FC = () => {
 	};
 
 	return (
+		<>
 		<div className="flex bg-gray-900">
 			{!isMobileView || !showChatWindow ? (
 				<ChatSidebar
@@ -265,5 +278,6 @@ export const StudentChat: React.FC = () => {
 				/>
 			)}
 		</div>
+		</>
 	);
 };

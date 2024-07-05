@@ -7,6 +7,7 @@ import { useTheme } from "../ui/theme-provider";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { SubscriptionCard } from "../common/mentors/SubscriptionCards";
 
 const FeaturesSection: React.FC = () => {
 	const { theme } = useTheme();
@@ -169,6 +170,38 @@ const FeaturesSection: React.FC = () => {
 					>
 						<img src={pic4} alt="Feature 4" />
 					</motion.div>
+				</div>
+
+				<h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 text-center mb-10 mt-20">
+					Subscription  <span className="text-violet-500">Packages</span>
+				</h2>
+
+				<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 mt-10">
+					<SubscriptionCard
+						title="Basic"
+						price="₹299/mo"
+						description1="Unlimitted lifetime access"
+						description2="One-to-one chat with mentor"
+						description3="Limited access to contents"
+						index={0}
+					/>
+					<SubscriptionCard
+						title="Pro"
+						price="₹699/mo"
+						description1="Unlimitted lifetime access"
+						description2="One-to-one voice and video mentoring"
+						description3="Full access to contents"
+						isPopular={true}
+						index={1}
+					/>
+					<SubscriptionCard
+						title="Enterprise"
+						price="₹499/mo"
+						description1="Unlimitted lifetime access"
+						description2="One-to-one chat and voice mentorship"
+						description3="Moderate access to contents"
+						index={2}
+					/>
 				</div>
 
 				<div

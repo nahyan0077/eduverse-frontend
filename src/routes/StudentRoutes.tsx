@@ -1,4 +1,5 @@
 import { StudentChat } from "@/components/student/StudentChat";
+import { StudentChatSubscription } from "@/components/student/StudentChatSubscription";
 import StudentDashboard from "@/components/student/StudentDashboard";
 import { StudentEnrollments } from "@/components/student/StudentEnrollments";
 import { StudentExamsList } from "@/components/student/StudentExamsList";
@@ -22,6 +23,7 @@ export const StudentRoutes = () => {
 				<Route path="/course-preview" element={<CoursePreview />} />
 				<Route path="/chat" element={<StudentChat />} />
 				<Route path="/exam" element={<StudentExam />} />
+				<Route path="/subscription" element={<StudentChatSubscription />} />
 				<Route path="/exams-list" element={<StudentExamsList />} />
 			</Route>
 		</Routes>

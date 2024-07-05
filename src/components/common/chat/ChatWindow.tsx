@@ -24,6 +24,8 @@ import { toast } from "sonner";
 import { ImageUpload } from "@/utils/cloudinary/uploadImage";
 import LoadingPopUp from "../skeleton/LoadingPopUp";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import subscribe from '@/assets/exam/subscribe.svg'
+import { useNavigate } from "react-router-dom";
 
 interface Message {
 	senderId: string;
@@ -64,6 +66,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 	const [cloudURL, setCloudURL] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [fileType, setFileType] = useState("");
+	const navigate = useNavigate()
 
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
@@ -205,6 +208,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 		return audioURL;
 	};
 
+	const handleSubscription = (chatId: string) => {
+		console.log(chatId,"----> chatidd");
+		navigate('/student/subscription')
+	}
+
 	return (
 		<section className="flex flex-col w-full bg-gray-200 dark:bg-gray-950 h-[97vh] lg:h-[89vh]">
 			<LoadingPopUp isLoading={loading} />
@@ -227,16 +235,18 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 								<div className="font-bold text-gray-900 dark:text-white">
 									{currentChat.userName}
 								</div>
-								<div
+								{
+									currentChat.subscriptionType !== 'none' &&
+									<div
 									className={`text-xs text-gray-500 dark:text-gray-400 mt-1`}
 								>
-									{currentChat.isOnline
+									{currentChat.isOnline 
 										? "Online"
 										: `Last seen ${formatDistanceToNow(
 												new Date(currentChat.lastSeen),
 												{ addSuffix: true }
 										  )}`}
-								</div>
+								</div>}
 							</div>
 							<div className={`text-sm text-gray-500 dark:text-gray-400`}>
 								{typingData && typingData.isTyping ? (
@@ -249,14 +259,31 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 					</header>
 					<div className="flex-1 flex flex-col overflow-hidden">
 						<div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-							{messages.map((message, index) => (
+							{currentChat.subscriptionType !== 'none' ?
+							messages.map((message, index) => (
 								<ChatMessage
 									key={index}
 									message={message}
 									currentUser={currentUser}
 									currentChat={currentChat}
 								/>
-							))}
+							))
+							:
+
+							//not subscribe window
+							<div className="" >
+								<div className="flex justify-center items-center" >
+									<img src={subscribe} className="w-[35%] mt-4" alt="subscribe image" />
+								</div>
+								<p className="italic text-center mb-3" >Please subscribe to chat with this mentor..!</p>
+								<div className="flex justify-center" >
+									<button 
+										className="btn btn-outline btn-warning rounded-xl" 
+										onClick={()=>handleSubscription(currentChat.chatId)}
+									> Subscribe </button>
+								</div>
+							</div>
+						}
 							<div ref={messagesEndRef} />
 						</div>
 						{selectedFile && (
@@ -311,7 +338,9 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 									</button>
 								</div>
 							)}
-							<div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg relative">
+							{ 
+							currentChat.subscriptionType !== 'none' &&
+								<div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg relative">
 								<button
 									className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-500"
 									onClick={() => setShowEmojiPicker(!showEmojiPicker)}
@@ -407,7 +436,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 										<MicIcon fontSize="medium" />
 									)}
 								</button>
-							</div>
+							</div>}
 						</div>
 					</div>
 				</>
