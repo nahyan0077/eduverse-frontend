@@ -4,7 +4,7 @@ import { useTheme } from '@/components/ui/theme-provider';
 export default function MentorSectionCardLoading() {
 	const { theme } = useTheme();
 	return (
-		<div className="w-full md:w-1/3 lg:w-1/4 px-3">
+		<div className="w-full md:w-1/3 lg:w-1/4 px-3 animate-pulse">
 			<div className={`${theme === "light" ? "bg-gray-100" : "bg-gray-800"} rounded-lg overflow-hidden mb-10 pb-14`}>
 				<div className={`w-full h-32 ${theme === "light" ? "bg-gray-100" : "bg-gray-800"} rounded flex items-center justify-center`}>
 					<div className={`w-28 h-28 ${theme === "light" ? "bg-gray-300" : "bg-gray-900"} rounded-full animate-pulse`}>

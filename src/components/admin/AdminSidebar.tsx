@@ -59,11 +59,11 @@ const AdminSidebar: React.FC<SidebarProps> = ({
 								variants={textVariants}
 								className="font-semibold text-lg text-white"
 							>
-								Admin Panel
+								Admin 
 							</motion.span>
 						)}
 					</div>
-					<nav className="flex-1 flex flex-col space-y-4 mt-2">
+					<nav className="flex-1 flex flex-col space-y-4 mt-2 justify-center ">
 						<Link
 							to="/admin"
 							className={linkClasses("dashboard")}
@@ -74,7 +74,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
-								className="ml-2"
+								className="ml-6"
 							>
 								Dashboard
 							</motion.span>
@@ -89,7 +89,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
-								className="ml-2"
+								className="ml-6"
 							>
 								Instructors
 							</motion.span>
@@ -104,7 +104,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
-								className="ml-2"
+								className="ml-6"
 							>
 								Students
 							</motion.span>
@@ -119,7 +119,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
-								className="ml-2"
+								className="ml-6"
 							>
 								Categories
 							</motion.span>
@@ -134,7 +134,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({
 								initial="hidden"
 								animate={open ? "visible" : "hidden"}
 								variants={textVariants}
-								className="ml-2"
+								className="ml-6"
 							>
 								Courses
 							</motion.span>

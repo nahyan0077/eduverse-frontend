@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import login from "@/assets/auth/loginss.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/common/users/Header";
@@ -17,10 +17,12 @@ import { GoogleLogin } from "@react-oauth/google";
 import { SignupFormData } from "@/types/IForms";
 import { googleAuthAction } from "@/redux/store/actions/auth";
 import Footer from "@/components/common/users/Footer";
+import LoadingPopUp from "@/components/common/skeleton/LoadingPopUp";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
 	const { theme } = useTheme();
+	const [loading, setLoading] = useState(false)
 	const initialValues = {
 		email: "",
 		password: "",
@@ -31,9 +33,11 @@ const Login: React.FC = () => {
 	const userData = useAppSelector((state: RootState) => state.user);
 
 	const handleSubmit = async (value: any) => {
+		setLoading(true)
 		const result = await dispatch(loginAction(value));
 
 		if (!result.payload || !result.payload.success) {
+			setLoading(false)
 			toast.error(result?.payload?.message || userData?.error);
 		} else {
 			dispatch(storeUserData(result.payload.data));
@@ -42,15 +46,19 @@ const Login: React.FC = () => {
 				result.payload.data.role == "instructor" &&
 				result.payload.data.isVerified
 			) {
+				setLoading(false)
 				navigate("/");
 			} else if (
 				result.payload.data.role == "instructor" &&
 				!result.payload.data.isVerified
 			) {
+				setLoading(false)
 				navigate("/");
 			} else if (result.payload.data.role == "student") {
+				setLoading(false)
 				navigate("/");
 			} else {
+				setLoading(false)
 				navigate("/admin");
 			}
 		}
@@ -58,6 +66,7 @@ const Login: React.FC = () => {
 
 	const loginWithGoogle = async (credentialResponse: any) => {
 		try {
+			setLoading(true)
 			const response = await dispatch(googleAuthAction(credentialResponse));
 
 			if (
@@ -66,7 +75,7 @@ const Login: React.FC = () => {
 				!response.payload.data.isBlocked
 			) {
 				dispatch(storeUserData(response.payload.data));
-
+				setLoading(false)
 				navigate("/");
 				return;
 			} else if (
@@ -122,6 +131,7 @@ const Login: React.FC = () => {
 		<>
 			<Header />
 			<div className="min-h-screen">
+				<LoadingPopUp isLoading={loading} />
 				<div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center mt-20">
 					<motion.div
 						className="w-full lg:w-1/2"

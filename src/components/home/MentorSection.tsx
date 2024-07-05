@@ -6,6 +6,8 @@ import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { useAppDispatch } from "@/hooks/hooks";
 import { getAllInstructorsAction } from "@/redux/store/actions/user";
 import MentorSectionCardLoading from "../common/loadingSkeleton/Mentors";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useNavigate } from "react-router-dom";
 
 interface MentorProps {
 	name: string | undefined;
@@ -72,6 +74,7 @@ const MentorsSection: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [instructors, setInstructors] = useState<any[] | []>([]);
 	const [loading, setLoading] = useState<boolean>(true);
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchInstructors = async () => {
@@ -111,8 +114,11 @@ const MentorsSection: React.FC = () => {
 							Mentors
 						</span>
 					</h2>
-					<button className="bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700">
-						View More
+					<button 
+						className=" text-violet-700 font-semibold py-2 px-4 rounded-md  hover:text-violet-300"
+						onClick={()=>navigate('/all-mentors')}
+					>
+						View More  <NavigateNextIcon />
 					</button>
 				</div>
 				<p

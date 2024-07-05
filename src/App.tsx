@@ -34,6 +34,7 @@ import { PaymentSuccess } from "./pages/common/PaymentSuccess";
 import { PaymentFailed } from "./pages/common/PaymentFailed";
 import { SearchResult } from "./pages/common/SearchResult";
 import { InstructorChat } from "./components/instructor/InstructorChat";
+import { AllMentorsSection } from "./pages/user/AllMentorsSection";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -88,6 +89,7 @@ function App() {
 
 				{/* Public routes */}
 				<Route path="/courses" element={<PublicRoute element={<Course />} allowedRoles={["student"]} />} />
+				<Route path="/all-mentors" element={<PublicRoute element={<AllMentorsSection />} allowedRoles={["student"]} />} />
 				<Route path="/single-course" element={<PublicRoute element={<SingleCourse />} allowedRoles={["student"]} />} />
 				<Route path="/home" element={<PublicRoute element={<Home />} allowedRoles={["student"]} />} />
 				<Route path="/unauthorized" element={<Unauthorized />} />
