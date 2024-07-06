@@ -35,6 +35,7 @@ import { PaymentFailed } from "./pages/common/PaymentFailed";
 import { SearchResult } from "./pages/common/SearchResult";
 import { InstructorChat } from "./components/instructor/InstructorChat";
 import { AllMentorsSection } from "./pages/user/AllMentorsSection";
+import { SubscriptionSuccess } from "./pages/common/SubscriptionSuccess";
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -106,6 +107,7 @@ function App() {
 				<Route path="/search" element={<PublicRoute element={<SearchResult />} allowedRoles={["student"]} />} />
 				<Route path="/payment-success" element={<PublicRoute element={<PaymentSuccess />} allowedRoles={["student"]} />} />
 				<Route path="/payment-failed" element={<PublicRoute element={<PaymentFailed />} allowedRoles={["student"]} />} />
+				<Route path="/subscription-success" element={<PublicRoute element={<SubscriptionSuccess />} allowedRoles={["student"]} />} />
 
 				<Route path="/newchat" element={<InstructorChat />} />
 

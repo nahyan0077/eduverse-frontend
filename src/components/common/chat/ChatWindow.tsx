@@ -210,7 +210,9 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 
 	const handleSubscription = (chatId: string) => {
 		console.log(chatId,"----> chatidd");
-		navigate('/student/subscription')
+		navigate(`/student/subscription`,{state:{chatId,instructorId: currentChat._id}})
+
+		
 	}
 
 	return (

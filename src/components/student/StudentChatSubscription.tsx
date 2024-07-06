@@ -1,7 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { createSubscriptionSessionAction } from "@/redux/store/actions/payment";
+import { RootState } from "@/redux/store";
+import { toast } from "sonner";
+import { storeObject } from "@/utils/localStorage";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const StudentChatSubscription: React.FC = () => {
 	const navigate = useNavigate();
@@ -19,39 +25,92 @@ export const StudentChatSubscription: React.FC = () => {
 		}),
 	};
 
-    
-
 	const plans = [
 		{
-			title: "Basic Plan",
-			price: "$9.99/month",
+			title: "Basic",
+			price: 199,
 			description1: "Access to basic courses",
 			description2: "Standard support",
 			description3: "Regular updates",
 			isPopular: false,
+			image:
+				"https://res.cloudinary.com/dneak7rwh/image/upload/v1720203648/basics_cw6tkk.jpg",
 		},
 		{
-			title: "Premium Plan",
-			price: "$29.99/month",
+			title: "Standard",
+			price: 399,
 			description1: "Access to all courses",
 			description2: "Priority support",
 			description3: "Exclusive content",
 			isPopular: true,
+			image:
+				"https://res.cloudinary.com/dneak7rwh/image/upload/v1720203698/standard_mjhlkv.jpg",
 		},
 		{
-			title: "Pro Plan",
-			price: "$49.99/month",
+			title: "Premium",
+			price: 699,
 			description1: "Access to all courses",
 			description2: "One-on-one mentorship",
 			description3: "Early access to new content",
 			isPopular: false,
+			image:
+				"https://res.cloudinary.com/dneak7rwh/image/upload/v1720203722/premium_nfyfbc.jpg",
 		},
 	];
+	const location = useLocation();
+	const { data } = useAppSelector((state: RootState) => state.user);
+	const locationData = location.state;
+	const dispatch = useAppDispatch();
+
+	const handlePayment = async (price: number, plan: string, image: string) => {
+		try {
+			if (data?._id) {
+				const stripe = await loadStripe(
+					import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as string
+				);
+
+				const subDatas = {
+					planName: plan,
+					amount: price,
+					chatId: locationData.chatId,
+					userId: data?._id,
+					subscriptionThumbnail: image,
+				};
+				console.log(subDatas, "subs data");
+
+				const response = await dispatch(
+					createSubscriptionSessionAction(subDatas)
+				);
+
+				if (!response?.payload || !response?.payload?.success) {
+					toast.error("Error occurred");
+					console.error("Something went wrong, try again!");
+				}
+
+				storeObject("subscription-session", {
+					...response?.payload?.data,
+					amount: price,
+					planName: plan,
+                    instructorId: locationData.instructorId
+				});
+				const sessionId = response.payload.data.sessionId;
+
+				const result = await stripe?.redirectToCheckout({ sessionId });
+
+				if (result?.error) {
+					console.error(result.error.message);
+				}
+			}
+		} catch (error: any) {
+			console.error("Subscription Payment error:", error);
+			toast.error(error.message);
+		}
+	};
 
 	return (
-		<div>
-			<h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 text-center mb-10 mt-20">
-				Mentor Subscription <span className="text-violet-500">Packages</span>
+		<div className="max-w-7xl mx-auto">
+			<h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100  mb-10 mt-20">
+				Mentor <span className="text-violet-500">Subscription</span> Plans
 			</h2>
 
 			<div className="grid gap-8 sm:grid-cols-1 md:grid-cols-3 p-8">
@@ -95,7 +154,7 @@ export const StudentChatSubscription: React.FC = () => {
 									plan.isPopular ? "text-yellow-400" : "text-violet-600"
 								}`}
 							>
-								{plan.price}
+								₹ {plan.price} /month
 							</p>
 							<p
 								className={`mb-4 ${
@@ -137,6 +196,9 @@ export const StudentChatSubscription: React.FC = () => {
 								// onClick={handleModalOpen}
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
+								onClick={() =>
+									handlePayment(plan.price, plan.title, plan.image)
+								}
 							>
 								Get Started
 							</motion.button>
