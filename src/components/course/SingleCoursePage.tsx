@@ -205,7 +205,7 @@ export const SingleCoursePage: React.FC = () => {
 
 	return (
 		<>
-			<div className="relative w-full h-[15vh] md:h-[30vh] ">
+			<div className=" w-full h-[15vh] md:h-[30vh] sticky top-0">
 				<img src={banner} className="" alt="" />
 			</div>
 			<div
@@ -351,8 +351,12 @@ export const SingleCoursePage: React.FC = () => {
 								)}
 								<div className="flex justify-center w-full p-3">
 									{isEnrolled ? (
+										<div className="flex flex-col gap-5" >
+
 										<div className="badge badge-success badge-lg font-bold animate-pulse transition duration-300 ease-in-out">
 											Already Enrolled
+										</div>
+										<button className="btn btn-outline btn-accent" onClick={()=>navigate('/student/enrollments')} >Go to Dashboard</button>
 										</div>
 									) : courseData.pricing.type === "paid" ? (
 										<button

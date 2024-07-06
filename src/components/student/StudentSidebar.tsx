@@ -88,7 +88,7 @@ const StudentSidebar: React.FC<SidebarProps> = ({
 							to="/student/exams-list"
 							className={`${linkClasses("exam-list")} tooltip `}
 							data-tip="Exams"
-							onClick={() => setCurrentPage("exams-list")}
+							onClick={() => setCurrentPage("exam-list")}
 						>
 							<ClassIcon />
 							<motion.span

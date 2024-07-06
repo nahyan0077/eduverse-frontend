@@ -30,7 +30,7 @@ const CourseFilterPanel: React.FC<FilterPanelProps> = ({
 			<div className="mb-6">
 				<SearchBar onSearchChange={onSearchChange} />
 			</div>
-			<div className="collapse collapse-arrow border mb-6">
+			<div className="collapse collapse-arrow collapse-open border mb-6">
 				<input type="checkbox" />
 				<div className="collapse-title text-md font-medium">Course Categories</div>
 				<div className="collapse-content">
@@ -49,7 +49,7 @@ const CourseFilterPanel: React.FC<FilterPanelProps> = ({
 					</div>
 				</div>
 			</div>
-			<div className="collapse collapse-arrow border mb-6">
+			<div className="collapse collapse-arrow collapse-open border mb-6">
 				<input type="checkbox" />
 				<div className="collapse-title text-md font-medium">Level</div>
 				<div className="collapse-content">
@@ -68,7 +68,7 @@ const CourseFilterPanel: React.FC<FilterPanelProps> = ({
 					</div>
 				</div>
 			</div>
-			<div className="collapse collapse-arrow border mb-6">
+			<div className="collapse collapse-arrow collapse-open border mb-6">
 				<input type="checkbox" />
 				<div className="collapse-title text-md font-medium">Price</div>
 				<div className="collapse-content">

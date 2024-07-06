@@ -56,8 +56,6 @@ export const SubscriptionSuccess : React.FC = () => {
             console.error(error);
             navigate('/');
         }
-
-
     }
 
 

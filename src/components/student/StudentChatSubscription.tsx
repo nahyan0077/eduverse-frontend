@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { RootState } from "@/redux/store";
 import { toast } from "sonner";
 import { storeObject } from "@/utils/localStorage";
 import { loadStripe } from "@stripe/stripe-js";
+import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 
 export const StudentChatSubscription: React.FC = () => {
 	const navigate = useNavigate();
@@ -61,10 +62,12 @@ export const StudentChatSubscription: React.FC = () => {
 	const { data } = useAppSelector((state: RootState) => state.user);
 	const locationData = location.state;
 	const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState(false)
 
 	const handlePayment = async (price: number, plan: string, image: string) => {
 		try {
 			if (data?._id) {
+                setLoading(true)
 				const stripe = await loadStripe(
 					import.meta.env.VITE_REACT_APP_PUBLIC_STRIPE_KEY as string
 				);
@@ -95,6 +98,7 @@ export const StudentChatSubscription: React.FC = () => {
 				});
 				const sessionId = response.payload.data.sessionId;
 
+                setLoading(false)
 				const result = await stripe?.redirectToCheckout({ sessionId });
 
 				if (result?.error) {
@@ -102,6 +106,7 @@ export const StudentChatSubscription: React.FC = () => {
 				}
 			}
 		} catch (error: any) {
+            setLoading(false)
 			console.error("Subscription Payment error:", error);
 			toast.error(error.message);
 		}
@@ -109,6 +114,7 @@ export const StudentChatSubscription: React.FC = () => {
 
 	return (
 		<div className="max-w-7xl mx-auto">
+            <LoadingPopUp isLoading={loading} />
 			<h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100  mb-10 mt-20">
 				Mentor <span className="text-violet-500">Subscription</span> Plans
 			</h2>
