@@ -223,7 +223,7 @@ export const StudentChat: React.FC = () => {
 
 			//check subscription
 			console.log(receiverData.subscriptionType,"is chat id ther");
-			if (receiverData.subscriptionType) {
+			if (receiverData.subscriptionType == "none") {
 				
 				toast.error("Please subscribe to chat")
 				return

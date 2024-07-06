@@ -1,17 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
+import { getObject } from "@/utils/localStorage";
+import { useAppDispatch } from "@/hooks/hooks";
+import { createSubscriptionPaymentAction } from "@/redux/store/actions/payment/createSubscriptionPaymentAction";
 
 export const SubscriptionSuccess : React.FC = () => {
 
     const navigate = useNavigate()
+    const dispatch = useAppDispatch();
 
-    useEffect(()=>{
+    const isFirstRun = useRef(true); 
 
-    },[])
+    useEffect(() => {
+        if (isFirstRun.current) {
+            console.log("useEffect triggered");
+            createPayment();
+            isFirstRun.current = false;
+        }
+    }, []);
 
-    const createPayment = () => {
-        
+    const createPayment = async () => {
+        const paymentSession = getObject("subscription-session");
+        console.log(paymentSession, "payment session");
+
+        if (!paymentSession) {
+            navigate('/');
+            return;
+        }
+
+        try {
+
+            const createPaymentData = {
+                userId: paymentSession.userId,
+                instructorId: paymentSession.instructorId,
+                chatId: paymentSession.chatId,
+                method: "card",
+                status: "completed",
+                amount: paymentSession.amount,
+                subscriptionType: paymentSession.planName.toLowerCase()
+            };
+
+            const response = await dispatch(createSubscriptionPaymentAction(createPaymentData))
+
+            console.log(response.payload,"chek subscip pay complete");
+            
+
+            if (!response.payload.success) {
+                console.log("subscription payment failed");
+                
+
+            }
+
+        } catch (error: any) {
+            console.error(error);
+            navigate('/');
+        }
+
+
     }
 
 
@@ -33,8 +79,8 @@ export const SubscriptionSuccess : React.FC = () => {
                     </h2>
                 </div>
                 <div>
-                    <button onClick={() => navigate('/')} className="btn btn-success btn-outline rounded-full">
-                        Dashboard
+                    <button onClick={() => navigate('/student/chat')} className="btn btn-success btn-outline rounded-full">
+                       My Chats
                     </button>
                 </div>
             </div>

@@ -8,6 +8,8 @@ export const PaymentFailed: React.FC = () => {
 	useEffect(()=>{
 
 		deleteObject("payment_session")
+		deleteObject("subscription-session")
+
 	},[])
 
 	return (

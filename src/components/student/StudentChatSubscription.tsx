@@ -29,9 +29,9 @@ export const StudentChatSubscription: React.FC = () => {
 		{
 			title: "Basic",
 			price: 199,
-			description1: "Access to basic courses",
+			description1: "Unlimitted lifetime access",
 			description2: "Standard support",
-			description3: "Regular updates",
+			description3: "One-to-one chat with mentor",
 			isPopular: false,
 			image:
 				"https://res.cloudinary.com/dneak7rwh/image/upload/v1720203648/basics_cw6tkk.jpg",
@@ -39,9 +39,9 @@ export const StudentChatSubscription: React.FC = () => {
 		{
 			title: "Standard",
 			price: 399,
-			description1: "Access to all courses",
+			description1: "Unlimitted lifetime access",
 			description2: "Priority support",
-			description3: "Exclusive content",
+			description3: "One-to-one chat and voice mentorship",
 			isPopular: true,
 			image:
 				"https://res.cloudinary.com/dneak7rwh/image/upload/v1720203698/standard_mjhlkv.jpg",
@@ -49,9 +49,9 @@ export const StudentChatSubscription: React.FC = () => {
 		{
 			title: "Premium",
 			price: 699,
-			description1: "Access to all courses",
+			description1: "Unlimitted lifetime access",
 			description2: "One-on-one mentorship",
-			description3: "Early access to new content",
+			description3: "One-to-one voice and video mentoring",
 			isPopular: false,
 			image:
 				"https://res.cloudinary.com/dneak7rwh/image/upload/v1720203722/premium_nfyfbc.jpg",
@@ -175,7 +175,7 @@ export const StudentChatSubscription: React.FC = () => {
 								<DoneAllIcon color="secondary" /> {plan.description2}
 							</p>
 							<p
-								className={`mb-4 ${
+								className={`mb-12 ${
 									plan.isPopular
 										? "text-gray-200"
 										: "text-gray-600 dark:text-gray-300"
