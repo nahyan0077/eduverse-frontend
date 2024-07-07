@@ -5,7 +5,7 @@ import { CustomPdfFileInput } from "@/components/common/fileInputs/pdfInput";
 import { CourseEntity } from "@/types/ICourse";
 import { useAppDispatch } from "@/hooks/hooks";
 import { createCourseAction, updateCourseAction } from "@/redux/store/actions/course";
-import { addCourseValidationSchema3, addCourseValidationSchema33 } from "@/validationSchemas/addCourseSchema3";
+import { addCourseValidationSchema3, addCourseValidationSchema33 } from "@/utils/validationSchemas/addCourseSchema3";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { toast } from "sonner";

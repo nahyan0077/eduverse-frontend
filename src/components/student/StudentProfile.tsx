@@ -11,7 +11,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import { updateProfileAction } from "@/redux/store/actions/user/updateProfileAction";
 import { Toaster, toast } from "sonner";
 import { ImageUpload } from "@/utils/cloudinary/uploadImage";
-import { editProfileValidationSchema } from "@/validationSchemas/editProfileSchema";
+import { editProfileValidationSchema } from "@/utils/validationSchemas/editProfileSchema";
 import { getUserData } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 

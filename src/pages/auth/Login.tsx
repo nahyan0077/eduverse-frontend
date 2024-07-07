@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/common/users/Header";
 import InputField from "@/components/common/skeleton/InputField";
 import { Form, Formik } from "formik";
-import { loginSchema } from "@/validationSchemas/loginSchema";
+import { loginSchema } from "@/utils/validationSchemas/loginSchema";
 import PasswordField from "@/components/auth/PasswordField";
 import { useTheme } from "@/components/ui/theme-provider";
 import { motion } from "framer-motion";

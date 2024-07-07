@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/common/users/Header";
 import { Form, Formik } from "formik";
 import InputField from "@/components/common/skeleton/InputField";
-import { signupSchema } from "@/validationSchemas/signupSchema";
+import { signupSchema } from "@/utils/validationSchemas/signupSchema";
 import PasswordField from "@/components/auth/PasswordField";
 import {
   findEmailAction,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
@@ -24,10 +24,30 @@ const Header: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const userData = useSelector((state: RootState) => state.user);
   const [categoryCollapse, setCategoryCollapse] = useState(false);
+  const sideBarRef = useRef <HTMLDivElement> (null)
 
   useEffect(() => {
     dispatch(getAllActiveCategories());
   }, [dispatch]);
+
+
+  useEffect(() => {
+    const handleClickOutside = (event: Event) => {
+      if (sideBarRef.current && !sideBarRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   const catgoryData = useSelector((state: RootState) => state.category);
 
@@ -248,7 +268,8 @@ const Header: React.FC = () => {
           {menuOpen && (
             <>
               <motion.div
-                className="fixed top-0 left-0 w-full h-full backdrop-blur-sm backdrop-brightness-50 z-20  "
+				ref={sideBarRef}
+                className="fixed top-0 left-0 w-full min-h-screen backdrop-blur-sm backdrop-brightness-50 z-20 bg-black bg-opacity-75"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

@@ -2,7 +2,7 @@ import React from "react";
 import ForgotPass from "@/assets/auth/Forgot password.png";
 import { Formik, Form } from "formik";
 import { motion } from "framer-motion";
-import forgotPasswordSchema from "@/validationSchemas/forgotPasswordSchema";
+import forgotPasswordSchema from "@/utils/validationSchemas/forgotPasswordSchema";
 import PasswordField from "../auth/PasswordField";
 import { useAppDispatch } from "@/hooks/hooks";
 import { updatePasswordAction } from "@/redux/store/actions/auth/updatePasswordAction";

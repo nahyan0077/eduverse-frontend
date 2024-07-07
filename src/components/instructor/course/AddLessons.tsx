@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { CustomVideoFileInputDuration } from "@/components/common/fileInputs/videoInputDuration";
 import TagInputField from "@/components/common/skeleton/TagInputField";
-import { addCourseValidationSchema2 } from "@/validationSchemas/addCourseSchema2";
+import { addCourseValidationSchema2 } from "@/utils/validationSchemas/addCourseSchema2";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';

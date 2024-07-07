@@ -4,7 +4,7 @@ import { Form, Formik, Field } from "formik";
 import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 import { useLocation, useNavigate } from "react-router-dom";
-import studentFormSchema2 from "../../validationSchemas/studentFormSchema2";
+import studentFormSchema2 from "../../utils/validationSchemas/studentFormSchema2";
 import { SignupFormData } from "@/types/IForms";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
 import { sendVerificationMail, signupAction } from "@/redux/store/actions/auth";

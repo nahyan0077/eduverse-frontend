@@ -5,7 +5,7 @@ import form_image from "@/assets/form/form_img.png";
 import { useTheme } from "../ui/theme-provider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useLocation, useNavigate } from "react-router-dom";
-import studentFormSchema from "@/validationSchemas/studentFormSchema";
+import studentFormSchema from "@/utils/validationSchemas/studentFormSchema";
 import { SignupFormData } from "@/types/IForms";
 import { motion } from "framer-motion";
 

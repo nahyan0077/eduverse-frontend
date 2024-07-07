@@ -3,7 +3,7 @@ import { RootState } from "@/redux/store";
 import { getCoursesByInstructorIdAction } from "@/redux/store/actions/course";
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
-import { examValidationSchema } from "@/validationSchemas/addExamSchema";
+import { examValidationSchema } from "@/utils/validationSchemas/addExamSchema";
 import {
   createAssessmentAction,
   getAssessmentByIdAction,

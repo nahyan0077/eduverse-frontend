@@ -3,7 +3,7 @@ import { CustomVideoFileInput } from "@/components/common/fileInputs/videoInput"
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import { CourseEntity, CourseFirst } from "@/types/ICourse";
-import { addCourseValidationSchema1 } from "@/validationSchemas/addCourseSchema1";
+import { addCourseValidationSchema1 } from "@/utils/validationSchemas/addCourseSchema1";
 import { Field, Form, Formik } from "formik";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";

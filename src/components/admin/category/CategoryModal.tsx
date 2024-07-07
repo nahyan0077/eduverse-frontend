@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import InputField from "@/components/common/skeleton/InputField";
-import { addCategorySchema } from "@/validationSchemas/addCategorySchema";
+import { addCategorySchema } from "@/utils/validationSchemas/addCategorySchema";
 import { addCategory } from "@/types/ICategory";
 import { useTheme } from "@/components/ui/theme-provider";
 
