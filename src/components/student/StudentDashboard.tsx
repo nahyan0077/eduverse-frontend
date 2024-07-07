@@ -18,22 +18,18 @@ const StudentDashboard: React.FC = () => {
   const [completedCourses, setCompletedCourses] = useState<any[]>([]);
   const [ongoingCourses, setOngoingCourses] = useState<any[]>([]);
   const [totalCourses, setTotalCourses] = useState<any[]>([]);
-  const [userData, setUserData] = useState <any> ()
+  const [userData, setUserData] = useState<any>();
 
   useEffect(() => {
     fetchCoursesEnrolled();
-    fetchUser()
+    fetchUser();
   }, []);
 
-
-
   const fetchUser = async () => {
-
-      const response = await dispatch(getUserData())
-      console.log(response.payload.data,"user data");
-      setUserData(response.payload.data)
-
-  }
+    const response = await dispatch(getUserData());
+    console.log(response.payload.data, "user data");
+    setUserData(response.payload.data);
+  };
 
   const fetchCoursesEnrolled = async () => {
     if (data?._id) {
@@ -53,18 +49,19 @@ const StudentDashboard: React.FC = () => {
     }
   };
 
-  if(loading){
-    return(
-      <LoadingPopUp isLoading={loading} />
-    )
+  if (loading) {
+    return <LoadingPopUp isLoading={loading} />;
   }
 
   return (
     <div className={`flex-1 overflow-auto p-8`}>
-      <h1 className={`text-3xl font-bold mb-8 ${theme === "light" ? "text-gray-800" : "text-white"}`}>
+      <h1
+        className={`text-3xl font-bold mb-8 ${
+          theme === "light" ? "text-gray-800" : "text-white"
+        }`}>
         Welcome back, {data?.userName}!
       </h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <StatBox
           title="Completed Courses"
@@ -86,22 +83,27 @@ const StudentDashboard: React.FC = () => {
         />
       </div>
 
-	{/*<------------- student login streak -------------> */}
+      {/*<------------- student login streak -------------> */}
 
       <div className="mb-10">
-        <StreakDisplay streak={userData?.loginStreak || 0} weeklyLogin={userData?.weeklyLogins || []} theme={theme} />
+        <StreakDisplay
+          streak={userData?.loginStreak || 0}
+          weeklyLogin={userData?.weeklyLogins || []}
+          theme={theme}
+        />
       </div>
-
 
       <div className="mb-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className={`text-2xl font-semibold ${theme === "light" ? "text-gray-800" : "text-white"}`}>
+          <h2
+            className={`text-2xl font-semibold ${
+              theme === "light" ? "text-gray-800" : "text-white"
+            }`}>
             My Enrollments
           </h2>
           <button
             onClick={() => navigate("/student/enrollments")}
-            className={`px-4 py-2 rounded-md transition duration-300 btn btn-outline btn-sm `}
-          >
+            className={`px-4 py-2 rounded-md transition duration-300 btn btn-outline btn-sm `}>
             View All
           </button>
         </div>
@@ -115,22 +117,27 @@ const StudentDashboard: React.FC = () => {
   );
 };
 
-const StatBox: React.FC<{ title: string; value: number; icon: React.ReactNode; theme: string }> = ({
-  title,
-  value,
-  icon,
-  theme,
-}) => (
+const StatBox: React.FC<{
+  title: string;
+  value: number;
+  icon: React.ReactNode;
+  theme: string;
+}> = ({ title, value, icon, theme }) => (
   <div
     className={`rounded-lg p-6 shadow-lg flex items-center ${
       theme === "light" ? "bg-white text-gray-900" : "bg-gray-800 text-white"
-    }`}
-  >
-    <div className={`text-3xl mr-4 ${theme === "light" ? "text-blue-600" : "text-blue-400"}`}>
+    }`}>
+    <div
+      className={`text-3xl mr-4 ${
+        theme === "light" ? "text-blue-600" : "text-blue-400"
+      }`}>
       {icon}
     </div>
     <div>
-      <h2 className={`text-lg font-semibold mb-1 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
+      <h2
+        className={`text-lg font-semibold mb-1 ${
+          theme === "light" ? "text-gray-700" : "text-gray-300"
+        }`}>
         {title}
       </h2>
       <p className="text-3xl font-bold">{value}</p>
@@ -138,12 +145,14 @@ const StatBox: React.FC<{ title: string; value: number; icon: React.ReactNode; t
   </div>
 );
 
-const CourseCard: React.FC<{ course: any; theme: string }> = ({ course, theme }) => (
+const CourseCard: React.FC<{ course: any; theme: string }> = ({
+  course,
+  theme,
+}) => (
   <div
     className={`rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 ${
       theme === "light" ? "bg-white" : "bg-gray-800"
-    }`}
-  >
+    }`}>
     <div className="flex flex-col sm:flex-row">
       <div className="sm:w-1/3">
         <img
@@ -156,23 +165,20 @@ const CourseCard: React.FC<{ course: any; theme: string }> = ({ course, theme })
         <h3
           className={`text-xl font-semibold mb-3 ${
             theme === "light" ? "text-gray-800" : "text-white"
-          }`}
-        >
+          }`}>
           {course.courseId.title}
         </h3>
         <p
           className={`text-sm mb-4 ${
             theme === "light" ? "text-gray-600" : "text-gray-300"
-          }`}
-        >
+          }`}>
           Enrolled: {new Date(course.enrolledAt).toLocaleDateString()}
         </p>
         <div className="flex items-center justify-between">
           <p
             className={`text-sm font-medium ${
               theme === "light" ? "text-gray-600" : "text-gray-300"
-            }`}
-          >
+            }`}>
             Completion:
           </p>
           <div className="flex items-center">
@@ -185,8 +191,7 @@ const CourseCard: React.FC<{ course: any; theme: string }> = ({ course, theme })
                   "--thickness": "3px",
                 } as React.CSSProperties
               }
-              role="progressbar"
-            >
+              role="progressbar">
               <span className="text-sm font-bold">
                 {Math.trunc(course.progress.overallCompletionPercentage)}%
               </span>

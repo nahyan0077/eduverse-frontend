@@ -2,10 +2,15 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CustomPdfFileInput } from "@/components/common/fileInputs/pdfInput";
-import { CourseEntity } from "@/types/ICourse";
 import { useAppDispatch } from "@/hooks/hooks";
-import { createCourseAction, updateCourseAction } from "@/redux/store/actions/course";
-import { addCourseValidationSchema3, addCourseValidationSchema33 } from "@/utils/validationSchemas/addCourseSchema3";
+import {
+  createCourseAction,
+  updateCourseAction,
+} from "@/redux/store/actions/course";
+import {
+  addCourseValidationSchema3,
+  addCourseValidationSchema33,
+} from "@/utils/validationSchemas/addCourseSchema3";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { toast } from "sonner";
@@ -21,8 +26,7 @@ export const AddOthers: React.FC = () => {
     console.error("Location state is missing or malformed");
     return <div>Error: Location state is missing or malformed</div>;
   }
-  console.log(location.state.allData,"all data from add lessons");
-  
+  console.log(location.state.allData, "all data from add lessons");
 
   const initialValues = {
     title: editMode ? location.state.oldData.attachments?.title || "" : "",
@@ -32,7 +36,7 @@ export const AddOthers: React.FC = () => {
   };
 
   const handleSubmit = async (values: any) => {
-    const allData: CourseEntity = {
+    const allData: any = {
       title: location.state.allData.title,
       categoryRef: location.state.allData.category,
       instructorRef: data?._id,
@@ -56,7 +60,7 @@ export const AddOthers: React.FC = () => {
 
     let response;
     if (editMode) {
-      allData._id = location.state.oldData._id 
+      allData._id = location.state.oldData._id;
       response = await dispatch(updateCourseAction(allData));
     } else {
       response = await dispatch(createCourseAction(allData));
@@ -64,10 +68,14 @@ export const AddOthers: React.FC = () => {
     }
 
     if (response.payload.success) {
-      toast.success(editMode ? "Course updated successfully" : "Course created successfully");
+      toast.success(
+        editMode ? "Course updated successfully" : "Course created successfully"
+      );
       navigate("/instructor/courses");
     } else {
-      toast.error("An error occurred while saving the course. Please try again.");
+      toast.error(
+        "An error occurred while saving the course. Please try again."
+      );
     }
   };
 
@@ -84,16 +92,12 @@ export const AddOthers: React.FC = () => {
             : addCourseValidationSchema33
         }
         onSubmit={handleSubmit}
-        enableReinitialize
-      >
+        enableReinitialize>
         {({ setFieldValue }) => (
           <Form>
             <div className="flex space-x-6">
               <div className="w-[50%] space-y-6">
-                <label
-                  htmlFor="pdfField"
-                  className="text-md font-bold"
-                >
+                <label htmlFor="pdfField" className="text-md font-bold">
                   UPLOAD ADDITIONAL ATTACHMENTS
                 </label>
                 <CustomPdfFileInput
@@ -124,10 +128,7 @@ export const AddOthers: React.FC = () => {
               <div className="w-[50%] space-y-4">
                 {location.state.allData.pricing === "paid" && (
                   <>
-                    <label
-                      htmlFor="priceField"
-                      className="text-md font-bold"
-                    >
+                    <label htmlFor="priceField" className="text-md font-bold">
                       COURSE PRICE DETAILS
                     </label>
                     <Field
@@ -144,17 +145,13 @@ export const AddOthers: React.FC = () => {
                   </>
                 )}
                 <div className="space-y-2">
-                  <label
-                    htmlFor="level"
-                    className="text-xs font-semibold"
-                  >
+                  <label htmlFor="level" className="text-xs font-semibold">
                     COURSE LEVEL
                   </label>
                   <Field
                     as="select"
                     name="level"
-                    className="select select-bordered bg-gray-800 w-full max-w-full"
-                  >
+                    className="select select-bordered bg-gray-800 w-full max-w-full">
                     <option value="" label="Select course level" />
                     <option value="beginner" label="Beginner" />
                     <option value="intermediate" label="Intermediate" />
@@ -169,11 +166,7 @@ export const AddOthers: React.FC = () => {
               </div>
             </div>
             <div className="mt-8">
-              <button
-                className="btn btn-info btn-outline"
-                type="submit"
-                
-              >
+              <button className="btn btn-info btn-outline" type="submit">
                 Submit
               </button>
             </div>

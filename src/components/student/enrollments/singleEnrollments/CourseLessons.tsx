@@ -6,14 +6,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 const CourseLessons: React.FC<{ courseData: any }> = ({ courseData }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   return (
     <div className="flex flex-col space-y-4 p-10">
       <label htmlFor="lesson" className="ml-2 font-bold text-xl">
         Lessons:
       </label>
       {courseData.lessons.map((lesson: any, index: number) => (
-        <div className="collapse collapse-arrow bg-gray-100 dark:bg-gray-800 mb-2" key={index}>
+        <div
+          className="collapse collapse-arrow bg-gray-100 dark:bg-gray-800 mb-2"
+          key={index}>
           <input type="checkbox" name="my-accordion-1" />
           <div className="collapse-title text-md flex font-medium">
             {index + 1 + ".  " + lesson.title}
@@ -39,8 +41,7 @@ const CourseLessons: React.FC<{ courseData: any }> = ({ courseData }) => {
                       enrollmentId: location.state.enrollmentId,
                     },
                   })
-                }
-              >
+                }>
                 <OndemandVideoIcon color="warning" />
                 Preview
               </button>

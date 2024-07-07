@@ -3,9 +3,10 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import BoltIcon from "@mui/icons-material/Bolt";
 
-
-const CourseInfo: React.FC<{ courseData: any; overallRating: number }> = ({ courseData, overallRating }) => {
-
+const CourseInfo: React.FC<{ courseData: any; overallRating: number }> = ({
+  courseData,
+  overallRating,
+}) => {
   return (
     <div className={`mb-4 bg-violet-200 dark:bg-gray-950 rounded-t-3xl p-6`}>
       <div className="flex items-center mb-2">
@@ -16,7 +17,8 @@ const CourseInfo: React.FC<{ courseData: any; overallRating: number }> = ({ cour
         />
         <div>
           <h2 className="text-lg font-bold">
-            {courseData.instructorRef.firstName} {courseData.instructorRef.lastName}
+            {courseData.instructorRef.firstName}{" "}
+            {courseData.instructorRef.lastName}
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400">Instructor</p>
         </div>
@@ -24,12 +26,16 @@ const CourseInfo: React.FC<{ courseData: any; overallRating: number }> = ({ cour
       <h1 className="text-2xl font-bold mb-2">{courseData.title}</h1>
       <div className="flex items-center flex-wrap">
         <span className="text-yellow-500">★★★★☆</span>
-        <span className="ml-2 text-gray-600 dark:text-gray-400">({overallRating})</span>
-        <span className="ml-4 text-gray-600 dark:text-gray-400">
-          <LibraryBooksIcon color="warning" fontSize="small" /> {courseData.lessons.length} Lessons
+        <span className="ml-2 text-gray-600 dark:text-gray-400">
+          ({overallRating})
         </span>
         <span className="ml-4 text-gray-600 dark:text-gray-400">
-          <AccessTimeIcon color="warning" fontSize="small" /> {courseData.duration} hours
+          <LibraryBooksIcon color="warning" fontSize="small" />{" "}
+          {courseData.lessons.length} Lessons
+        </span>
+        <span className="ml-4 text-gray-600 dark:text-gray-400">
+          <AccessTimeIcon color="warning" fontSize="small" />{" "}
+          {courseData.duration} hours
         </span>
         <span className="ml-4 text-gray-600 dark:text-gray-400">
           <BoltIcon color="warning" fontSize="small" /> {courseData.level}

@@ -15,7 +15,6 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
   theme,
   initialValue = null, // Default initialValue to null
 }) => {
-
   const [pdfUrl, setPdfUrl] = useState<string | null>(initialValue); // Set initial value from prop
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +34,6 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
 
     setLoading(true);
 
-
     try {
       const pdfUrl = await PdfUpload(file);
 
@@ -54,7 +52,6 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
   };
 
   const handleClearFile = () => {
-
     setPdfUrl(null);
     onChange(null);
   };
@@ -65,8 +62,7 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
         theme === "light"
           ? "bg-gray-100 border-gray-200"
           : "bg-gray-800 border-gray-700"
-      }`}
-    >
+      }`}>
       <Toaster position="top-center" richColors />
       {pdfUrl ? (
         <div className="mt-4 lg:h-40 lg:mt-0 relative">
@@ -79,8 +75,7 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
           <button
             className="z-50 mt-4 bg-gray-700 text-white font-bold py-1 px-2 rounded"
             onClick={handleClearFile}
-            type="button"
-          >
+            type="button">
             Clear File
           </button>
         </div>
@@ -95,8 +90,7 @@ export const CustomPdfFileInput: FC<CustomPdfFileInputProps> = ({
           <button
             type="button"
             className="bg-zinc-200 text-blue-600 text-sm font-semibold py-2 px-4 rounded"
-            onClick={handleButtonClick}
-          >
+            onClick={handleButtonClick}>
             Upload PDF
           </button>
           <input

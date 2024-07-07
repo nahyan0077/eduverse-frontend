@@ -17,8 +17,7 @@ const CourseAssignments: React.FC<{ courseData: any }> = ({ courseData }) => {
           href={courseData.attachments.url}
           target="_blank"
           className="btn btn-outline btn-sm btn-accent self-end"
-          download
-        >
+          download>
           Click to download <DownloadIcon className="ml-2" />
         </a>
       </div>

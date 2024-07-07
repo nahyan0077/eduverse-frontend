@@ -3,7 +3,6 @@ import { RootState } from "@/redux/store";
 import { getCoursesByInstructorIdAction } from "@/redux/store/actions/course";
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
-import { examValidationSchema } from "@/utils/validationSchemas/addExamSchema";
 import {
   createAssessmentAction,
   getAssessmentByIdAction,
@@ -44,7 +43,9 @@ export const AddExam: React.FC = () => {
 
   const fetchCourses = async () => {
     if (data?._id) {
-      const response = await dispatch(getCoursesByInstructorIdAction(data?._id));
+      const response = await dispatch(
+        getCoursesByInstructorIdAction(data?._id)
+      );
       setAllCourses(response.payload.data);
     }
   };
@@ -53,8 +54,8 @@ export const AddExam: React.FC = () => {
     const response = await dispatch(getAssessmentByIdAction(assessmentId));
     if (response.payload.data) {
       const examData = response.payload.data;
-      console.log("fetch exam data",examData);
-      
+      console.log("fetch exam data", examData);
+
       setInitialValues({
         courseId: examData.courseId._id,
         title: examData.title,
@@ -94,7 +95,9 @@ export const AddExam: React.FC = () => {
         toast.error("Exam in this course already exists!");
         return;
       } else {
-        const response = await dispatch(createAssessmentAction(formattedValues));
+        const response = await dispatch(
+          createAssessmentAction(formattedValues)
+        );
         if (response.payload.success) {
           toast.success("Exam added successfully!");
           navigate("/instructor/exams");
@@ -114,8 +117,7 @@ export const AddExam: React.FC = () => {
         initialValues={initialValues}
         // validationSchema={examValidationSchema}
         onSubmit={handleSubmit}
-        enableReinitialize={true}
-      >
+        enableReinitialize={true}>
         {({ values }) => (
           <Form className="space-y-6">
             {!isEditMode && (
@@ -126,8 +128,7 @@ export const AddExam: React.FC = () => {
                 <Field
                   as="select"
                   name="courseId"
-                  className="select select-primary w-full bg-gray-100 dark:bg-gray-900"
-                >
+                  className="select select-primary w-full bg-gray-100 dark:bg-gray-900">
                   <option value="">Choose a course</option>
                   {allCourses.map((course: any) => (
                     <option key={course._id} value={course._id}>
@@ -198,8 +199,7 @@ export const AddExam: React.FC = () => {
                   {values.questions.map((_, index) => (
                     <div
                       key={index}
-                      className="collapse collapse-arrow dark:bg-gray-950 mb-4"
-                    >
+                      className="collapse collapse-arrow dark:bg-gray-950 mb-4">
                       <input
                         type="checkbox"
                         name={`question-${index}`}
@@ -251,14 +251,12 @@ export const AddExam: React.FC = () => {
                           <Field
                             as="select"
                             name={`questions.${index}.answer`}
-                            className="select select-primary w-full bg-gray-100 dark:bg-gray-900"
-                          >
+                            className="select select-primary w-full bg-gray-100 dark:bg-gray-900">
                             <option value="">Select correct answer</option>
                             {[1, 2, 3, 4].map((optionNum) => (
                               <option
                                 key={optionNum}
-                                value={optionNum.toString()}
-                              >
+                                value={optionNum.toString()}>
                                 Option {optionNum}
                               </option>
                             ))}

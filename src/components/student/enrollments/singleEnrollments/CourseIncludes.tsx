@@ -6,10 +6,12 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
-const CourseIncludes: React.FC<{ courseData: any }> = ({  }) => {
+const CourseIncludes: React.FC<{ courseData: any }> = ({}) => {
   return (
     <div className="rounded-lg shadow-md p-10 mb-6">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">This course includes:</h2>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+        This course includes:
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center">
           <VideocamIcon className="mr-2" />

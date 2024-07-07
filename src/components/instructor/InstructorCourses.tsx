@@ -46,7 +46,9 @@ export const InstructorCourses: React.FC = () => {
     navigate("/instructor/add-course");
   };
 
-  const instructorCourse = courseData.filter((course) => course.instructorRef._id === data?._id);
+  const instructorCourse = courseData.filter(
+    (course) => course.instructorRef._id === data?._id
+  );
 
   const calculateTotalDuration = (lessons: Lesson[]) => {
     return lessons
@@ -57,11 +59,10 @@ export const InstructorCourses: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-0">My Courses</h1>
-        <button
-          className="btn btn-primary"
-          onClick={handleClick}
-        >
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-0">
+          My Courses
+        </h1>
+        <button className="btn btn-primary" onClick={handleClick}>
           Add New Course
         </button>
       </div>
@@ -78,22 +79,26 @@ export const InstructorCourses: React.FC = () => {
             No courses found
           </h2>
           <p className="mt-2 text-gray-500 dark:text-gray-400">
-            Start creating your first course by clicking the "Add New Course" button above.
+            Start creating your first course by clicking the "Add New Course"
+            button above.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {instructorCourse.map((course: CourseEntity) => {
-            const totalDurationSeconds = calculateTotalDuration(course.lessons ?? []);
+            const totalDurationSeconds = calculateTotalDuration(
+              course.lessons ?? []
+            );
             const formattedDuration = formatDuration(totalDurationSeconds);
 
             return (
               <div
                 key={course._id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-105"
-              >
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-105">
                 <img
-                  src={course.thumbnail || "https://via.placeholder.com/400x200"}
+                  src={
+                    course.thumbnail || "https://via.placeholder.com/400x200"
+                  }
                   alt={course.title}
                   className="w-full h-48 object-cover"
                 />
@@ -136,10 +141,11 @@ export const InstructorCourses: React.FC = () => {
                       className="btn btn-sm btn-outline btn-primary"
                       onClick={() =>
                         navigate("/instructor/single-course", {
-                          state: { course: { ...course, duration: formattedDuration } },
+                          state: {
+                            course: { ...course, duration: formattedDuration },
+                          },
                         })
-                      }
-                    >
+                      }>
                       View Details
                     </button>
                   </div>

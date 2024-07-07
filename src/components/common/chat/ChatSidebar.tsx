@@ -61,8 +61,7 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
               <div
                 key={index}
                 className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 cursor-pointer"
-                onClick={() => onCreateNewChat(userData, isOnline)}
-              >
+                onClick={() => onCreateNewChat(userData, isOnline)}>
                 <div className="relative w-12 h-12 mr-4">
                   <img
                     src={user?.profile?.avatar}
@@ -82,13 +81,18 @@ export const ChatSidebar: React.FC<SidebarProps> = ({
                   </p>
                 </div>
                 <div className="flex items-center gap-2 ml-2">
-				{(unreadCounts[user.chatId] > 0) && (
+                  {unreadCounts[user.chatId] > 0 && (
                     <span className="border border-violet-700 text-white text-xs font-bold px-2 py-1 rounded-full mb-1">
                       {unreadCounts[user.chatId]}
                     </span>
                   )}
-                  <span className={`text-xs ${isOnline ? 'text-green-500' : 'text-gray-400 dark:text-gray-500'}`}>
-                    {isOnline ? 'Online' : 'Offline'}
+                  <span
+                    className={`text-xs ${
+                      isOnline
+                        ? "text-green-500"
+                        : "text-gray-400 dark:text-gray-500"
+                    }`}>
+                    {isOnline ? "Online" : "Offline"}
                   </span>
                 </div>
               </div>

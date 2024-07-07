@@ -28,6 +28,9 @@ const AdminDashboard: React.FC = () => {
   const { data } = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
 
+  console.log(courses, "test courses");
+  
+
   const fetchDatas = async () => {
     const students: any = await dispatch(getAllStudentsAction({}));
     const instructors = await dispatch(getAllInstructorsAction({}));

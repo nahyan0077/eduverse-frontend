@@ -15,7 +15,6 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
   theme,
   initialValue = "", // Set default value to empty string
 }) => {
-
   const [videoUrl, setVideoUrl] = useState<string | null>(initialValue); // Use initialValue
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,7 +35,6 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
 
     setLoading(true);
 
-
     try {
       const videoUrl = await VideoUpload(file);
 
@@ -55,7 +53,6 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
   };
 
   const handleClearFile = () => {
-
     setVideoUrl(null);
     onChange(null);
   };
@@ -66,8 +63,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
         theme === "light"
           ? "bg-gray-100 border-gray-200"
           : "bg-gray-800 border-gray-700"
-      }`}
-    >
+      }`}>
       <Toaster position="top-center" richColors />
       {videoUrl ? ( // Check for videoUrl instead of selectedFile
         <div className="mt-4 lg:h-80 lg:mt-0 relative">
@@ -80,8 +76,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
           <button
             className="z-50 mt-4 bg-gray-700 text-white font-bold py-1 px-2 rounded"
             onClick={handleClearFile}
-            type="button"
-          >
+            type="button">
             Clear Video
           </button>
         </div>
@@ -96,8 +91,7 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
           <button
             type="button"
             className="bg-zinc-200 text-blue-600 text-sm font-semibold py-2 px-4 rounded"
-            onClick={handleButtonClick}
-          >
+            onClick={handleButtonClick}>
             Upload Video
           </button>
           <input
@@ -107,7 +101,9 @@ export const CustomVideoFileInput: FC<CustomVideoFileInputProps> = ({
             accept="video/*"
             className="hidden"
           />
-          <p className="text-xs leading-5 p-1 text-gray-400">Video up to 100MB</p>
+          <p className="text-xs leading-5 p-1 text-gray-400">
+            Video up to 100MB
+          </p>
         </div>
       )}
     </div>

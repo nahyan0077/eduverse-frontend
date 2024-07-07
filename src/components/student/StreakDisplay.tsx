@@ -1,11 +1,11 @@
 import React from "react";
 import { FaFire } from "react-icons/fa";
 
-const StreakDisplay: React.FC<{ streak: number; weeklyLogin: boolean[]; theme: string }> = ({
-  streak,
-  weeklyLogin,
-  theme,
-}) => {
+const StreakDisplay: React.FC<{
+  streak: number;
+  weeklyLogin: boolean[];
+  theme: string;
+}> = ({ streak, weeklyLogin, theme }) => {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const currentDayIndex = new Date().getDay();
 
@@ -13,14 +13,20 @@ const StreakDisplay: React.FC<{ streak: number; weeklyLogin: boolean[]; theme: s
     <div
       className={`rounded-lg p-6 shadow-lg ${
         theme === "light" ? "bg-white text-gray-900" : "bg-gray-800 text-white"
-      }`}
-    >
+      }`}>
       <div className="flex items-center justify-between mb-6">
-        <h2 className={`text-xl font-semibold ${theme === "light" ? "text-gray-800" : "text-white"}`}>
+        <h2
+          className={`text-xl font-semibold ${
+            theme === "light" ? "text-gray-800" : "text-white"
+          }`}>
           Your Learning Streak
         </h2>
         <div className="flex items-center">
-          <FaFire className={`text-2xl mr-2 ${theme === "light" ? "text-orange-500" : "text-orange-400"}`} />
+          <FaFire
+            className={`text-2xl mr-2 ${
+              theme === "light" ? "text-orange-500" : "text-orange-400"
+            }`}
+          />
           <span className="text-2xl font-bold">{streak}</span>
           <span className="ml-1 text-sm font-medium">days</span>
         </div>
@@ -37,22 +43,37 @@ const StreakDisplay: React.FC<{ streak: number; weeklyLogin: boolean[]; theme: s
                   : theme === "light"
                   ? "bg-gray-200 text-gray-400"
                   : "bg-gray-700 text-gray-400"
-              } ${index === currentDayIndex && "ring-4 ring-yellow-500"}`}
-            >
+              } ${index === currentDayIndex && "ring-4 ring-yellow-500"}`}>
               {weeklyLogin[index] && (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               )}
             </div>
-            <span className={`text-xs font-medium ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
+            <span
+              className={`text-xs font-medium ${
+                theme === "light" ? "text-gray-600" : "text-gray-300"
+              }`}>
               {day}
             </span>
           </div>
         ))}
       </div>
       <div className="mt-4 text-center">
-        <p className={`text-sm ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
+        <p
+          className={`text-sm ${
+            theme === "light" ? "text-gray-600" : "text-gray-300"
+          }`}>
           Keep up the great work! Log in daily to maintain your streak.
         </p>
       </div>
