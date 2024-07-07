@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { TbBulb } from "react-icons/tb";
@@ -24,16 +24,18 @@ const Header: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const userData = useSelector((state: RootState) => state.user);
   const [categoryCollapse, setCategoryCollapse] = useState(false);
-  const sideBarRef = useRef <HTMLDivElement> (null)
+  const sideBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     dispatch(getAllActiveCategories());
   }, [dispatch]);
 
-
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
-      if (sideBarRef.current && !sideBarRef.current.contains(event.target as Node)) {
+      if (
+        sideBarRef.current &&
+        !sideBarRef.current.contains(event.target as Node)
+      ) {
         setMenuOpen(false);
       }
     };
@@ -268,7 +270,7 @@ const Header: React.FC = () => {
           {menuOpen && (
             <>
               <motion.div
-				ref={sideBarRef}
+                ref={sideBarRef}
                 className="fixed top-0 left-0 w-full min-h-screen backdrop-blur-sm backdrop-brightness-50 z-20 bg-black bg-opacity-75"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
