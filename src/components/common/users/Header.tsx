@@ -88,7 +88,7 @@ const Header: React.FC = () => {
         />
       )}
       <nav
-        className={`p-5 shadow-md sticky top-0 z-10 ${
+        className={`p-5 shadow-md sticky top-0 z-20 ${
           theme === "light"
             ? "bg-transparent backdrop-blur-2xl black"
             : "bg-transparent backdrop-blur-2xl black"

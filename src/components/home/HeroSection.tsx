@@ -6,7 +6,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { Puff } from "react-loader-spinner";
-// import herobg from "@/assets/home/background-1.png";
+import herobg from "@/assets/home/abstract2.jpg";
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
@@ -15,14 +15,14 @@ const HeroSection: React.FC = () => {
 
   const headingClass = useMemo(
     () =>
-      `text-4xl sm:text-3xl md:text-5xl font-bold leading-tight mb-4 ${
+      `text-4xl sm:text-3xl md:text-5xl z-10 font-bold leading-tight mb-4 ${
         theme === "light" ? "text-violet-700" : "text-white"
       }`,
     [theme]
   );
   const paragraphClass = useMemo(
     () =>
-      `text-lg sm:text-md md:text-md font-ultrathin mt-1 ${
+      `text-lg sm:text-md md:text-md font-ultrathin mt-1 z-10 ${
         theme === "light" ? "text-violet-700" : "text-gray-300"
       } `,
     [theme]
@@ -31,12 +31,16 @@ const HeroSection: React.FC = () => {
   // let x = `${theme == 'dark' ? 'bg-gradient-to-r from-slate-900 to-slate-950': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50' }`
 
   return (
-    <>
-      {/* <img
+	  <>
+	  {/* {
+		theme !== "light" &&
+
+      <img
         src={herobg}
         alt="herobg"
-        className="w-full h-full object-cover absolute top-0 mix-blend-overlay"
-      /> */}
+        className="w-full h-full object-cover absolute top-0 opacity-25"
+      />
+	  } */}
       <div className={`text-violet-700 px-4 sm:px-6 lg:px-8 md:py-10 pb-10 ${theme == 'dark' ? 'bg-gradient-to-r from-slate-900 to-slate-950': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50'} `}>
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between bg  ">
           <div className="flex flex-col lg:w-1/2 lg:pr-10 ">
@@ -84,7 +88,7 @@ const HeroSection: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 1 }}
                   onClick={() => navigate("/selection")}
-                  className="bg-violet-600 text-white hover:bg-violet-500 font-bold py-3 pl-6 pr-3 rounded-xl mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
+                  className="bg-violet-600 text-white hover:bg-violet-500 font-bold py-3 pl-6 pr-3 rounded-xl mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}>
@@ -110,7 +114,7 @@ const HeroSection: React.FC = () => {
                   onClick={() =>
                     data.role === "student" ? navigate("/") : navigate("/")
                   }
-                  className="bg-violet-700 text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
+                  className="bg-violet-700 text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] "
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}>
@@ -122,7 +126,7 @@ const HeroSection: React.FC = () => {
                 whileTap={{ scale: 1 }}
                 className={`bg-transparent ${
                   theme === "light" ? "text-violet-700" : "text-white"
-                } border border-violet-700 font-bold py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]`}
+                } border border-violet-700 font-bold py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}>

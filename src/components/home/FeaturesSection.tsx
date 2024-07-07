@@ -13,7 +13,6 @@ const FeaturesSection: React.FC = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-
   const motionSettings = {
     initial: { opacity: 0, y: 50 },
     whileInView: { opacity: 1, y: 10 },
@@ -24,21 +23,22 @@ const FeaturesSection: React.FC = () => {
   return (
     <>
       {/* radial gradient */}
-	  {
-		  theme != 'light' &&
-		  <div >
-		  <div
-			className={`bg-violet-700 h-10 w-full absolute z-1 top-0 blur-[70px]`}> </div>
-        <div
-          className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[220%] left-[5%] lg:left-[20%] translate-x-[50%] blur-[180px]`}></div>
-        <div
-          className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[270%] left-[5%] lg:left-[55%] translate-x-[50%] blur-[180px]`}></div>
-        <div
-          className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[330%] left-[5%] lg:left-[20%] translate-x-[50%] blur-[180px]`}></div>
-        <div
-          className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[380%] left-[5%] lg:left-[55%] translate-x-[50%] blur-[180px]`}></div>
-      </div>
-	  }
+      {theme != "light" && (
+        <div>
+          <div
+            className={`bg-violet-700 h-10 w-full absolute z-1 -top-6 blur-[70px]`}>
+            {" "}
+          </div>
+          <div
+            className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[220%] left-[5%] lg:left-[20%] translate-x-[50%] blur-[180px]`}></div>
+          <div
+            className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[270%] left-[5%] lg:left-[55%] translate-x-[50%] blur-[180px]`}></div>
+          <div
+            className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[330%] left-[5%] lg:left-[20%] translate-x-[50%] blur-[180px]`}></div>
+          <div
+            className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[380%] left-[5%] lg:left-[55%] translate-x-[50%] blur-[180px]`}></div>
+        </div>
+      )}
 
       <div className="p-5">
         <div className="flex flex-col items-center justify-center h-full mx-auto mb-12 max-w-7xl">
