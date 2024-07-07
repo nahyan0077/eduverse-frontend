@@ -2,17 +2,14 @@ import TeacherForm from "@/components/form/TeacherForm";
 import Header from "@/components/common/users/Header";
 
 const TeacherRegisterForm: React.FC = () => {
-	return (
-		<>
-        <div className="min-h-screen" >
+  return (
+    <>
+      <div className="min-h-screen">
+        <Header />
 
-			<Header />
-
-			<TeacherForm />
-        </div>
-
-			
-		</>
-	);
+        <TeacherForm />
+      </div>
+    </>
+  );
 };
 export default TeacherRegisterForm;

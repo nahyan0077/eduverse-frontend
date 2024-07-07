@@ -29,22 +29,19 @@ const GlobalSearchBar: React.FC<SearchBarProps> = ({ handleSearch }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     handleSearch(searchQuery);
-    setSearchQuery("")
+    setSearchQuery("");
   };
 
   return (
-    <form
-      className="relative flex items-center z-30"
-      onSubmit={handleSubmit}
-    >
+    <form className="relative flex items-center z-30" onSubmit={handleSubmit}>
       <input
         type="text"
         ref={searchInputRef}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className={`transition-all duration-300 ease-in-out p-3 rounded-full focus:outline-none placeholder:text-violet-800 dark:placeholder:text-violet-200 ${
+        className={`transition-all duration-300 ease-in-out p-3 rounded-full outline outline-1 outline-violet-500 placeholder:text-violet-800 dark:placeholder:text-violet-200 ${
           searchExpanded ? "w-72" : "w-36"
-        } bg-violet-100 dark:bg-gray-800`}
+        } bg-violet-100 dark:bg-transparent`}
         placeholder="Search"
         onFocus={() => setSearchExpanded(true)}
       />

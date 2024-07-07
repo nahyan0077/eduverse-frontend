@@ -11,6 +11,7 @@ const noSpacesAndNumbers = /^[^\s\d]+$/;
 
 export const editProfileValidationSchema = Yup.object().shape({
 	firstName: Yup.string()
+		.matches(/^[a-zA-Z]+$/,"This field can't have other characters")
 		.matches(noSpacesAndNumbers, "Firstname cannot contain spaces or numbers")
 		.required("Firstname is required"),
 	lastName: Yup.string()

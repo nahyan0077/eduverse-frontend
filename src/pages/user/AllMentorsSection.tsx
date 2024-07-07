@@ -4,11 +4,11 @@ import Header from "@/components/common/users/Header";
 import React from "react";
 
 export const AllMentorsSection: React.FC = () => {
-	return (
-		<>
-			<Header />
-			<AllMentors />
-            <Footer />
-		</>
-	);
+  return (
+    <>
+      <Header />
+      <AllMentors />
+      <Footer />
+    </>
+  );
 };
