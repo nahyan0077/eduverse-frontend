@@ -6,7 +6,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { Puff } from "react-loader-spinner";
-import herobg from "@/assets/home/abstract2.jpg";
+
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
