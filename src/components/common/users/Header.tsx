@@ -143,7 +143,7 @@ const Header: React.FC = () => {
                 className={`font-semibold  dropdown-content z-[1] menu p-2 shadow ${
                   theme === "light"
                     ? "bg-white text-violet-700"
-                    : "bg-violet-700 text-violet-100"
+                    : "bg-gray-900 text-violet-100"
                 } rounded-box w-52`}>
                 {catgoryData?.data.map((category) => (
                   <li key={category._id}>

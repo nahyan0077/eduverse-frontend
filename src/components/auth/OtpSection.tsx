@@ -84,13 +84,10 @@ export const OtpSection: React.FC<OtpInputProps> = ({
     setLoading(true);
     if (isComplete) {
       const submittedOtp = otp.join("");
-      console.log(submittedOtp, "otp --- ottt");
 
       const response = await dispatch(
         verifyOtpAction({ otp: submittedOtp, email: location.state.email })
       );
-
-      console.log("otp submit response", response);
 
       if (!response.payload.success) {
         setLoading(false);
@@ -99,7 +96,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
         const allData: SignupFormData = location.state;
 
         const response: any = await dispatch(signupAction(allData));
-        console.log("signup final ress", response);
 
         setLoading(false);
 
@@ -109,7 +105,7 @@ export const OtpSection: React.FC<OtpInputProps> = ({
           if (location.state.role == "student") {
             navigate("/");
           } else {
-            navigate("/verification-page");
+            navigate("/instructor/verification");
           }
         } else {
           toast.error("error occurred", {

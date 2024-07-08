@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ClassIcon from "@mui/icons-material/Class";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import ChatIcon from "@mui/icons-material/Chat";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -90,20 +89,7 @@ const StudentSidebar: React.FC<SidebarProps> = ({
                 Exams
               </motion.span>
             </Link>
-            <Link
-              to="/student/assignments"
-              className={`${linkClasses("assignments")} tooltip  `}
-              data-tip="Assignments"
-              onClick={() => setCurrentPage("assignments")}>
-              <AssignmentIcon />
-              <motion.span
-                initial="hidden"
-                animate={open ? "visible" : "hidden"}
-                variants={textVariants}
-                className="ml-2">
-                Assignments
-              </motion.span>
-            </Link>
+
 
             <Link
               to="/student/enrollments"

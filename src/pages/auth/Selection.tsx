@@ -10,8 +10,8 @@ const SelectionPage: React.FC = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Header />
+
       <div className="min-h-[87.9vh] ">
-        {/* <img src={bglight} alt="" className="absolute -z-9 opacity-20 h-[87vh] items-center" /> */}
         <div className="flex flex-col lg:flex-row justify-center items-center md:pt-20 max-w-7xl mx-auto">
           <LazyMotion features={domAnimation}>
             <m.div
@@ -29,7 +29,7 @@ const SelectionPage: React.FC = () => {
                 onClick={() =>
                   navigate("/signup", { state: { role: "student" } })
                 }
-                className="btn bg-violet-700 rounded-3xl text-white hover:bg-white hover:text-violet-700 shadow-[5px_5px_0px_0px_#805AD5] mt-4">
+                className="btn bg-violet-700 rounded-xl text-white hover:bg-white hover:text-violet-700 shadow-[5px_5px_0px_0px_#805AD5] mt-4">
                 Enroll as Student
               </button>
               <p className="p-10 text-gray-500 text-center ">
@@ -54,7 +54,7 @@ const SelectionPage: React.FC = () => {
                 onClick={() =>
                   navigate("/signup", { state: { role: "instructor" } })
                 }
-                className="btn bg-white rounded-3xl text-violet-700 hover:bg-violet-500 hover:text-white shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
+                className="btn bg-white rounded-xl text-violet-700 hover:bg-violet-500 hover:text-white shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
                 Enroll as Instructor
               </button>
               <p className="p-10 text-gray-500 text-center">
@@ -68,6 +68,7 @@ const SelectionPage: React.FC = () => {
           </LazyMotion>
         </div>
       </div>
+
       <Footer />
     </Suspense>
   );
