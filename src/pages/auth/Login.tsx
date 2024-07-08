@@ -130,9 +130,9 @@ const Login: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen">
+      <div className={`min-h-screen   `}>
         <LoadingPopUp isLoading={loading} />
-        <div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center mt-20">
+        <div className="flex flex-col lg:flex-row max-w-7xl mx-auto items-center pt-20">
           <motion.div
             className="w-full lg:w-1/2"
             initial={{ opacity: 0, x: -100 }}
@@ -142,16 +142,23 @@ const Login: React.FC = () => {
 
             {/* ------------Login demo datas------*/}
 
-            <label htmlFor="my_modal_6" className="btn btn-ghost">
-              Click Me
+            <label htmlFor="my_modal_6" className="btn btn-ghost text-gray-700">
+              Don't Click Me
             </label>
 
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />
-            <div className="modal " role="dialog">
-              <div className="modal-box bg-white dark:bg-gray-900">
+            <div className="modal" role="dialog">
+              <div className="modal-box bg-white dark:bg-gray-900 text-gray-400">
                 <h3 className="text-lg font-bold">Demo datas!</h3>
-                <h3 className="">admin@eduverse.in</h3>
-                <h3 className="">Admin@123</h3>
+                <p className="mt-2 font-semibold" >ADMIN</p>
+                <h3 className="px-4">admin@eduverse.in</h3>
+                <h3 className="px-4 ">Admin@123</h3>
+                <p className="mt-2 font-semibold" >STUDENT</p>
+                <h3 className="px-4 mt-2">jishnu123@gmail.com</h3>
+                <h3 className="px-4">Jishnu@123</h3>
+                <p className="mt-2 font-semibold" >INSTRUCTOR</p>
+                <h3 className="px-4 mt-2">vagodeja@citmo.net</h3>
+                <h3 className="px-4">Thakku@123</h3>
 
                 <div className="modal-action">
                   <label htmlFor="my_modal_6" className="btn">

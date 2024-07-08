@@ -25,10 +25,7 @@ const FeaturesSection: React.FC = () => {
       {/* radial gradient */}
       {theme != "light" && (
         <div>
-          <div
-            className={`bg-violet-700 h-10 w-full absolute z-1 -top-6 blur-[70px]`}>
-            {" "}
-          </div>
+
           <div
             className={`circlePosition w-[200px] h-[200px] bg-violet-700 rounded-[100%] absolute z-1 top-[220%] left-[5%] lg:left-[20%] translate-x-[50%] blur-[180px]`}></div>
           <div

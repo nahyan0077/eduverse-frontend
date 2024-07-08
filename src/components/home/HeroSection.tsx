@@ -6,7 +6,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { Puff } from "react-loader-spinner";
-
+// import pa from '@/assets/home/pattern.svg'
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
@@ -31,17 +31,18 @@ const HeroSection: React.FC = () => {
   // let x = `${theme == 'dark' ? 'bg-gradient-to-r from-slate-900 to-slate-950': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50' }`
 
   return (
-	  <>
-	  {/* {
-		theme !== "light" &&
-
-      <img
-        src={herobg}
-        alt="herobg"
-        className="w-full h-full object-cover absolute top-0 opacity-25"
-      />
-	  } */}
-      <div className={`text-violet-700 px-4 sm:px-6 lg:px-8 md:py-10 pb-10 ${theme == 'dark' ? 'bg-gradient-to-r from-slate-900 to-slate-950': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50'} `}>
+    <>
+      <div
+        className={`
+  text-violet-700 
+  px-4 sm:px-6 lg:px-8 
+  md:py-10 pb-10 
+  ${
+    theme === "dark"
+      ? ' bg-[url("@/assets/home/bg-pattern-dark.svg")]'
+      : ' bg-[url("@/assets/home/bg-pattern-light.svg")]'
+  }
+`}>
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between bg  ">
           <div className="flex flex-col lg:w-1/2 lg:pr-10 ">
             <AnimatePresence>
