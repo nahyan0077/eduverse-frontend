@@ -41,7 +41,7 @@ export const SingleCoursePage: React.FC = () => {
     theme === "light" ? "border-gray-200" : "border-gray-700";
 
   return (
-    <div className={`min-h-screen max-w-7xl mx-auto p-6 ${textClasses}`}>
+    <div className={`min-h-screen max-w-full mx-auto p-20 ${textClasses}`}>
       {courseData ? (
         <div className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-8">
           {/* Left Section */}
