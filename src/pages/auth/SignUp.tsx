@@ -19,6 +19,9 @@ import { toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
 import { storeUserData } from "@/redux/store/slices/user";
 import Footer from "@/components/common/users/Footer";
+import Alert from '@mui/material/Alert';
+import { useState } from "react";
+
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -31,18 +34,19 @@ const SignUp: React.FC = () => {
   };
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
+  const [error, setError] = useState("")
 
   const handleSubmit = async (data: any) => {
     try {
       const result1: any = await dispatch(findUsernameAction(data.userName));
       if (!result1?.payload?.success) {
-        toast.error("Username is already taken..!!");
+        setError("This username already taken..!!")
         return;
       }
 
       const result: any = await dispatch(findEmailAction(data.email));
       if (!result.payload || !result.payload.success) {
-        toast.error("This email already exits please login..");
+        setError("This email already exits please login..");
         return;
       }
 
@@ -128,6 +132,14 @@ const SignUp: React.FC = () => {
               </span>{" "}
               Signup
             </h1>
+                {
+                  error &&
+                  <div className=" px-6" >
+                    <Alert variant="outlined" severity="error" color="error" >{error}</Alert>
+
+                  </div>
+
+                }
 
             <div className="flex flex-col gap-3 m-2">
               <Formik

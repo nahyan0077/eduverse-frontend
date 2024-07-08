@@ -9,6 +9,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "sonner";
 import { SocketProvider } from "./context/SocketProvider.tsx";
 
+
 const clientId = String(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
