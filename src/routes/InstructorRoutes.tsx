@@ -13,7 +13,7 @@ import { VerificationProtectedRoute } from './VerificationProtectedRoutes';
 import { Unauthorized } from '@/pages/common/Unauthorized';
 import { InstructorExams } from '@/components/instructor/InstructorExams';
 import { AddExam } from '@/components/instructor/exams/AddExam';
-import  InstructorChat  from '@/components/instructor/InstructorChat';
+import { InstructorChat } from '../components/instructor/InstructorChat';
 
 export const InstructorRoutes: React.FC = () => {
   return (
