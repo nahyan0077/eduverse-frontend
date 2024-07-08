@@ -11,7 +11,7 @@ import {
   updateUnreadCount,
 } from "@/redux/store/actions/chat";
 
-export const InstructorChat : React.FC = () => {
+export const InstructorChats : React.FC = () => {
     const dispatch = useAppDispatch();
     const { data } = useAppSelector((state: RootState) => state.user);
     const [currentChat, setCurrentChat] = useState<any>(null);
