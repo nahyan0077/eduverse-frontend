@@ -33,7 +33,6 @@ import { SingleCourse } from "./pages/user/SingleCourse";
 import { PaymentSuccess } from "./pages/common/PaymentSuccess";
 import { PaymentFailed } from "./pages/common/PaymentFailed";
 import { SearchResult } from "./pages/common/SearchResult";
-import { InstructorChat } from "./components/instructor/InstructorChat";
 import { AllMentorsSection } from "./pages/user/AllMentorsSection";
 import { SubscriptionSuccess } from "./pages/common/SubscriptionSuccess";
 import { About } from "./components/common/pages/About";
@@ -111,7 +110,7 @@ function App() {
 				<Route path="/subscription-success" element={<PublicRoute element={<SubscriptionSuccess />} allowedRoles={["student"]} />} />
 				<Route path="/about" element={<PublicRoute element={<About />} allowedRoles={[]} />} />
 
-				<Route path="/newchat" element={<InstructorChat />} />
+
 
 				{/* Catch-all route */}
 				<Route path="*" element={<Unauthorized />} />

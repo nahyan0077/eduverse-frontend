@@ -39,7 +39,7 @@ const CourseCard: React.FC<{ course: any }> = ({ course }) => {
 
   return (
     <motion.div
-      className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300 max-w-xs h-full"
+      className="card shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden border dark:border-violet-900 border-violet-300 max-w-xs h-min"
       whileHover={{ scale: 1.02 }}
       onClick={() =>
         navigate("/single-course", {
@@ -58,7 +58,7 @@ const CourseCard: React.FC<{ course: any }> = ({ course }) => {
       </figure>
       <div className="card-body p-4 max-h-96">
         <h2 className="card-title text-lg font-semibold mb-2">
-          {course.title}
+          {course.title.split(' ').slice(0,6).join(' ')}
         </h2>
         <p className="text-sm text-gray-500 flex items-center mb-2">
           <div className="avatar mr-2">
