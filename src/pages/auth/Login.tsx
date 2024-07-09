@@ -82,6 +82,7 @@ const Login: React.FC = () => {
         response.payload.existingUser &&
         !response.payload.data.isGAuth
       ) {
+        setLoading(false);
         toast.error("Account already exist", {
           description:
             "Account created using email and password can't login using Google !!",
@@ -92,12 +93,14 @@ const Login: React.FC = () => {
         !response.payload.existingUser &&
         !response.payload.data.isGAuth
       ) {
+        setLoading(false);
         navigate("/selection");
         return;
       } else if (
         response.payload.existingUser &&
         response.payload.data.isBlocked
       ) {
+        setLoading(false);
         toast.error("This account blocked..!", {
           description: "Your account has been blocked by the Eduverse Team !!",
           duration: 6000,
@@ -120,6 +123,7 @@ const Login: React.FC = () => {
         navigate("/teacher-form", { state: allData });
       }
     } catch (error: any) {
+      setLoading(false)
       console.log("Login Failed", error);
       toast.error("Something is wrong! Please try later");
     }

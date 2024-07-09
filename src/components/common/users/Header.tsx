@@ -80,13 +80,12 @@ const Header: React.FC = () => {
 
   return (
     <>
-       {   
-       theme=="dark" &&
-       
-       <div
-            className={`bg-violet-950 h-10 w-full absolute z-1 -top-6 blur-[70px]`}>
-            {" "}
-          </div>}
+      {theme == "dark" && (
+        <div
+          className={`bg-violet-950 h-10 w-full absolute z-1 -top-6 blur-[70px]`}>
+          {" "}
+        </div>
+      )}
       {isModalVisible && (
         <ConfirmModal
           message="logout"
@@ -149,7 +148,7 @@ const Header: React.FC = () => {
                   <li key={category._id}>
                     <a
                       onClick={() => {
-                        navigate(`/categories/${category._id}`);
+                        navigate(`/courses`);
                       }}>
                       {category.categoryName}
                     </a>
