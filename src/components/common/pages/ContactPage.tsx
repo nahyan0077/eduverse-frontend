@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
 export const ContactPage: React.FC = () => {
@@ -19,13 +20,15 @@ export const ContactPage: React.FC = () => {
     console.log(formData);
 
     setFormData({ name: "", email: "", subject: "", message: "" });
+    toast.success("Your response has submitted...")
   };
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+        <Toaster  />
       <div className="max-w-7xl mx-auto">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
             Contact <span className="text-violet-700" > EDUVERSE </span> 
           </h1>
           <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500 dark:text-gray-300">
