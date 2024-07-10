@@ -37,24 +37,24 @@ export const StudentChatSubscription: React.FC = () => {
         "https://res.cloudinary.com/dneak7rwh/image/upload/v1720203648/basics_cw6tkk.jpg",
     },
     {
-      title: "Standard",
-      price: 399,
-      description1: "Unlimitted lifetime access",
-      description2: "Priority support",
-      description3: "One-to-one chat and voice mentorship",
-      isPopular: true,
-      image:
-        "https://res.cloudinary.com/dneak7rwh/image/upload/v1720203698/standard_mjhlkv.jpg",
-    },
-    {
       title: "Premium",
       price: 699,
       description1: "Unlimitted lifetime access",
       description2: "One-on-one mentorship",
       description3: "One-to-one voice and video mentoring",
-      isPopular: false,
+      isPopular: true,
       image:
         "https://res.cloudinary.com/dneak7rwh/image/upload/v1720203722/premium_nfyfbc.jpg",
+    },
+    {
+      title: "Standard",
+      price: 399,
+      description1: "Unlimitted lifetime access",
+      description2: "Priority support",
+      description3: "One-to-one chat and voice mentorship",
+      isPopular: false,
+      image:
+        "https://res.cloudinary.com/dneak7rwh/image/upload/v1720203698/standard_mjhlkv.jpg",
     },
   ];
   const location = useLocation();

@@ -45,7 +45,7 @@ interface ChatWindowProps {
   typingData: { isTyping: boolean; senderId: string } | null;
   onBack: () => void;
   onStartCall: (roomId: string) => void;
-  callStatus: 'idle' | 'calling' | 'in-call';
+  callStatus: "idle" | "calling" | "in-call";
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -56,7 +56,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   typingData,
   onBack,
   onStartCall,
-  callStatus
+  callStatus,
 }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -141,7 +141,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       setShowEmojiPicker(false);
     }
     if (
-      attachMenuRef.current &&  
+      attachMenuRef.current &&
       !attachMenuRef.current.contains(event.target as Node)
     ) {
       setShowAttachMenu(false);
@@ -221,6 +221,10 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     });
   };
 
+  // const handleStartCall = () => {
+  //   callStatus === "idle" && onStartCall(currentChat.roomId)
+  // }
+
   return (
     <section className="flex flex-col w-full bg-gray-200 dark:bg-gray-950 h-[97vh] lg:h-[89vh]">
       <LoadingPopUp isLoading={loading} />
@@ -262,18 +266,34 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                 </div>
               </div>
             </div>
-
-            <div className="flex gap-8 pr-5">
-            <div 
-          className={`hover:bg-gray-900 p-2 rounded-xl ${callStatus !== 'idle' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-          onClick={() => callStatus === 'idle' && onStartCall(currentChat.roomId)}
-        >
-          <IoVideocam color="white" size={30} />
-        </div>
-              <div className="hover:bg-gray-900 p-2 rounded-xl" >
-                <IoCall color="white" size={25} />
-              </div>
-            </div>
+            {currentChat.subscriptionType !== "none" &&
+              (currentChat.subscriptionType !== "standard" ? (
+                <div className="flex gap-8 pr-5">
+                  <div
+                    className={`hover:bg-gray-900 p-2 rounded-xl ${
+                      callStatus !== "idle"
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
+                    onClick={() =>
+                      callStatus === "idle" && onStartCall(currentChat.roomId)
+                    }>
+                    <IoVideocam color="white" size={30} />
+                  </div>
+                  <div className="hover:bg-gray-900 p-2 rounded-xl">
+                    <IoCall color="white" size={25} />
+                  </div>
+                </div>
+              ) : (
+                <div className="">
+                  <button
+                    className="btn btn-outline btn-sm"
+                    onClick={() => handleSubscription(currentChat.chatId)}>
+                    {" "}
+                    <IoVideocam color="white" size={30} /> Update Subscription
+                  </button>
+                </div>
+              ))}
           </header>
           <div className="flex-1 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
