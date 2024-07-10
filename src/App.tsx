@@ -35,8 +35,9 @@ import { PaymentFailed } from "./pages/common/PaymentFailed";
 import { SearchResult } from "./pages/common/SearchResult";
 import { AllMentorsSection } from "./pages/user/AllMentorsSection";
 import { SubscriptionSuccess } from "./pages/common/SubscriptionSuccess";
-import { About } from "./components/common/pages/About";
-import { VideoCall } from "./components/common/chat/VideoCall";
+import { AboutUs } from "./pages/common/AboutUs";
+import { Contact } from "./pages/common/Contact";
+
 
 function App() {
 	const { data } = useAppSelector((state: RootState) => state.user);
@@ -109,8 +110,9 @@ function App() {
 				<Route path="/payment-success" element={<PublicRoute element={<PaymentSuccess />} allowedRoles={["student"]} />} />
 				<Route path="/payment-failed" element={<PublicRoute element={<PaymentFailed />} allowedRoles={["student"]} />} />
 				<Route path="/subscription-success" element={<PublicRoute element={<SubscriptionSuccess />} allowedRoles={["student"]} />} />
-				<Route path="/about" element={<PublicRoute element={<About />} allowedRoles={[]} />} />
-				<Route path="/videocall/:roomId" element={<PublicRoute element={<VideoCall />} allowedRoles={["student","instructor"]} />} />
+				<Route path="/about" element={<PublicRoute element={<AboutUs />} allowedRoles={["student"]} />} />
+				<Route path="/contact" element={<PublicRoute element={<Contact />} allowedRoles={["student"]} />} />
+		
 
 
 

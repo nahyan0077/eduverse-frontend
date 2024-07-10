@@ -1,14 +1,12 @@
 import React from "react";
-import Footer from "../users/Footer";
-import Header from "../users/Header";
 import about from "@/assets/home/about.png";
 import mission from "@/assets/home/7 SCENE.png";
 import vision from "@/assets/home/10 SCENE.png";
 
-export const About: React.FC = () => {
+export const AboutPage: React.FC = () => {
   return (
     <>
-      <Header />
+
 
       <div className="bg-gradient-to-r from-indigo-100 to-violet-100 dark:from-gray-900 dark:to-slate-900 py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -130,7 +128,7 @@ export const About: React.FC = () => {
         </p>
       </div>
 
-      <Footer />
+
     </>
   );
 };
