@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect,  useState } from "react";
 import { ChatSidebar } from "../common/chat/ChatSidebar";
 import { ChatWindow } from "../common/chat/ChatWindow";
 import { SocketContext } from "@/context/SocketProvider";
@@ -11,6 +11,8 @@ import {
   updateUnreadCount,
 } from "@/redux/store/actions/chat";
 import { toast } from "sonner";
+import Peer from "peerjs";
+import { VideoCall } from "../common/chat/VideoCall";
 
 export const StudentChat: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +35,27 @@ export const StudentChat: React.FC = () => {
   const [unreadCounts, setUnreadCounts] = useState<{
     [chatId: string]: number;
   }>({});
+  const [peer, setPeer] = useState<Peer | null>(null);
+  const [localPeerId, setLocalPeerId] = useState<string>("");
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+  const [callStatus, setCallStatus] = useState<"idle" | "calling" | "in-call">(
+    "idle"
+  );
+
+
+  useEffect(() => {
+    const peer = new Peer();
+
+    peer.on("open", (id) => {
+      console.log("My peer ID is: " + id);
+      setLocalPeerId(id);
+    });
+    setPeer(peer);
+    return () => {
+      peer.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     socket?.on("online-users", (users) => {
@@ -117,6 +140,20 @@ export const StudentChat: React.FC = () => {
       console.log(currentChat, "last seen trigger---", userId);
     });
 
+    //video chat------>
+
+    socket?.on("incoming-call", (callerId) => {
+      if (window.confirm("Incoming call. Accept?")) {
+        console.log("callerid ----->", callerId);
+
+        answerCall(callerId);
+      }
+    });
+
+    socket?.on("end-call", () => {
+      endCall();
+    });
+
     return () => {
       socket?.off("new-user");
       socket?.off("online-users");
@@ -124,6 +161,8 @@ export const StudentChat: React.FC = () => {
       socket?.off("isTyping");
       socket?.off("get-delete-message");
       socket?.off("message-seen-update");
+      socket?.off("incoming-call");
+      socket?.off("end-call");
     };
   }, [socket, setOnlineUsers, currentChat, data?._id]);
 
@@ -252,6 +291,89 @@ export const StudentChat: React.FC = () => {
     setShowChatWindow(false);
   };
 
+
+  //video call
+  useEffect(() => {
+    if (peer) {
+      peer.on("call", (incomingCall) => {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((stream) => {
+            setLocalStream(stream);
+            incomingCall.answer(stream);
+            incomingCall.on("stream", (remoteStream) => {
+              setRemoteStream(remoteStream);
+              setCallStatus("in-call");
+            });
+          })
+          .catch((err) => {
+            console.error("Failed to get local stream", err);
+            setCallStatus("idle");
+          });
+      });
+    }
+  }, [peer]);
+
+  //video call
+
+  const onStartCall = (roomId: string) => {
+    if (peer && localPeerId) {
+      setCallStatus("calling");
+      socket?.emit("start-call", { roomId, id: localPeerId });
+      startCall(localPeerId);
+    }
+  };
+
+  const startCall = (receiverId: string) => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        setLocalStream(stream);
+        console.log(receiverId, "local perrid ");
+
+        const call = peer?.call(receiverId, stream);
+        call?.on("stream", (remoteStream) => {
+          setRemoteStream(remoteStream);
+          setCallStatus("in-call");
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to get local stream", err);
+        setCallStatus("idle");
+      });
+  };
+
+  const answerCall = (callerId: string) => {
+    console.log("answer call", callerId);
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        setLocalStream(stream);
+        const call = peer?.call(callerId, stream);
+        console.log(call, "in calll-------");
+
+        call?.on("stream", (remoteStream) => {
+          console.log(remoteStream, "remote stream reached------->");
+          setRemoteStream(remoteStream);
+          setCallStatus("in-call");
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to get local stream", err);
+        setCallStatus("idle");
+      });
+  };
+
+  const endCall = () => {
+    if (localStream) {
+      localStream.getTracks().forEach((track) => track.stop());
+      setLocalStream(null);
+    }
+    setRemoteStream(null);
+    setCallStatus("idle");
+    socket?.emit("end-call", currentChat?.roomId);
+  };
+
   return (
     <>
       <div className="flex bg-gray-900">
@@ -272,6 +394,15 @@ export const StudentChat: React.FC = () => {
             currentChat={currentChat}
             typingData={typingData}
             onBack={handleBackClick}
+            onStartCall={onStartCall}
+            callStatus={callStatus}
+          />
+        )}
+        {callStatus !== "idle" && (
+          <VideoCall
+            localStream={localStream}
+            remoteStream={remoteStream}
+            onEndCall={endCall}
           />
         )}
       </div>

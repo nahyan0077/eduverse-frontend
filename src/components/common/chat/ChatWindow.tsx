@@ -44,6 +44,8 @@ interface ChatWindowProps {
   currentChat: any;
   typingData: { isTyping: boolean; senderId: string } | null;
   onBack: () => void;
+  onStartCall: (roomId: string) => void;
+  callStatus: 'idle' | 'calling' | 'in-call';
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -53,6 +55,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   currentChat,
   typingData,
   onBack,
+  onStartCall,
+  callStatus
 }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -260,12 +264,12 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
             </div>
 
             <div className="flex gap-8 pr-5">
-              <div 
-                className="hover:bg-gray-900 p-2 rounded-xl"
-                onClick={()=>navigate(`/videocall/${currentChat.roomId}`)}
-                >
-                <IoVideocam color="white" size={30} />
-              </div>
+            <div 
+          className={`hover:bg-gray-900 p-2 rounded-xl ${callStatus !== 'idle' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+          onClick={() => callStatus === 'idle' && onStartCall(currentChat.roomId)}
+        >
+          <IoVideocam color="white" size={30} />
+        </div>
               <div className="hover:bg-gray-900 p-2 rounded-xl" >
                 <IoCall color="white" size={25} />
               </div>
