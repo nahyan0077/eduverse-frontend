@@ -145,6 +145,8 @@ export const InstructorChats: React.FC = () => {
       if (window.confirm("Incoming call. Accept?")) {
         console.log("callerid ----->", callerId);
         answerCall(callerId);
+      }else{
+        endCall()
       }
     });
 
