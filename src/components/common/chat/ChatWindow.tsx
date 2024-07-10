@@ -26,6 +26,8 @@ import LoadingPopUp from "../skeleton/LoadingPopUp";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import subscribe from "@/assets/exam/subscribe.svg";
 import { useNavigate } from "react-router-dom";
+import { IoVideocam } from "react-icons/io5";
+import { IoCall } from "react-icons/io5";
 
 interface Message {
   senderId: string;
@@ -135,7 +137,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       setShowEmojiPicker(false);
     }
     if (
-      attachMenuRef.current &&
+      attachMenuRef.current &&  
       !attachMenuRef.current.contains(event.target as Node)
     ) {
       setShowAttachMenu(false);
@@ -220,26 +222,25 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       <LoadingPopUp isLoading={loading} />
       {currentChat ? (
         <>
-          <header className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
-            <ArrowBackIcon
-              className="cursor-pointer xl:hidden"
-              onClick={onBack}
-            />
-            <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-              <img
-                src={currentChat?.profile?.avatar}
-                alt="User Avatar"
-                className="w-full h-full object-cover"
+          <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center">
+              <ArrowBackIcon
+                className="cursor-pointer xl:hidden mr-4"
+                onClick={onBack}
               />
-            </div>
-            <div className="flex">
-              <div className="">
+              <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img
+                  src={currentChat?.profile?.avatar}
+                  alt="User Avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
                 <div className="font-bold text-gray-900 dark:text-white">
                   {currentChat.userName}
                 </div>
                 {currentChat.subscriptionType !== "none" && (
-                  <div
-                    className={`text-xs text-gray-500 dark:text-gray-400 mt-1`}>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {currentChat.isOnline
                       ? "Online"
                       : `Last seen ${formatDistanceToNow(
@@ -248,13 +249,25 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                         )}`}
                   </div>
                 )}
+                <div className="text-sm text-gray-500 dark:text-gray-400">
+                  {typingData && typingData.isTyping ? (
+                    <SyncLoader className="ml-3" size={5} color="#ffffff" />
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
-              <div className={`text-sm text-gray-500 dark:text-gray-400`}>
-                {typingData && typingData.isTyping ? (
-                  <SyncLoader className="ml-3" size={5} color="#ffffff" />
-                ) : (
-                  ""
-                )}
+            </div>
+
+            <div className="flex gap-8 pr-5">
+              <div 
+                className="hover:bg-gray-900 p-2 rounded-xl"
+                onClick={()=>navigate(`/videocall/${currentChat.roomId}`)}
+                >
+                <IoVideocam color="white" size={30} />
+              </div>
+              <div className="hover:bg-gray-900 p-2 rounded-xl" >
+                <IoCall color="white" size={25} />
               </div>
             </div>
           </header>

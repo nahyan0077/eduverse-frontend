@@ -10,6 +10,7 @@ import {
   getMessagesByChatIdAction,
   updateUnreadCount,
 } from "@/redux/store/actions/chat";
+import Peer from 'peerjs'
 
 export const InstructorChats : React.FC = () => {
     const dispatch = useAppDispatch();
@@ -32,8 +33,27 @@ export const InstructorChats : React.FC = () => {
     const [unreadCounts, setUnreadCounts] = useState<{
       [chatId: string]: number;
     }>({});
+    const [localPeerId, setLocalPeerId] = useState<string>("");
+    const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+    const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   
     useEffect(() => {
+
+      //video chat 
+
+      const peer = new Peer()
+
+      peer.on("open",(id) => {
+        console.log("peer id -->",id);
+        setLocalPeerId(id)
+        
+      })
+
+      // navigator.mediaDevices.getUserMedia({video: true, audio: true}).then((stream) => {
+      //   set
+      // })
+
+
       socket?.on("online-users", (users) => {
         setOnlineUsers && setOnlineUsers(users);
       });
