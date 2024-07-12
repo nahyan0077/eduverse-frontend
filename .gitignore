@@ -28,5 +28,5 @@ dist-ssr
 
 #ignoring config maps
 
-/manifests/k8s/configMaps.yaml
+/manifests/k8s/configMap.yaml
 
