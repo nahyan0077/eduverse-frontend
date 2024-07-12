@@ -26,3 +26,7 @@ dist-ssr
 *.sln
 *.sw?
 
+#ignoring config maps
+
+/manifests/k8s/configMaps.yaml
+
