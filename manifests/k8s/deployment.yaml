@@ -21,7 +21,7 @@ spec:
             - containerPort: 3001
           envFrom:
             - configMapRef:
-                name: eduvers-frontend-configss
+                name: eduverse-frontend-config
 ---
 apiVersion: v1
 kind: Service
