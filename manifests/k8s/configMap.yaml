@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eduverse-frontend-config
+  labels:
+    app: client
+data:
+  VITE_GOOGLE_CLIENT_ID: "625316687835-2j8pg9ikakffvn1udn46cn4dpt5c29dn.apps.googleusercontent.com"
+  VITE_REACT_APP_PRESET_KEY: "se05xjr9"
+  VITE_REACT_APP_CLOUD_NAME: "dneak7rwh"
+  VITE_REACT_APP_API_KEY: "964243678793683"
+  VITE_REACT_APP_PUBLIC_STRIPE_KEY: "pk_test_51PQqK8K2s6ckuYfoBHiY0EyIs7Z3SVzFlERWxDKVuN2OftN2SICaHhriOxs1n5utUOl6k1T5lQ8uR7SvePRqI4Ll005b1H1Xon"
+  VITE_REACT_APP_SOCKET_BACKEND_URL: "http://localhost:9001"

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eduverse-frontend-deployment
+  labels:
+    app: eduverse-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eduverse-frontend
+  template:
+    metadata:
+      labels:
+        app: eduverse-frontend
+    spec:
+      containers:
+        - name: eduverse-frontend
+          image: nahyan007/eduverse-client:latest
+          ports:
+            - containerPort: 3001
+          envFrom:
+            - configMapRef:
+                name: eduvers-frontend-configss
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eduverse-frontend-service
+spec:
+  selector:
+    app: eduverse-frontend
+  ports:
+    - port: 3001
+      targetPort: 3001
