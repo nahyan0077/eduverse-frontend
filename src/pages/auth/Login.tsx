@@ -213,7 +213,7 @@ const Login: React.FC = () => {
               <div className="flex justify-between">
                 {role == "" ? (
                   <p
-                    className="text-center text-sm hover:cursor-pointer ml-2"
+                    className="text-center text-xs md:text-sm hover:cursor-pointer ml-2"
                     onClick={() =>
                       navigate("/selection", {
                         state: location.state,
@@ -237,7 +237,7 @@ const Login: React.FC = () => {
                   </p>
                 )}
                 <div
-                  className="text-violet-500 text-sm font-bold hover:cursor-pointer"
+                  className="text-violet-500  text-xs md:text-sm font-bold hover:cursor-pointer"
                   onClick={() => navigate("/confirm-email")}>
                   Forgot Password?
                 </div>

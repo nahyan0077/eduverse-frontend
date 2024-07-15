@@ -181,7 +181,7 @@ const FeaturesSection: React.FC = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 mt-10">
           <SubscriptionCard
             title="Basic"
-            price="₹299/mo"
+            price="₹299"
             description1="Unlimitted lifetime access"
             description2="One-to-one chat with mentor"
             description3="Limited access to contents"
@@ -189,7 +189,7 @@ const FeaturesSection: React.FC = () => {
           />
           <SubscriptionCard
             title="Pro"
-            price="₹699/mo"
+            price="₹699"
             description1="Unlimitted lifetime access"
             description2="One-to-one voice and video mentoring"
             description3="Full access to contents"
@@ -198,7 +198,7 @@ const FeaturesSection: React.FC = () => {
           />
           <SubscriptionCard
             title="Enterprise"
-            price="₹499/mo"
+            price="₹499"
             description1="Unlimitted lifetime access"
             description2="One-to-one chat and voice mentorship"
             description3="Moderate access to contents"

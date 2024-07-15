@@ -155,7 +155,7 @@ export const StudentChatSubscription: React.FC = () => {
                 className={`text-4xl font-extrabold mb-6 ${
                   plan.isPopular ? "text-yellow-400" : "text-violet-600"
                 }`}>
-                ₹ {plan.price} /month
+                ₹ {plan.price} 
               </p>
               <p
                 className={`mb-4 ${

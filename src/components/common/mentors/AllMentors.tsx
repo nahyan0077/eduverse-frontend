@@ -58,7 +58,7 @@ export const AllMentors: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <SubscriptionCard
             title="Basic"
-            price="₹299/mo"
+            price="₹299"
             description1="Essential features for individuals"
             description2="Essential features for individuals"
             description3="Essential features for individuals"
@@ -66,7 +66,7 @@ export const AllMentors: React.FC = () => {
           />
           <SubscriptionCard
             title="Pro"
-            price="₹699/mo"
+            price="₹699"
             description1="Advanced features for professionals"
             description2="Advanced features for professionals"
             description3="Advanced features for professionals"
@@ -75,7 +75,7 @@ export const AllMentors: React.FC = () => {
           />
           <SubscriptionCard
             title="Enterprise"
-            price="₹499/mo"
+            price="₹499"
             description1="Full suite for large organizations"
             description2="Full suite for large organizations"
             description3="Full suite for large organizations"

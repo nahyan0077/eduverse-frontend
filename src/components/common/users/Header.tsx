@@ -30,26 +30,26 @@ const Header: React.FC = () => {
     dispatch(getAllActiveCategories());
   }, [dispatch]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: Event) => {
-      if (
-        sideBarRef.current &&
-        !sideBarRef.current.contains(event.target as Node)
-      ) {
-        setMenuOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event: Event) => {
+  //     if (
+  //       sideBarRef.current &&
+  //       !sideBarRef.current.contains(event.target as Node)
+  //     ) {
+  //       setMenuOpen(false);
+  //     }
+  //   };
 
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+  //   if (menuOpen) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuOpen]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [menuOpen]);
 
   const catgoryData = useSelector((state: RootState) => state.category);
 

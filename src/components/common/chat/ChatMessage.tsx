@@ -48,13 +48,15 @@ export const ChatMessage: React.FC<MessageProps> = ({
   const [isModalVisible, setModalVisible] = useState(false);
   const { socket } = useContext(SocketContext) || {};
 
+  
+  console.log("message ---> content type", message.contentType);
+
   const handleDeleteChat = () => {
     setModalVisible(true);
   };
 
   const handleDelete = async () => {
-    console.log(currentChat, "cur uder check");
-
+    
     if (message?.chatId) {
       await dispatch(
         updateMessageAction({ _id: message?._id, isDeleted: true })
@@ -115,7 +117,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
           </div>
         );
       default:
-        return <p>{message.content}</p>;
+        return <p className="text-xs lg:text-sm" >{message.content}</p>;
     }
   };
 

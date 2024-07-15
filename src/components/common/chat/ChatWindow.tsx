@@ -95,6 +95,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   const handleSendMessage = async () => {
     if (inputMessage.trim() || selectedFile || audioBlob) {
       if (selectedFile) {
+        console.log("----->seleected file",selectedFile.type);
+        
         if (selectedFile?.type.startsWith("image/")) {
           setFileType("image");
         } else if (selectedFile?.type.startsWith("video/")) {
