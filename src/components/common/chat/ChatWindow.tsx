@@ -228,7 +228,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   // }
 
   return (
-    <section className="flex flex-col w-full bg-gray-200 dark:bg-gray-950 h-[97vh] lg:h-[89vh]">
+    <section className="flex flex-col fixed md:relative w-full bg-gray-200 dark:bg-gray-950 h-[97vh] lg:h-[89vh]">
       <LoadingPopUp isLoading={loading} />
       {currentChat ? (
         <>
@@ -282,17 +282,17 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     }>
                     <IoVideocam color="white" size={30} />
                   </div>
-                  <div className="hover:bg-gray-900 p-2 rounded-xl">
+                  {/* <div className="hover:bg-gray-900 p-2 rounded-xl">
                     <IoCall color="white" size={25} />
-                  </div>
+                  </div> */}
                 </div>
               ) : (
                 <div className="">
                   <button
-                    className="btn btn-outline btn-sm"
+                    className="btn btn-outline btn-sm text-xs lg:text-md"
                     onClick={() => handleSubscription(currentChat.chatId)}>
                     {" "}
-                    <IoVideocam color="white" size={30} /> Update Subscription
+                    <IoVideocam className="hidden md:block" color="white" size={30} /> Update Subscription
                   </button>
                 </div>
               ))}
@@ -384,7 +384,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                 </div>
               )}
               {currentChat.subscriptionType !== "none" && (
-                <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg relative">
+                <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg relative mb-14 md:mb-0">
                   <button
                     className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-500"
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}>

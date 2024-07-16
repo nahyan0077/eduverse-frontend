@@ -41,7 +41,7 @@ const StudentSidebar: React.FC<SidebarProps> = ({
       initial="collapsed"
       animate={open ? "expanded" : "collapsed"}
       variants={sidebarVariants}
-      className="fixed inset-y-0 left-0 z-30 bg-gray-900 overflow-hidden flex flex-col">
+      className="fixed inset-y-0 left-0 z-30 bg-gray-900 overflow-hidden flex flex-col ">
       <div className="flex flex-col flex-1 justify-between">
         <div>
           <div className="flex items-center px-4 py-6 mt-3">

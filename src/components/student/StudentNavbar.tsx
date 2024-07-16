@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ModeToggle } from "../ui/mode-toggle";
 import ConfirmModal from "@/components/common/modal/ConfirmModal";
 import { logoutAction } from "@/redux/store/actions/auth/logoutAction";
@@ -7,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import HouseIcon from "@mui/icons-material/House";
+import { TiThMenuOutline } from "react-icons/ti";
 
 const StudentNavbar: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state: RootState) => state.user);
@@ -32,8 +35,12 @@ const StudentNavbar: React.FC = () => {
     setModalVisible(true);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <nav className="flex  items-center justify-center lg:justify-between flex-wrap bg-gray-900 p-4 lg:px-6 lg:py-3 z-10 sticky top-0">
+    <nav className="bg-gray-900 p-4 lg:px-6 lg:py-3 z-10 sticky top-0">
       {isModalVisible && (
         <ConfirmModal
           message="  logout?"
@@ -41,31 +48,40 @@ const StudentNavbar: React.FC = () => {
           onCancel={handleCancel}
         />
       )}
-      <div className="flex items-center">
-        <span className="font-bold text-md lg:text-2xl pl-2 text-white">
-          Student Panel
-        </span>
-        {/* Add any additional navbar items here */}
-      </div>
-      <div className="flex items-center md:space-x-7">
-        <div className="flex items-center ml-4">
+      <div className=" mx-auto flex items-center justify-between">
+        <div className="flex items-center">
+          <div className="md:hidden mr-4" onClick={toggleMobileMenu}>
+            <TiThMenuOutline color="white" fontSize={30} />
+          </div>
+          <span className="font-bold text-md lg:text-2xl text-white">
+            Student Panel
+          </span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="hidden lg:block">
+            <div
+              className="cursor-pointer hover:bg-gray-800 p-2 rounded-xl"
+              onClick={() => navigate("/home")}
+            >
+              <HouseIcon color="primary" />
+            </div>
+          </div>
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
-              className="btn m-1  hover:bg-gray-900 border border-transparent bg-transparent">
+              className="btn btn-ghost btn-circle avatar"
+            >
               <img
                 src={userData.data?.profile?.avatar}
-                className="object-cover w-10 lg:w-12 h-10 lg:h-12 p-1 rounded-full"
+                className="w-10 rounded-full"
                 alt=""
               />
-              <span className="hidden md:block ">
-                {userData.data?.userName}
-              </span>
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-white dark:bg-gray-950 rounded-box w-52">
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            >
               <li>
                 <a onClick={() => navigate("/student/profile")}>Profile</a>
               </li>
@@ -77,14 +93,48 @@ const StudentNavbar: React.FC = () => {
               </li>
             </ul>
           </div>
+          <ModeToggle />
         </div>
-        <div
-          className="cursor-pointer hover:bg-gray-900 p-2 hidden lg:block rounded-xl"
-          onClick={() => navigate("/home")}>
-          <HouseIcon color="primary" />
-        </div>
-        <ModeToggle />
       </div>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-gray-800"
+          >
+            <motion.ul className="py-4 px-2">
+              {[
+                { text: "Dashboard", path: "/student" },
+                { text: "Exams", path: "/student/exams-list" },
+                { text: "Enrollments", path: "/student/enrollments" },
+                { text: "Chats", path: "/student/chat" },
+              ].map((item, index) => (
+                <motion.li
+                  key={item.text}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="py-2"
+                >
+                  <a 
+                      onClick={() => {
+                      navigate(item.path);
+                      toggleMobileMenu();
+                    }}
+                    className="text-white block px-4 py-2 hover:bg-gray-700 rounded"
+                  >
+                    {item.text}
+                  </a>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

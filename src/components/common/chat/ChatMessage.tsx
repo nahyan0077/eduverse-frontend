@@ -117,7 +117,9 @@ export const ChatMessage: React.FC<MessageProps> = ({
           </div>
         );
       default:
-        return <p className="text-xs lg:text-sm" >{message.content}</p>;
+        return<p className="text-xs lg:text-sm break-words whitespace-pre-wrap" style={{ wordBreak: 'break-word' }}>
+        {message.content}
+      </p>
     }
   };
 
