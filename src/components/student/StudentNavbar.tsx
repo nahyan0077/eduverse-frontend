@@ -61,8 +61,7 @@ const StudentNavbar: React.FC = () => {
           <div className="hidden lg:block">
             <div
               className="cursor-pointer hover:bg-gray-800 p-2 rounded-xl"
-              onClick={() => navigate("/home")}
-            >
+              onClick={() => navigate("/home")}>
               <HouseIcon color="primary" />
             </div>
           </div>
@@ -70,19 +69,19 @@ const StudentNavbar: React.FC = () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar flex items-center"
-            >
-              <img
-                src={userData.data?.profile?.avatar}
-                className="w-10 rounded-full"
-                alt=""
-              />
-              <p> {userData.data?.userName} </p>
+              className="btn btn-ghost btn-circle avatar">
+              <div className="">
+                <img
+                  src={userData.data?.profile?.avatar}
+                  className="w-10 rounded-full"
+                  alt="user profile"
+                />
+
+              </div>
             </div>
             <ul
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-            >
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
               <li>
                 <a onClick={() => navigate("/student/profile")}>Profile</a>
               </li>
@@ -94,6 +93,7 @@ const StudentNavbar: React.FC = () => {
               </li>
             </ul>
           </div>
+          <h1 className="text-white" > {userData.data?.userName} </h1>
           <ModeToggle />
         </div>
       </div>
@@ -104,8 +104,7 @@ const StudentNavbar: React.FC = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-gray-800"
-          >
+            className="md:hidden bg-gray-800">
             <motion.ul className="py-4 px-2">
               {[
                 { text: "Dashboard", path: "/student" },
@@ -119,15 +118,13 @@ const StudentNavbar: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ delay: index * 0.1 }}
-                  className="py-2"
-                >
-                  <a 
-                      onClick={() => {
+                  className="py-2">
+                  <a
+                    onClick={() => {
                       navigate(item.path);
                       toggleMobileMenu();
                     }}
-                    className="text-white block px-4 py-2 hover:bg-gray-700 rounded"
-                  >
+                    className="text-white block px-4 py-2 hover:bg-gray-700 rounded">
                     {item.text}
                   </a>
                 </motion.li>

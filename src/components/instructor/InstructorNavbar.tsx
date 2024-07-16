@@ -60,7 +60,7 @@ const InstructorNavbar: React.FC = () => {
                   className="w-8 h-8 rounded-full"
                   alt=""
                 />
-                <p> {userData.data?.userName} </p>
+
               </div>
               <ul
                 tabIndex={0}
@@ -75,6 +75,7 @@ const InstructorNavbar: React.FC = () => {
                 </li>
               </ul>
             </div>
+            <p className="ml-4" > {userData.data?.userName} </p>
             <div className="ml-4">
               <ModeToggle />
             </div>
