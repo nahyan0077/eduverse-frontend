@@ -5,7 +5,7 @@ import { verifyOtpAction } from "@/redux/store/actions/auth/verifyOtpAction";
 import { toast } from "sonner";
 import { sendVerificationMail } from "@/redux/store/actions/auth/sendVerificaitionMail";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { SignupFormData } from "@/types/IForms";
 import { signupAction } from "@/redux/store/actions/auth";
 import LoadingPopUp from "../common/skeleton/LoadingPopUp";
@@ -29,7 +29,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {

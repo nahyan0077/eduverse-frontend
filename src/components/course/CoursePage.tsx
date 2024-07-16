@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
 import { getActiveCoursesAction } from "@/redux/store/actions/course";
-import { RootState } from "@/redux/store";
 import { useTheme } from "../ui/theme-provider";
-import { useSelector } from "react-redux";
 import FilterPanel from "./CourseFilterPanel";
 import CourseList from "./CourseList";
 import Pagination from "../common/admin/Pagination";
@@ -20,7 +18,6 @@ export const CoursePage: React.FC = () => {
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const courseData = useSelector((state: RootState) => state.course);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
