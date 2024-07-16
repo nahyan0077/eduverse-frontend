@@ -145,7 +145,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <div
-        className={`max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-sm text-gray-700 ${
+        className={`max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-sm text-gray-800 dark:text-gray-400 ${
           theme === "light" ? "bg-violet-200" : "bg-gray-800"
         } p-4 rounded mt-2`}>
         <div className="mb-2 md:mb-0">

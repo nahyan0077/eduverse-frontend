@@ -1,8 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useAppSelector } from "@/hooks/hooks";
+import { RootState } from "@/redux/store";
+import { useNavigate } from "react-router-dom";
+
 
 const CourseHeader: React.FC = () => {
+
+  const {data} = useAppSelector((state:RootState) => state.user)
+  const navigate = useNavigate()
+
   return (
     <div className="flex flex-col lg:flex-row items-center bg-violet-100 dark:bg-gray-900 justify-between rounded-s-full px-6 lg:px-24 py-12 ml-4 mt-8">
       <motion.div
@@ -23,13 +31,21 @@ const CourseHeader: React.FC = () => {
           <motion.button
             className="bg-violet-700 hover:bg-violet-500 text-white py-2 px-4 rounded-full"
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}>
-            Get Started
+            whileTap={{ scale: 0.95 }}
+            onClick={()=> data && data.role === "student" ? navigate("/") : navigate("/selection")}
+            >
+
+              {
+                data?.role !== 'student' ? 'Get Started' : 'Dashboard'
+              }
+            
           </motion.button>
           <motion.button
             className="btn btn-outline hover:bg-violet-700 hover:text-white border-violet-500 text-violet-500 py-2 px-4 rounded-full"
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}>
+            whileTap={{ scale: 0.95 }}
+            onClick={()=>navigate('/about')}
+            >
             ▶ How it works
           </motion.button>
         </div>

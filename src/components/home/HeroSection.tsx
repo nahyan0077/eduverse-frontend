@@ -15,14 +15,14 @@ const HeroSection: React.FC = () => {
 
   const headingClass = useMemo(
     () =>
-      `text-4xl sm:text-3xl md:text-5xl z-10 font-bold leading-tight mb-4 ${
+      `text-3xl md:text-5xl z-10 font-bold leading-tight md:mb-4 ${
         theme === "light" ? "text-violet-700" : "text-white"
       }`,
     [theme]
   );
   const paragraphClass = useMemo(
     () =>
-      `text-lg sm:text-md md:text-md font-ultrathin mt-1 z-10 ${
+      `text-sm md:text-md  font-ultrathin mt-1 z-10 ${
         theme === "light" ? "text-violet-700" : "text-gray-300"
       } `,
     [theme]
@@ -89,7 +89,7 @@ const HeroSection: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 1 }}
                   onClick={() => navigate("/selection")}
-                  className="bg-violet-600 text-white hover:bg-violet-500 font-bold py-3 pl-6 pr-3 rounded-xl mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10"
+                  className="bg-violet-600 text-white text-sm md:text-md hover:bg-violet-500 font-bold py-2 md:py-3 pl-6 pr-3 rounded-xl mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}>
@@ -98,8 +98,8 @@ const HeroSection: React.FC = () => {
                     <div>
                       <Puff
                         visible={true}
-                        height="30"
-                        width="30"
+                        height="20"
+                        width="20"
                         color="#4fa94d"
                         ariaLabel="puff-loading"
                         wrapperStyle={{}}
@@ -125,9 +125,10 @@ const HeroSection: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 1 }}
+                onClick={()=>navigate('/about')}
                 className={`bg-transparent ${
                   theme === "light" ? "text-violet-700" : "text-white"
-                } border border-violet-700 font-bold py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10`}
+                } border border-violet-700 font-bold text-sm md:text:md  py-2 md:py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}>

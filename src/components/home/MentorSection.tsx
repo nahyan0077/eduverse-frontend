@@ -95,7 +95,7 @@ const MentorsSection: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <h2
-            className={`text-3xl font-bold ${
+            className={`text-xl md:text-3xl font-bold ${
               theme === "light" ? "text-violet-700" : "text-violet-700"
             }`}>
             Meet Our{" "}
@@ -107,7 +107,7 @@ const MentorsSection: React.FC = () => {
             </span>
           </h2>
           <button
-            className=" text-violet-700 font-semibold py-2 px-4 rounded-md  hover:text-violet-300"
+            className=" text-violet-500 font-semibold py-2 px-4 rounded-md text-sm md:text-md hover:text-violet-300"
             onClick={() => navigate("/all-mentors")}>
             View More <NavigateNextIcon />
           </button>

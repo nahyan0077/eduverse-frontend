@@ -1,4 +1,3 @@
-// src/components/LogoSection.tsx
 import React from "react";
 import dualingo from "@/assets/logos/dualingo.png";
 import microsoft from "@/assets/logos/microsoft.png";
@@ -23,9 +22,13 @@ const LogoSection: React.FC = () => {
         theme == "light"
           ? "from-violet-600 to-violet-400"
           : "from-gray-900 to-gray-800"
-      } from-gray-900 to-gray-800 py-8 flex flex-wrap justify-around items-center space-y-4 md:space-y-0`}>
+      } py-8 flex flex-wrap justify-around items-center space-y-4 md:space-y-0`}
+    >
       {logos.map((logo, index) => (
-        <div key={index} className="mx-4">
+        <div
+          key={index}
+          className={`mx-4 ${index >= 4 ? 'hidden sm:block' : ''}`}
+        >
           <img src={logo.src} alt={logo.alt} className="h-4 md:h-6 lg:h-8" />
         </div>
       ))}

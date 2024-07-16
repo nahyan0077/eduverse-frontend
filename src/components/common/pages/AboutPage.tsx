@@ -10,12 +10,12 @@ export const AboutPage: React.FC = () => {
 
       <div className="bg-gradient-to-r from-indigo-100 to-violet-100 dark:from-gray-900 dark:to-slate-900 py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Transforming Lives{" "}
             <span className="text-violet-700">Through Learning</span>
           </h1>
 
-          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8">
+          <p className="text-md md:text-md text-gray-700 dark:text-gray-300 mb-8">
             We envision a world where anyone, anywhere has the power to
             transform their lives through learning.
           </p>
@@ -28,10 +28,10 @@ export const AboutPage: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center mb-16 text-gray-900 dark:text-white">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-16 text-gray-900 dark:text-white">
           About <span className="text-violet-700">Us</span>
         </h2>
-        <p className="text-lg text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
+        <p className="text-md text-center text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
           Welcome to our innovative E-Learning platform, designed to
           revolutionize the way you learn programming and technology-related
           content. Our mission is to provide accessible, high-quality education
@@ -120,7 +120,7 @@ export const AboutPage: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mt-16">
+        <p className="text-md text-center text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mt-16">
           Join us today and embark on a path to mastering programming and
           technology with the guidance of expert instructors and a supportive
           community of passionate learners. Together, we'll shape the future of

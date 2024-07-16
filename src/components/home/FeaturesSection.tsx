@@ -40,13 +40,13 @@ const FeaturesSection: React.FC = () => {
       <div className="p-5">
         <div className="flex flex-col items-center justify-center h-full mx-auto mb-12 max-w-7xl">
           <h1
-            className={`text-4xl font-bold ${
+            className={`text-2xl md:text-4xl font-bold ${
               theme === "light" ? "text-blue-950" : "text-white"
             }`}>
             Our <span className="text-violet-700"> Features </span>
           </h1>
           <p
-            className={`font-base py-4  ${
+            className={`font-base py-4 text-sm text-center  ${
               theme === "light" ? "text-gray-600" : "text-gray-400"
             }`}>
             Unlock your potential with EDUVERSE, the leading e-learning platform
@@ -67,7 +67,7 @@ const FeaturesSection: React.FC = () => {
           <motion.div
             className="flex flex-col items-center w-full lg:w-1/2 md:mt-0"
             {...motionSettings}>
-            <h1 className="text-violet-700 text-2xl font-bold">
+            <h1 className="text-violet-700 text-xl md:text-2xl font-bold">
               <span
                 className={`${
                   theme === "light" ? "text-blue-950" : "text-white"
@@ -79,7 +79,7 @@ const FeaturesSection: React.FC = () => {
             <p
               className={`${
                 theme === "light" ? "text-gray-600" : "text-gray-400"
-              } text-justify font-normal w-96 p-4`}>
+              } text-justify font-normal w-96 p-4 text-sm`}>
               Class has a dynamic set of teaching tools built to be deployed and
               used during class. Teachers can handout assignments in real-time
               for students to complete and submit.
@@ -91,7 +91,7 @@ const FeaturesSection: React.FC = () => {
           <motion.div
             className="flex flex-col items-center w-full lg:w-1/2"
             {...motionSettings}>
-            <h1 className="text-violet-700 text-2xl font-bold">
+            <h1 className="text-violet-700 text-xl md:text-2xl font-bold">
               Assessments,{" "}
               <span
                 className={`${
@@ -104,7 +104,7 @@ const FeaturesSection: React.FC = () => {
             <p
               className={`${
                 theme === "light" ? "text-gray-600" : "text-gray-400"
-              } text-justify font-normal w-96 p-4`}>
+              } text-justify font-normal w-96 p-4 text-sm`}>
               Easily launch live assignments, quizzes, and tests. Student
               results are automatically entered in the online gradebook.
             </p>
@@ -125,7 +125,7 @@ const FeaturesSection: React.FC = () => {
           <motion.div
             className="flex flex-col w-full text-center items-center lg:w-1/2  "
             {...motionSettings}>
-            <h1 className="text-violet-700  text-2xl font-bold">
+            <h1 className="text-violet-700  text-xl md:text-2xl font-bold">
               Class Management{" "}
               <span
                 className={`${
@@ -137,7 +137,7 @@ const FeaturesSection: React.FC = () => {
             <p
               className={`${
                 theme === "light" ? "text-gray-600" : "text-gray-400"
-              } text-justify font-normal w-96 p-4`}>
+              } text-justify font-normal w-96 p-4 text-sm`}>
               Class provides tools to help run and manage the class such as
               Class Roster, Attendance, and more. With the Gradebook, teachers
               can review and grade tests and quizzes in real-time.
@@ -149,7 +149,7 @@ const FeaturesSection: React.FC = () => {
           <motion.div
             className="flex flex-col items-center w-full lg:w-1/2 "
             {...motionSettings}>
-            <h1 className="text-violet-700 text-2xl font-bold">
+            <h1 className="text-violet-700 text-xl md:text-2xl font-bold">
               <span
                 className={`${
                   theme === "light" ? "text-blue-950" : "text-white"
@@ -161,7 +161,7 @@ const FeaturesSection: React.FC = () => {
             <p
               className={`${
                 theme === "light" ? "text-gray-600" : "text-gray-400"
-              } text-justify font-normal w-96 p-4`}>
+              } text-justify font-normal w-96 p-4 text-sm`}>
               Class provides tools to help run and manage the class such as
               Class Roster, Attendance, and more. With the Gradebook, teachers
               can review and grade tests and quizzes in real-time.

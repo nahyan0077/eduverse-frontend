@@ -245,12 +245,12 @@ export const SingleCoursePage: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <h1 className="text-2xl font-bold mb-2">{courseData?.title}</h1>
+                <h1 className="text-xl md:text-2xl font-bold mb-2 ">{courseData?.title}</h1>
                 <div className="flex items-center flex-wrap">
-                  <span className="text-yellow-500">★★★★☆</span>
+                  {/* <span className="text-yellow-500">★★★★☆</span>
                   <span className="ml-2 text-gray-600 dark:text-gray-400">
                     (15)
-                  </span>
+                  </span> */}
                   <span className="ml-4 text-gray-600 dark:text-gray-400">
                     <LibraryBooksIcon color="warning" fontSize="small" />{" "}
                     {courseData.lessons.length} Lessons

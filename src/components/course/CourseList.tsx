@@ -35,7 +35,7 @@ const CourseList: React.FC<CourseListProps> = ({
 
   return (
     <div
-      className={`w-full ${
+      className={`w-full  ml-8 md:ml-0 ${
         !loading
           ? "md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative py-10 px-5"
           : "py-10 px-5"

@@ -28,7 +28,7 @@ export const ContactPage: React.FC = () => {
         <Toaster  />
       <div className="max-w-7xl mx-auto">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
+          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white md:text-4xl sm:tracking-tight ">
             Contact <span className="text-violet-700" > EDUVERSE </span> 
           </h1>
           <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500 dark:text-gray-300">
@@ -39,8 +39,8 @@ export const ContactPage: React.FC = () => {
         <div className="mt-16 bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
           <div className="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
             <div className="lg:self-center">
-              <h2 className="text-xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-                <span className="block">Get in touch</span>
+              <h2 className="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl">
+                <span className="block">Get in <span className="text-violet-300" > touch </span> </span>
               </h2>
               <p className="mt-4 text-lg leading-6 text-gray-500 dark:text-gray-300">
                 Fill out the form and our team will get back to you within 24 hours.
