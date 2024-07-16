@@ -70,13 +70,14 @@ const StudentNavbar: React.FC = () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar"
+              className="btn btn-ghost btn-circle avatar flex items-center"
             >
               <img
                 src={userData.data?.profile?.avatar}
                 className="w-10 rounded-full"
                 alt=""
               />
+              <p> {userData.data?.userName} </p>
             </div>
             <ul
               tabIndex={0}

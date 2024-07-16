@@ -37,7 +37,7 @@ const InstructorNavbar: React.FC = () => {
 
   return (
     <nav className="bg-gray-900 sticky top-0 z-10 p-2">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
@@ -54,12 +54,13 @@ const InstructorNavbar: React.FC = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost btn-circle avatar">
+                className="btn btn-ghost btn-circle avatar flex items-center">
                 <img
                   src={userData.data?.profile?.avatar}
                   className="w-8 h-8 rounded-full"
                   alt=""
                 />
+                <p> {userData.data?.userName} </p>
               </div>
               <ul
                 tabIndex={0}
