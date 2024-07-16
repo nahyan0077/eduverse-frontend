@@ -27,7 +27,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import subscribe from "@/assets/exam/subscribe.svg";
 import { useNavigate } from "react-router-dom";
 import { IoVideocam } from "react-icons/io5";
-import { IoCall } from "react-icons/io5";
+// import { IoCall } from "react-icons/io5";
 
 interface Message {
   senderId: string;

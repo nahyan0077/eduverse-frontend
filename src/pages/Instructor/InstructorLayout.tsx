@@ -14,8 +14,10 @@ export const InstructorLayout: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
+      <div className='hidden lg:block' >
       <InstructorSidebar open={sidebarOpen} currentPage={currentPage} onToggleSidebar={handleToggleSidebar} setCurrentPage={setCurrentPage} />
-      <div className={`flex flex-col flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
+      </div>
+      <div className={`flex flex-col flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'lg:ml-20'}`}>
         <InstructorNavbar />
         <div className="flex-1 overflow-y-auto">
 
