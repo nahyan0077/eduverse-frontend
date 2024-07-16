@@ -103,9 +103,9 @@ export const OtpSection: React.FC<OtpInputProps> = ({
           console.log("otp verified", location.state);
 
           if (location.state.role == "student") {
-            navigate("/");
+            window.location.reload()
           } else {
-            navigate("/instructor/verification");
+            window.location.reload()
           }
         } else {
           toast.error("error occurred", {

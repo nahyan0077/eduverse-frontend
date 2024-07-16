@@ -36,8 +36,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     useEffect(() => {
         if ((data?.role === "student" || data?.role === "instructor") && SOCKET_BACKEND_URL) {
             const newSocket: Socket = io(SOCKET_BACKEND_URL, {
-                // transports:['websocket', 'polling'],
-                transports:['websocket'],
+                transports:['websocket', 'polling'],
+                // transports:['websocket'],
                 query: {
                     userId: data._id
                 }

@@ -14,6 +14,7 @@ import { createOrUpdateResultAction } from "@/redux/store/actions/result";
 import { toast } from "sonner";
 import success from "@/assets/exam/success.svg";
 import failed from "@/assets/exam/failed.svg";
+import { TbLayoutDashboardFilled } from "react-icons/tb";
 
 export const StudentExam: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
@@ -281,11 +282,18 @@ export const StudentExam: React.FC = () => {
                     {" "}
                     get you certificate from below{" "}
                   </p>
+                  <div className="flex space-x-4" >
                   <button
                     onClick={handleCertificateGenerate}
                     className="btn btn-success btn-outline btn-sm">
-                    <DownloadIcon className="mr-2" /> Download Certificate
+                    <DownloadIcon /> Download Certificate
                   </button>
+                  <button
+                  onClick={() => navigate("/student")}
+                  className="btn btn-warning btn-outline btn-sm">
+                  <TbLayoutDashboardFilled />  Dashboard
+                </button>
+                  </div>
                 </div>
               ) : (
                 <button
