@@ -269,7 +269,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
               </div>
             </div>
             {currentChat.subscriptionType !== "none" &&
-              (currentChat.subscriptionType !== "standard" ? (
+              (currentChat.subscriptionType !== "basic" ? (
                 <div className="flex gap-8 pr-5">
                   <div
                     className={`hover:bg-gray-900 p-2 rounded-xl ${
