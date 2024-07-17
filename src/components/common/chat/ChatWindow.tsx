@@ -273,7 +273,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                 <div className="flex gap-8 pr-5">
                   <div
                     className={`hover:bg-gray-900 p-2 rounded-xl ${
-                      callStatus !== "idle"
+                      callStatus !== "idle" || !currentChat.isOnline
                         ? "opacity-50 cursor-not-allowed"
                         : "cursor-pointer"
                     }`}
