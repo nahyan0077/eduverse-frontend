@@ -39,7 +39,7 @@ const GlobalSearchBar: React.FC<SearchBarProps> = ({ handleSearch }) => {
         ref={searchInputRef}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className={`transition-all duration-300 ease-in-out p-3 rounded-full outline outline-1 outline-violet-500 placeholder:text-violet-800 dark:placeholder:text-violet-200 ${
+        className={`transition-all duration-300 ease-in-out p-3 rounded-full outline outline-1 outline-violet-500 placeholder:text-violet-800 dark:placeholder:text-violet-200 h-10 ${
           searchExpanded ? "w-72" : "w-36"
         } bg-violet-100 dark:bg-transparent`}
         placeholder="Search"
