@@ -46,13 +46,13 @@ Eduverse is an innovative educational networking platform where learners and ins
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/nahyan0077/eduverse-frontend.git
+   git clone https://github.com/nahyan0077/eduverse-backend.git
    ```
 
 2. Navigate to the project frontend directory:
 
    ```bash
-   cd eduverse-backend
+   cd eduverse-frontend
    ```
 
    ```bash
