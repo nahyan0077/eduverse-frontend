@@ -1,30 +1,97 @@
-# React + TypeScript + Vite
+# Eduverse E-Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Eduverse is an innovative educational networking platform where learners and instructors connect to share knowledge. Our platform empowers instructors to easily apply, create courses, conduct exams, one-to-one chat with video call, thereby enriching the learning experience for students worldwide.
 
-Currently, two official plugins are available:
+## Table of Contents
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [System Architecture](#system-architecture)
+- [Contributing](#contributing)
+- [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Comprehensive Course Management**: Offer both free and paid courses with seamless payments.
+- **Real-time Interaction**: Implement text-chatting, audio/video communication, and file sharing using WebSockets for engaging learning environments.
+- **Microservices Architecture**: Ensure scalability and maintainability using clean architecture principles and Apache Kafka for efficient interservice communication.
+- **Cloud-Native Deployment**: Utilize containerization with Docker and deploy on Azure Kubernetes Service for optimal performance and scalability.
+- **Instructor Onboarding**: Streamlined process for instructors to apply and get admin approval to join the platform.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technology Stack
 
-- Configure the top-level `parserOptions` property like this:
+- **Frontend**: React.js, Redux, WebRTC
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Messaging**: Apache Kafka
+- **Containerization**: Docker
+- **Orchestration**: Kubernetes (Azure Kubernetes Service)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- npm (v6 or later)
+- MongoDB (v4 or later)
+- Docker
+- Kubernetes CLI (kubectl)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/nahyan0077/eduverse-frontend.git
+   ```
+
+2. Navigate to the project frontend directory:
+
+   ```bash
+   cd eduverse-backend
+   ```
+
+   ```bash
+   npm install
+   ```
+
+   ```bash
+   npm run dev
+   ```
+
+
+
+## Usage
+
+1. Access the application at `http://localhost:3001` (or the port specified in your environment).
+2. Register as a student or apply as an instructor.
+3. Explore courses, participate in live sessions, or create content (for approved instructors).
+
+## System Architecture
+
+![Eduverse System Architecture](./docs/system-design.png)
+
+Our system utilizes a microservices architecture to ensure scalability and maintainability:
+
+- **API Gateway**: Routes requests to appropriate microservices
+- **Auth Service**: Handles user authentication and authorization
+- **Course Service**: Manages course creation and delivery
+- **Chat Service**: Manages real-time communication features
+- **notification Service**: Manages all the notifications 
+- **Payment Service**: Processes payments for paid courses
+
+## Contributing
+
+We welcome contributions to Eduverse! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+
+
+### End of Page
