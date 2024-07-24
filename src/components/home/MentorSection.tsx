@@ -8,6 +8,7 @@ import { getAllInstructorsAction } from "@/redux/store/actions/user";
 import MentorSectionCardLoading from "../common/loadingSkeleton/Mentors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useNavigate } from "react-router-dom";
+import { SignupFormData } from "@/types/IForms";
 
 interface MentorProps {
   name: string | undefined;
@@ -66,7 +67,7 @@ const Mentor: React.FC<MentorProps> = ({ name, role, imageSrc }) => {
 const MentorsSection: React.FC = () => {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
-  const [instructors, setInstructors] = useState<any[] | []>([]);
+  const [instructors, setInstructors] = useState<SignupFormData[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
@@ -78,7 +79,11 @@ const MentorsSection: React.FC = () => {
           getAllInstructorsAction({ page: 1, limit: 4 })
         ).unwrap();
         if (mentors.success) {
-          setInstructors(mentors.data);
+          const instructor = mentors.data;
+          const verifiedInstructors = instructor.filter(
+            (instructor: any) => instructor.isVerified
+          );
+          setInstructors(verifiedInstructors);
           setLoading(false);
         }
       } catch (err) {

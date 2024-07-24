@@ -8,10 +8,13 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { SubscriptionCard } from "../common/mentors/SubscriptionCards";
+import { useAppSelector } from "@/hooks/hooks";
+import { RootState } from "@/redux/store";
 
 const FeaturesSection: React.FC = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const {data} = useAppSelector((state: RootState) => state.user)
 
   const motionSettings = {
     initial: { opacity: 0, y: 50 },
@@ -239,11 +242,21 @@ const FeaturesSection: React.FC = () => {
               Unlock endless learning possibilities now!
             </p>
             <div className="flex flex-col items-center">
+              {
+                data ?
+              <button
+                className="bg-gradient-to-r from-violet-400 to-pink-500 rounded-full text-sm p-3 text-white mt-8 hover:from-violet-500 hover:to-pink-400 shadow-lg"
+                onClick={() => navigate("/about")}>
+                Explore More
+              </button>
+              :
               <button
                 className="bg-gradient-to-r from-violet-400 to-pink-500 rounded-full text-sm p-3 text-white mt-8 hover:from-violet-500 hover:to-pink-400 shadow-lg"
                 onClick={() => navigate("/selection")}>
                 Sign Up for Free
               </button>
+
+              }
             </div>
           </div>
         </div>
