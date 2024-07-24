@@ -56,7 +56,7 @@ export const AdminInstructors: React.FC = () => {
     const fetchInstructors = async () => {
         setLoading(true);
         try {
-            const resultAction = await dispatch(getAllInstructorsAction({ page: currentPage, limit: usersPerPage }));
+            const resultAction = await dispatch(getAllInstructorsAction({ page: null, limit: null }));
             if (getAllInstructorsAction.fulfilled.match(resultAction)) {
                 const instructorsData = resultAction.payload.data;
                 if (instructorsData.length > 0) {
