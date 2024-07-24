@@ -76,14 +76,14 @@ const MentorsSection: React.FC = () => {
       try {
         setLoading(true);
         const mentors = await dispatch(
-          getAllInstructorsAction({ page: 1, limit: 4 })
+          getAllInstructorsAction({ page: 1, limit: 20 })
         ).unwrap();
         if (mentors.success) {
           const instructor = mentors.data;
           const verifiedInstructors = instructor.filter(
             (instructor: any) => instructor.isVerified
           );
-          setInstructors(verifiedInstructors);
+          setInstructors(verifiedInstructors.slice(0,4));
           setLoading(false);
         }
       } catch (err) {
