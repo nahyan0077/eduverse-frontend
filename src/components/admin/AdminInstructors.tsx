@@ -47,7 +47,6 @@ export const AdminInstructors: React.FC = () => {
     };
 
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 30;
 
     useEffect(() => {
         fetchInstructors();
