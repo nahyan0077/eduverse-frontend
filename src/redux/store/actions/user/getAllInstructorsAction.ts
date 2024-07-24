@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 
 export const getAllInstructorsAction = createAsyncThunk(
     'admin/get-instructors',
-    async (data: { page?: string | number; limit?: string | number }, { rejectWithValue }) => {
+    async (data: { page?: string | number | null; limit?: string | number | null }, { rejectWithValue }) => {
         try {
             let query = "?";
             if (data?.page) {

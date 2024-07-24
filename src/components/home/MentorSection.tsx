@@ -76,7 +76,7 @@ const MentorsSection: React.FC = () => {
       try {
         setLoading(true);
         const mentors = await dispatch(
-          getAllInstructorsAction({ page: 1, limit: 20 })
+          getAllInstructorsAction({ page: null, limit: null })
         ).unwrap();
         if (mentors.success) {
           const instructor = mentors.data;
