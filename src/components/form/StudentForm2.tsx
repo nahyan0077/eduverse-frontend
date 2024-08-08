@@ -29,7 +29,6 @@ const StudentForm2: React.FC = () => {
 
   const handleSubmit = async (value: any) => {
     setLoading(true);
-    console.log(value, "studenr form2 data");
     const allData: SignupFormData = {
       ...location.state,
       contact: {
@@ -50,8 +49,6 @@ const StudentForm2: React.FC = () => {
       setLoading(false);
       navigate("/otp", { state: allData });
     } else {
-      console.log("its gAuth", allData);
-
       await dispatch(signupAction(allData));
 
       if (allData.role == "student") {

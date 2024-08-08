@@ -2,6 +2,7 @@ import { config } from "@/common/configurations";
 import { IGoogleAuth } from "@/types/IGoogeAuth";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 
 export const googleAuthAction = createAsyncThunk (
     "user/googl-auth",async(credentials: IGoogleAuth, {rejectWithValue})=>{
@@ -18,6 +19,8 @@ export const googleAuthAction = createAsyncThunk (
 
         } catch (error: any) {
             console.log("google auth error",error);
+            const e: AxiosError = error as AxiosError;
+			return rejectWithValue(e.response?.data || e.message);
         }
     }
 )

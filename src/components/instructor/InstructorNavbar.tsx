@@ -119,7 +119,7 @@ const InstructorNavbar: React.FC = () => {
 
       {isModalVisible && (
         <ConfirmModal
-          message="Are you sure you want to logout?"
+          message=" logout?"
           onConfirm={handleDelete}
           onCancel={handleCancel}
         />

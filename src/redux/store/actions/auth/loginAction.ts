@@ -17,10 +17,8 @@ export const loginAction = createAsyncThunk(
 				return rejectWithValue(response.data);
 			}
 		} catch (error: any) {
-            const e: any = error as AxiosError;
-			throw new Error(
-				e.response?.data.error || e.response?.data.message || e.message
-			);
+			const e: AxiosError = error as AxiosError;
+			return rejectWithValue(e.response?.data || e.message);
 		}
 	}
 );

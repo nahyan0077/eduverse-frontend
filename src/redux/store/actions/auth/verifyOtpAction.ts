@@ -1,6 +1,7 @@
 import { config } from "@/common/configurations";
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 
 export const verifyOtpAction = createAsyncThunk(
 	"user/verifyOtp",
@@ -14,6 +15,8 @@ export const verifyOtpAction = createAsyncThunk(
 			}
 		} catch (error: any) {
             console.log("OTP verification error",error);
+			const e: AxiosError = error as AxiosError;
+			return rejectWithValue(e.response?.data || e.message);
 		}
 	}
 );

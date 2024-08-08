@@ -1,5 +1,6 @@
 import { CLIENT_API } from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 
 export const sendVerificationMail = createAsyncThunk (
     "user/sendVerificationMail", async (email: string,{rejectWithValue}) => {
@@ -18,7 +19,8 @@ export const sendVerificationMail = createAsyncThunk (
 
         } catch (error: any) {
             console.log("send verification mail error",error);
-            
+            const e: AxiosError = error as AxiosError;
+			return rejectWithValue(e.response?.data || e.message);
         }
     }
 )

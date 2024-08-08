@@ -24,7 +24,6 @@ const TeacherForm: React.FC = () => {
   };
 
   const handleSubmit = (value: any) => {
-    console.log(value);
 
     let allData: SignupFormData = {
       ...location.state,

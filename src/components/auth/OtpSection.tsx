@@ -90,7 +90,8 @@ export const OtpSection: React.FC<OtpInputProps> = ({
 
       if (!response.payload.success) {
         setLoading(false);
-        toast.error("OTP doesn't match. Try again...");
+     
+        toast.error(response.payload.message || response.payload.error);
       } else {
         const allData: SignupFormData = location.state;
 
@@ -99,7 +100,6 @@ export const OtpSection: React.FC<OtpInputProps> = ({
         setLoading(false);
 
         if (!response.error && response.payload.success) {
-          console.log("otp verified", location.state);
 
           if (location.state.role == "student") {
             window.location.reload()
@@ -123,14 +123,12 @@ export const OtpSection: React.FC<OtpInputProps> = ({
   const handleResend = async () => {
     startTimer();
     onResendOtp();
-    console.log("resend");
     toast.success("OTP resend to your Email", {
       duration: 4000,
     });
 
-    const response = await dispatch(sendVerificationMail(location.state.email));
+    await dispatch(sendVerificationMail(location.state.email));
 
-    console.log("resend otp response", response);
   };
 
   return (
