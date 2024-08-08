@@ -123,7 +123,7 @@ const Login: React.FC = () => {
         navigate("/teacher-form", { state: allData });
       }
     } catch (error: any) {
-      setLoading(false)
+      setLoading(false);
       console.log("Login Failed", error);
       toast.error("Something is wrong! Please try later");
     }
@@ -154,13 +154,13 @@ const Login: React.FC = () => {
             <div className="modal" role="dialog">
               <div className="modal-box bg-white dark:bg-gray-900 text-gray-400">
                 <h3 className="text-lg font-bold">Demo datas!</h3>
-                <p className="mt-2 font-semibold" >ADMIN</p>
+                <p className="mt-2 font-semibold">ADMIN</p>
                 <h3 className="px-4">admin@eduverse.in</h3>
                 <h3 className="px-4 ">Admin@123</h3>
-                <p className="mt-2 font-semibold" >STUDENT</p>
+                <p className="mt-2 font-semibold">STUDENT</p>
                 <h3 className="px-4 mt-2">jishnu123@gmail.com</h3>
                 <h3 className="px-4">Jishnu@123</h3>
-                <p className="mt-2 font-semibold" >INSTRUCTOR</p>
+                <p className="mt-2 font-semibold">INSTRUCTOR</p>
                 <h3 className="px-4 mt-2">vagodeja@citmo.net</h3>
                 <h3 className="px-4">Thakku@123</h3>
 
@@ -250,6 +250,8 @@ const Login: React.FC = () => {
                     console.log("Login Failed");
                   }}
                   width="250"
+                  theme="filled_blue"
+                  shape="circle"
                 />
               </div>
             </div>

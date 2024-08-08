@@ -51,9 +51,7 @@ function App() {
 		}
 	}, [dispatch, data]);
 
-	// Log userRole to console
-	const userRole = data?.role;
-	console.log(userRole, "user role");
+
 
 	return (
 		<Router>
