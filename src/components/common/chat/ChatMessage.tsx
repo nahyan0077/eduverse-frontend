@@ -48,8 +48,6 @@ export const ChatMessage: React.FC<MessageProps> = ({
   const [isModalVisible, setModalVisible] = useState(false);
   const { socket } = useContext(SocketContext) || {};
 
-  
-  console.log("message ---> content type", message.contentType);
 
   const handleDeleteChat = () => {
     setModalVisible(true);

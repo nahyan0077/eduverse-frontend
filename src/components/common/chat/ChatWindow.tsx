@@ -95,7 +95,6 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   const handleSendMessage = async () => {
     if (inputMessage.trim() || selectedFile || audioBlob) {
       if (selectedFile) {
-        console.log("----->seleected file",selectedFile.type);
         
         if (selectedFile?.type.startsWith("image/")) {
           setFileType("image");
@@ -217,7 +216,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   };
 
   const handleSubscription = (chatId: string) => {
-    console.log(chatId, "----> chatidd");
+
     navigate(`/student/subscription`, {
       state: { chatId, instructorId: currentChat._id },
     });

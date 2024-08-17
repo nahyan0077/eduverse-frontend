@@ -48,7 +48,7 @@ export const StudentChat: React.FC = () => {
     const peer = new Peer();
 
     peer.on("open", (id) => {
-      console.log("My peer ID is: " + id);
+
       setLocalPeerId(id);
     });
     setPeer(peer);
@@ -144,7 +144,6 @@ export const StudentChat: React.FC = () => {
 
     socket?.on("incoming-call", (callerId) => {
       if (window.confirm("Incoming call. Accept?")) {
-        console.log("callerid ----->", callerId);
 
         answerCall(callerId);
       }
@@ -213,7 +212,6 @@ export const StudentChat: React.FC = () => {
     if (data?._id) {
       setChatListLoading(true);
       const response = await dispatch(getChatsByUserIdAction(data?._id));
-      console.log(response.payload.data, "students all users chat list");
 
       const chatDataMap = new Map();
       const unreadCountsMap: any = {};
@@ -239,7 +237,6 @@ export const StudentChat: React.FC = () => {
       setChatListLoading(false);
       const chatData = Array.from(chatDataMap.values());
       setChats(chatData);
-      console.log(chatData, "chekc chat dat");
     }
   };
 
@@ -259,7 +256,6 @@ export const StudentChat: React.FC = () => {
       );
 
       //check subscription
-      console.log(receiverData.subscriptionType, "is chat id ther");
       if (receiverData.subscriptionType == "none") {
         toast.error("Please subscribe to chat");
         return;
@@ -329,7 +325,6 @@ export const StudentChat: React.FC = () => {
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setLocalStream(stream);
-        console.log(receiverId, "local perrid ");
 
         const call = peer?.call(receiverId, stream);
         call?.on("stream", (remoteStream) => {
@@ -344,16 +339,16 @@ export const StudentChat: React.FC = () => {
   };
 
   const answerCall = (callerId: string) => {
-    console.log("answer call", callerId);
+
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setLocalStream(stream);
         const call = peer?.call(callerId, stream);
-        console.log(call, "in calll-------");
+
 
         call?.on("stream", (remoteStream) => {
-          console.log(remoteStream, "remote stream reached------->");
+   
           setRemoteStream(remoteStream);
           setCallStatus("in-call");
         });
