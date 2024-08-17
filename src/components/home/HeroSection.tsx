@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ui/theme-provider";
 import { useAppSelector } from "@/hooks/hooks";
 import { RootState } from "@/redux/store";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { Puff } from "react-loader-spinner";
-// import pa from '@/assets/home/pattern.svg'
+import { ReactTyped } from "react-typed"; // Renamed Typed to ReactTyped to avoid conflicts
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
@@ -20,15 +20,14 @@ const HeroSection: React.FC = () => {
       }`,
     [theme]
   );
+
   const paragraphClass = useMemo(
     () =>
-      `text-sm md:text-md  font-ultrathin mt-1 z-10 ${
+      `text-md md:text-md font-ultrathin mt-1 z-10 ${
         theme === "light" ? "text-violet-700" : "text-gray-300"
-      } `,
+      }`,
     [theme]
   );
-
-  // let x = `${theme == 'dark' ? 'bg-gradient-to-r from-slate-900 to-slate-950': 'bg-gradient-to-r from-fuchsia-50 to-cyan-50' }`
 
   return (
     <>
@@ -41,49 +40,45 @@ const HeroSection: React.FC = () => {
     theme === "dark"
       ? ' bg-[url("@/assets/home/bg-pattern-dark.svg")]'
       : ' bg-[url("@/assets/home/bg-pattern-light.svg")]'
-  }
-`}>
-        <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between bg  ">
-          <div className="flex flex-col lg:w-1/2 lg:pr-10 ">
-            <AnimatePresence>
-              <motion.h1
-                key="heading1"
-                className={headingClass}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, delay: 0.2 }}>
-                <span className="text-yellow-600">Studying</span> Online is
-              </motion.h1>
-              <motion.h1
-                key="heading2"
-                className={headingClass}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, delay: 0.4 }}>
-                now much easier
-              </motion.h1>
-              <motion.p
-                key="paragraph1"
-                className={paragraphClass}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, delay: 0.6 }}>
-                EDU-VERSE is an interesting platform that
-              </motion.p>
-              <motion.p
-                key="paragraph2"
-                className={paragraphClass}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, delay: 0.8 }}>
-                will teach you in a more interactive way.
-              </motion.p>
-            </AnimatePresence>
-            <div className="flex items-center  flex-wrap mt-8">
+  }`}>
+        <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between bg">
+          <div className="flex flex-col lg:w-1/2 lg:pr-10">
+            <motion.h1
+              className={headingClass}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}>
+              <span className="text-yellow-600 mr-3">Studying</span>
+              <ReactTyped
+                strings={[`Online <br /> is now much easier`]}
+                typeSpeed={50}
+                backSpeed={30}
+                backDelay={1500}
+                loop
+                showCursor={false}
+              />
+            </motion.h1>
+
+            <motion.p
+              key="paragraph1"
+              className={paragraphClass}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.6 }}>
+              EDU-VERSE is an interesting platform that
+            </motion.p>
+            <motion.p
+              key="paragraph2"
+              className={paragraphClass}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.8 }}>
+              will teach you in a more interactive way.
+            </motion.p>
+            <div className="flex items-center flex-wrap mt-8">
               {!data ? (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -102,8 +97,6 @@ const HeroSection: React.FC = () => {
                         width="20"
                         color="#4fa94d"
                         ariaLabel="puff-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
                       />
                     </div>
                   </div>
@@ -115,7 +108,7 @@ const HeroSection: React.FC = () => {
                   onClick={() =>
                     data.role === "student" ? navigate("/") : navigate("/")
                   }
-                  className="bg-violet-700 text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] "
+                  className="bg-violet-700 text-white font-bold py-3 px-6 rounded-full mr-4 mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}>
@@ -125,10 +118,10 @@ const HeroSection: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 1 }}
-                onClick={()=>navigate('/about')}
+                onClick={() => navigate("/about")}
                 className={`bg-transparent ${
                   theme === "light" ? "text-violet-700" : "text-white"
-                } border border-violet-700 font-bold text-sm md:text:md  py-2 md:py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10`}
+                } border border-violet-700 font-bold text-sm md:text:md py-2 md:py-3 px-6 rounded-xl mb-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)] z-10`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}>
