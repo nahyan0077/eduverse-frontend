@@ -16,6 +16,7 @@ interface SocketProviderProps {
 }
 
 const SOCKET_BACKEND_URL = import.meta.env.VITE_REACT_APP_SOCKET_BACKEND_URL;
+const IS_LOCAL_ENV = import.meta.env.MODE === 'development';
 
 export const SocketContext = createContext<SocketContextType | null>(null);
 
@@ -35,9 +36,12 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if ((data?.role === "student" || data?.role === "instructor") && SOCKET_BACKEND_URL) {
+            const transports = IS_LOCAL_ENV
+                ? ['websocket', 'polling']  //  locally
+                : ['websocket'];            //  production
+
             const newSocket: Socket = io(SOCKET_BACKEND_URL, {
-                // transports:['websocket', 'polling'],
-                transports:['websocket'],
+                transports,
                 query: {
                     userId: data._id
                 }
@@ -45,10 +49,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
             newSocket.on("connect", () => {
                 console.log("Socket connected at client");
-                // if (data?._id) {
-                //     console.log("Emitting new-user event with userId:", data._id);
-                //     newSocket.emit("new-user", data._id);
-                // }
+
             });
 
             newSocket.on("disconnect", () => {
